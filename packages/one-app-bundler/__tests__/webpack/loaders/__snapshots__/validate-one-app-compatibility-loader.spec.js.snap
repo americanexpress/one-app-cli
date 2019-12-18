@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validate-one-app-compatibility-loader should appCompatibility for server side validation  1`] = `
+"import SomeComponent from './SomeComponent';
+
+export default SomeComponent;
+;
+if (!global.BROWSER) {
+  SomeComponent.appConfig = Object.assign({}, SomeComponent.appConfig, {
+    appCompatibility: \\"^4.41.0\\",
+  });
+}
+"
+`;
+
+exports[`validate-one-app-compatibility-loader should throw an error when the wrong syntax is used - export from 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use app compatibility validation"`;
+
+exports[`validate-one-app-compatibility-loader should throw an error when the wrong syntax is used - module.exports 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use app compatibility validation"`;

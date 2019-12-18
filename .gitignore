@@ -1,0 +1,15 @@
+# node & npm
+node_modules
+npm-debug.log
+packages/*/*.tgz
+
+#lerna
+lerna-debug.log
+
+# test
+test-results
+.jest-cache
+bundle.integrity.manifest.json
+
+# intelliJ
+.idea/

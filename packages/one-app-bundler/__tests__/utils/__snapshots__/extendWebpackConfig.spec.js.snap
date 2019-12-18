@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`extendWebpackConfig should apply webpack config and warn the user 1`] = `
+Object {
+  "test": /\\\\\\.js\\$/,
+  "use": "my-super-cool-loader",
+}
+`;
+
+exports[`extendWebpackConfig should apply webpack config and warn the user 2`] = `Array []`;
+
+exports[`extendWebpackConfig should bundle requiredExternals designated by providedExternals 1`] = `
+Object {
+  "test": "/path/src/index",
+  "use": Array [
+    Object {
+      "loader": "@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader",
+      "options": Object {
+        "providedExternals": Array [
+          "ajv",
+          "chalk",
+          "lodash",
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`extendWebpackConfig should use the provided requiredExternals configured 1`] = `
+Object {
+  "test": StringMatching /ajv\\\\/lib\\\\/ajv\\\\\\.js\\$/,
+  "use": Array [
+    Object {
+      "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
+      "options": Object {
+        "externalName": "ajv",
+      },
+    },
+  ],
+}
+`;
+
+exports[`extendWebpackConfig should use the provided requiredExternals configured 2`] = `
+Object {
+  "test": StringMatching /lodash\\\\/lodash\\\\\\.js\\$/,
+  "use": Array [
+    Object {
+      "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
+      "options": Object {
+        "externalName": "lodash",
+      },
+    },
+  ],
+}
+`;
+
+exports[`extendWebpackConfig should use the provided requiredExternals configured 3`] = `
+Object {
+  "test": "/path/src/index",
+  "use": Array [
+    Object {
+      "loader": "@americanexpress/one-app-bundler/webpack/loaders/validate-required-externals-loader",
+      "options": Object {
+        "requiredExternals": Array [
+          "ajv",
+          "lodash",
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`extendWebpackConfig should validate the one app version 1`] = `
+Object {
+  "test": "/path/src/index",
+  "use": Array [
+    Object {
+      "loader": "@americanexpress/one-app-bundler/webpack/loaders/validate-one-app-compatibility-loader",
+      "options": Object {
+        "appCompatibility": "^4.41.0",
+      },
+    },
+  ],
+}
+`;

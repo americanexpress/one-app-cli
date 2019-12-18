@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
+"try {
+  module.exports = global.getTenantRootModule().appConfig.providedExternals['my-dependency'].module;
+} catch (error) {
+  const errorGettingExternal = new Error('Failed to get external my-dependency from root module');
+  errorGettingExternal.shouldBlockModuleReload = false;
+  throw errorGettingExternal;
+}
+"
+`;

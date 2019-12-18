@@ -1,0 +1,7 @@
+# test
+__tests__
+__mocks__
+test-utils.js
+
+# npm pack
+*.tgz

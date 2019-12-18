@@ -1,0 +1,54 @@
+{
+  "name": "one-app-cli",
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "test:lint": "eslint --ext js,jsx,snap,md .",
+    "test:unit": "jest",
+    "test": "npm run test:unit",
+    "test:git-history": "commitlint --from origin/feature/v6 --to HEAD",
+    "posttest": "npm run test:lint && npm run test:git-history"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "amex-jest-preset": "^4.0.1",
+    "enzyme": "^3.2.0",
+    "enzyme-to-json": "^3.2.2",
+    "eslint": "^6.4.0",
+    "eslint-config-amex": "^11.0.1",
+    "husky": "^3.1.0",
+    "jest": "^24.8.0",
+    "lerna": "^2.9.0"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/americanexpress/one-app-cli.git"
+  },
+  "jest": {
+    "preset": "amex-jest-preset",
+    "collectCoverageFrom": [
+      "packages/**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/build/**",
+      "!packages/*/lib/**",
+      "!packages/*/bin/**",
+      "!packages/*/test-utils.js",
+      "!packages/*/test-results/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 99.35,
+        "branches": 98.96,
+        "lines": 99.66,
+        "functions": 97.37
+      }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}

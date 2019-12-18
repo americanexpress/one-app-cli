@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`drop-module should remove the module from the module map 1`] = `
+Object {
+  "/mocked/static/module-map.json": "{\\"another-module\\":\\"2.0.0\\"}",
+}
+`;
+
+exports[`drop-module should throw an error if it cannot access the module map 1`] = `"No modules are currently being served"`;

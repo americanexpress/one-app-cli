@@ -1,0 +1,59 @@
+{
+  "name": "@americanexpress/one-app-locale-bundler",
+  "version": "6.0.0-18",
+  "description": "A command line interface(CLI) tool for bundling the locale files.",
+  "bin": {
+    "bundle-module-locale": "./bin/bundle-module-locale.js"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "jest": {
+    "preset": "amex-jest-preset",
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/bin/",
+      "<rootDir>/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 83.33
+      }
+    }
+  },
+  "repository": {
+    "url": "https://github.com/americanexpress/one-app-cli.git",
+    "directory": "packages/one-app-locale-bundler"
+  },
+  "homepage": "https://github.com/americanexpress/one-app-cli",
+  "bugs": {
+    "url": "https://github.com/americanexpress/one-app-cli/issues"
+  },
+  "keywords": [
+    "one",
+    "amex",
+    "bundler",
+    "locale",
+    "environment"
+  ],
+  "contributors": [
+    "Andres Escobar <Andres.Escobar@aexp.com> (https://github.com/anescobar1991)",
+    "James Singleton <James.Singleton1@aexp.com> https://github.com/JamesSingleton)",
+    "Jimmy King  <Jimmy.King@aexp.com> (https://github.com/10xLaCroixDrinker)",
+    "Jonathan Adshead <Jonathan.Adshead@aexp.com> (https://github.com/JAdshead)",
+    "Michael Tobia <Michael.M.Tobia@aexp.com> (https://github.com/Francois-Esquire)",
+    "Michael Tomcal <Michael.A.Tomcal@aexp.com> (https://github.com/mtomcal))",
+    "Stephanie Coates  <Stephanie.Coates1@aexp.com> (https://github.com/stephaniecoates)",
+    "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)",
+    "Nickolas Oliver <nickolas.oliver@aexp.com> (https://github.com/PixnBits)"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "chokidar": "^3.0.0",
+    "glob": "^7.1.2",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.2"
+  },
+  "devDependencies": {
+    "mock-fs": "^4.8.0"
+  }
+}

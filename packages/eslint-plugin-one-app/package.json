@@ -1,0 +1,45 @@
+{
+  "name": "@americanexpress/eslint-plugin-one-app",
+  "version": "6.0.0-18",
+  "description": "This package has Eslint configurations used by one-app.",
+  "main": "index.js",
+  "jest": {
+    "preset": "amex-jest-preset"
+  },
+  "repository": {
+    "url": "https://github.com/americanexpress/one-app-cli.git",
+    "directory": "packages/eslint-plugin-one-app"
+  },
+  "homepage": "https://github.com/americanexpress/one-app-cli",
+  "bugs": {
+    "url": "https://github.com/americanexpress/one-app-cli/issues"
+  },
+  "keywords": [
+    "one",
+    "amex",
+    "bundler",
+    "react",
+    "webpack"
+  ],
+  "contributors": [
+    "Andres Escobar <Andres.Escobar@aexp.com> (https://github.com/anescobar1991)",
+    "James Singleton <James.Singleton1@aexp.com> https://github.com/JamesSingleton)",
+    "Jimmy King  <Jimmy.King@aexp.com> (https://github.com/10xLaCroixDrinker)",
+    "Jonathan Adshead <Jonathan.Adshead@aexp.com> (https://github.com/JAdshead)",
+    "Michael Tobia <Michael.M.Tobia@aexp.com> (https://github.com/Francois-Esquire)",
+    "Michael Tomcal <Michael.A.Tomcal@aexp.com> (https://github.com/mtomcal))",
+    "Stephanie Coates  <Stephanie.Coates1@aexp.com> (https://github.com/stephaniecoates)",
+    "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)",
+    "Nickolas Oliver <nickolas.oliver@aexp.com> (https://github.com/PixnBits)"
+  ],
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "amex-jest-preset": "^5.0.0",
+    "eslint": "^5.14.1",
+    "eslint-config-amex": "^10.0.0",
+    "jest": "^24.1.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}

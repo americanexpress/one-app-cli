@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validate-required-externals-loader should add versions for server side validation  1`] = `
+"import SomeComponent from './SomeComponent';
+
+export default SomeComponent;
+;
+
+SomeComponent.__holocron_module_meta_data__ = {
+  version: '1.0.0',
+};"
+`;
+
+exports[`validate-required-externals-loader should throw an error when the wrong syntax is used - export from 1`] = `"one-app-bundler: Module must use \`export default VariableName\` syntax in index"`;
+
+exports[`validate-required-externals-loader should throw an error when the wrong syntax is used - module.exports 1`] = `"one-app-bundler: Module must use \`export default VariableName\` syntax in index"`;

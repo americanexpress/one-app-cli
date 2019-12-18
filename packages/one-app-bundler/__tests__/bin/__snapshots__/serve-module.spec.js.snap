@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`serve-module adds to the existing module map 1`] = `
+"{
+  \\"key\\": \\"--- omitted for development ---\\",
+  \\"modules\\": {
+    \\"another-module\\": {
+      \\"node\\": {
+        \\"url\\": \\"https://example.com/cdn/another-module/6.7.8/another-module.node.js\\",
+        \\"integrity\\": \\"123\\"
+      },
+      \\"browser\\": {
+        \\"url\\": \\"https://example.com/cdn/another-module/6.7.8/another-module.browser.js\\",
+        \\"integrity\\": \\"234\\"
+      },
+      \\"legacyBrowser\\": {
+        \\"url\\": \\"https://example.com/cdn/another-module/6.7.8/another-module.legacy.browser.js\\",
+        \\"integrity\\": \\"345\\"
+      }
+    },
+    \\"my-module-name\\": {
+      \\"browser\\": {
+        \\"integrity\\": \\"234\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/1.0.0/my-module-name.browser.js\\"
+      },
+      \\"legacyBrowser\\": {
+        \\"integrity\\": \\"974\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/1.0.0/my-module-name.legacy.browser.js\\"
+      },
+      \\"node\\": {
+        \\"integrity\\": \\"123\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/1.0.0/my-module-name.node.js\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`serve-module creates a module map when one does not exist 1`] = `
+"{
+  \\"key\\": \\"not-used-in-development\\",
+  \\"modules\\": {
+    \\"my-module-name\\": {
+      \\"browser\\": {
+        \\"integrity\\": \\"234\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/3.4.2/my-module-name.browser.js\\"
+      },
+      \\"legacyBrowser\\": {
+        \\"integrity\\": \\"974\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/3.4.2/my-module-name.legacy.browser.js\\"
+      },
+      \\"node\\": {
+        \\"integrity\\": \\"123\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/3.4.2/my-module-name.node.js\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`serve-module should create a directory for the module 1`] = `
+Array [
+  Array [
+    "/mocked/static/modules",
+    493,
+  ],
+  Array [
+    "/mocked/static/modules/my-module-name",
+    493,
+  ],
+]
+`;
+
+exports[`serve-module should throw if the module doesn't have a version 1`] = `"No versioned bundles exist for module my-module-name"`;

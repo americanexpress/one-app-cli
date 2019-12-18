@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 1`] = `""`;
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 2`] = `""`;
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 3`] = `""`;
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 4`] = `""`;
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 5`] = `
+"
+      // some other line
+      
+      // imports
+
+
+      // module
+      require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/css-base.js\\")().push([module.id, \\"/**comment**/.react-select__One___hIKe {
+  position: relative; }
+
+.react-select__also___8ObpT {
+  background-color: #f9f9f9; }
+\\", \\"\\"]);
+
+      // exports
+      exports = module.exports = {
+      	\\"One\\": \\"react-select__One___hIKe\\",
+      	\\"also\\": \\"react-select__also___8ObpT\\",
+      };
+    "
+`;
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 6`] = `""`;
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 7`] = `""`;
+
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 8`] = `
+"
+      // some other line
+      
+      // imports
+
+
+      // module
+      require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/css-base.js\\")().push([module.id, \\"/**comment**/.react-select__One___hIKe {
+  position: relative; }
+
+.react-select__also___8ObpT {
+  background-color: #f9f9f9; }
+\\", \\"\\"]);
+
+      // exports
+      exports = module.exports = {
+      	\\"One\\": \\"react-select__One___hIKe\\",
+      	\\"also\\": \\"react-select__also___8ObpT\\",
+      };
+    "
+`;
+
+exports[`SSR CSS loader should throw an error when the css-loader is not present 1`] = `
+"could not find the css-loader in
+no css-loader here!"
+`;
+
+exports[`SSR CSS loader should throw an error when the css-loader is not present 2`] = `
+"could not find the css-loader in
+exports = module.exports = require(\\"css-loader/dist/runtime/api.js\\")();"
+`;
+
+exports[`SSR CSS loader should throw an error when the css-loader is not present 3`] = `
+"could not find the css-loader in
+exports = module.exports = require(\\"../../css-loader/dist/runtime/api.js\\")(true);"
+`;
+
+exports[`SSR CSS loader should throw an error when the css-loader is not present 4`] = `
+"could not find the css-loader in
+
+      // some other line
+      exports = module.exports = require(\\"../../see-ess-ess-loader/lib/see-ess-ess-base.js\\")(undefined);
+      // imports
+
+
+      // module
+      exports.push([module.id, \\"/**comment**/.react-select__One___hIKe {
+  position: relative; }
+
+.react-select__also___8ObpT {
+  background-color: #f9f9f9; }
+\\", \\"\\"]);
+
+      // exports
+      exports.locals = {
+      	\\"One\\": \\"react-select__One___hIKe\\",
+      	\\"also\\": \\"react-select__also___8ObpT\\",
+      };
+    "
+`;
