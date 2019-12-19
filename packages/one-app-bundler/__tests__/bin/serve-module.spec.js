@@ -64,7 +64,8 @@ describe('serve-module', () => {
     });
     require('../../bin/serve-module');
     expect(fs.mkdirSync).toHaveBeenCalledTimes(2);
-    expect(fs.mkdirSync.mock.calls).toMatchSnapshot();
+    expect(fs.mkdirSync.mock.calls[0][0]).toEqual('/mocked/static/modules');
+    expect(fs.mkdirSync.mock.calls[1][0]).toEqual('/mocked/static/modules/my-module-name');
   });
 
   it('should remove a directory for the module if it already exists since only one version of a module can be served at a time', () => {
