@@ -119,7 +119,6 @@ under `bundler.purgecss.paths`. The example below illustrates how we would add
 
 ```json
 {
-  ...,
   "one-amex": {
     "bundler": {
       "purgecss": {
@@ -137,7 +136,6 @@ negative impact on performance_.**
 
 ```json
 {
-  ...,
   "one-amex": {
     "bundler": {
       "purgecss": {
