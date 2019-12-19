@@ -3,7 +3,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "test:lint": "eslint --ext js,jsx,snap,md .",
-    "test:unit": "jest",
+    "test:unit": "NODE_ENV=production jest",
     "test": "npm run test:unit",
     "test:git-history": "commitlint --from origin/master --to HEAD",
     "posttest": "npm run test:lint && npm run test:git-history"
