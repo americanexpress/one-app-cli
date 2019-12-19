@@ -1,5 +1,7 @@
 # @americanexpress/one-app-locale-bundler
 
+[![npm](https://img.shields.io/npm/v/@americanexpress/one-app-locale-bundler)](https://www.npmjs.com/package/@americanexpress/one-app-locale-bundler)
+
 > A command line interface (CLI) tool for bundling a module's locale files for use within the
 [One App ecosystem](https://github.com/americanexpress/one-app). This is used internally by
 `one-app-bundler` and its `bundle-module` script.

@@ -1,5 +1,7 @@
 # @americanexpress/one-app-bundler
 
+[![npm](https://img.shields.io/npm/v/@americanexpress/one-app-bundler)](https://www.npmjs.com/package/@americanexpress/one-app-bundler)
+
 > A command line interface(CLI) tool for bundling [One App](https://github.com/americanexpress/one-app)
 and One App modules.
 
