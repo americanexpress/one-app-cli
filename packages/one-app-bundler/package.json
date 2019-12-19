@@ -92,5 +92,8 @@
     "redux": "*",
     "regenerator-runtime": "^0.13.3",
     "reselect": "*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
