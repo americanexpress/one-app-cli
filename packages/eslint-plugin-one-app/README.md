@@ -1,5 +1,7 @@
 # @americanexpress/eslint-plugin-one-app
 
+[![npm](https://img.shields.io/npm/v/@americanexpress/eslint-plugin-one-app)](https://www.npmjs.com/package/@americanexpress/eslint-plugin-one-app)
+
 > This package has [Eslint](https://eslint.org/) rules to be used by
 [One App](https://github.com/americanexpress/one-app) modules.
 
