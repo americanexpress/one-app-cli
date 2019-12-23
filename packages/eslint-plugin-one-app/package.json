@@ -32,17 +32,14 @@
     "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)",
     "Nickolas Oliver <nickolas.oliver@aexp.com> (https://github.com/PixnBits)"
   ],
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "amex-jest-preset": "^5.0.0",
-    "eslint": "^5.14.1",
-    "eslint-config-amex": "^10.0.0",
-    "jest": "^24.1.0"
+  "publishConfig": {
+    "access": "public"
   },
+  "license": "Apache-2.0",
   "dependencies": {
     "lodash": "^4.17.11"
   },
-  "publishConfig": {
-    "access": "public"
+  "devDependencies": {
+    "eslint": "^6.8.0"
   }
 }

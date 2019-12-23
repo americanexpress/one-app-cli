@@ -24,11 +24,11 @@ const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 
 
 module.exports = async function postProcessBuild() {
-  const endsWithJS = (fileName) => fileName.endsWith('.js');
+  const endsWithJS = fileName => fileName.endsWith('.js');
   const legacyPath = path.join(tmpPath, 'legacy');
   const jsFileNames = fs.readdirSync(tmpPath).filter(endsWithJS);
   const legacyJsFileNames = fs.readdirSync(legacyPath).filter(endsWithJS);
-  const addIntegrityToManifest = (pathName, prefix = '') => (fileName) => generateIntegrityManifest(prefix + fileName, path.join(pathName, fileName));
+  const addIntegrityToManifest = (pathName, prefix = '') => fileName => generateIntegrityManifest(prefix + fileName, path.join(pathName, fileName));
   jsFileNames.forEach(addIntegrityToManifest(tmpPath));
   legacyJsFileNames.forEach(addIntegrityToManifest(legacyPath, 'legacy/'));
   const options = {

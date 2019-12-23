@@ -49,7 +49,7 @@ const sassLoader = () => ({
   },
 });
 
-const babelLoader = (babelEnv) => ({
+const babelLoader = babelEnv => ({
   loader: 'babel-loader',
   options: {
     extends: path.join(packageRoot, '.babelrc'),

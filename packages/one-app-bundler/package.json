@@ -75,24 +75,6 @@
     "webpack-subresource-integrity": "^1.3.4",
     "yargs": "^12.0.5"
   },
-  "devDependencies": {
-    "@americanexpress/one-app-ducks": "*",
-    "@americanexpress/one-app-router": "*",
-    "core-js": "^3.2.1",
-    "holocron": "*",
-    "holocron-module-route": "*",
-    "immutable": "*",
-    "mock-fs": "^4.7.0",
-    "prop-types": "*",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-helmet": "*",
-    "react-immutable-proptypes": "*",
-    "react-redux": "*",
-    "redux": "*",
-    "regenerator-runtime": "^0.13.3",
-    "reselect": "*"
-  },
   "publishConfig": {
     "access": "public"
   }

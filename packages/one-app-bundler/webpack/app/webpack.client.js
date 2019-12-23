@@ -51,12 +51,12 @@ const getCoreJsModulePaths = (targets) => {
   const filter = /^es\.|web\./;
   const moduleNames = coreJsCompat({ filter, targets }).list;
   return Object.keys(coreJsEntries)
-    .filter((entry) => entry.startsWith('core-js/stable'))
-    .filter((entry) => coreJsEntries[entry]
-      .filter((moduleName) => moduleNames.includes(moduleName)).length);
+    .filter(entry => entry.startsWith('core-js/stable'))
+    .filter(entry => coreJsEntries[entry]
+      .filter(moduleName => moduleNames.includes(moduleName)).length);
 };
 
-module.exports = (babelEnv) => merge(
+module.exports = babelEnv => merge(
   common,
   {
     output: {

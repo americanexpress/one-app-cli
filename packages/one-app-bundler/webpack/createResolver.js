@@ -31,5 +31,5 @@ module.exports = function createResolver({ mainFields }) {
     mainFields,
   });
 
-  return (request) => enhancedResolver.resolveSync({}, __dirname, request);
+  return request => enhancedResolver.resolveSync({}, __dirname, request);
 };

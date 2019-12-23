@@ -19,7 +19,7 @@ function validateWebpackConfig(config) {
   const errors = validateSchema(webpackOptionsSchema, config);
   if (errors.length !== 0) {
     const message = 'Webpack schema was invalid';
-    const errorMessages = errors.map((err) => `config${err.dataPath} ${err.message}`);
+    const errorMessages = errors.map(err => `config${err.dataPath} ${err.message}`);
     throw new Error(`${message}\n  ${errorMessages.join('\n  ')}`);
   }
 }

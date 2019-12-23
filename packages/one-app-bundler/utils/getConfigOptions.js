@@ -23,7 +23,7 @@ function validateOptions(options) {
 
   if (options.requiredExternals || options.providedExternals) {
     const intersection = Object.keys(commonConfig.externals)
-      .filter((externalName) =>
+      .filter(externalName =>
         // eslint-disable-next-line implicit-arrow-linebreak
         (options.requiredExternals || options.providedExternals).includes(externalName)
       );

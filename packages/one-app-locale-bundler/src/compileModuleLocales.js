@@ -61,14 +61,14 @@ function compileModuleLocales(modulePath) {
         ...localeData,
         ...otherData,
       }))
-      .then((localeDataJS) => JSON.stringify(localeDataJS))
-      .then((localeContents) => promisifiedFs.writeFile(outputLocaleFile, localeContents));
+      .then(localeDataJS => JSON.stringify(localeDataJS))
+      .then(localeContents => promisifiedFs.writeFile(outputLocaleFile, localeContents));
   }
 
   function buildModuleLocaleFilesFromFile(moduleName, localeName, localePath) {
     return promisifiedFs.readFile(localePath)
-      .then((localeContents) => JSON.parse(localeContents))
-      .then((localeData) => Promise.all([
+      .then(localeContents => JSON.parse(localeContents))
+      .then(localeData => Promise.all([
         writeLocaleFile({
           moduleName,
           localeName,
@@ -90,7 +90,7 @@ function compileModuleLocales(modulePath) {
       [
         // grab the base data
         promisifiedFs.readFile(path.join(localePath, 'copy.json'))
-          .then((localeContents) => JSON.parse(localeContents)),
+          .then(localeContents => JSON.parse(localeContents)),
       ].concat(
         // find all of the env-specific data (ex: links)
         [
@@ -98,13 +98,13 @@ function compileModuleLocales(modulePath) {
           'qa',
           'production',
         ]
-          .map((env) => glob(`!(copy.json)/${env}.json`, { cwd: localePath })
-            .then((list) => Promise.all(list.map((envPropPath) => new Promise((res, rej) => {
+          .map(env => glob(`!(copy.json)/${env}.json`, { cwd: localePath })
+            .then(list => Promise.all(list.map(envPropPath => new Promise((res, rej) => {
               const key = path.parse(envPropPath).dir;
               promisifiedFs
                 .readFile(path.join(localePath, envPropPath))
-                .then((propContents) => JSON.parse(propContents))
-                .then((data) => res({ key, data }))
+                .then(propContents => JSON.parse(propContents))
+                .then(data => res({ key, data }))
                 .catch(rej);
             }))))
             .then((listOfProps) => {
@@ -161,15 +161,15 @@ function compileModuleLocales(modulePath) {
   function buildModuleFiles(moduleName) {
     const moduleLocaleInputDir = path.join(modulePath, 'locale');
     return glob('*', { cwd: moduleLocaleInputDir })
-      .then((moduleLocals) => Promise.all(
-        moduleLocals.map((moduleLocal) => buildModuleLocaleFiles(
+      .then(moduleLocals => Promise.all(
+        moduleLocals.map(moduleLocal => buildModuleLocaleFiles(
           moduleName,
           path.parse(moduleLocal).name,
           path.join(moduleLocaleInputDir, moduleLocal)
         ))
       ).then(() => {
         if (moduleLocals.length !== 0) {
-          console.log(`Generated language packs for ${moduleLocals.map((fileName) => fileName.replace(/\.json$/, '')).join(', ')}`);
+          console.log(`Generated language packs for ${moduleLocals.map(fileName => fileName.replace(/\.json$/, '')).join(', ')}`);
         } else {
           console.log('Generated 0 language packs.');
         }

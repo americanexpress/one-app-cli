@@ -9,16 +9,32 @@
     "posttest": "npm run test:lint && npm run test:git-history"
   },
   "devDependencies": {
+    "@americanexpress/one-app-ducks": "*",
+    "@americanexpress/one-app-router": "*",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
-    "amex-jest-preset": "^4.0.1",
+    "amex-jest-preset": "^5.0.0",
+    "core-js": "^3.2.1",
     "enzyme": "^3.2.0",
     "enzyme-to-json": "^3.2.2",
-    "eslint": "^6.4.0",
-    "eslint-config-amex": "^11.0.1",
+    "eslint": "^5.14.1",
+    "eslint-config-amex": "^10.0.0",
+    "holocron": "*",
+    "holocron-module-route": "*",
     "husky": "^3.1.0",
-    "jest": "^24.8.0",
-    "lerna": "^2.9.0"
+    "immutable": "*",
+    "jest": "^24.1.0",
+    "lerna": "^3.19.0",
+    "mock-fs": "^4.8.0",
+    "prop-types": "*",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-helmet": "*",
+    "react-immutable-proptypes": "*",
+    "react-redux": "*",
+    "redux": "*",
+    "regenerator-runtime": "^0.13.3",
+    "reselect": "*"
   },
   "license": "Apache-2.0",
   "repository": {
@@ -50,5 +66,10 @@
       "pre-commit": "npm test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "dependencies": {
+    "@americanexpress/eslint-plugin-one-app": "6.0.0",
+    "@americanexpress/one-app-bundler": "6.0.0",
+    "@americanexpress/one-app-locale-bundler": "6.0.0"
   }
 }
