@@ -14,11 +14,13 @@
 
 const path = require('path');
 
-const cssBasePath = path.resolve(__dirname, 'css-base.js');
+// stringify handles win32 path slashes too
+// so `C:\path\node_modules` doesn't turn into something with a newline
+const cssBasePath = JSON.stringify(path.resolve(__dirname, 'css-base.js'));
 
 module.exports = function indexStyleLoader(content) {
   return `
   ${content}
-  __webpack_exports__.default.ssrStyles = require("${cssBasePath}")();
+  __webpack_exports__.default.ssrStyles = require(${cssBasePath})();
   `;
 };
