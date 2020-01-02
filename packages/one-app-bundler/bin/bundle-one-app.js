@@ -24,8 +24,8 @@ const postProcessOneAppBundle = require('./postProcessOneAppBundle');
 
 
 Promise.all([
-  webpack(config('modern')).then(stats => getWebpackCallback('browser', false)(undefined, stats)),
-  webpack(config('legacy')).then(stats => getWebpackCallback('legacyBrowser', false)(undefined, stats)),
+  webpack(config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)),
+  webpack(config('legacy')).then((stats) => getWebpackCallback('legacyBrowser', false)(undefined, stats)),
 ]).then(postProcessOneAppBundle).catch((err) => {
   console.log(chalk.red(err), chalk.red(err.stack));
 });

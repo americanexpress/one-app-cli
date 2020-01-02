@@ -37,7 +37,7 @@ describe('serve-module', () => {
   process.cwd = () => '/mocked';
   const originalPlatform = process.platform;
 
-  const setPlatform = platform => Object.defineProperty(process, 'platform', {
+  const setPlatform = (platform) => Object.defineProperty(process, 'platform', {
     value: platform,
   });
 

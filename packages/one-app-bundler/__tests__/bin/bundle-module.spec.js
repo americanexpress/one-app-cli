@@ -15,7 +15,7 @@
 jest.mock('webpack');
 jest.mock('@americanexpress/one-app-locale-bundler');
 jest.mock('../../bin/webpackCallback', () => jest.fn((x, y) => `cb(${x}, ${y})`));
-jest.mock('../../webpack/module/webpack.client', () => babelEnv => ({ config: 'client', babelEnv }));
+jest.mock('../../webpack/module/webpack.client', () => (babelEnv) => ({ config: 'client', babelEnv }));
 jest.mock('../../webpack/module/webpack.server', () => ({ config: 'server' }));
 
 describe('bundle-module', () => {
