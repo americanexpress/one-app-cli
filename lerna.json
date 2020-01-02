@@ -3,8 +3,9 @@
     "packages/*"
   ],
   "command": {
-    "publish": {
-      "conventionalCommits": true
+    "version": {
+      "conventionalCommits": true,
+      "allowBranch": "master"
     }
   },
   "version": "6.0.0"
