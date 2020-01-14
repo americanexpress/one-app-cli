@@ -66,10 +66,5 @@
       "pre-commit": "npm test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  },
-  "dependencies": {
-    "@americanexpress/eslint-plugin-one-app": "6.0.0",
-    "@americanexpress/one-app-bundler": "6.0.0",
-    "@americanexpress/one-app-locale-bundler": "6.0.0"
   }
 }
