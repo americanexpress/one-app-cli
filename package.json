@@ -34,7 +34,8 @@
       "!packages/*/lib/**",
       "!packages/*/bin/**",
       "!packages/*/test-utils.js",
-      "!packages/*/test-results/**"
+      "!packages/*/test-results/**",
+      "!packages/generator-one-app-module/generators/app/templates/**"
     ],
     "coverageThreshold": {
       "global": {

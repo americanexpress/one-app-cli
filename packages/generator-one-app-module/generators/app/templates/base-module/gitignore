@@ -1,0 +1,35 @@
+## Project Specific
+#################
+
+# node/npm
+node_modules
+*.log
+
+# build
+build
+lib
+stats.json
+.webpack-stats*
+
+# test
+test-results
+.jest-cache
+__diff_output__
+
+## OSX
+#################
+
+[Tt]humbs.db
+*.DS_Store
+
+## Generic
+#################
+
+*.tmp
+*.bak
+*.cya
+
+## Webstorm
+#################
+
+.idea
