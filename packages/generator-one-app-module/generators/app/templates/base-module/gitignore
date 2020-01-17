@@ -7,9 +7,8 @@ node_modules
 
 # build
 build
-lib
-stats.json
 .webpack-stats*
+bundle.integrity.manifest.json
 
 # test
 test-results
@@ -28,8 +27,3 @@ __diff_output__
 *.tmp
 *.bak
 *.cya
-
-## Webstorm
-#################
-
-.idea

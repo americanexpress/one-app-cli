@@ -25,6 +25,7 @@ This codebase has the following packages:
 | Name                                                                                                      | Description                                                     |
 | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | **[eslint-plugin-one-app](./packages/eslint-plugin-one-app)** |[eslint](https://eslint.org/) plugin that exports rules related to One App usage
+| **[generator-one-app-module](./packages/generator-one-app-module)** | yeoman generator for a [One App](https://github.com/americanexpress/one-app#modules) `holocron` Module      |
 | **[one-app-bundler](./packages/one-app-bundler)**             | CLI to bundle one-app modules |
 | **[one-app-locale-bundler](./packages/one-app-locale-bundler)**     | CLI to bundle locale and environment JSON files      |
 

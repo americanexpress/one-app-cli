@@ -28,7 +28,6 @@ describe('generator-one-app-module', () => {
         assert.file([
           'src/components/MyModule.jsx',
           'src/index.js',
-          'src/config.js',
           'src/csp.js',
           '.babelrc',
           '.eslintrc.json',
