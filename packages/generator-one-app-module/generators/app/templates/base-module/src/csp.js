@@ -1,7 +1,7 @@
 import contentSecurityPolicyBuilder from 'content-security-policy-builder';
 import ip from 'ip';
 
-// read about csp: https://github.com/americanexpress/one-app#csp
+// Read about csp: https://github.com/americanexpress/one-app#csp
 export default contentSecurityPolicyBuilder({
   directives: {
     reportUri: `${process.env.ONE_CLIENT_REPORTING_URL}/report/security/csp-violation`,
