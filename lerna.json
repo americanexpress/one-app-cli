@@ -3,5 +3,11 @@
   "packages": [
     "packages/*"
   ],
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "allowBranch": "master"
+    }
+  },
   "version": "6.0.0"
 }
