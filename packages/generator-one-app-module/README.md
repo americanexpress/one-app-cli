@@ -12,10 +12,10 @@ npx -p yo -p @americanexpress/generator-one-app-module -- yo one-app-module
 
 ## 🏆 Contributing
 
-Please see our [contributing guide](../../CONTRIBUTING.md) for details.
-
 After making changes to the generator, test your changes locally:
 1. Install yeoman globally: `npm install --global yo`
 2. Link your local generator module so it is used instead of the repo version: `npm link`
 3. Switch to a temp directory and run: `yo one-app-module`
 4. When you are done, unlink the local module : `npm unlink`
+
+Please see our [contributing guide](../../CONTRIBUTING.md) for more details.
