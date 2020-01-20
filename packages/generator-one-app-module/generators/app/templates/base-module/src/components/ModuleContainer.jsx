@@ -8,13 +8,13 @@ const <%=moduleNamePascal%> = () => (
   </div>
 );
 
+// read about childRoutes: https://github.com/americanexpress/one-app#routing
 <%=moduleNamePascal%>.childRoutes = () => ([
   <ModuleRoute path="/" />,
 ]);
 
 // read about appConfig: https://github.com/americanexpress/one-app#appconfig
 if (!global.BROWSER) {
-  // eslint-disable-next-line global-require
   <%=moduleNamePascal%>.appConfig = {
     csp
   }

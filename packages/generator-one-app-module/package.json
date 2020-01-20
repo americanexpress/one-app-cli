@@ -19,8 +19,8 @@
   ],
   "main": "generators/index.js",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/americanexpress/one-app-cli/tree/master/packages/generator-one-app-module"
+    "url": "https://github.com/americanexpress/one-app-cli.git",
+    "directory": "packages/generator-one-app-module"
   },
   "keywords": [
     "generator",
