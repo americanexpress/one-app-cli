@@ -1,0 +1,29 @@
+{
+  "name": "<%=modulePackageName%>",
+  "version": "1.0.0",
+  "description": "",
+  "contributors": [],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "bundle-module",
+    "clean": "rimraf build",
+    "prepare": "npm run build",
+    "lint": "eslint --ignore-path .gitignore --ext js,jsx .",
+    "watch:build": "npm run build -- --watch"
+  },
+  "dependencies": {
+    "@americanexpress/one-app-bundler": "^6.0.0",
+    "@americanexpress/one-app-router": "^1.0.0",
+    "content-security-policy-builder": "^2.1.0",
+    "holocron": "^1.0.0",
+    "ip": "^1.1.5",
+    "react": "^16.12.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "babel-preset-amex": "^3.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-amex": "^11.1.0",
+    "rimraf": "^3.0.0"
+  }
+}
