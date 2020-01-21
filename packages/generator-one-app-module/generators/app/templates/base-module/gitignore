@@ -1,0 +1,29 @@
+## Project Specific
+#################
+
+# node/npm
+node_modules
+*.log
+
+# build
+build
+.webpack-stats*
+bundle.integrity.manifest.json
+
+# test
+test-results
+.jest-cache
+__diff_output__
+
+## OSX
+#################
+
+[Tt]humbs.db
+*.DS_Store
+
+## Generic
+#################
+
+*.tmp
+*.bak
+*.cya
