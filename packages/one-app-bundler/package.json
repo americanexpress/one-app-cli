@@ -82,8 +82,6 @@
     "holocron": "*",
     "holocron-module-route": "*",
     "immutable": "*",
-    "mock-fs": "^4.7.0",
-    "prop-types": "*",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-helmet": "*",
