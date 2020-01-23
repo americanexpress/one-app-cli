@@ -4,9 +4,8 @@
   ],
   "command": {
     "version": {
-      "conventionalCommits": true,
-      "allowBranch": "master"
-    }
+      "conventionalCommits": true
+        }
   },
   "version": "6.0.0"
 }
