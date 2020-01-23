@@ -12,6 +12,8 @@
  * under the License.
  */
 
+/* eslint-disable import/no-dynamic-require, global-require */
+
 const path = require('path');
 const fs = require('fs');
 const { hashElement } = require('folder-hash');
@@ -37,8 +39,18 @@ module.exports = async function postProcessBuild() {
   };
   const { hash } = await hashElement(tmpPath, options);
   const buildVersion = `${version}-${hash.substring(0, 8)}`;
+  const modernBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.browser.json')).assetsByChunkName;
+  const legacyBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.legacyBrowser.json')).assetsByChunkName;
+
   fs.renameSync(tmpPath, path.resolve(tmpPath, `../${buildVersion}`));
   const metaFilePath = path.resolve(pkgPath, '../.build-meta.json');
   if (fs.existsSync(metaFilePath)) fs.unlinkSync(metaFilePath);
-  fs.writeFileSync(metaFilePath, JSON.stringify({ buildVersion }, undefined, 2));
+  fs.writeFileSync(
+    metaFilePath,
+    JSON.stringify(
+      { buildVersion, modernBrowserChunkAssets, legacyBrowserChunkAssets },
+      undefined,
+      2
+    )
+  );
 };
