@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from '@americanexpress/one-app-router';
-import csp from '../csp';
+import appConfig from '../appConfig';
 
 const <%=moduleNamePascal%> = () => (
   <div>
@@ -15,9 +15,7 @@ const <%=moduleNamePascal%> = () => (
 
 // Read about appConfig: https://github.com/americanexpress/one-app#appconfig
 if (!global.BROWSER) {
-  <%=moduleNamePascal%>.appConfig = {
-    csp,
-  };
+  <%=moduleNamePascal%>.appConfig = appConfig;
 }
 
 export default <%=moduleNamePascal%>;
