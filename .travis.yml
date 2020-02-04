@@ -2,14 +2,11 @@ language: node_js
 cache:
   directories:
   - node_modules 
-script: |-
-  log=$(git log $TRAVIS_COMMIT_RANGE --oneline)
 before_install:
   # Create a master branch for commitlint
   # https://github.com/conventional-changelog/commitlint/issues/6
   - git remote set-branches origin master && git fetch    
 before_deploy: |-
-  log=$(git log $TRAVIS_COMMIT_RANGE --oneline)
   echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null  
 jobs:
    include:
