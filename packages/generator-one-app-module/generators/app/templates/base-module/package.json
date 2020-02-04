@@ -33,10 +33,7 @@
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "./__tests__/enzyme.config.js"
-    ],
-    "testPathIgnorePatterns": [
-      "./__tests__/enzyme.config.js"
+      "./enzyme.config.js"
     ]
   }
 }
