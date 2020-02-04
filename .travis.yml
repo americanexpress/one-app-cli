@@ -1,13 +1,16 @@
 language: node_js
 cache:
   directories:
-  - node_modules
+  - node_modules 
+script: |-
+  log=$(git log $TRAVIS_COMMIT_RANGE --oneline)
 before_install:
   # Create a master branch for commitlint
   # https://github.com/conventional-changelog/commitlint/issues/6
-  - git remote set-branches origin master && git fetch
-before_deploy:
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null
+  - git remote set-branches origin master && git fetch    
+before_deploy: |-
+  log=$(git log $TRAVIS_COMMIT_RANGE --oneline)
+  echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null  
 jobs:
    include:
     # Define the release stage that publishes lerna to npm
@@ -18,8 +21,8 @@ jobs:
       deploy:
           on:
             branch: master
-            tags: true
+            condition: $TRAVIS_COMMIT_MESSAGE =~ ^chore\(release\):\ ([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$
           provider: script
-          skip_cleanup: true
+          skip_cleanup: true 
           script:
-            - npm run lerna:publish
+           - npm run lerna:publish          

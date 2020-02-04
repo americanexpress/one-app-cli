@@ -9,7 +9,7 @@
     "test:lockfile": "node lockFileLint.js",
     "posttest": "npm run test:lint && npm run test:git-history && npm run test:lockfile",
     "lerna:version": "lerna version",
-    "lerna:publish": "lerna publish from-git --yes"
+    "lerna:publish": "lerna publish from-package --yes"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
