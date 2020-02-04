@@ -17,7 +17,7 @@ const <%=moduleNamePascal%> = () => (
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md
 if (!global.BROWSER) {
   // eslint-disable-next-line global-require
-  <%=moduleNamePascal%>.appConfig = require('../appConfig');
+  <%=moduleNamePascal%>.appConfig = require('../appConfig').default;
 }
 
 export default <%=moduleNamePascal%>;
