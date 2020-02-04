@@ -30,5 +30,13 @@
     "eslint-config-amex": "^11.1.0",
     "jest": "^25.1.0",
     "rimraf": "^3.0.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./__tests__/enzyme.config.js"
+    ],
+    "testPathIgnorePatterns": [
+      "./__tests__/enzyme.config.js"
+    ]
   }
 }
