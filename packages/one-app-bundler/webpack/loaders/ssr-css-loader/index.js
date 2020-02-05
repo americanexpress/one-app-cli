@@ -18,7 +18,7 @@ const path = require('path');
 // so `C:\path\node_modules` doesn't turn into something with a newline
 const cssBasePathString = JSON.stringify(path.resolve(__dirname, 'css-base.js'));
 
-const CSS_LOADER_FINDER = /exports = module\.exports = require\("[.a-zA-Z0-9/_]+\/css-loader\/dist\/runtime\/api.js"\)\((undefined|false)?\);/;
+const CSS_LOADER_FINDER = /var ___CSS_LOADER_API_IMPORT___ = (__webpack_){0,1}require(__){0,1}\([.a-zA-Z0-9/_*!\s-]*"[.a-zA-Z0-9/_]+\/css-loader\/dist\/runtime\/api.js"\);\n\s*exports = ___CSS_LOADER_API_IMPORT___\((undefined|false)?\);/;
 
 module.exports = function ssrCssLoader(content) {
   if (!CSS_LOADER_FINDER.test(content)) {

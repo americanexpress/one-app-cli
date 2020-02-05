@@ -7,7 +7,7 @@
 Assuming you have [npx installed](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) (comes with `npm` on versions 5.2.0 and above):
 
 ```bash
-npx -p yo -p @americanexpress/generator-one-app-module -- yo one-app-module
+npx -p yo -p @americanexpress/generator-one-app-module -- yo @americanexpress/one-app-module
 ```
 
 ## 🏆 Contributing

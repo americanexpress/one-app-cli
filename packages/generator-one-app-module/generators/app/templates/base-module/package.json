@@ -9,7 +9,8 @@
     "clean": "rimraf build",
     "prepare": "npm run build",
     "lint": "eslint --ignore-path .gitignore --ext js,jsx .",
-    "watch:build": "npm run build -- --watch"
+    "watch:build": "npm run build -- --watch",
+    "test": "jest"
   },
   "dependencies": {
     "@americanexpress/one-app-bundler": "^6.0.0",
@@ -22,8 +23,17 @@
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "babel-preset-amex": "^3.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
     "eslint": "^6.8.0",
     "eslint-config-amex": "^11.1.0",
+    "jest": "^25.1.0",
     "rimraf": "^3.0.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./enzyme.config.js"
+    ]
   }
 }

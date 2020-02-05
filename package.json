@@ -50,7 +50,10 @@
         "lines": 99.66,
         "functions": 97.37
       }
-    }
+    },
+    "testPathIgnorePatterns": [
+      "packages/generator-one-app-module/generators/app/templates"
+    ]
   },
   "husky": {
     "hooks": {
