@@ -25,61 +25,63 @@ describe('SSR CSS loader', () => {
 
   it('should throw an error when the css-loader is not present', () => {
     expect(() => SSRCSSLoader('no css-loader here!')).toThrowErrorMatchingSnapshot();
-    expect(() => SSRCSSLoader('exports = module.exports = require("css-loader/dist/runtime/api.js")();')).toThrowErrorMatchingSnapshot();
-    expect(() => SSRCSSLoader('exports = module.exports = require("../../css-loader/dist/runtime/api.js")(true);')).toThrowErrorMatchingSnapshot();
+    expect(() => SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! css-loader/dist/runtime/api.js */ "css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___();`)).toThrowErrorMatchingSnapshot();
+    expect(() => SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "../../css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___(true);`)).toThrowErrorMatchingSnapshot();
     expect(() => SSRCSSLoader(`
-      // some other line
-      exports = module.exports = require("../../see-ess-ess-loader/lib/see-ess-ess-base.js")(undefined);
-      // imports
-
-
-      // module
-      exports.push([module.id, "/**comment**/.react-select__One___hIKe {\n  position: relative; }\n\n.react-select__also___8ObpT {\n  background-color: #f9f9f9; }\n", ""]);
-
-      // exports
-      exports.locals = {
-      \t"One": "react-select__One___hIKe",
-      \t"also": "react-select__also___8ObpT",
-      };
+    // Imports
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../see-ess-ess-loader/lib/see-ess-ess-base.js */ "../../see-ess-ess-loader/lib/see-ess-ess-base.js");
+    exports = ___CSS_LOADER_API_IMPORT___(undefined);
+    // Module
+    exports.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
+    // Exports
+    exports.locals = {
+    \t"ErrorLayout": "my-root__ErrorLayout__ErrorLayout___2B91F",
+    \t"main": "my-root__ErrorLayout__main___2IftH"
+    };
+    module.exports = exports;
     `)).toThrowErrorMatchingSnapshot();
   });
 
   it('should remove css-loader\'s css-base, replace its push and export the locals', () => {
-    expect(SSRCSSLoader('exports = module.exports = require("../../node_modules/css-loader/dist/runtime/api.js")(undefined);')).toMatchSnapshot();
-    expect(SSRCSSLoader('exports = module.exports = require("../../css-loader/dist/runtime/api.js")();')).toMatchSnapshot();
-    expect(SSRCSSLoader('exports = module.exports = require("./css-loader/dist/runtime/api.js")();')).toMatchSnapshot();
-    expect(SSRCSSLoader('exports = module.exports = require("./css-loader/dist/runtime/api.js")(undefined);')).toMatchSnapshot();
+    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("../../node_modules/css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___(undefined);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("../../css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___();`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("./css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___();`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("./css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___(undefined);`)).toMatchSnapshot();
     expect(SSRCSSLoader(`
-      // some other line
-      exports = module.exports = require("../../css-loader/dist/runtime/api.js")(undefined);
-      // imports
-
-
-      // module
-      exports.push([module.id, "/**comment**/.react-select__One___hIKe {\n  position: relative; }\n\n.react-select__also___8ObpT {\n  background-color: #f9f9f9; }\n", ""]);
-
-      // exports
+      // Imports
+      var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+      exports = ___CSS_LOADER_API_IMPORT___(undefined);
+      // Module
+      exports.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
+      // Exports
       exports.locals = {
-      \t"One": "react-select__One___hIKe",
-      \t"also": "react-select__also___8ObpT",
+      \t"ErrorLayout": "my-root__ErrorLayout__ErrorLayout___2B91F",
+      \t"main": "my-root__ErrorLayout__main___2IftH"
       };
+      module.exports = exports;
     `)).toMatchSnapshot();
-    expect(SSRCSSLoader('exports = module.exports = require("../../node_modules/css-loader/dist/runtime/api.js")(false);')).toMatchSnapshot();
-    expect(SSRCSSLoader('exports = module.exports = require("./css-loader/dist/runtime/api.js")(false);')).toMatchSnapshot();
+    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("../../node_modules/css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___(false);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("./css-loader/dist/runtime/api.js");
+    exports = ___CSS_LOADER_API_IMPORT___(false);`)).toMatchSnapshot();
     expect(SSRCSSLoader(`
-      // some other line
-      exports = module.exports = require("../../css-loader/dist/runtime/api.js")(false);
-      // imports
-
-
-      // module
-      exports.push([module.id, "/**comment**/.react-select__One___hIKe {\n  position: relative; }\n\n.react-select__also___8ObpT {\n  background-color: #f9f9f9; }\n", ""]);
-
-      // exports
+      // Imports
+      var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "../../css-loader/dist/runtime/api.js");
+      exports = ___CSS_LOADER_API_IMPORT___(false);
+      // Module
+      exports.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
+      // Exports
       exports.locals = {
-      \t"One": "react-select__One___hIKe",
-      \t"also": "react-select__also___8ObpT",
+      \t"ErrorLayout": "my-root__ErrorLayout__ErrorLayout___2B91F",
+      \t"main": "my-root__ErrorLayout__main___2IftH"
       };
+      module.exports = exports;
     `)).toMatchSnapshot();
   });
 });
