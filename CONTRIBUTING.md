@@ -33,14 +33,14 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 3. Install the dependencies by running
 
     ```bash
-    $ cd npm install
+    $ npm install
     ```
 
 4. You can now run the scripts within the different [packages](./packages).
 
 ### Creating a `one-app-cli` new release
 
-1. Run `npm run lerna:version` locally from your release branch. This would push your release changes(changelog amd tags) to the branch on github.
+1. Run `npm run lerna:version` locally from your release branch. This would push your release changes(changelog and tags) to the branch on github.
 2. Create a pull request from your branch to the `master` branch with your changes.
 3. Once the changes are approved ensure you merge the changes and provide the commit message for the merge as
    `chore(release) : 1.9.7`
@@ -49,7 +49,7 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 
 ## Submitting a new feature
 
-When submitting a new feature request or enhancement of an existing features please review the following:-
+When submitting a new feature request or enhancement of an existing features please review the following:
 
 ### Is your feature request related to a problem
 
@@ -92,7 +92,6 @@ If applicable, add screenshots or animated GIFs to help explain your problem.
 
 Provide the system information which is not limited to the below:
 
-- OS: [e.g. macOS, Windows]
 - Browser (if applies) [e.g. chrome, safari]
 - Version of faux-cdn: [e.g. 5.0.0]
 - Node version:[e.g 10.15.1]
