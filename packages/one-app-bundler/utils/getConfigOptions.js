@@ -32,7 +32,18 @@ function validateOptions(options) {
     }
   }
 
-  if (options.webpackConfigPath) {
+  if (
+    options.webpackConfigPath
+    && (options.webpackClientConfigPath || options.webpackServerConfigPath)) {
+    throw new Error('`@americanexpress/one-app-bundler: Modules cannot configure both webpackConfigPath and webpackClientConfigPath or webpackServerConfigPath. See README for details.');
+  }
+}
+
+function logConfigurationWarnings(options) {
+  if (options.webpackConfigPath
+    || options.webpackClientConfigPath
+    || options.webpackServerConfigPath
+  ) {
     console.warn('@americanexpress/one-app-bundler: Using a custom webpack config can cause unintended side effects. Issues resulting from custom configuration will not be supported.');
   }
 }
@@ -42,5 +53,6 @@ const options = get(pkg, ['one-amex', 'bundler'], {});
 options.appCompatibility = get(pkg, ['one-amex', 'app', 'compatibility']);
 options.purgecss = options.purgecss || {};
 validateOptions(options);
+logConfigurationWarnings(options);
 
 module.exports = () => options;

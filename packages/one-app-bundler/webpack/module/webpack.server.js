@@ -83,4 +83,4 @@ module.exports = extendWebpackConfig(merge(
       }),
     ],
   }
-));
+), 'server');

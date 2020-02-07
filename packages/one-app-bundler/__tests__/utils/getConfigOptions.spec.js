@@ -86,4 +86,22 @@ describe('getConfigOptions', () => {
     require('../../utils/getConfigOptions');
     expect(consoleWarnSpy).toHaveBeenCalledWith('@americanexpress/one-app-bundler: Using a custom webpack config can cause unintended side effects. Issues resulting from custom configuration will not be supported.');
   });
+
+  it('should warn when the user provides a custom client webpack config', () => {
+    readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { webpackClientConfigPath: 'webpack.client.config.js' } } } });
+    require('../../utils/getConfigOptions');
+    expect(consoleWarnSpy).toHaveBeenCalledWith('@americanexpress/one-app-bundler: Using a custom webpack config can cause unintended side effects. Issues resulting from custom configuration will not be supported.');
+  });
+
+  it('should warn when the user provides a custom server webpack config', () => {
+    readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { webpackServerConfigPath: 'webpack.config.js' } } } });
+    require('../../utils/getConfigOptions');
+    expect(consoleWarnSpy).toHaveBeenCalledWith('@americanexpress/one-app-bundler: Using a custom webpack config can cause unintended side effects. Issues resulting from custom configuration will not be supported.');
+  });
+
+  it('should throw when a user attempts to use both webpackConfigPath and webpackClientConfigPath', () => {
+    const errorRegex = /@americanexpress\/one-app-bundler: Modules cannot configure both webpackConfigPath and webpackClientConfigPath or webpackServerConfigPath. See README for details./;
+    readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { webpackConfigPath: 'webpack.config.js', webpackClientConfigPath: 'webpack.config.js' } } } });
+    expect(() => require('../../utils/getConfigOptions')).toThrow(errorRegex);
+  });
 });
