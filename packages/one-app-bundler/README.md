@@ -49,6 +49,14 @@ module. The tenant root module should include in its configuration
 `providedExternals`, which is an array of external dependencies to be bundled
 with it and provided to other modules.
 
+First make sure to add your dependency to your module's `package.json`:
+
+```bash
+npm install some-dependency
+```
+
+Then configure `one-app-bundler` to provide that dependency (and any others) as an external to your other modules:
+
 ```json
 {
   "one-amex": {
@@ -63,6 +71,12 @@ Modules consuming these external dependencies must declare what they expect the
 tenant root module to provide by setting the `requiredExternals` option. Any dependency
 listed there will not be bundled with the module, but will be replaced with a
 reference to the external dependency as provided by the tenant root module.
+
+Before doing so make sure to add said dependency to your `package.json`:
+
+```bash
+npm install some-dependency
+```
 
 ```json
 {
