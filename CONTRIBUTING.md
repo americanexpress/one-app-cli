@@ -92,6 +92,7 @@ If applicable, add screenshots or animated GIFs to help explain your problem.
 
 Provide the system information which is not limited to the below:
 
+- OS: [e.g. macOS, Windows]
 - Browser (if applies) [e.g. chrome, safari]
 - Version of faux-cdn: [e.g. 5.0.0]
 - Node version:[e.g 10.15.1]
