@@ -20,6 +20,12 @@ const _ = require('lodash');
 const helper = require('./promptValidations');
 const packagejs = require('../../package.json');
 
+const isNegativeAnswer = (answer) => (answer === false)
+    || (
+      typeof answer === 'string'
+      && answer.trim().charAt(0).toLowerCase() === 'n'
+    );
+
 module.exports = class extends Generator {
   printOneAppLogo() {
     this.log('\n');
@@ -63,8 +69,28 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'moduleName',
       validate: helper.validateIfInputIsValidOrNot,
-      message: 'What is the name of your Module?',
-    }];
+      message: 'Name of your Module:',
+      store: false,
+    },
+    {
+      type: 'list',
+      name: 'setupInternationalization',
+      default: 'Yes',
+      message:
+        'Set up with internationalization?',
+      choices: ['Yes', 'No'],
+      store: false,
+    },
+    {
+      type: 'list',
+      name: 'setupParrotMiddleware',
+      default: 'Yes',
+      message:
+        'Generate with Parrot Middleware?',
+      choices: ['Yes', 'No'],
+      store: false,
+    },
+    ];
 
     return this.prompt(prompts)
       .then((answers) => {
@@ -73,6 +99,10 @@ module.exports = class extends Generator {
         } else {
           this._setUpModuleName('default-module');
         }
+        this.setupInternationalization = answers.setupInternationalization;
+        this.setupParrotMiddleware = !isNegativeAnswer(
+          answers.setupParrotMiddleware
+        );
       });
   }
 
@@ -87,6 +117,51 @@ module.exports = class extends Generator {
       null,
       { globOptions: { dot: true } }
     );
+
+    if (this.setupInternationalization) {
+      this.fs.delete(this.destinationPath('src/components/ModuleContainer.jsx'));
+      this.fs.delete(this.destinationPath('__tests__'));
+      this.fs.copyTpl(
+        this.templatePath('./intl-module'),
+        this.destinationPath(),
+        {
+          modulePackageName: this.modulePackageName,
+          moduleNamePascal: this.moduleNamePascal,
+        },
+        null,
+        { globOptions: { dot: true } }
+      );
+      this.fs.extendJSON(this.destinationPath('package.json'), {
+        dependencies: {
+          '@americanexpress/one-app-ducks': '^4.0.0',
+          immutable: '^3.8.2',
+          'prop-types': '^15.5.9',
+          'react-intl': '^3.6.0',
+          'react-redux': '^7.1.3',
+          redux: '^4.0.4',
+        },
+        devDependencies: {
+          glob: '^7.1.6',
+        },
+      });
+    }
+
+    if (this.setupParrotMiddleware) {
+      this.fs.extendJSON(this.destinationPath('package.json'), {
+        'one-amex': {
+          runner: {
+            parrotMiddleware: './dev.middleware.js',
+          },
+        },
+        devDependencies: {
+          'parrot-middleware': '^3.1.0',
+        },
+      });
+    } else {
+      this.fs.delete(this.destinationPath('dev.middleware.js'));
+      this.fs.delete(this.destinationPath('mock'));
+    }
+
 
     this.fs.move(
       this.destinationPath('src/components/ModuleContainer.jsx'),

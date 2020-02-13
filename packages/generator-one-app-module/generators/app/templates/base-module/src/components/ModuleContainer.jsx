@@ -9,9 +9,9 @@ const <%=moduleNamePascal%> = () => (
 
 // Read about childRoutes:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/Routing.md#childroutes
-<%=moduleNamePascal%>.childRoutes = () => ([
+<%=moduleNamePascal%>.childRoutes = () => [
   <Route path="/" />,
-]);
+];
 
 // Read about appConfig:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md

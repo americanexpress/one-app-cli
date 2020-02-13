@@ -15,7 +15,6 @@
     "test": "npm run test:lint && npm run test:unit && npm run test:git-history"
   },
   "dependencies": {
-    "@americanexpress/one-app-bundler": "^6.0.0",
     "@americanexpress/one-app-router": "^1.0.0",
     "content-security-policy-builder": "^2.1.0",
     "holocron": "^1.0.0",
@@ -23,6 +22,7 @@
     "react": "^16.12.0"
   },
   "devDependencies": {
+    "@americanexpress/one-app-bundler": "^6.0.0",
     "@commitlint/config-conventional": "^8.3.4",
     "amex-jest-preset-react": "^5.0.2",
     "babel-eslint": "^8.2.6",
@@ -37,7 +37,8 @@
     "rimraf": "^3.0.0"
   },
   "jest": {
-    "preset": "amex-jest-preset-react"
+    "preset": "amex-jest-preset-react",
+    "setupTestFrameworkScriptFile": "./test-setup.js"
   },
   "husky": {
     "hooks": {
