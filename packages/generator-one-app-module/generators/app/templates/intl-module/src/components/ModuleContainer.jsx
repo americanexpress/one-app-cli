@@ -6,39 +6,41 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { holocronModule } from 'holocron';
 import { fromJS } from 'immutable';
-import { Route } from '@americanexpress/one-app-router';
+import childRoutes from '../childRoutes';
 
-const <%=moduleNamePascal%> = ({ switchLanguage, languageData, localeName }) => {
+export const <%=moduleNamePascal%> = ({ switchLanguage, languageData, localeName }) => {
   const locales = ['en-US', 'en-CA', 'es-MX'];
-
-  return (
-    <IntlProvider locale={localeName} messages={languageData}>
-      <div>
-        <span id="greeting-message">
-          <h1><FormattedMessage id="greeting" /></h1>
-        </span>
+  // naive solution - up to user on how to load in data
+  if (languageData.greeting) {
+    return (
+      <IntlProvider locale={localeName} messages={languageData}>
         <div>
-          <label htmlFor="locale-selector">
-            <p>Choose a locale:</p>
-            <select name="locale" id="locale-selector" onChange={switchLanguage}>
-              {locales.map((locale) => <option key={locale} value={locale}>{locale}</option>
-              )}
-            </select>
-          </label>
+          <span id="greeting-message">
+            <h1><FormattedMessage id="greeting" /></h1>
+          </span>
+          <div id="locale">
+            <label htmlFor="locale-selector">
+              <p>Choose a locale:</p>
+              <select name="locale" id="locale-selector" onChange={switchLanguage}>
+                {locales.map((locale) => <option key={locale} value={locale}>{locale}</option>
+                )}
+              </select>
+            </label>
+          </div>
         </div>
-      </div>
-    </IntlProvider>
-  );
+      </IntlProvider>
+    );
+  }
+  return null;
 };
 
 // Read about childRoutes:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/Routing.md#childroutes
-<%=moduleNamePascal%>.childRoutes = () => [
-  <Route path="/" />,
-];
+<%=moduleNamePascal%>.childRoutes = childRoutes;
 
 // Read about appConfig:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md
+/* istanbul ignore next */
 if (!global.BROWSER) {
   // eslint-disable-next-line global-require
   <%=moduleNamePascal%>.appConfig = require('../appConfig').default;
@@ -52,14 +54,14 @@ if (!global.BROWSER) {
   localeName: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   switchLanguage: async ({ target }) => {
     await dispatch(updateLocale(target.value));
-    await dispatch(loadLanguagePack('<%=modulePackageName%>'));
+    await dispatch(loadLanguagePack('<%=modulePackageName%>', { fallbackLocale: 'en-US' }));
   },
 });
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   const localeName = state.getIn(['intl', 'activeLocale']);
   const languagePack = state.getIn(
     ['intl', 'languagePacks', localeName, '<%=modulePackageName%>'],
@@ -72,10 +74,12 @@ const mapStateToProps = (state) => {
   };
 };
 
+export const load = () => (dispatch) => dispatch(loadLanguagePack('<%=modulePackageName%>', { fallbackLocale: 'en-US' }));
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   holocronModule({
     name: '<%=modulePackageName%>',
-    load: () => (dispatch) => dispatch(loadLanguagePack('<%=modulePackageName%>', { fallbackLocale: 'en-US' })),
+    load,
   })
 )(<%=moduleNamePascal%>);

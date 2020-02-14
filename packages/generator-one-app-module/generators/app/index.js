@@ -99,10 +99,8 @@ module.exports = class extends Generator {
         } else {
           this._setUpModuleName('default-module');
         }
-        this.setupInternationalization = answers.setupInternationalization;
-        this.setupParrotMiddleware = !isNegativeAnswer(
-          answers.setupParrotMiddleware
-        );
+        this.setupInternationalization = !isNegativeAnswer(answers.setupInternationalization);
+        this.setupParrotMiddleware = !isNegativeAnswer(answers.setupParrotMiddleware);
       });
   }
 
@@ -142,6 +140,8 @@ module.exports = class extends Generator {
         },
         devDependencies: {
           glob: '^7.1.6',
+          '@babel/polyfill': '^7.8.3',
+
         },
       });
     }

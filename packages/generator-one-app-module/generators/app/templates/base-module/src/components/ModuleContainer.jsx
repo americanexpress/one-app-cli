@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from '@americanexpress/one-app-router';
+import childRoutes from '../childRoutes'
 
 const <%=moduleNamePascal%> = () => (
   <div>
@@ -9,9 +10,7 @@ const <%=moduleNamePascal%> = () => (
 
 // Read about childRoutes:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/Routing.md#childroutes
-<%=moduleNamePascal%>.childRoutes = () => [
-  <Route path="/" />,
-];
+<%=moduleNamePascal%>.childRoutes = childRoutes;
 
 // Read about appConfig:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md

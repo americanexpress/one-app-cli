@@ -1,3 +1,3 @@
 {
-  "greeting": "Welcome to One App in the United States!"
+  "greeting": "Welcome to <%=modulePackageName%> from the United States!"
 }
