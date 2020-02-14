@@ -14,7 +14,7 @@
 
 const { exec } = require('child_process');
 // This regex was obtained from https://semver.org/ test it out here https://regex101.com/r/vkijKf/1/
-const regex = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/gm;
+const regex = /^chore\(release\): (0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/gm;
 const commitMessage = process.env.TRAVIS_COMMIT_MESSAGE;
 if (commitMessage != null && regex.test(commitMessage)) {
   exec('npm run lerna:publish').stderr.pipe(process.stderr);
