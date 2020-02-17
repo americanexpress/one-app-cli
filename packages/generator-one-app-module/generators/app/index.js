@@ -74,6 +74,15 @@ module.exports = class extends Generator {
     },
     {
       type: 'list',
+      name: 'moduleType',
+      default: 'root module',
+      message:
+        'Is this a root module or child module?',
+      choices: ['root module', 'child module'],
+      store: false,
+    },
+    {
+      type: 'list',
       name: 'setupInternationalization',
       default: 'Yes',
       message:
@@ -101,12 +110,14 @@ module.exports = class extends Generator {
         }
         this.setupInternationalization = !isNegativeAnswer(answers.setupInternationalization);
         this.setupParrotMiddleware = !isNegativeAnswer(answers.setupParrotMiddleware);
+        this.moduleType = answers.moduleType;
       });
   }
 
   writing() {
     this.fs.copyTpl(
-      this.templatePath('./base-module'),
+      // by default scaffolds child module
+      this.templatePath('./base-child-module'),
       this.destinationPath(),
       {
         modulePackageName: this.modulePackageName,
@@ -116,11 +127,29 @@ module.exports = class extends Generator {
       { globOptions: { dot: true } }
     );
 
-    if (this.setupInternationalization) {
-      this.fs.delete(this.destinationPath('src/components/ModuleContainer.jsx'));
-      this.fs.delete(this.destinationPath('__tests__'));
+    if (this.moduleType === 'root module') {
+      // replace basic generated component with appConfig-included component
       this.fs.copyTpl(
-        this.templatePath('./intl-module'),
+        this.templatePath('./root-module'),
+        this.destinationPath(),
+        {
+          modulePackageName: this.modulePackageName,
+          moduleNamePascal: this.moduleNamePascal,
+        },
+        null,
+        { globOptions: { dot: true } }
+      );
+      this.fs.extendJSON(this.destinationPath('package.json'), {
+        dependencies: {
+          'content-security-policy-builder': '^2.1.0',
+          ip: '^1.1.5',
+        },
+      });
+    }
+
+    if (this.setupInternationalization) {
+      this.fs.copyTpl(
+        this.templatePath('./intl-child-module'),
         this.destinationPath(),
         {
           modulePackageName: this.modulePackageName,
@@ -141,9 +170,39 @@ module.exports = class extends Generator {
         devDependencies: {
           glob: '^7.1.6',
           '@babel/polyfill': '^7.8.3',
-
+        },
+        jest: {
+          setupTestFrameworkScriptFile: './test-setup.js',
         },
       });
+
+      if (this.moduleType === 'child module') {
+        this.fs.extendJSON(this.destinationPath('package.json'), {
+          'one-amex': {
+            bundler: {
+              externals: 'react-intl',
+            },
+          },
+        });
+      } else if (this.moduleType === 'root module') {
+        this.fs.copyTpl(
+          this.templatePath('./intl-root-module'),
+          this.destinationPath(),
+          {
+            modulePackageName: this.modulePackageName,
+            moduleNamePascal: this.moduleNamePascal,
+          },
+          null,
+          { globOptions: { dot: true } }
+        );
+        this.fs.extendJSON(this.destinationPath('package.json'), {
+          'one-amex': {
+            bundler: {
+              providesExternals: 'react-intl',
+            },
+          },
+        });
+      }
     }
 
     if (this.setupParrotMiddleware) {
@@ -166,6 +225,10 @@ module.exports = class extends Generator {
     this.fs.move(
       this.destinationPath('src/components/ModuleContainer.jsx'),
       this.destinationPath(`src/components/${this.moduleNamePascal}.jsx`)
+    );
+    this.fs.move(
+      this.destinationPath('__tests__/components/ModuleContainer.spec.jsx'),
+      this.destinationPath(`__tests__/components/${this.moduleNamePascal}.spec.jsx`)
     );
     // publishing to npm renames .gitignore to .npmignore
     this.fs.move(

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route } from '@americanexpress/one-app-router';
-import childRoutes from '../childRoutes'
+import childRoutes from '../childRoutes';
 
 const <%=moduleNamePascal%> = () => (
   <div>

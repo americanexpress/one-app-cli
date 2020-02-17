@@ -54,7 +54,6 @@ describe('<%=moduleNamePascal%>', () => {
   });
 
   describe('appConfig', () => {
-  // csp only necessary for root modules
     it('should contain accurate csp', () => {
       expect(AppConfig.csp).toBeDefined();
       expect(typeof AppConfig.csp).toBe('string');
