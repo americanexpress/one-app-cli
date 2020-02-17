@@ -62,7 +62,7 @@ Please include a snippets of the code of the new feature.
 ### Describe the suggested enhancement
 
 A clear and concise description of the enhancement to be added include a step-by-step guide if applicable.
-Add any other context or screenshots or animated GIFs about the feature request
+Add any other context or screenshots or animated GIFs about the feature request.
 
 ### Describe alternatives you've considered
 
