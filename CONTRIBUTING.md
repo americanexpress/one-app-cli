@@ -78,7 +78,7 @@ A clear and concise description of what the bug is.
 
 ### Provide step-by-step guide on how to reproduce the bug
 
-Steps to reproduce the behavior, please provide code snippets or a link to repository
+Please provide code snippets or a link to a repository, with steps to reproduce the behavior, failure or topic of discussion.
 
 ### Expected behavior
 
