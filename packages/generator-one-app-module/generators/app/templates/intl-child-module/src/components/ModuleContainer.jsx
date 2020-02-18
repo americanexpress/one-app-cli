@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { holocronModule } from 'holocron';
 import { fromJS } from 'immutable';
-import childRoutes from '../childRoutes';
 
 export const <%=moduleNamePascal%> = ({ switchLanguage, languageData, localeName }) => {
   const locales = ['en-US', 'en-CA', 'es-MX'];
@@ -33,10 +32,6 @@ export const <%=moduleNamePascal%> = ({ switchLanguage, languageData, localeName
   }
   return null;
 };
-
-// Read about childRoutes:
-// https://github.com/americanexpress/one-app/blob/master/docs/api/modules/Routing.md#childroutes
-<%=moduleNamePascal%>.childRoutes = childRoutes;
 
 <%=moduleNamePascal%>.propTypes = {
   switchLanguage: PropTypes.func.isRequired,

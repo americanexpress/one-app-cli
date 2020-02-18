@@ -2,8 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { fromJS } from 'immutable';
-import { Route } from '@americanexpress/one-app-router';
-import childRoutes from '../../src/childRoutes';
 import {
   <%=moduleNamePascal%>, mapDispatchToProps, mapStateToProps, load,
 } from '../../src/components/<%=moduleNamePascal%>';
@@ -50,13 +48,6 @@ describe('<%=moduleNamePascal%>', () => {
     const renderedModule = shallow(<<%=moduleNamePascal%> {...props} />);
     renderedModule.find('#locale-selector').simulate('change', 'en-CA');
     expect(props.switchLanguage).toHaveBeenCalledWith('en-CA');
-  });
-
-  describe('childRoutes', () => {
-    it('should return an array of Routes', () => {
-      expect(childRoutes()).toEqual(expect.any(Array));
-      childRoutes().forEach((route) => expect(route.type).toEqual(Route));
-    });
   });
 
   describe('mapStateToProps', () => {
