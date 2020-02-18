@@ -13,6 +13,7 @@ const <%=moduleNamePascal%> = () => (
 
 // Read about appConfig:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md
+/* istanbul ignore next */
 if (!global.BROWSER) {
   // eslint-disable-next-line global-require
   <%=moduleNamePascal%>.appConfig = require('../appConfig').default;

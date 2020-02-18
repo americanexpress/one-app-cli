@@ -6,7 +6,7 @@ import childRoutes from '../../src/childRoutes';
 import <%=moduleNamePascal%> from '../../src/components/<%=moduleNamePascal%>';
 
 describe('<%=moduleNamePascal%>', () => {
-describe('appConfig', () => {
+  describe('appConfig', () => {
     it('should contain accurate csp', () => {
       expect(AppConfig.csp).toBeDefined();
       expect(typeof AppConfig.csp).toBe('string');
