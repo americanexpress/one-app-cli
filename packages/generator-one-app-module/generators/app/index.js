@@ -116,7 +116,6 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copyTpl(
-      // by default scaffolds child module
       this.templatePath('./base-child-module'),
       this.destinationPath(),
       {
@@ -128,7 +127,6 @@ module.exports = class extends Generator {
     );
 
     if (this.moduleType === 'root module') {
-      // replace basic generated component with appConfig-included component
       this.fs.copyTpl(
         this.templatePath('./root-module'),
         this.destinationPath(),
@@ -184,7 +182,8 @@ module.exports = class extends Generator {
             },
           },
         });
-      } else if (this.moduleType === 'root module') {
+      }
+      if (this.moduleType === 'root module') {
         this.fs.copyTpl(
           this.templatePath('./intl-root-module'),
           this.destinationPath(),
