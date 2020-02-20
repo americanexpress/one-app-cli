@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { fromJS } from 'immutable';
 import { Route } from '@americanexpress/one-app-router';
-import AppConfig from '../../src/appConfig';
 import childRoutes from '../../src/childRoutes';
 import {
   <%=moduleNamePascal%>, mapDispatchToProps, mapStateToProps, load,
@@ -51,13 +50,6 @@ describe('<%=moduleNamePascal%>', () => {
     const renderedModule = shallow(<<%=moduleNamePascal%> {...props} />);
     renderedModule.find('#locale-selector').simulate('change', 'en-CA');
     expect(props.switchLanguage).toHaveBeenCalledWith('en-CA');
-  });
-
-  describe('appConfig', () => {
-    it('should contain accurate csp', () => {
-      expect(AppConfig.csp).toBeDefined();
-      expect(typeof AppConfig.csp).toBe('string');
-    });
   });
 
   describe('childRoutes', () => {
