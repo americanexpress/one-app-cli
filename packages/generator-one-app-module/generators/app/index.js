@@ -83,15 +83,6 @@ module.exports = class extends Generator {
     },
     {
       type: 'list',
-      name: 'setupInternationalization',
-      default: 'Yes',
-      message:
-        'Set up with internationalization?',
-      choices: ['Yes', 'No'],
-      store: false,
-    },
-    {
-      type: 'list',
       name: 'setupParrotMiddleware',
       default: 'Yes',
       message:
@@ -101,6 +92,18 @@ module.exports = class extends Generator {
     },
     ];
 
+    if (!this.options.setupInternationalizationByDefault) {
+      prompts.push({
+        type: 'list',
+        name: 'setupInternationalization',
+        default: 'Yes',
+        message:
+          'Set up with internationalization?',
+        choices: ['Yes', 'No'],
+        store: false,
+      });
+    }
+
     return this.prompt(prompts)
       .then((answers) => {
         if (answers.moduleName) {
@@ -108,7 +111,11 @@ module.exports = class extends Generator {
         } else {
           this._setUpModuleName('default-module');
         }
-        this.setupInternationalization = !isNegativeAnswer(answers.setupInternationalization);
+        if (this.options.setupInternationalizationByDefault) {
+          this.setupInternationalization = true;
+        } else {
+          this.setupInternationalization = !isNegativeAnswer(answers.setupInternationalization);
+        }
         this.setupParrotMiddleware = !isNegativeAnswer(answers.setupParrotMiddleware);
         this.moduleType = answers.moduleType;
       });

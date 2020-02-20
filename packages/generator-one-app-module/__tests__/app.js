@@ -36,7 +36,6 @@ describe('generator-one-app-module', () => {
         'src/index.js',
         '.babelrc',
         '.eslintrc.json',
-        'commitlint.config.js',
         '.gitignore',
         'package.json',
         'README.md',
@@ -61,8 +60,9 @@ describe('generator-one-app-module', () => {
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyBasicRootModule.spec.jsx',
-        '__tests__/.eslintrc.json',
+        '__tests__/appConfig.spec.js',
         '__tests__/index.spec.js',
+        '__tests__/.eslintrc.json',
         'src/components/MyBasicRootModule.jsx',
         'src/index.js',
         'src/csp.js',
@@ -70,7 +70,6 @@ describe('generator-one-app-module', () => {
         'src/appConfig.js',
         '.babelrc',
         '.eslintrc.json',
-        'commitlint.config.js',
         '.gitignore',
         'package.json',
         'README.md',
@@ -110,7 +109,6 @@ describe('generator-one-app-module', () => {
         'test-setup.js',
         '.babelrc',
         '.eslintrc.json',
-        'commitlint.config.js',
         '.gitignore',
         'package.json',
         'README.md',
@@ -159,6 +157,7 @@ describe('generator-one-app-module', () => {
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyIntlRootModule.spec.jsx',
+        '__tests__/appConfig.spec.js',
         '__tests__/.eslintrc.json',
         '__tests__/index.spec.js',
         '__tests__/locale.spec.js',
@@ -173,7 +172,6 @@ describe('generator-one-app-module', () => {
         'test-setup.js',
         '.babelrc',
         '.eslintrc.json',
-        'commitlint.config.js',
         '.gitignore',
         'package.json',
         'README.md',
@@ -235,7 +233,52 @@ describe('generator-one-app-module', () => {
         '.babelrc',
         '.eslintrc.json',
         'dev.middleware.js',
-        'commitlint.config.js',
+        '.gitignore',
+        'package.json',
+        'README.md',
+      ]);
+    });
+    it('adds parrot-middleware dependency and runner script', () => {
+      assert.jsonFileContent('package.json', {
+        'one-amex': {
+          runner: {
+            parrotMiddleware: './dev.middleware.js',
+          },
+        },
+        devDependencies: {
+          'parrot-middleware': '^3.1.0',
+        },
+      });
+    });
+  });
+  describe('child with setupInternationalizationByDefault option module creation', () => {
+    beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .withOptions({
+        setupInternationalizationByDefault: 'my-intl-by-default-child',
+      })
+      .withPrompts({
+        moduleName: 'my-intl-by-default-child',
+        moduleType: 'child module',
+        setupParrotMiddleware: 'Yes',
+      })
+      .toPromise()
+    );
+    it('creates files', () => {
+      assert.file([
+        '__tests__/components/MyIntlByDefaultChild.spec.jsx',
+        '__tests__/.eslintrc.json',
+        '__tests__/index.spec.js',
+        '__tests__/locale.spec.js',
+        'mock/scenarios.js',
+        'locale/en-CA.json',
+        'locale/en-US.json',
+        'locale/es-MX.json',
+        'src/components/MyIntlByDefaultChild.jsx',
+        'src/index.js',
+        'test-setup.js',
+        '.babelrc',
+        '.eslintrc.json',
+        'dev.middleware.js',
         '.gitignore',
         'package.json',
         'README.md',
