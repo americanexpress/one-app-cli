@@ -4,7 +4,7 @@ import { Route } from '@americanexpress/one-app-router';
 import childRoutes from '../../src/childRoutes';
 import <%=moduleNamePascal%> from '../../src/components/<%=moduleNamePascal%>';
 
-describe('<%=moduleNamePascal%>', () => {
+describe('<%=moduleNamePascal%> should render as expected', () => {
   describe('childRoutes', () => {
     it('should return an array of Routes', () => {
       expect(childRoutes()).toEqual(expect.any(Array));

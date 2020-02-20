@@ -9,7 +9,9 @@ import { fromJS } from 'immutable';
 
 export const <%=moduleNamePascal%> = ({ switchLanguage, languageData, localeName }) => {
   const locales = ['en-US', 'en-CA', 'es-MX'];
-  // naive solution - up to user on how to load in data
+  // Read about loading async data: 
+  // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/Loading-Data.md
+  // quick and dirty solution - implement as needed based on your use case
   if (languageData.greeting) {
     return (
       <IntlProvider locale={localeName} messages={languageData}>

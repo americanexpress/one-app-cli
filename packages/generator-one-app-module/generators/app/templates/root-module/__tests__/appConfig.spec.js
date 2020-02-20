@@ -17,6 +17,7 @@ describe('appConfig', () => {
       process.env.HTTP_ONE_APP_DEV_CDN_PORT = 5000;
       // eslint-disable-next-line global-require
       const cspString = require('../src/csp').default;
+      // replaces local ip with 0.0.0.0 for consistent snapshots
       const sanitizedCspString = cspString.replace(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:5000/g, '0.0.0.0:5000');
       expect(sanitizedCspString).toMatchSnapshot();
     });

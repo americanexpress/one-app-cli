@@ -27,7 +27,7 @@ const isNegativeAnswer = (answer) => (answer === false)
     );
 
 module.exports = class extends Generator {
-  printOneAppLogo() {
+  _printOneAppLogo() {
     this.log('\n');
     this.log(`${chalk.hex('#00175a')('     ██████╗ ███╗   ██╗███████╗   ')}${chalk.hex('#fdb92d')('  █████╗ ██████╗ ██████╗ ')}`);
     this.log(`${chalk.hex('#00175a')('    ██╔═══██╗████╗  ██║██╔════╝  ')}${chalk.hex('#fdb92d')('  ██╔══██╗██╔══██╗██╔══██╗')}`);
@@ -61,7 +61,7 @@ module.exports = class extends Generator {
   }
 
   initializing() {
-    this.printOneAppLogo();
+    this._printOneAppLogo();
   }
 
   prompting() {
@@ -69,7 +69,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'moduleName',
       validate: helper.validateIfInputIsValidOrNot,
-      message: 'Name of your Module:',
+      message: 'What is the name of your module?',
       store: false,
     },
     {
@@ -77,7 +77,7 @@ module.exports = class extends Generator {
       name: 'moduleType',
       default: 'root module',
       message:
-        'Is this a root module or child module?',
+        'Is this a root module or child module? (https://bit.ly/32aXufY)',
       choices: ['root module', 'child module'],
       store: false,
     },
@@ -86,7 +86,7 @@ module.exports = class extends Generator {
       name: 'setupParrotMiddleware',
       default: 'Yes',
       message:
-        'Generate with Parrot Middleware?',
+        'Generate with Parrot Middleware? (https://bit.ly/2SMHnlP)',
       choices: ['Yes', 'No'],
       store: false,
     },
@@ -98,7 +98,7 @@ module.exports = class extends Generator {
         name: 'setupInternationalization',
         default: 'Yes',
         message:
-          'Set up with internationalization?',
+          'Set up with internationalization? (https://bit.ly/3bUzCC0)',
         choices: ['Yes', 'No'],
         store: false,
       });
@@ -175,9 +175,11 @@ module.exports = class extends Generator {
         devDependencies: {
           glob: '^7.1.6',
           '@babel/polyfill': '^7.8.3',
+          'jest-json-schema': '^2.1.0',
+
         },
         jest: {
-          setupTestFrameworkScriptFile: './test-setup.js',
+          setupFilesAfterEnv: ['./test-setup.js'],
         },
       });
 

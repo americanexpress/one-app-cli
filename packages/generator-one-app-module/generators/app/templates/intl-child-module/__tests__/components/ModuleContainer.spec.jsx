@@ -11,7 +11,7 @@ jest.mock('@americanexpress/one-app-ducks', () => ({
   loadLanguagePack: (moduleName, { fallbackLocale } = {}) => `I am loading the language pack for ${moduleName} and my fallback locale is ${fallbackLocale}`,
 }));
 
-describe('<%=moduleNamePascal%>', () => {
+describe('<%=moduleNamePascal%> should render as expected', () => {
   it('module should render correct JSX', () => {
     const props = {
       switchLanguage: jest.fn(),
@@ -118,7 +118,7 @@ describe('<%=moduleNamePascal%>', () => {
     });
   });
 
-  describe('holcronModule load', () => {
+  describe('holocronModule load', () => {
     it('should load language pack for <%=modulePackageName%> module', () => {
       const mockDispatch = jest.fn();
       load()(mockDispatch);

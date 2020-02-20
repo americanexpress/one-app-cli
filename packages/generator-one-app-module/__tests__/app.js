@@ -129,7 +129,7 @@ describe('generator-one-app-module', () => {
           '@babel/polyfill': '^7.8.3',
         },
         jest: {
-          setupTestFrameworkScriptFile: './test-setup.js',
+          setupFilesAfterEnv: './test-setup.js',
         },
       });
     });
@@ -192,7 +192,7 @@ describe('generator-one-app-module', () => {
           '@babel/polyfill': '^7.8.3',
         },
         jest: {
-          setupTestFrameworkScriptFile: './test-setup.js',
+          setupFilesAfterEnv: './test-setup.js',
         },
       });
     });
