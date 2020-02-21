@@ -23,7 +23,7 @@ const packagejs = require('../../package.json');
 const isNegativeAnswer = (answer) => (answer === false)
     || (
       typeof answer === 'string'
-      && answer.trim().charAt(0).toLowerCase() === 'n'
+      && /^n+o?/i.test(answer.trim())
     );
 
 module.exports = class extends Generator {
