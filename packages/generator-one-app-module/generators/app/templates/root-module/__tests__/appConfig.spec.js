@@ -7,7 +7,11 @@ describe('appConfig', () => {
   });
 
   describe('csp', () => {
-    process.env.ONE_CLIENT_REPORTING_URL = 'example.com';
+    beforeEach(() => {
+      jest.resetModules();
+      process.env.ONE_CLIENT_REPORTING_URL = 'example.com';
+    });
+    
     it('should be a valid csp string', () => {
       // eslint-disable-next-line global-require
       const cspString = require('../src/csp').default;
