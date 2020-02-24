@@ -147,7 +147,6 @@ module.exports = class extends Generator {
       this.fs.extendJSON(this.destinationPath('package.json'), {
         dependencies: {
           'content-security-policy-builder': '^2.1.0',
-          ip: '^1.1.5',
         },
       });
     }

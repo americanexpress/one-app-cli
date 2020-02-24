@@ -79,7 +79,6 @@ describe('generator-one-app-module', () => {
       assert.jsonFileContent('package.json', {
         dependencies: {
           'content-security-policy-builder': '^2.1.0',
-          ip: '^1.1.5',
         },
       });
     });
