@@ -111,16 +111,35 @@ for your client module build. The default value is `200e3`.
 }
 ```
 
-#### `webpackConfigPath`
+#### `webpackConfigPath, webpackClientConfigPath, & webpackServerConfigPath`
 
-You may extend the webpack configuration by providing a path to your config file
+You may extend the webpack configuration by providing paths to custom webpack config files
 in this option. Use of this option is at your own risk.
+
+There are two options when customizing your webpack build.
+
+1. Add `webpackConfigPath` to apply a custom config to both your client and server builds.
 
 ```json
 {
   "one-amex": {
     "bundler": {
       "webpackConfigPath": "webpack.config.js"
+    }
+  }
+}
+```
+
+2. Add `webpackClientConfigPath` and/or `webpackServerConfigPath` to apply different configs 
+to your client and server builds. You don't need to add both of these options. 
+You can pass only one if you wish to customize a single build target.
+
+```json
+{
+  "one-amex": {
+    "bundler": {
+      "webpackClientConfigPath": "webpack.client.config.js",
+      "webpackServerConfigPath": "webpack.server.config.js"
     }
   }
 }
