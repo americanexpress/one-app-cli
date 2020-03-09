@@ -96,5 +96,5 @@ module.exports = (babelEnv) => {
         }),
       ],
     }
-  ));
+  ), 'client');
 };

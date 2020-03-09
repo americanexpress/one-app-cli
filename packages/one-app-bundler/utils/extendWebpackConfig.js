@@ -18,7 +18,18 @@ const getConfigOptions = require('./getConfigOptions');
 const getCliOptions = require('./getCliOptions');
 const createResolver = require('../webpack/createResolver');
 
-function extendWebpackConfig(webpackConfig) {
+
+function getCustomWebpackConfigPath(options, bundleTarget) {
+  const { webpackConfigPath, webpackClientConfigPath, webpackServerConfigPath } = options;
+
+  if (webpackConfigPath) return webpackConfigPath;
+  if (bundleTarget === 'client' && webpackClientConfigPath) return webpackClientConfigPath;
+  if (bundleTarget === 'server' && webpackServerConfigPath) return webpackServerConfigPath;
+
+  return false;
+}
+
+function extendWebpackConfig(webpackConfig, bundleTarget) {
   const configOptions = getConfigOptions();
   const cliOptions = getCliOptions();
   const { mainFields } = webpackConfig.resolve;
@@ -27,16 +38,16 @@ function extendWebpackConfig(webpackConfig) {
     appCompatibility,
     requiredExternals,
     providedExternals,
-    webpackConfigPath,
   } = configOptions;
   const { watch } = cliOptions;
 
+  const customWebpackConfigPath = getCustomWebpackConfigPath(configOptions, bundleTarget);
   let customWebpackConfig = {};
 
-  if (webpackConfigPath) {
+  if (customWebpackConfigPath) {
     // Dynamic require is needed here for loading custom config
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    customWebpackConfig = require(path.join(process.cwd(), webpackConfigPath));
+    customWebpackConfig = require(path.join(process.cwd(), customWebpackConfigPath));
   }
 
   const indexPath = path.join(process.cwd(), 'src', 'index');

@@ -9,7 +9,8 @@
     "test:lockfile": "node lockFileLint.js",
     "posttest": "npm run test:lint && npm run test:git-history && npm run test:lockfile",
     "lerna:version": "lerna version",
-    "lerna:publish": "lerna publish from-git --yes"
+    "lerna:publish": "lerna publish from-package --yes",
+    "lerna:deploy":"node lernaDeploy.js"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -45,10 +46,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 99.35,
-        "branches": 98.96,
-        "lines": 99.66,
-        "functions": 97.37
+        "statements": 99.44,
+        "branches": 99.15,
+        "lines": 99.71,
+        "functions": 97.67
       }
     },
     "testPathIgnorePatterns": [

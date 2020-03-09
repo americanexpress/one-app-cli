@@ -28,10 +28,24 @@ jest.mock('/path/webpack.config.js', () => ({
   },
 }), { virtual: true });
 
+jest.mock('/path/webpack.client.config.js', () => ({
+  module: {
+    rules: [
+      { test: /\.js$/, use: 'my-super-cool-client-loader' },
+    ],
+  },
+}), { virtual: true });
+
+jest.mock('/path/webpack.server.config.js', () => ({
+  module: {
+    rules: [
+      { test: /\.js$/, use: 'my-super-cool-server-loader' },
+    ],
+  },
+}), { virtual: true });
+
 jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({})));
 jest.mock('../../utils/getCliOptions', () => jest.fn(() => ({})));
-
-const consoleWarnSpy = jest.spyOn(console, 'warn');
 
 describe('extendWebpackConfig', () => {
   let originalWebpackConfig = {};
@@ -58,14 +72,32 @@ describe('extendWebpackConfig', () => {
     };
   });
 
-  it('should apply webpack config and warn the user', () => {
+  it('should apply webpack config', () => {
     getConfigOptions.mockReturnValueOnce({ webpackConfigPath: 'webpack.config.js' });
+
     const result = extendWebpackConfig(originalWebpackConfig);
     const { rules } = result.module;
     const lastRule = rules[rules.length - 1];
     expect(rules.length).toBe(originalWebpackConfig.module.rules.length + 1);
-    expect(lastRule).toMatchSnapshot();
-    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
+    expect(lastRule.use).toBe('my-super-cool-loader');
+  });
+
+  it('should apply a client webpack config', () => {
+    getConfigOptions.mockReturnValueOnce({ webpackClientConfigPath: 'webpack.client.config.js' });
+    const result = extendWebpackConfig(originalWebpackConfig, 'client');
+    const { rules } = result.module;
+    const lastRule = rules[rules.length - 1];
+    expect(rules.length).toBe(originalWebpackConfig.module.rules.length + 1);
+    expect(lastRule.use).toBe('my-super-cool-client-loader');
+  });
+
+  it('should apply a server webpack config', () => {
+    getConfigOptions.mockReturnValueOnce({ webpackServerConfigPath: 'webpack.server.config.js' });
+    const result = extendWebpackConfig(originalWebpackConfig, 'server');
+    const { rules } = result.module;
+    const lastRule = rules[rules.length - 1];
+    expect(rules.length).toBe(originalWebpackConfig.module.rules.length + 1);
+    expect(lastRule.use).toBe('my-super-cool-server-loader');
   });
 
   it('should bundle requiredExternals designated by providedExternals', () => {
