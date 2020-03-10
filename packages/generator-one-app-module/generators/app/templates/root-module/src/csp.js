@@ -1,5 +1,4 @@
 import contentSecurityPolicyBuilder from 'content-security-policy-builder';
-import ip from 'ip';
 
 // Read about csp:
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md#csp
@@ -11,8 +10,6 @@ export default contentSecurityPolicyBuilder({
     ],
     scriptSrc: [
       "'self'",
-      `${ip.address()}:${process.env.HTTP_ONE_APP_DEV_CDN_PORT || 3001}`,
-      `localhost:${process.env.HTTP_ONE_APP_DEV_CDN_PORT || 3001}`,
     ],
     imgSrc: [
       "'self'",
@@ -23,8 +20,6 @@ export default contentSecurityPolicyBuilder({
     ],
     connectSrc: [
       "'self'",
-      `${ip.address()}:${process.env.HTTP_ONE_APP_DEV_CDN_PORT || 3001}`,
-      `localhost:${process.env.HTTP_ONE_APP_DEV_CDN_PORT || 3001}`,
     ],
   },
 });
