@@ -29,7 +29,7 @@ argv._.forEach((moduleName) => {
   }
 
   const moduleMap = JSON.parse(fs.readFileSync(moduleMapPath));
-  delete moduleMap[moduleName];
+  delete moduleMap.modules[moduleName];
   fs.writeFileSync(moduleMapPath, JSON.stringify(moduleMap));
 
   const modulePath = path.join(symModulesPath, moduleName);

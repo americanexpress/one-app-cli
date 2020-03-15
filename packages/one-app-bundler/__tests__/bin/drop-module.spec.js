@@ -39,8 +39,36 @@ describe('drop-module', () => {
   it('should remove the module from the module map', () => {
     fs._.setFiles({
       '/mocked/static/module-map.json': JSON.stringify({
-        'my-module-name': '1.0.0',
-        'another-module': '2.0.0',
+        modules: {
+          'my-module-name': {
+            node: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.node.js',
+              integrity: '123',
+            },
+            browser: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.browser.js',
+              integrity: '234',
+            },
+            legacyBrowser: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.legacy.browser.js',
+              integrity: '345',
+            },
+          },
+          'another-module': {
+            node: {
+              url: 'https://example.com/cdn/another-module/6.7.8/another-module.node.js',
+              integrity: '123',
+            },
+            browser: {
+              url: 'https://example.com/cdn/another-module/6.7.8/another-module.browser.js',
+              integrity: '234',
+            },
+            legacyBrowser: {
+              url: 'https://example.com/cdn/another-module/6.7.8/another-module.legacy.browser.js',
+              integrity: '345',
+            },
+          },
+        },
       }),
       '/mocked/static/modules/my-module-name': {},
     });
@@ -48,14 +76,44 @@ describe('drop-module', () => {
 
     expect(fs._.getFiles()).toMatchSnapshot();
     expect(fs.writeFileSync).toHaveBeenCalledWith('/mocked/static/module-map.json', JSON.stringify({
-      'another-module': '2.0.0',
+      modules: {
+        'another-module': {
+          node: {
+            url: 'https://example.com/cdn/another-module/6.7.8/another-module.node.js',
+            integrity: '123',
+          },
+          browser: {
+            url: 'https://example.com/cdn/another-module/6.7.8/another-module.browser.js',
+            integrity: '234',
+          },
+          legacyBrowser: {
+            url: 'https://example.com/cdn/another-module/6.7.8/another-module.legacy.browser.js',
+            integrity: '345',
+          },
+        },
+      },
     }));
   });
 
   it('should remove the module directory', () => {
     fs._.setFiles({
       '/mocked/static/module-map.json': JSON.stringify({
-        'my-module-name': '1.0.0',
+        modules: {
+          'my-module-name': {
+            node: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.node.js',
+              integrity: '123',
+            },
+            browser: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.browser.js',
+              integrity: '234',
+            },
+            legacyBrowser: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.legacy.browser.js',
+              integrity: '345',
+            },
+          },
+        },
       }),
       '/mocked/static/modules/my-module-name': {},
     });
@@ -69,7 +127,22 @@ describe('drop-module', () => {
   it('should not error if the module directory does not exist', () => {
     fs._.setFiles({
       '/mocked/static/module-map.json': JSON.stringify({
-        'my-module-name': '1.0.0',
+        modules: {
+          'my-module-name': {
+            node: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.node.js',
+              integrity: '123',
+            },
+            browser: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.browser.js',
+              integrity: '234',
+            },
+            legacyBrowser: {
+              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.legacy.browser.js',
+              integrity: '345',
+            },
+          },
+        },
       }),
       '/mocked/static/modules/my-module-name': {},
     });
