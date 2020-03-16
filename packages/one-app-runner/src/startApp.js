@@ -63,7 +63,7 @@ module.exports = async function startApp({
     return command;
   };
 
-  const command = `docker pull ${appDockerImage} && docker run -p 3000-3005:3000-3005 -e NODE_ENV=development ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js --root-module-name=${rootModuleName} --module-map-url=${moduleMapUrl} ${generateUseMocksFlag(parrotMiddlewareFile)}"`;
+  const command = `docker pull ${appDockerImage} && docker run -t -p 3000-3005:3000-3005 -e NODE_ENV=development ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js --root-module-name=${rootModuleName} --module-map-url=${moduleMapUrl} ${generateUseMocksFlag(parrotMiddlewareFile)}"`;
   const dockerProcess = spawn(command, { shell: true });
   dockerProcess.on('error', () => {
     throw new Error(
