@@ -44,8 +44,8 @@ within `package.json`:
 
 In order to avoid duplicate code in your One App instance, you may want to
 share a dependency across all your modules that is not already provided by One
-App. These dependencies can be provided to your modules by your tenant root
-module. The tenant root module should include in its configuration
+App. These dependencies can be provided to your modules by your root
+module. The root module should include in its configuration
 `providedExternals`, which is an array of external dependencies to be bundled
 with it and provided to other modules.
 
@@ -68,9 +68,9 @@ Then configure `one-app-bundler` to provide that dependency (and any others) as 
 ```
 
 Modules consuming these external dependencies must declare what they expect the
-tenant root module to provide by setting the `requiredExternals` option. Any dependency
+root module to provide by setting the `requiredExternals` option. Any dependency
 listed there will not be bundled with the module, but will be replaced with a
-reference to the external dependency as provided by the tenant root module.
+reference to the external dependency as provided by the root module.
 
 Before doing so make sure to add said dependency to your `package.json`:
 
@@ -90,7 +90,7 @@ npm install some-dependency
 Modules shouldn't configure both `providedExternals` and `requiredExternals`.
 
 Any module with `requiredExternals` configured will be validate at runtime to ensure that
-the tenant root module is in fact providing those requiredExternals, and will fail to load if it is
+the root module is in fact providing those requiredExternals, and will fail to load if it is
 not.
 
 If you attempt to include in `providedExternals` or `requiredExternals` and dependencies
