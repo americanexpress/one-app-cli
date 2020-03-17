@@ -9,9 +9,7 @@ const createYargsConfig = () => {
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const packageJson = require(packageJsonPath);
 
-  // dont agree with this rule in this instance. Rewriting this code would over-complicate it
-  // eslint-disable-next-line no-mixed-operators
-  const oneAppRunnerConfig = packageJson['one-amex'] && packageJson['one-amex'].runner || {};
+  const oneAppRunnerConfig = (packageJson['one-amex'] && packageJson['one-amex'].runner) || {};
 
   // eslint-disable-next-line global-require
   const yargs = require('yargs')
