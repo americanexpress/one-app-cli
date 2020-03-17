@@ -10,7 +10,7 @@ It works by pulling a Docker image for One App and mounting your module to it as
 
 ## 🤹‍ Usage
 
-Note that [Docker](https://www.docker.com/community-edition#/download) is required and must be installed before **one-app-runner** can be used.
+Note that [Docker](https://www.docker.com/products/docker-desktop) is required and must be installed before **one-app-runner** can be used.
 
 ### Quick start
 
