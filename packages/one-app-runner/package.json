@@ -1,0 +1,42 @@
+{
+  "name": "@americanexpress/one-app-runner",
+  "version": "6.2.0",
+  "description": "CLI for running One App locally",
+  "license": "Apache-2.0",
+  "contributors": [
+    "Andres Escobar <Andres.Escobar@aexp.com> (https://github.com/anescobar1991)",
+    "James Singleton <James.Singleton1@aexp.com> (https://github.com/JamesSingleton)",
+    "Jimmy King  <Jimmy.King@aexp.com> (https://github.com/10xLaCroixDrinker)",
+    "Jonathan Adshead <Jonathan.Adshead@aexp.com> (https://github.com/JAdshead)",
+    "Michael Tobia <Michael.M.Tobia@aexp.com> (https://github.com/Francois-Esquire)",
+    "Michael Tomcal <Michael.A.Tomcal@aexp.com> (https://github.com/mtomcal)",
+    "Stephanie Coates  <Stephanie.Coates1@aexp.com> (https://github.com/stephaniecoates)",
+    "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)"
+  ],
+  "bin": {
+    "one-app-runner": "./bin/one-app-runner.js"
+  },
+  "files": [
+    "src",
+    "bin"
+  ],
+  "repository": {
+    "url": "https://github.com/americanexpress/one-app-cli.git",
+    "directory": "packages/one-app-runner"
+  },
+  "keywords": [
+    "dx",
+    "one-app",
+    "docker"
+  ],
+  "dependencies": {
+    "pkg-up": "^3.1.0",
+    "yargs": "^15.3.0"
+  },
+  "devDependencies": {
+    "mock-spawn": "^0.2.6"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
