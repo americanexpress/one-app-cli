@@ -28,6 +28,7 @@ This codebase has the following packages:
 | **[generator-one-app-module](./packages/generator-one-app-module)** | [Yeoman](https://yeoman.io/) generator for a [One App](https://github.com/americanexpress/one-app#modules) `holocron` Module      |
 | **[one-app-bundler](./packages/one-app-bundler)**             | CLI to bundle one-app modules |
 | **[one-app-locale-bundler](./packages/one-app-locale-bundler)**     | CLI to bundle locale and environment JSON files      |
+| **[one-app-runner](./packages/one-app-runner)**     | CLI tool for running [One App](https://github.com/americanexpress/one-app) locally |
 
 
 ## 🏆 Contributing
