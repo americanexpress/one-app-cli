@@ -66,9 +66,8 @@ module.exports = (babelEnv) => merge(
     entry: {
       app: './src/client/client',
       vendors: [
-        ...(babelEnv !== 'modern' ? ['isomorphic-fetch', 'url-polyfill'] : []),
+        ...(babelEnv !== 'modern' ? ['isomorphic-fetch', 'url-polyfill', 'regenerator-runtime/runtime'] : []),
         ...(babelEnv !== 'modern' ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
-        resolve('regenerator-runtime/runtime'),
         ...Object.keys(moduleExternals).map(resolve),
       ],
     },
