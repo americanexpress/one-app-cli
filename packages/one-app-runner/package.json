@@ -1,7 +1,7 @@
 {
-  "name": "@americanexpress/generator-one-app-module",
+  "name": "@americanexpress/one-app-runner",
   "version": "6.3.0",
-  "description": "generator for One App Modules",
+  "description": "CLI for running One App locally",
   "license": "Apache-2.0",
   "contributors": [
     "Andres Escobar <Andres.Escobar@aexp.com> (https://github.com/anescobar1991)",
@@ -11,30 +11,30 @@
     "Michael Tobia <Michael.M.Tobia@aexp.com> (https://github.com/Francois-Esquire)",
     "Michael Tomcal <Michael.A.Tomcal@aexp.com> (https://github.com/mtomcal)",
     "Stephanie Coates  <Stephanie.Coates1@aexp.com> (https://github.com/stephaniecoates)",
-    "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)",
-    "Nickolas Oliver <nickolas.oliver@aexp.com> (https://github.com/PixnBits)"
+    "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)"
   ],
+  "bin": {
+    "one-app-runner": "./bin/one-app-runner.js"
+  },
   "files": [
-    "generators"
+    "src",
+    "bin"
   ],
-  "main": "generators/index.js",
   "repository": {
     "url": "https://github.com/americanexpress/one-app-cli.git",
-    "directory": "packages/generator-one-app-module"
+    "directory": "packages/one-app-runner"
   },
   "keywords": [
-    "generator",
+    "dx",
     "one-app",
-    "yeoman-generator"
+    "docker"
   ],
   "dependencies": {
-    "chalk": "^2.4.1",
-    "lodash": "^4.17.15",
-    "yeoman-generator": "^4.4.0"
+    "pkg-up": "^3.1.0",
+    "yargs": "^15.3.0"
   },
   "devDependencies": {
-    "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^2.1.0"
+    "mock-spawn": "^0.2.6"
   },
   "publishConfig": {
     "access": "public"
