@@ -182,7 +182,6 @@ describe('generator-one-app-module', () => {
           '@americanexpress/one-app-ducks': '^4.0.0',
           immutable: '^3.8.2',
           'prop-types': '^15.5.9',
-          'react-intl': '^3.6.0',
           'react-redux': '^7.1.3',
           redux: '^4.0.4',
         },
