@@ -69,6 +69,24 @@ describe('Common webpack loaders', () => {
       expect(purgeCssLoader()).toMatchSnapshot();
     });
 
+    it('should include any additional configured options', () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        whitelist: ['random', 'yep', 'button'],
+        whitelistPatterns: [/red$/],
+        whitelistPatternsChildren: [/blue$/],
+      };
+      getConfigOptions.mockReturnValueOnce({ purgecss });
+      expect(purgeCssLoader()).toMatchSnapshot();
+    });
+
     it('should return an empty object when disabled', () => {
       getConfigOptions.mockReturnValueOnce({ purgecss: { disabled: true } });
       expect(purgeCssLoader()).toEqual([]);

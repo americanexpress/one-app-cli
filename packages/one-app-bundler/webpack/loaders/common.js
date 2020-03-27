@@ -35,6 +35,13 @@ const purgeCssLoader = () => {
     loader: '@americanexpress/purgecss-loader',
     options: {
       paths: [path.join(packageRoot, 'src/**/*.{js,jsx}'), ...(configOptions.purgecss.paths || [])],
+      extractors: configOptions.purgecss.extractors || [],
+      fontFace: configOptions.purgecss.fontFace || false,
+      keyframes: configOptions.purgecss.keyframes || false,
+      variables: configOptions.purgecss.variables || false,
+      whitelist: configOptions.purgecss.whitelist || [],
+      whitelistPatterns: configOptions.purgecss.whitelistPatterns || [],
+      whitelistPatternsChildren: configOptions.purgecss.whitelistPatternsChildren || [/:global$/],
     },
   }];
 };
