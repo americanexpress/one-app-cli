@@ -136,7 +136,7 @@ describe('generator-one-app-module', () => {
       assert.jsonFileContent('package.json', {
         'one-amex': {
           bundler: {
-            externals: 'react-intl',
+            requiredExternals: 'react-intl',
           },
         },
       });
@@ -199,7 +199,7 @@ describe('generator-one-app-module', () => {
       assert.jsonFileContent('package.json', {
         'one-amex': {
           bundler: {
-            providesExternals: 'react-intl',
+            providedExternals: 'react-intl',
           },
         },
       });
