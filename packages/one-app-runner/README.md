@@ -70,7 +70,7 @@ Or in `package.json`
 }
 ```
 
-### module-map-url [Required]
+### module-map-url
 
 Location of module map for One App to use to fetch modules. This option is required.
 
@@ -116,6 +116,8 @@ Or in `package.json`
 ```
 
 ### modules [Optional]
+
+>This option is required if module-map-url is not provided.
 
 Path to local module(s) to serve to One App. This can be either an absolute or a relative path to a Holocron Module's
 root directory. Supports serving multiple modules at the same time as well.
