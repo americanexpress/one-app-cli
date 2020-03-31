@@ -49,6 +49,8 @@ test('command errors out if --module-map-url option is not given a value', () =>
 test('command errors out if --module-map-url option is not given', () => {
   const consoleErrorSpy = jest.spyOn(console, 'error');
 
+  console.log('Console Error: ', consoleErrorSpy.mock.calls);
+
   process.argv = ['', '', '--root-module-name', 'frank-lloyd-root', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
@@ -219,6 +221,15 @@ test('command errors out if an unknown option is given', () => {
   const consoleErrorSpy = jest.spyOn(console, 'error');
 
   process.argv = ['', '', '--not-a-valid-option', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
+  jest.mock('../../src/startApp', () => jest.fn());
+  require('../../bin/one-app-runner');
+  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+});
+
+test('--modules option is required if --module-map-url option is not given', () => {
+  const consoleErrorSpy = jest.spyOn(console, 'error');
+
+  process.argv = ['', '', '--root-module-name', 'frank-lloyd-root', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
   expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
