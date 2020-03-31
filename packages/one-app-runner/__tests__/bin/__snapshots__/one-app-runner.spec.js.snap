@@ -6,7 +6,7 @@ Array [
     "Options:
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
@@ -35,7 +35,7 @@ Array [
     "Options:
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
@@ -88,26 +88,19 @@ exports[`command errors out if --dev-endpoints is not given a value 1`] = `
 Array [
   Array [
     "Options:
+  --help               Show help                                       [boolean]
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+                       Parrot mocking                                   [string]",
   ],
   Array [],
   Array [
-    "⚠️   --dev-endpoints option must be given a value but was not given one. Did you mean to pass a value? ⚠️",
+    "Missing required arguments: root-module-name, docker-image",
   ],
 ]
 `;
@@ -116,22 +109,15 @@ exports[`command errors out if --docker-image option is not given 1`] = `
 Array [
   Array [
     "Options:
+  --help               Show help                                       [boolean]
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+                       Parrot mocking                                   [string]",
   ],
   Array [],
   Array [
@@ -144,22 +130,15 @@ exports[`command errors out if --docker-image option is not given a value 1`] = 
 Array [
   Array [
     "Options:
+  --help               Show help                                       [boolean]
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+                       Parrot mocking                                   [string]",
   ],
   Array [],
   Array [
@@ -174,13 +153,14 @@ Array [
     "Options:
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
+  --modules            path to local module to serve to One App
+                                                              [array] [required]
   --dev-endpoints      path to dev endpoints file for One App to use for its One
                        App Dev Proxy set up                             [string]
   --envVars            Environment variables to be applied to the One App
@@ -191,7 +171,7 @@ Array [
   ],
   Array [],
   Array [
-    "Missing required argument: module-map-url",
+    "Missing required argument: modules",
   ],
 ]
 `;
@@ -200,22 +180,15 @@ exports[`command errors out if --module-map-url option is not given a value 1`] 
 Array [
   Array [
     "Options:
+  --help               Show help                                       [boolean]
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+                       Parrot mocking                                   [string]",
   ],
   Array [],
   Array [
@@ -228,26 +201,19 @@ exports[`command errors out if --modules option is not given any values 1`] = `
 Array [
   Array [
     "Options:
+  --help               Show help                                       [boolean]
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+                       Parrot mocking                                   [string]",
   ],
   Array [],
   Array [
-    "⚠️   --modules option must be given a value but was not given one. Did you mean to pass a value? ⚠️",
+    "Missing required arguments: root-module-name, docker-image",
   ],
 ]
 `;
@@ -256,22 +222,15 @@ exports[`command errors out if --root-module-name option is not given 1`] = `
 Array [
   Array [
     "Options:
+  --help               Show help                                       [boolean]
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+                       Parrot mocking                                   [string]",
   ],
   Array [],
   Array [
@@ -284,22 +243,15 @@ exports[`command errors out if --root-module-name option is not given a value 1`
 Array [
   Array [
     "Options:
+  --help               Show help                                       [boolean]
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+                       Parrot mocking                                   [string]",
   ],
   Array [],
   Array [
@@ -314,7 +266,7 @@ Array [
     "Options:
   --version            Show version number                             [boolean]
   --module-map-url     module map for One App to use and fetch modules from
-                                                             [string] [required]
+                                                                        [string]
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
