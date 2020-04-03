@@ -49,8 +49,6 @@ test('command errors out if --module-map-url option is not given a value', () =>
 test('command errors out if --module-map-url option is not given', () => {
   const consoleErrorSpy = jest.spyOn(console, 'error');
 
-  console.log('Console Error: ', consoleErrorSpy.mock.calls);
-
   process.argv = ['', '', '--root-module-name', 'frank-lloyd-root', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
