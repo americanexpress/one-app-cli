@@ -47,7 +47,7 @@ module.exports = (babelEnv) => {
         path: path.join(packageRoot, 'build', version),
         publicPath: '__holocron_publicPath_placeholder__',
         filename: `${name}.${babelEnv !== 'modern' ? 'legacy.browser' : 'browser'}.js`,
-        chunkFilename: `[name].${name}.chunk.${babelEnv !== 'modern' ? 'legacy.browser' : 'browser'}.js`,
+        chunkFilename: `[name].chunk.${babelEnv !== 'modern' ? 'legacy.browser' : 'browser'}.js`,
         library: 'holocronModule',
         libraryExport: 'default',
       },
@@ -93,6 +93,7 @@ module.exports = (babelEnv) => {
         }),
         new WebpackCustomChunkIdPlugin({
           hash: true,
+          append: `.${name}`,
         }),
       ],
     }
