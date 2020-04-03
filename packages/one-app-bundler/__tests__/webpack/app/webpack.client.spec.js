@@ -51,12 +51,12 @@ describe('webpack/app', () => {
 
   it('should include a fetch polyfill for legacy browsers', () => {
     const webpackConfig = configGenerator('legacy');
-    expect(webpackConfig.entry.vendors.includes('isomorphic-fetch')).toBe(true);
+    expect(webpackConfig.entry.vendors.includes('cross-fetch')).toBe(true);
   });
 
   it('should not include a fetch polyfill for modern browsers', () => {
     const webpackConfig = configGenerator('modern');
-    expect(webpackConfig.entry.vendors.includes('isomorphic-fetch')).toBe(false);
+    expect(webpackConfig.entry.vendors.includes('cross-fetch')).toBe(false);
   });
 
   it('should use more core-js modules for legacy browsers than modern ones', () => {
