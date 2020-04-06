@@ -26,7 +26,6 @@ if (!global.BROWSER) {
   });
 }
 `;
-
     return newContent;
   }
 
