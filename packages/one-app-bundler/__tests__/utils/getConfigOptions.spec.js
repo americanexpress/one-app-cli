@@ -81,6 +81,11 @@ describe('getConfigOptions', () => {
     expect(() => require('../../utils/getConfigOptions')).toThrowErrorMatchingSnapshot();
   });
 
+  it('should throw when a user attempts to provide an app provided external in the wrong format', () => {
+    readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { providedExternals: 'a' } } } });
+    expect(() => require('../../utils/getConfigOptions')).toThrowErrorMatchingSnapshot();
+  });
+
   it('should warn when the user provides a custom webpack config', () => {
     readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { webpackConfigPath: 'webpack.config.js' } } } });
     require('../../utils/getConfigOptions');

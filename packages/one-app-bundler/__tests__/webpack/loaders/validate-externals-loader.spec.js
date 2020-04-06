@@ -15,9 +15,7 @@
 const readPkgUp = require('read-pkg-up');
 const validateExternalsLoader = require('../../../webpack/loaders/validate-required-externals-loader');
 
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ requiredExternals: ['ajv', 'lodash'] })),
-}));
+jest.mock('loader-utils', () => ({ getOptions: jest.fn(() => ({ requiredExternals: {} })) }));
 
 jest.mock('read-pkg-up', () => ({
   sync: jest.fn(),
@@ -26,7 +24,13 @@ jest.mock('read-pkg-up', () => ({
 readPkgUp.sync.mockImplementation(() => ({ pkg: require('../../../package.json') }));
 
 describe('validate-required-externals-loader', () => {
+  let readOptions;
+  beforeEach(() => {
+    readOptions = require('loader-utils');
+  });
+
   it('should add versions for server side validation ', () => {
+    readOptions.getOptions.mockReturnValueOnce({ requiredExternals: ['ajv', 'lodash'] });
     const content = `\
 import SomeComponent from './SomeComponent';
 
@@ -36,6 +40,8 @@ export default SomeComponent;
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {
+    readOptions.getOptions.mockReturnValueOnce({ requiredExternals: ['ajv', 'lodash'] });
+
     const content = `\
 export default from './components/MyComponent';
 `;
@@ -43,8 +49,20 @@ export default from './components/MyComponent';
   });
 
   it('should throw an error when the wrong syntax is used - module.exports', () => {
+    readOptions.getOptions.mockReturnValueOnce({ requiredExternals: ['ajv', 'lodash'] });
+
     const content = `\
 module.exports = require('./components/MyComponent');
+`;
+    expect(() => validateExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should throw an error when the dependency is not of type string', () => {
+    readOptions.getOptions.mockReturnValueOnce({ requiredExternals: [['ajv'], ['lodash']] });
+    const content = `\
+import SomeComponent from './SomeComponent';
+
+export default SomeComponent;
 `;
     expect(() => validateExternalsLoader(content)).toThrowErrorMatchingSnapshot();
   });

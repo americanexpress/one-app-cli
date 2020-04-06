@@ -22,13 +22,17 @@ function validateOptions(options) {
   }
 
   if (options.requiredExternals || options.providedExternals) {
-    const intersection = Object.keys(commonConfig.externals)
-      .filter((externalName) =>
-        // eslint-disable-next-line implicit-arrow-linebreak
-        (options.requiredExternals || options.providedExternals).includes(externalName)
-      );
-    if (intersection.length > 0) {
-      throw new Error(`@americanexpress/one-app-bundler: Attempted to bundle ${intersection.join(', ')}, but modules cannot provide externals that One App includes.`);
+    if (Array.isArray(options.requiredExternals) || Array.isArray(options.providedExternals)) {
+      const intersection = Object.keys(commonConfig.externals)
+        .filter((externalName) =>
+          // eslint-disable-next-line implicit-arrow-linebreak
+          (options.requiredExternals || options.providedExternals).includes(externalName)
+        );
+      if (intersection.length > 0) {
+        throw new Error(`@americanexpress/one-app-bundler: Attempted to bundle ${intersection.join(', ')}, but modules cannot provide externals that One App includes.`);
+      }
+    } else {
+      throw new TypeError('@americanexpress/one-app-bundler: Externals must be an Array');
     }
   }
 

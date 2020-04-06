@@ -14,20 +14,27 @@
 
 const providedExternalsLoader = require('../../../webpack/loaders/provided-externals-loader');
 
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ providedExternals: ['ajv', 'lodash'] })),
-}));
+jest.mock('loader-utils', () => ({ getOptions: jest.fn(() => ({ providedExternals: {} })) }));
+
 
 describe('provided-externals-loader', () => {
+  let readOptions;
+  beforeEach(() => {
+    readOptions = require('loader-utils');
+  });
+
   it('should append the providedExternals to the default export', () => {
+    readOptions.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
     const content = `\
 import MyComponent from './components/MyComponent';
 export default MyComponent;
 `;
+
     expect(providedExternalsLoader(content)).toMatchSnapshot();
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {
+    readOptions.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
     const content = `\
 export default from './components/MyComponent';
 `;
@@ -35,8 +42,18 @@ export default from './components/MyComponent';
   });
 
   it('should throw an error when the wrong syntax is used - module.exports', () => {
+    readOptions.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
     const content = `\
 module.exports = require('./components/MyComponent');
+`;
+    expect(() => providedExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should throw an error when the dependency is not of type string', () => {
+    readOptions.getOptions.mockReturnValueOnce({ providedExternals: [['ajv'], ['lodash']] });
+    const content = `\
+import MyComponent from './components/MyComponent';
+export default MyComponent;
 `;
     expect(() => providedExternalsLoader(content)).toThrowErrorMatchingSnapshot();
   });

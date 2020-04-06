@@ -21,8 +21,11 @@ function validateRequiredExternalsLoader(content) {
   const { pkg } = readPkgUp.sync();
 
   const requiredExternals = options.requiredExternals.map((externalName) => {
-    const version = pkg.dependencies[externalName];
-    return `'${externalName}': '${version}'`;
+    if (typeof externalName === 'string') {
+      const version = pkg.dependencies[externalName];
+      return `'${externalName}': '${version}'`;
+    }
+    throw new TypeError('@americanexpress/one-app-bundler: Dependencies must be of type String');
   });
   const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
 

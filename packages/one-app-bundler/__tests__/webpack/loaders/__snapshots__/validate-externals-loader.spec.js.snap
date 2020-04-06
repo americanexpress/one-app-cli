@@ -16,6 +16,8 @@ if (!global.BROWSER) {
 "
 `;
 
+exports[`validate-required-externals-loader should throw an error when the dependency is not of type string 1`] = `"@americanexpress/one-app-bundler: Dependencies must be of type String"`;
+
 exports[`validate-required-externals-loader should throw an error when the wrong syntax is used - export from 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use requiredExternals"`;
 
 exports[`validate-required-externals-loader should throw an error when the wrong syntax is used - module.exports 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use requiredExternals"`;

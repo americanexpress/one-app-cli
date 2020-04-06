@@ -16,10 +16,14 @@ const loaderUtils = require('loader-utils');
 
 function providedExternalsLoader(content) {
   const options = loaderUtils.getOptions(this);
+
   const providedExternals = options.providedExternals.map((externalName) => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    const { version } = require(`${externalName}/package.json`);
-    return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
+    if (typeof externalName === 'string') {
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      const { version } = require(`${externalName}/package.json`);
+      return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
+    }
+    throw new TypeError('@americanexpress/one-app-bundler: Dependencies must be of type String');
   });
   const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
 
@@ -34,7 +38,6 @@ ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
 global.getTenantRootModule = () => ${match[1]};
 `;
   }
-
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use providedExternals');
 }
 
