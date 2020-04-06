@@ -29,7 +29,6 @@ const createYargsConfig = () => {
   const yargs = require('yargs')
     .option('module-map-url', {
       type: 'string',
-      demandOption: true,
       describe: 'module map for One App to use and fetch modules from',
       coerce: (value) => {
         if (!value) {
@@ -72,6 +71,8 @@ const createYargsConfig = () => {
     })
     .option('modules', {
       type: 'array',
+      // eslint-disable-next-line global-require
+      demandOption: !require('yargs').argv.moduleMapUrl,
       describe: 'path to local module to serve to One App',
       coerce: (modules) => {
         if (!modules.length > 0) {

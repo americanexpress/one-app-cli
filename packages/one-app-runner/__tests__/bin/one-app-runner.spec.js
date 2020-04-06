@@ -224,6 +224,15 @@ test('command errors out if an unknown option is given', () => {
   expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 });
 
+test('--modules option is required if --module-map-url option is not given', () => {
+  const consoleErrorSpy = jest.spyOn(console, 'error');
+
+  process.argv = ['', '', '--root-module-name', 'frank-lloyd-root', '--docker-image', 'one-app:5.0.0'];
+  jest.mock('../../src/startApp', () => jest.fn());
+  require('../../bin/one-app-runner');
+  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+});
+
 test('--modules option is required if --parrot-middleware option is given', () => {
   const consoleErrorSpy = jest.spyOn(console, 'error');
 
