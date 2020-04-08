@@ -73,6 +73,11 @@ module.exports = {
           },
         }],
       },
+      !nodeEnvIsProduction && {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre'
+      },
       {
         enforce: 'pre',
         test: /\.jsx?$/,
@@ -97,7 +102,7 @@ module.exports = {
           },
         },
       },
-    ],
+    ].filter(Boolean),
   },
   externals: {
     '@americanexpress/one-app-router': {

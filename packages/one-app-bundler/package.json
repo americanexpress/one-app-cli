@@ -89,7 +89,8 @@
     "react-redux": "*",
     "redux": "*",
     "regenerator-runtime": "^0.13.3",
-    "reselect": "*"
+    "reselect": "*",
+    "source-map-loader": "^0.2.4"
   },
   "publishConfig": {
     "access": "public"
