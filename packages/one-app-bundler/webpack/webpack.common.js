@@ -76,7 +76,7 @@ module.exports = {
       !nodeEnvIsProduction && {
         test: /\.js$/,
         use: ['source-map-loader'],
-        enforce: 'pre'
+        enforce: 'pre',
       },
       {
         enforce: 'pre',
