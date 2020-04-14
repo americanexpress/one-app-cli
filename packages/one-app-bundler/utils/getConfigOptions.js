@@ -16,30 +16,38 @@ const readPkgUp = require('read-pkg-up');
 const get = require('lodash/get');
 const commonConfig = require('../webpack/webpack.common');
 
-function validateOptions(options) {
+function validateExternals(options) {
   if (options.requiredExternals && options.providedExternals) {
     throw new Error('@americanexpress/one-app-bundler: Modules cannot configure both requiredExternals and providedExternals. See README for details.');
   }
+}
 
-  if (options.requiredExternals || options.providedExternals) {
-    if (Array.isArray(options.requiredExternals) || Array.isArray(options.providedExternals)) {
-      const intersection = Object.keys(commonConfig.externals)
-        .filter((externalName) =>
+function validateOptions(options) {
+  validateExternals(options);
+  const allowedBundlerOptions = ['providedExternals', 'requiredExternals', 'webpackConfigPath', 'appCompatibility', 'purgecss', 'webpackClientConfigPath', 'webpackServerConfigPath'];
+  const allowedOptions = Object.keys(options).filter(
+    (element) => allowedBundlerOptions.includes(element));
+  if (allowedOptions.length === Object.keys(options).length) {
+    if (options.requiredExternals || options.providedExternals) {
+      if (Array.isArray(options.requiredExternals) || Array.isArray(options.providedExternals)) {
+        const intersection = Object.keys(commonConfig.externals)
+          .filter((externalName) =>
           // eslint-disable-next-line implicit-arrow-linebreak
-          (options.requiredExternals || options.providedExternals).includes(externalName)
-        );
-      if (intersection.length > 0) {
-        throw new Error(`@americanexpress/one-app-bundler: Attempted to bundle ${intersection.join(', ')}, but modules cannot provide externals that One App includes.`);
+            (options.requiredExternals || options.providedExternals).includes(externalName));
+        if (intersection.length > 0) {
+          throw new Error(`@americanexpress/one-app-bundler: Attempted to bundle ${intersection.join(', ')}, but modules cannot provide externals that One App includes.`);
+        }
+      } else {
+        throw new TypeError('@americanexpress/one-app-bundler: Externals must be an Array');
       }
-    } else {
-      throw new TypeError('@americanexpress/one-app-bundler: Externals must be an Array');
     }
-  }
-
-  if (
-    options.webpackConfigPath
-    && (options.webpackClientConfigPath || options.webpackServerConfigPath)) {
-    throw new Error('`@americanexpress/one-app-bundler: Modules cannot configure both webpackConfigPath and webpackClientConfigPath or webpackServerConfigPath. See README for details.');
+    if (
+      options.webpackConfigPath
+       && (options.webpackClientConfigPath || options.webpackServerConfigPath)) {
+      throw new Error('`@americanexpress/one-app-bundler: Modules cannot configure both webpackConfigPath and webpackClientConfigPath or webpackServerConfigPath. See README for details.');
+    }
+  } else {
+    throw new TypeError('@americanexpress/one-app-bundler: Wrong syntax used for bundler options');
   }
 }
 

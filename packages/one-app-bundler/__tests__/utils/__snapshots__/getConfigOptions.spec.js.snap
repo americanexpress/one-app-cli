@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getConfigOptions should throw when a user attempts to provide an app bundler options with the wrong syntax 1`] = `"@americanexpress/one-app-bundler: Wrong syntax used for bundler options"`;
+
 exports[`getConfigOptions should throw when a user attempts to provide an app provided external 1`] = `"@americanexpress/one-app-bundler: Attempted to bundle @americanexpress/one-app-ducks, but modules cannot provide externals that One App includes."`;
 
 exports[`getConfigOptions should throw when a user attempts to provide an app provided external in the wrong format 1`] = `"@americanexpress/one-app-bundler: Externals must be an Array"`;

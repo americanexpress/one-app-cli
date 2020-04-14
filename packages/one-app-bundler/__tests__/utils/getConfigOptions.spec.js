@@ -37,12 +37,6 @@ describe('getConfigOptions', () => {
     expect(getConfigOptions).not.toThrow();
   });
 
-  it('should include any provided options', () => {
-    readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { a: 1, b: 2 } } } });
-    const getConfigOptions = require('../../utils/getConfigOptions');
-    expect(getConfigOptions()).toMatchObject({ a: 1, b: 2 });
-  });
-
   it('should include app compatability', () => {
     readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { app: { compatibility: '^5.1.0' } } } });
     const getConfigOptions = require('../../utils/getConfigOptions');
@@ -108,5 +102,10 @@ describe('getConfigOptions', () => {
     const errorRegex = /@americanexpress\/one-app-bundler: Modules cannot configure both webpackConfigPath and webpackClientConfigPath or webpackServerConfigPath. See README for details./;
     readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { webpackConfigPath: 'webpack.config.js', webpackClientConfigPath: 'webpack.config.js' } } } });
     expect(() => require('../../utils/getConfigOptions')).toThrow(errorRegex);
+  });
+
+  it('should throw when a user attempts to provide an app bundler options with the wrong syntax', () => {
+    readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { providesExternals: 'a' } } } });
+    expect(() => require('../../utils/getConfigOptions')).toThrowErrorMatchingSnapshot();
   });
 });
