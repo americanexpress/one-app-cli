@@ -2,6 +2,8 @@
 
 exports[`startApp mounts and serves modules in docker run if module paths are provided 1`] = `"docker pull one-app:5.0.0 && docker run -t -p 3000-3005:3000-3005 -e NODE_ENV=development   -v /path/to/module-a:/opt/module-workspace/module-a -v /path/to-module-b:/opt/module-workspace/to-module-b one-app:5.0.0 /bin/sh -c \\"npm run serve-module /opt/module-workspace/module-a &&npm run serve-module /opt/module-workspace/to-module-b &&   node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json \\""`;
 
+exports[`startApp mounts and serves modules in docker run if module paths are provided and moduleMapUrl is not 1`] = `"docker pull one-app:5.0.0 && docker run -t -p 3000-3005:3000-3005 -e NODE_ENV=development   -v /path/to/module-a:/opt/module-workspace/module-a -v /path/to-module-b:/opt/module-workspace/to-module-b one-app:5.0.0 /bin/sh -c \\"npm run serve-module /opt/module-workspace/module-a &&npm run serve-module /opt/module-workspace/to-module-b &&   node lib/server/index.js --root-module-name=frank-lloyd-root  \\""`;
+
 exports[`startApp pulls one app docker image and starts one app 1`] = `"docker pull one-app:5.0.0 && docker run -t -p 3000-3005:3000-3005 -e NODE_ENV=development   one-app:5.0.0 /bin/sh -c \\"   node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json \\""`;
 
 exports[`startApp runs docker run with environment variables 1`] = `"docker pull one-app:5.0.0 && docker run -t -p 3000-3005:3000-3005 -e NODE_ENV=development  -e MY_VAR=123  one-app:5.0.0 /bin/sh -c \\"   node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json \\""`;
