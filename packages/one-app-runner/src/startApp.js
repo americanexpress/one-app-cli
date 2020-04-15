@@ -78,7 +78,7 @@ module.exports = async function startApp({
   };
 
   const generateModuleMap = () => {
-    if (moduleMapUrl) {
+    return moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '';
       return `--module-map-url=${moduleMapUrl}`;
     }
     return '';
