@@ -83,6 +83,16 @@ describe('startApp', () => {
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
+  it('mounts and serves modules in docker run if module paths are provided and moduleMapUrl is not', () => {
+    const mockSpawn = require('mock-spawn')();
+
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a', '/path/to-module-b'],
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
   it('runs set middleware command and starts one app with mock flag in docker run if parrot middleware file is provided', () => {
     const mockSpawn = require('mock-spawn')();
 
