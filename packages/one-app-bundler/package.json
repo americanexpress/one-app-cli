@@ -79,6 +79,7 @@
     "@americanexpress/one-app-ducks": "*",
     "@americanexpress/one-app-router": "*",
     "core-js": "^3.2.1",
+    "create-shared-react-context": "*",
     "holocron": "*",
     "holocron-module-route": "*",
     "immutable": "*",
