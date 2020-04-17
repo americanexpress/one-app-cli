@@ -164,6 +164,37 @@ under `bundler.purgecss.paths`. The example below illustrates how we would add
 }
 ```
 
+Additional `purgecss` options. Please refer to the [`purgecss Options Documentation`](https://github.com/FullHuman/purgecss)
+before enabling any of the following:
+
+<!-- #TODO: How to pass regex instead of string and how to pass a library to the extractor instead of string like "purgeJs" -->
+
+```json
+{
+  "one-amex": {
+      "bundler": {
+        "purgecss": {
+        "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"],
+        "extractors": [{
+          "extractor": "purgeJs",
+          "extensions": [
+            "js"
+          ]
+        }],
+        "fontFace": false,
+        "keyframes": false,
+        "variables": false,
+        "whitelist": ["random",
+          "yep",
+          "button"],
+        "whitelistPatterns": ["/red$/"],
+        "whitelistPatternsChildren": ["/blue$/"]
+        }
+      }
+    }
+}
+```
+
 `purgecss` can be disabled for your module by adding
 `bundler.purgecss.disabled` as `true`. **This option is only to be used in
 rare instances and as a last resort, the effect of _disabling will have a
