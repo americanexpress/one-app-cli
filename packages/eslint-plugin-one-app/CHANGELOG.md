@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [6.5.0](https://github.com/americanexpress/one-app-cli/compare/v6.1.1...v6.5.0) (2020-04-17)
-
-
-### Bug Fixes
-
-* **css-loader:** upgraded to latest css-loader api as of 3.4.2 ([74cad69](https://github.com/americanexpress/one-app-cli/commit/74cad69fcbe84eeba7a02b009821e6f7a2db62f2))
-
-
-
-
-
 # [6.4.0](https://github.com/americanexpress/one-app-cli/compare/v6.1.1...v6.4.0) (2020-04-06)
 
 
