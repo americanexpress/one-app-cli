@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-bundler",
-  "version": "6.4.0",
+  "version": "6.5.0",
   "description": "A command line interface(CLI) tool for bundling One App and its modules.",
   "main": "index.js",
   "bin": {
@@ -40,7 +40,7 @@
     "babel-eslint": "7.x || 8.x"
   },
   "dependencies": {
-    "@americanexpress/eslint-plugin-one-app": "^6.4.0",
+    "@americanexpress/eslint-plugin-one-app": "^6.5.0",
     "@americanexpress/one-app-locale-bundler": "^6.1.1",
     "@americanexpress/purgecss-loader": "^1.0.0",
     "ajv": "^6.7.0",
@@ -79,6 +79,7 @@
     "@americanexpress/one-app-ducks": "*",
     "@americanexpress/one-app-router": "*",
     "core-js": "^3.2.1",
+    "create-shared-react-context": "*",
     "holocron": "*",
     "holocron-module-route": "*",
     "immutable": "*",
