@@ -50,7 +50,7 @@ function validateOptions(options) {
   }
 
   if (!optionsAreValid) {
-    throw new TypeError('@americanexpress/one-app-bundler: Wrong syntax used for bundler options.'
+    throw new Error('@americanexpress/one-app-bundler: Wrong syntax used for bundler options.'
       + '\n'
       + `${chalk.hex('#23cf22')(' Valid Options for Root modules: providedExternals, webpackConfigPath, webpackClientConfigPath, webpackServerConfigPath')}`
       + '\n'
