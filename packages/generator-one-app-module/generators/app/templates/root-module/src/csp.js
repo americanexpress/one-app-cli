@@ -4,7 +4,7 @@ import contentSecurityPolicyBuilder from 'content-security-policy-builder';
 // https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md#csp
 export default contentSecurityPolicyBuilder({
   directives: {
-    reportUri: `${process.env.ONE_CLIENT_REPORTING_URL}/report/security/csp-violation`,
+    reportUri: process.env.ONE_CLIENT_CSP_REPORTING_URL,
     defaultSrc: [
       "'self'",
     ],

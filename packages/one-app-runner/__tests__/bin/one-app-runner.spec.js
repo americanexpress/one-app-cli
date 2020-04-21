@@ -29,6 +29,8 @@ beforeEach(() => {
     .restoreAllMocks()
     .resetAllMocks();
 
+  jest.unmock('../../../../package.json');
+
   process.argv = originalProcessArgv;
 });
 
@@ -133,6 +135,24 @@ test('command errors out if --dev-endpoints is not given a value', () => {
   jest.mock('../../src/startApp', () => jest.fn(() => Promise.resolve()));
   require('../../bin/one-app-runner');
   expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+});
+
+test('reads modules from package.json', async () => {
+  const mockModulePath = path.resolve('/fake/path/to/fake-module');
+  jest.mock('../../../../package.json', () => ({
+    'one-amex': {
+      runner: {
+        modules: [
+          mockModulePath,
+        ],
+      },
+    },
+  }));
+
+  jest.mock('../../src/startApp', () => jest.fn());
+  const startApp = require('../../src/startApp');
+  await require('../../bin/one-app-runner');
+  expect(startApp.mock.calls[0][0].modulesToServe).toEqual([mockModulePath]);
 });
 
 test('command errors out if --modules option is not given any values', () => {
@@ -271,8 +291,6 @@ test('an `envVars` key is supported within the config entry', () => {
 });
 
 test('an `envVars` arg is supported', () => {
-  jest.unmock('../../../../package.json');
-
   process.argv = [
     '',
     '',

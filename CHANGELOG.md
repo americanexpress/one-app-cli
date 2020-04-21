@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.5.0](https://github.com/americanexpress/one-app-cli/compare/v6.1.1...v6.5.0) (2020-04-17)
+
+
+### Bug Fixes
+
+* **css-loader:** upgraded to latest css-loader api as of 3.4.2 ([74cad69](https://github.com/americanexpress/one-app-cli/commit/74cad69fcbe84eeba7a02b009821e6f7a2db62f2))
+* **one-app-cli:** drop-module command now works ([#35](https://github.com/americanexpress/one-app-cli/issues/35)) ([99a5da1](https://github.com/americanexpress/one-app-cli/commit/99a5da14cffd5692d2130e0b266bcbb5a8d048fc))
+* **one-app-runner:** fix runner not reading package.json correctly ([766a99e](https://github.com/americanexpress/one-app-cli/commit/766a99e2191a21983557438135470f67148fa95e))
+* **webpack:** hash collisions between chunks broke dynamic imports ([#30](https://github.com/americanexpress/one-app-cli/issues/30)) ([2cb92d2](https://github.com/americanexpress/one-app-cli/commit/2cb92d231974997dd94671ae9b3170d311558d6f))
+
+
+### Features
+
+* **bundler:** custom client and server webpack configs ([#22](https://github.com/americanexpress/one-app-cli/issues/22)) ([c5a3e82](https://github.com/americanexpress/one-app-cli/commit/c5a3e82d1c4e778cc05b24734390f938d7f984b6))
+* **deps:** add create-shared-react-context ([#59](https://github.com/americanexpress/one-app-cli/issues/59)) ([16de0a4](https://github.com/americanexpress/one-app-cli/commit/16de0a4619e4a8004f60c952ad7aa6734842a0c1))
+* **generator:** csp report-uri to ONE_CLIENT_CSP_REPORTING_URL ([#50](https://github.com/americanexpress/one-app-cli/issues/50)) ([9ae5dc9](https://github.com/americanexpress/one-app-cli/commit/9ae5dc9fb0d63dc666f7c386fec732e12249435d))
+* **generator:** update base-module template ([#25](https://github.com/americanexpress/one-app-cli/issues/25)) ([1a0af74](https://github.com/americanexpress/one-app-cli/commit/1a0af748f94790ceae7b2a87fc827be2d549cf6c))
+* **one-app:** removed instances of tenancy or tenant ([#36](https://github.com/americanexpress/one-app-cli/issues/36)) ([9c834f1](https://github.com/americanexpress/one-app-cli/commit/9c834f1cf4378d88101bc09b59a0656938db27b6))
+* **one-app-bundler:** use cross-fetch instead of isomorphic-fetch ([#49](https://github.com/americanexpress/one-app-cli/issues/49)) ([e5232cb](https://github.com/americanexpress/one-app-cli/commit/e5232cbc3bfc7fb42f1a2abcc8f17d13015a7f7f))
+* **one-app-runner:** add ([#34](https://github.com/americanexpress/one-app-cli/issues/34)) ([f3c6755](https://github.com/americanexpress/one-app-cli/commit/f3c67551ec9458f30ddf640666c69f3e673c0784))
+* **runner:** require modules if moduleMapUrl is missing ([#48](https://github.com/americanexpress/one-app-cli/issues/48)) ([992af08](https://github.com/americanexpress/one-app-cli/commit/992af08a5dde7d69c6ee3578883c004c5f4d875c))
+
+
+### Reverts
+
+* Revert "chore(release): bump to v6.5.0 (#62)" ([5f708de](https://github.com/americanexpress/one-app-cli/commit/5f708de11f30163687f3184adb4d57ccab46649c)), closes [#62](https://github.com/americanexpress/one-app-cli/issues/62)
+
+
+
+
+
+# [6.4.0](https://github.com/americanexpress/one-app-cli/compare/v6.1.1...v6.4.0) (2020-04-06)
+
+
+### Bug Fixes
+
+* **css-loader:** upgraded to latest css-loader api as of 3.4.2 ([74cad69](https://github.com/americanexpress/one-app-cli/commit/74cad69fcbe84eeba7a02b009821e6f7a2db62f2))
+* **one-app-cli:** drop-module command now works ([#35](https://github.com/americanexpress/one-app-cli/issues/35)) ([99a5da1](https://github.com/americanexpress/one-app-cli/commit/99a5da14cffd5692d2130e0b266bcbb5a8d048fc))
+* **webpack:** hash collisions between chunks broke dynamic imports ([#30](https://github.com/americanexpress/one-app-cli/issues/30)) ([2cb92d2](https://github.com/americanexpress/one-app-cli/commit/2cb92d231974997dd94671ae9b3170d311558d6f))
+
+
+### Features
+
+* **bundler:** custom client and server webpack configs ([#22](https://github.com/americanexpress/one-app-cli/issues/22)) ([c5a3e82](https://github.com/americanexpress/one-app-cli/commit/c5a3e82d1c4e778cc05b24734390f938d7f984b6))
+* **generator:** update base-module template ([#25](https://github.com/americanexpress/one-app-cli/issues/25)) ([1a0af74](https://github.com/americanexpress/one-app-cli/commit/1a0af748f94790ceae7b2a87fc827be2d549cf6c))
+* **one-app:** removed instances of tenancy or tenant ([#36](https://github.com/americanexpress/one-app-cli/issues/36)) ([9c834f1](https://github.com/americanexpress/one-app-cli/commit/9c834f1cf4378d88101bc09b59a0656938db27b6))
+* **one-app-bundler:** use cross-fetch instead of isomorphic-fetch ([#49](https://github.com/americanexpress/one-app-cli/issues/49)) ([e5232cb](https://github.com/americanexpress/one-app-cli/commit/e5232cbc3bfc7fb42f1a2abcc8f17d13015a7f7f))
+* **one-app-runner:** add ([#34](https://github.com/americanexpress/one-app-cli/issues/34)) ([f3c6755](https://github.com/americanexpress/one-app-cli/commit/f3c67551ec9458f30ddf640666c69f3e673c0784))
+* **runner:** require modules if moduleMapUrl is missing ([#48](https://github.com/americanexpress/one-app-cli/issues/48)) ([992af08](https://github.com/americanexpress/one-app-cli/commit/992af08a5dde7d69c6ee3578883c004c5f4d875c))
+
+
+
+
+
 # [6.3.0](https://github.com/americanexpress/one-app-cli/compare/v6.1.1...v6.3.0) (2020-03-17)
 
 
