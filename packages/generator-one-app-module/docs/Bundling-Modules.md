@@ -70,51 +70,7 @@ module
 
 ### Bundler options
 
-When bundling your `one-app` module you can provide the following options within `package.json`. Add these options within the bundler object in the one-amex section as shown below:
-
-``` json
-
-{
- "one-amex": {
-   "bundler": {
-   }
- }
-}
-
-```
-
-These options would passed to [one-app-bundler](https://github.com/americanexpress/one-app-cli/tree/master/packages/one-app-bundler) to generate the above [bundles](#generated-files).
-
-#### `providedExternals` & `requiredExternals`
-
-Used to share dependencies across all your modules that are not provided by one-app.
-
-Please see `one-app-bundlers`'s [`providedExternals` & `requiredExternals`](https://github.com/americanexpress/one-app-cli/tree/master/packages/one-app-bundler#providedexternals--requiredexternals) for information.
-
-#### `webpackConfigPath`, `webpackClientConfigPath`, & `webpackServerConfigPath`
-
-Used to extend webpack configuration by providing paths to custom webpack config files. This can be achieved in two ways:
-
-- Applying a single custom webpack config for both your client and server builds using the `webpackConfigPath` option.
-- Applying different custom webpack configs for the client and server builds using `webpackClientConfigPath`, and `webpackServerConfigPath` options.
-
-Please see `one-app-bundlers`'s [`webpackConfigPath`, `webpackClientConfigPath`, & `webpackServerConfigPath`](https://github.com/americanexpress/one-app-cli/tree/master/packages/one-app-bundler#webpackconfigpath-webpackclientconfigpath--webpackserverconfigpath) for information.
-
-#### `performanceBudget`
-
-Used to set a custom [performance budget](https://webpack.js.org/configuration/performance/#performancemaxassetsize) for your client module build. The default value is 200e3.
-
-Please see `one-app-bundlers`'s [`performanceBudget`](https://github.com/americanexpress/one-app-cli/tree/master/packages/one-app-bundler#performancebudget) for information.
-
-#### `purgecss`
-
-This provides two options that can be passed to [purgecss](https://github.com/FullHuman/purgecss) to consider before stripping out CSS. The two options are:
-
-- `paths` - This is an array of additional paths that purgecss should strip CSS from.
-
-- `disabled` - This used to disable purgecss from stripping out CSS. Disabling this would have a negative impact on performance.
-
-Please see `one-app-bundlers`'s [`purgecss`](https://github.com/americanexpress/one-app-cli/tree/master/packages/one-app-bundler#purgecss-options) for information.
+Checkout [one-app-bundler](../../one-app-bundler/README.md) for the different options that can be provided to the bundler when bundling your modules.
 
 ### CLI Commands
 
