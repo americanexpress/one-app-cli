@@ -16,6 +16,7 @@
 
 const path = require('path');
 const pkgUp = require('pkg-up');
+const yargs = require('yargs');
 const startApp = require('../src/startApp');
 
 const createYargsConfig = () => {
@@ -25,11 +26,14 @@ const createYargsConfig = () => {
 
   const oneAppRunnerConfig = (packageJson['one-amex'] && packageJson['one-amex'].runner) || {};
 
+  if (Object.keys(oneAppRunnerConfig).length > 0) {
+    yargs.config(oneAppRunnerConfig);
+  }
+
   // eslint-disable-next-line global-require
-  const yargs = require('yargs')
+  yargs
     .option('module-map-url', {
       type: 'string',
-      demandOption: true,
       describe: 'module map for One App to use and fetch modules from',
       coerce: (value) => {
         if (!value) {
@@ -72,6 +76,8 @@ const createYargsConfig = () => {
     })
     .option('modules', {
       type: 'array',
+      // eslint-disable-next-line global-require
+      demandOption: !require('yargs').argv.moduleMapUrl,
       describe: 'path to local module to serve to One App',
       coerce: (modules) => {
         if (!modules.length > 0) {
@@ -115,10 +121,6 @@ const createYargsConfig = () => {
     })
     .strict()
     .help();
-
-  if (Object.keys(oneAppRunnerConfig).length > 0) {
-    yargs.config(oneAppRunnerConfig);
-  }
 
   return yargs.argv;
 };
