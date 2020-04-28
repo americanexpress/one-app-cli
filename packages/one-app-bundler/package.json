@@ -43,7 +43,7 @@
   "dependencies": {
     "@americanexpress/eslint-plugin-one-app": "^6.5.0",
     "@americanexpress/one-app-locale-bundler": "^6.1.1",
-    "@americanexpress/purgecss-loader": "^1.0.0",
+    "@americanexpress/purgecss-loader": "^2.0.0",
     "ajv": "^6.7.0",
     "babel-loader": "^8.0.6",
     "babel-preset-amex": "^3.2.0",

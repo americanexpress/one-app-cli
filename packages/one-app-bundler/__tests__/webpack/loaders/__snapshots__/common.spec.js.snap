@@ -80,10 +80,10 @@ Array [
         "button",
       ],
       "whitelistPatterns": Array [
-        /red\\$/,
+        /red/i,
       ],
       "whitelistPatternsChildren": Array [
-        /blue\\$/,
+        /blue/i,
       ],
     },
   },

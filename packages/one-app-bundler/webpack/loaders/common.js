@@ -30,6 +30,12 @@ const cssLoader = ({ name = '' } = {}) => ({
 
 const purgeCssLoader = () => {
   const configOptions = getConfigOptions();
+  const whitelistPatterns = configOptions.purgecss.whitelistPatterns
+    ? configOptions.purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i'))
+    : [];
+  const whitelistPatternsChildren = configOptions.purgecss.whitelistPatternsChildren
+    ? configOptions.purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'))
+    : [/:global$/];
   if (configOptions.purgecss.disabled) return [];
   return [{
     loader: '@americanexpress/purgecss-loader',
@@ -40,8 +46,8 @@ const purgeCssLoader = () => {
       keyframes: configOptions.purgecss.keyframes || false,
       variables: configOptions.purgecss.variables || false,
       whitelist: configOptions.purgecss.whitelist || [],
-      whitelistPatterns: configOptions.purgecss.whitelistPatterns || [],
-      whitelistPatternsChildren: configOptions.purgecss.whitelistPatternsChildren || [/:global$/],
+      whitelistPatterns,
+      whitelistPatternsChildren,
     },
   }];
 };

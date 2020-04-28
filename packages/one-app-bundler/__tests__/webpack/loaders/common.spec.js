@@ -80,8 +80,8 @@ describe('Common webpack loaders', () => {
         keyframes: true,
         variables: true,
         whitelist: ['random', 'yep', 'button'],
-        whitelistPatterns: [/red$/],
-        whitelistPatternsChildren: [/blue$/],
+        whitelistPatterns: ['red'],
+        whitelistPatternsChildren: ['blue'],
       };
       getConfigOptions.mockReturnValueOnce({ purgecss });
       expect(purgeCssLoader()).toMatchSnapshot();
