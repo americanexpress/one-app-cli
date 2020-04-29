@@ -172,21 +172,23 @@ before enabling any of the following:
   "one-amex": {
     "bundler": {
       "purgecss": {
-      "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"],
-      "extractors": [{
-        "extractor": "purgeJs",
-        "extensions": [
-          "js"
-        ]
-      }],
-      "fontFace": false,
-      "keyframes": false,
-      "variables": false,
-      "whitelist": ["random",
-        "yep",
-        "button"],
-      "whitelistPatterns": ["red"],
-      "whitelistPatternsChildren": ["blue"]
+        "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"],
+        "extractors": [{
+          "extractor": "purgeJs",
+          "extensions": [
+            "js"
+          ]
+        }],
+        "fontFace": false,
+        "keyframes": false,
+        "variables": false,
+        "whitelist": [
+          "random",
+          "yep",
+          "button"
+        ],
+        "whitelistPatterns": ["red"],
+        "whitelistPatternsChildren": ["blue"]
       }
     }
   }
