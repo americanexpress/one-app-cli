@@ -5,7 +5,7 @@ import { fromJS } from 'immutable';
 import { Route } from '@americanexpress/one-app-router';
 import childRoutes from '../../src/childRoutes';
 import {
-  <%=moduleNamePascal%>, mapDispatchToProps, mapStateToProps, load,
+  <%=moduleNamePascal%>, mapDispatchToProps, mapStateToProps, loadModuleData,
 } from '../../src/components/<%=moduleNamePascal%>';
 
 jest.mock('@americanexpress/one-app-ducks', () => ({
@@ -127,11 +127,14 @@ describe('<%=moduleNamePascal%> should render as expected', () => {
     });
   });
 
-  describe('holocronModule load', () => {
-    it('should load language pack for <%=modulePackageName%> module', () => {
-      const mockDispatch = jest.fn();
-      load()(mockDispatch);
-      expect(mockDispatch.mock.calls[0][0]).toBe('I am loading the language pack for <%=modulePackageName%> and my fallback locale is en-US');
+  describe('loadModuleData', () => {
+    const fakeStore = {
+      dispatch: jest.fn((x) => x),
+    };
+    it('should load language pack for <%=modulePackageName%> module ', async () => {
+      const langPackAsyncState = await loadModuleData({ store: fakeStore });
+      expect(langPackAsyncState).toBe('I am loading the language pack for <%=modulePackageName%> and my fallback locale is en-US');
+      expect(fakeStore.dispatch).toHaveBeenCalledWith(langPackAsyncState);
     });
   });
 });
