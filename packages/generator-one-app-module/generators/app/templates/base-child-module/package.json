@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@americanexpress/one-app-router": "^1.0.0",
-    "holocron": "^1.0.0",
+    "holocron": "^1.1.0",
     "react": "^16.12.0"
   },
   "devDependencies": {
