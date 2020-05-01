@@ -53,15 +53,61 @@ Object {
 }
 `;
 
+exports[`Common webpack loaders purgecss-loader should include any additional configured options 1`] = `
+Array [
+  Object {
+    "loader": "@americanexpress/purgecss-loader",
+    "options": Object {
+      "extractors": Array [
+        Object {
+          "extensions": Array [
+            "js",
+          ],
+          "extractor": "purgeJs",
+        },
+      ],
+      "fontFace": true,
+      "keyframes": true,
+      "paths": Array [
+        "/current/dir/src/**/*.{js,jsx}",
+        "foo",
+        "bar",
+      ],
+      "variables": true,
+      "whitelist": Array [
+        "random",
+        "yep",
+        "button",
+      ],
+      "whitelistPatterns": Array [
+        /red/i,
+      ],
+      "whitelistPatternsChildren": Array [
+        /blue/i,
+      ],
+    },
+  },
+]
+`;
+
 exports[`Common webpack loaders purgecss-loader should include any additional configured paths 1`] = `
 Array [
   Object {
     "loader": "@americanexpress/purgecss-loader",
     "options": Object {
+      "extractors": Array [],
+      "fontFace": false,
+      "keyframes": false,
       "paths": Array [
         "/current/dir/src/**/*.{js,jsx}",
         "foo",
         "bar",
+      ],
+      "variables": false,
+      "whitelist": Array [],
+      "whitelistPatterns": Array [],
+      "whitelistPatternsChildren": Array [
+        /:global\\$/,
       ],
     },
   },
@@ -73,8 +119,17 @@ Array [
   Object {
     "loader": "@americanexpress/purgecss-loader",
     "options": Object {
+      "extractors": Array [],
+      "fontFace": false,
+      "keyframes": false,
       "paths": Array [
         "/current/dir/src/**/*.{js,jsx}",
+      ],
+      "variables": false,
+      "whitelist": Array [],
+      "whitelistPatterns": Array [],
+      "whitelistPatternsChildren": Array [
+        /:global\\$/,
       ],
     },
   },

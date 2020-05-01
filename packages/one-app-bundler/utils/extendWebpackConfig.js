@@ -33,7 +33,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   const configOptions = getConfigOptions();
   const cliOptions = getCliOptions();
   const { mainFields } = webpackConfig.resolve;
-  const resolve = createResolver({ mainFields });
+  const resolve = createResolver({ mainFields, resolveToContext: true });
   const {
     appCompatibility,
     requiredExternals,
