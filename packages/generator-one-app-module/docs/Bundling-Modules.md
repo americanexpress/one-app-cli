@@ -98,7 +98,7 @@ We describe each command and a description of its usage below.
 | `prepare` | Runs `build` before the the module is packed and published. |
 | `prebuild` | Cleans the build directory before a build is done. |
 | `build` | Builds the `one-app` modules.|
-| `watch:build` | Builds the `one-app` modules and watches source files with [`nodemon`](https://nodemon.io/). When source changes, the `one-app` module runs `npm run build`. *See [`build` Usage](#build-usage).* |
+| `watch:build` | Builds the `one-app` modules and watches source files & language packs. When source changes, the `one-app` module is rebuilt. |
 
 ### `build` Usage
 
