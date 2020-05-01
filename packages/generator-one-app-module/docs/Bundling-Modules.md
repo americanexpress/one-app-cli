@@ -42,17 +42,15 @@ module
 ├── src
 |   ├── components
 |   |    └── <NameOfComponent.jsx>
-|   |
-|   |
 |   └── index.js
-├── build
-|   ├── <semantic-version-number>
-|        └── <module-name>.browser.js
-|        └── <module-name>.browser.js.map
-|        └── <module-name>.legacy.browser.js
-|        └── <module-name>.legacy.browser.js.map
-|        └── <module-name>.node.js
-|        └── <module-name>.node.js.map
+└── build
+    └── <semantic-version-number>
+         ├── <module-name>.browser.js
+         ├── <module-name>.browser.js.map
+         ├── <module-name>.legacy.browser.js
+         ├── <module-name>.legacy.browser.js.map
+         ├── <module-name>.node.js
+         └── <module-name>.node.js.map
 ```
 
 ### Generated files
