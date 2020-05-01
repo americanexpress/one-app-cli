@@ -35,6 +35,10 @@ describe('startApp', () => {
     delete process.env.HTTP_PROXY;
     delete process.env.HTTPS_PROXY;
     delete process.env.NO_PROXY;
+    delete process.env.HTTP_PORT;
+    delete process.env.HTTP_ONE_APP_DEV_CDN_PORT;
+    delete process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT;
+    delete process.env.HTTP_METRICS_PORT;
     jest.spyOn(process.stdout, 'write');
     jest.spyOn(process.stderr, 'write');
     jest.spyOn(require('fs'), 'createWriteStream');
@@ -65,6 +69,10 @@ describe('startApp', () => {
     process.env.HTTP_PROXY = 'https://example.com/proxy';
     process.env.HTTPS_PROXY = 'https://example.com/proxy';
     process.env.NO_PROXY = 'localhost';
+    process.env.HTTP_PORT = '9000';
+    process.env.HTTP_ONE_APP_DEV_CDN_PORT = '9001';
+    process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT = '9002';
+    process.env.HTTP_METRICS_PORT = '9005';
 
     childProcess.spawn.mockImplementationOnce(mockSpawn);
     startApp({
@@ -109,6 +117,16 @@ describe('startApp', () => {
     childProcess.spawn.mockImplementationOnce(mockSpawn);
     startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], devEndpointsFile: '/path/to/module-a/dev.endpoints.js',
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('runs sets the network to join if the network name is provided', () => {
+    const mockSpawn = require('mock-spawn')();
+
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], dockerNetworkToJoin: 'one-test-environment-1234',
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });

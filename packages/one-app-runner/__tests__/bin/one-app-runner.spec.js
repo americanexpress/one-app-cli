@@ -206,6 +206,7 @@ test('all options are used if specified', () => {
   const outputFile = path.resolve('/fake/path/to/fake-module/one-app.log');
   const parrotMiddlewarePath = path.resolve('/fake/path/to/fake-module/dev.middleware.js');
   const rootModuleName = 'frank-lloyd-root';
+  const dockerNetworkToJoin = 'one-test-environment-1234';
 
   process.argv = [
     '',
@@ -226,6 +227,8 @@ test('all options are used if specified', () => {
     parrotMiddlewarePath,
     '--root-module-name',
     rootModuleName,
+    '--docker-network-to-join',
+    dockerNetworkToJoin,
   ];
 
   jest.mock('../../src/startApp', () => jest.fn());

@@ -115,6 +115,10 @@ const createYargsConfig = () => {
       describe: 'File to redirect all stdout and stderr from One App Container to',
       coerce: (value) => path.resolve(process.cwd(), value),
     })
+    .option('docker-network-to-join', {
+      type: 'string',
+      describe: 'connect a One App container to a network',
+    })
     .implies({
       'parrot-middleware': 'modules',
       'dev-endpoints': 'modules',
@@ -141,6 +145,7 @@ try {
     appDockerImage: argv.dockerImage,
     envVars: argv.envVars,
     outputFile: argv.outputFile,
+    dockerNetworkToJoin: argv.dockerNetworkToJoin,
   });
 } catch (error) {
   /* eslint-disable no-console */

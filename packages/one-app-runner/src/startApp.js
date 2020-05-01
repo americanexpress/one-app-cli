@@ -25,6 +25,7 @@ module.exports = async function startApp({
   outputFile,
   parrotMiddlewareFile,
   devEndpointsFile,
+  dockerNetworkToJoin,
 }) {
   const generateEnvironmentVariableArgs = (vars) => {
     const environmentVariablesWithProxyAdditions = {
@@ -32,6 +33,17 @@ module.exports = async function startApp({
       ...process.env.HTTP_PROXY && { HTTP_PROXY: JSON.stringify(process.env.HTTP_PROXY) },
       ...process.env.HTTPS_PROXY && { HTTPS_PROXY: JSON.stringify(process.env.HTTPS_PROXY) },
       ...process.env.NO_PROXY && { NO_PROXY: JSON.stringify(process.env.NO_PROXY) },
+      ...process.env.HTTP_PORT && { HTTP_PORT: JSON.stringify(process.env.HTTP_PORT) },
+      ...process.env.HTTP_ONE_APP_DEV_CDN_PORT
+      && { HTTP_ONE_APP_DEV_CDN_PORT: JSON.stringify(process.env.HTTP_ONE_APP_DEV_CDN_PORT) },
+      ...process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT
+      && {
+        HTTP_ONE_APP_DEV_PROXY_SERVER_PORT:
+          JSON.stringify(process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT),
+      },
+      ...process.env.HTTP_METRICS_PORT && {
+        HTTP_METRICS_PORT: JSON.stringify(process.env.HTTP_METRICS_PORT),
+      },
     };
     return Object.keys(environmentVariablesWithProxyAdditions).reduce((accumulator, currentValue) => `${accumulator} -e ${currentValue}=${environmentVariablesWithProxyAdditions[currentValue]}`, '');
   };
@@ -78,8 +90,14 @@ module.exports = async function startApp({
   };
 
   const generateModuleMap = () => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
+  const generateNetworkToJoin = () => (dockerNetworkToJoin ? `--network=${dockerNetworkToJoin}` : '');
+  const appPort = process.env.HTTP_PORT || 3000;
+  const devCDNPort = process.env.HTTP_ONE_APP_DEV_CDN_PORT || 3001;
+  const devProxyServerPort = process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT || 3002;
+  const metricsPort = process.env.HTTP_METRICS_PORT || 3005;
+  const ports = `-p ${appPort}:${appPort} -p ${devCDNPort}:${devCDNPort} -p ${devProxyServerPort}:${devProxyServerPort} -p ${metricsPort}:${metricsPort}`;
 
-  const command = `docker pull ${appDockerImage} && docker run -t -p 3000-3005:3000-3005 -e NODE_ENV=development ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js --root-module-name=${rootModuleName} ${generateModuleMap()} ${generateUseMocksFlag(parrotMiddlewareFile)}"`;
+  const command = `docker pull ${appDockerImage} && docker run -t ${ports} -e NODE_ENV=development ${generateNetworkToJoin()} ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js --root-module-name=${rootModuleName} ${generateModuleMap()} ${generateUseMocksFlag(parrotMiddlewareFile)}"`;
   const dockerProcess = spawn(command, { shell: true });
   dockerProcess.on('error', () => {
     throw new Error(
