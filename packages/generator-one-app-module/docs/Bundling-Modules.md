@@ -70,7 +70,7 @@ Checkout [one-app-bundler](../../one-app-bundler/README.md) for the different op
 
 ### CLI Commands
 
-`one-app` modules consists of [NPM Script Commands](https://docs.npmjs.com/misc/scripts) that are used to bundle and test the module. These scripts are provided from generating a module with [generator-one-app-module](https://github.com/americanexpress/one-app-cli/tree/master/packages/generator-one-app-module) and can be expanded on depending on the functionality that is needed.
+`one-app` modules include [NPM Script Commands](https://docs.npmjs.com/misc/scripts) that are used to bundle and test the module. These scripts are provided from generating a module with [generator-one-app-module](https://github.com/americanexpress/one-app-cli/tree/master/packages/generator-one-app-module) and can be expanded on depending on the functionality that is needed.
 
 ```sh
 npm run <one-app-module-npm-command> 
