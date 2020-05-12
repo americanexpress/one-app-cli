@@ -23,12 +23,13 @@ const {
 // lib had a module or browser field in addition to the main field in its
 // package.json.
 
-module.exports = function createResolver({ mainFields }) {
+module.exports = function createResolver({ mainFields, resolveToContext = false }) {
   const enhancedResolver = ResolverFactory.createResolver({
     fileSystem: new CachedInputFileSystem(new NodeJsInputFileSystem(), 4000),
     useSyncFileSystemCalls: true,
     extensions: ['.js', '.jsx', '.json'],
     mainFields,
+    resolveToContext,
   });
 
   return (request) => enhancedResolver.resolveSync({}, __dirname, request);
