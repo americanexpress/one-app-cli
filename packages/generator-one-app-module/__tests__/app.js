@@ -119,7 +119,7 @@ describe('generator-one-app-module', () => {
           '@americanexpress/one-app-ducks': '^4.0.0',
           immutable: '^3.8.2',
           'prop-types': '^15.5.9',
-          'react-intl': '^3.6.0',
+          'react-intl': '^4.5.3',
           'react-redux': '^7.1.3',
           redux: '^4.0.4',
         },
@@ -182,7 +182,7 @@ describe('generator-one-app-module', () => {
           '@americanexpress/one-app-ducks': '^4.0.0',
           immutable: '^3.8.2',
           'prop-types': '^15.5.9',
-          'react-intl': '^3.6.0',
+          'react-intl': '^4.5.3',
           'react-redux': '^7.1.3',
           redux: '^4.0.4',
         },
@@ -245,7 +245,7 @@ describe('generator-one-app-module', () => {
           },
         },
         devDependencies: {
-          'parrot-middleware': '^3.1.0',
+          'parrot-middleware': '^4.1.0',
         },
       });
     });
@@ -291,7 +291,7 @@ describe('generator-one-app-module', () => {
           },
         },
         devDependencies: {
-          'parrot-middleware': '^3.1.0',
+          'parrot-middleware': '^4.1.0',
         },
       });
     });
