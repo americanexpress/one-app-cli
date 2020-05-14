@@ -243,7 +243,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.0.0"
+    "oneAppVersion": "5.0.0",
     "dockerNetworkToJoin": "my-network"
   }
 }

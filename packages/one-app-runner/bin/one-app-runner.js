@@ -117,7 +117,7 @@ const createYargsConfig = () => {
     })
     .option('docker-network-to-join', {
       type: 'string',
-      describe: 'Connect a One App container to a network',
+      describe: 'Connect One App container to a docker network',
     })
     .option('use-host', {
       describe: 'Use req.headers.host instead of localhost for one-app-dev-cdn',
