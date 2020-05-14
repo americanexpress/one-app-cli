@@ -83,4 +83,18 @@ describe('webpack/one-amex.base', () => {
     expect(webpackConfig.plugins).toHaveLength(2);
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
+
+  it('should enable source maps loader in development', () => {
+    process.env.NODE_ENV = 'development';
+    const webpackConfig = require('../../webpack/webpack.common');
+
+    expect(webpackConfig.module.rules.find((rule) => rule.use && rule.use[0] === 'source-map-loader')).not.toBeUndefined();
+  });
+
+  it('should disable source maps loader in production', () => {
+    process.env.NODE_ENV = 'production';
+    const webpackConfig = require('../../webpack/webpack.common');
+
+    expect(webpackConfig.module.rules.find((rule) => rule.use && rule.use[0] === 'source-map-loader')).toBeUndefined();
+  });
 });
