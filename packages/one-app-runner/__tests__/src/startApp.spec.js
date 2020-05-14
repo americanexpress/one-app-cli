@@ -121,12 +121,22 @@ describe('startApp', () => {
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('runs sets the network to join if the network name is provided', () => {
+  it('sets the network to join if the network name is provided', () => {
     const mockSpawn = require('mock-spawn')();
 
     childProcess.spawn.mockImplementationOnce(mockSpawn);
     startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], dockerNetworkToJoin: 'one-test-environment-1234',
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('uses host instead of localhost when the useHost flag is passed', () => {
+    const mockSpawn = require('mock-spawn')();
+
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], useHost: true,
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });

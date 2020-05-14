@@ -26,6 +26,7 @@ module.exports = async function startApp({
   parrotMiddlewareFile,
   devEndpointsFile,
   dockerNetworkToJoin,
+  useHost,
 }) {
   const generateEnvironmentVariableArgs = (vars) => {
     const environmentVariablesWithProxyAdditions = {
@@ -91,13 +92,14 @@ module.exports = async function startApp({
 
   const generateModuleMap = () => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
   const generateNetworkToJoin = () => (dockerNetworkToJoin ? `--network=${dockerNetworkToJoin}` : '');
+  const generateUseHostFlag = () => (useHost ? '--use-host' : '');
   const appPort = process.env.HTTP_PORT || 3000;
   const devCDNPort = process.env.HTTP_ONE_APP_DEV_CDN_PORT || 3001;
   const devProxyServerPort = process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT || 3002;
   const metricsPort = process.env.HTTP_METRICS_PORT || 3005;
   const ports = `-p ${appPort}:${appPort} -p ${devCDNPort}:${devCDNPort} -p ${devProxyServerPort}:${devProxyServerPort} -p ${metricsPort}:${metricsPort}`;
 
-  const command = `docker pull ${appDockerImage} && docker run -t ${ports} -e NODE_ENV=development ${generateNetworkToJoin()} ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js --root-module-name=${rootModuleName} ${generateModuleMap()} ${generateUseMocksFlag(parrotMiddlewareFile)}"`;
+  const command = `docker pull ${appDockerImage} && docker run -t ${ports} -e NODE_ENV=development ${generateNetworkToJoin()} ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js --root-module-name=${rootModuleName} ${generateModuleMap()} ${generateUseMocksFlag(parrotMiddlewareFile)} ${generateUseHostFlag()}"`;
   const dockerProcess = spawn(command, { shell: true });
   dockerProcess.on('error', () => {
     throw new Error(

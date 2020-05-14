@@ -20,6 +20,8 @@ Array [
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
   --docker-network-to-join  connect a One App container to a network    [string]
+  --use-host                use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -51,6 +53,8 @@ Array [
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
   --docker-network-to-join  connect a One App container to a network    [string]
+  --use-host                use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -80,6 +84,8 @@ Array [
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
   --docker-network-to-join  connect a One App container to a network    [string]
+  --use-host                use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -105,6 +111,7 @@ Array [
       "outputFile": "/fake/path/to/fake-module/one-app.log",
       "parrotMiddlewareFile": "/fake/path/to/fake-module/dev.middleware.js",
       "rootModuleName": "frank-lloyd-root",
+      "useHost": true,
     },
   ],
 ]
@@ -201,6 +208,8 @@ Array [
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
   --docker-network-to-join  connect a One App container to a network    [string]
+  --use-host                use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -314,6 +323,8 @@ Array [
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
   --docker-network-to-join  connect a One App container to a network    [string]
+  --use-host                use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
