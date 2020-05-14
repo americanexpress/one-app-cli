@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-bundler",
-  "version": "6.4.0",
+  "version": "6.5.0",
   "description": "A command line interface(CLI) tool for bundling One App and its modules.",
   "main": "index.js",
   "bin": {
@@ -33,16 +33,17 @@
     "Michael Tomcal <Michael.A.Tomcal@aexp.com> (https://github.com/mtomcal)",
     "Stephanie Coates  <Stephanie.Coates1@aexp.com> (https://github.com/stephaniecoates)",
     "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)",
-    "Nickolas Oliver <nickolas.oliver@aexp.com> (https://github.com/PixnBits)"
+    "Nickolas Oliver <nickolas.oliver@aexp.com> (https://github.com/PixnBits)",
+    "Ruben Casas <ruben@infoxication.net> (https://github.com/infoxicator)"
   ],
   "license": "Apache-2.0",
   "peerDependencies": {
     "babel-eslint": "7.x || 8.x"
   },
   "dependencies": {
-    "@americanexpress/eslint-plugin-one-app": "^6.4.0",
+    "@americanexpress/eslint-plugin-one-app": "^6.5.0",
     "@americanexpress/one-app-locale-bundler": "^6.1.1",
-    "@americanexpress/purgecss-loader": "^1.0.0",
+    "@americanexpress/purgecss-loader": "^2.0.0",
     "ajv": "^6.7.0",
     "babel-loader": "^8.0.6",
     "babel-preset-amex": "^3.2.0",
@@ -79,6 +80,7 @@
     "@americanexpress/one-app-ducks": "*",
     "@americanexpress/one-app-router": "*",
     "core-js": "^3.2.1",
+    "create-shared-react-context": "*",
     "holocron": "*",
     "holocron-module-route": "*",
     "immutable": "*",

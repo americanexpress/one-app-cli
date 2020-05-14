@@ -109,6 +109,10 @@ module.exports = {
       var: 'OneAppRouter',
       commonjs2: '@americanexpress/one-app-router',
     },
+    'create-shared-react-context': {
+      var: 'CreateSharedReactContext',
+      commonjs2: 'create-shared-react-context',
+    },
     holocron: {
       var: 'Holocron',
       commonjs2: 'holocron',

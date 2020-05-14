@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { loadLanguagePack, updateLocale } from '@americanexpress/one-app-ducks';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { holocronModule } from 'holocron';
 import { fromJS } from 'immutable';
 import childRoutes from '../childRoutes';
 
@@ -74,12 +72,11 @@ export const mapStateToProps = (state) => {
   };
 };
 
-export const load = () => (dispatch) => dispatch(loadLanguagePack('<%=modulePackageName%>', { fallbackLocale: 'en-US' }));
+export const loadModuleData = ({ store: { dispatch } }) => dispatch(loadLanguagePack('<%=modulePackageName%>', { fallbackLocale: 'en-US' }));
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  holocronModule({
-    name: '<%=modulePackageName%>',
-    load,
-  })
-)(<%=moduleNamePascal%>);
+<%=moduleNamePascal%>.holocron = {
+  name: '<%=modulePackageName%>',
+  loadModuleData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(<%=moduleNamePascal%>);

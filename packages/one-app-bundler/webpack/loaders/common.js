@@ -30,11 +30,24 @@ const cssLoader = ({ name = '' } = {}) => ({
 
 const purgeCssLoader = () => {
   const configOptions = getConfigOptions();
+  const whitelistPatterns = configOptions.purgecss.whitelistPatterns
+    ? configOptions.purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i'))
+    : [];
+  const whitelistPatternsChildren = configOptions.purgecss.whitelistPatternsChildren
+    ? configOptions.purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'))
+    : [/:global$/];
   if (configOptions.purgecss.disabled) return [];
   return [{
     loader: '@americanexpress/purgecss-loader',
     options: {
       paths: [path.join(packageRoot, 'src/**/*.{js,jsx}'), ...(configOptions.purgecss.paths || [])],
+      extractors: configOptions.purgecss.extractors || [],
+      fontFace: configOptions.purgecss.fontFace || false,
+      keyframes: configOptions.purgecss.keyframes || false,
+      variables: configOptions.purgecss.variables || false,
+      whitelist: configOptions.purgecss.whitelist || [],
+      whitelistPatterns,
+      whitelistPatternsChildren,
     },
   }];
 };
