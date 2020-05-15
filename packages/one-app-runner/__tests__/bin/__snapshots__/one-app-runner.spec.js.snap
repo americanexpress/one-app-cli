@@ -4,22 +4,26 @@ exports[`--modules option is required if --dev-endpoints option is given 1`] = `
 Array [
   Array [
     "Options:
-  --version            Show version number                             [boolean]
-  --module-map-url     module map for One App to use and fetch modules from
+  --version                 Show version number                        [boolean]
+  --module-map-url          module map for One App to use and fetch modules from
                                                                         [string]
-  --root-module-name   name of the module to serve as an entry point to your
-                       application                           [string] [required]
-  --docker-image       docker image to use for One App       [string] [required]
-  --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+  --root-module-name        name of the module to serve as an entry point to
+                            your application                 [string] [required]
+  --docker-image            docker image to use for One App  [string] [required]
+  --parrot-middleware       path to parrot dev middleware file for One App to
+                            use for Parrot mocking                      [string]
+  --modules                 path to local module to serve to One App     [array]
+  --dev-endpoints           path to dev endpoints file for One App to use for
+                            its One App Dev Proxy set up                [string]
+  --envVars                 Environment variables to be applied to the One App
+                            instance
+  --output-file             File to redirect all stdout and stderr from One App
+                            Container to                                [string]
+  --docker-network-to-join  Connect One App container to a docker network
+                                                                        [string]
+  --use-host                Use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
+  --help                    Show help                                  [boolean]",
   ],
   Array [],
   Array [
@@ -33,23 +37,27 @@ exports[`--modules option is required if --module-map-url option is not given 1`
 Array [
   Array [
     "Options:
-  --version            Show version number                             [boolean]
-  --module-map-url     module map for One App to use and fetch modules from
+  --version                 Show version number                        [boolean]
+  --module-map-url          module map for One App to use and fetch modules from
                                                                         [string]
-  --root-module-name   name of the module to serve as an entry point to your
-                       application                           [string] [required]
-  --docker-image       docker image to use for One App       [string] [required]
-  --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App
+  --root-module-name        name of the module to serve as an entry point to
+                            your application                 [string] [required]
+  --docker-image            docker image to use for One App  [string] [required]
+  --parrot-middleware       path to parrot dev middleware file for One App to
+                            use for Parrot mocking                      [string]
+  --modules                 path to local module to serve to One App
                                                               [array] [required]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+  --dev-endpoints           path to dev endpoints file for One App to use for
+                            its One App Dev Proxy set up                [string]
+  --envVars                 Environment variables to be applied to the One App
+                            instance
+  --output-file             File to redirect all stdout and stderr from One App
+                            Container to                                [string]
+  --docker-network-to-join  Connect One App container to a docker network
+                                                                        [string]
+  --use-host                Use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
+  --help                    Show help                                  [boolean]",
   ],
   Array [],
   Array [
@@ -62,22 +70,26 @@ exports[`--modules option is required if --parrot-middleware option is given 1`]
 Array [
   Array [
     "Options:
-  --version            Show version number                             [boolean]
-  --module-map-url     module map for One App to use and fetch modules from
+  --version                 Show version number                        [boolean]
+  --module-map-url          module map for One App to use and fetch modules from
                                                                         [string]
-  --root-module-name   name of the module to serve as an entry point to your
-                       application                           [string] [required]
-  --docker-image       docker image to use for One App       [string] [required]
-  --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+  --root-module-name        name of the module to serve as an entry point to
+                            your application                 [string] [required]
+  --docker-image            docker image to use for One App  [string] [required]
+  --parrot-middleware       path to parrot dev middleware file for One App to
+                            use for Parrot mocking                      [string]
+  --modules                 path to local module to serve to One App     [array]
+  --dev-endpoints           path to dev endpoints file for One App to use for
+                            its One App Dev Proxy set up                [string]
+  --envVars                 Environment variables to be applied to the One App
+                            instance
+  --output-file             File to redirect all stdout and stderr from One App
+                            Container to                                [string]
+  --docker-network-to-join  Connect One App container to a docker network
+                                                                        [string]
+  --use-host                Use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
+  --help                    Show help                                  [boolean]",
   ],
   Array [],
   Array [
@@ -93,6 +105,7 @@ Array [
     Object {
       "appDockerImage": "one-app:5.0.0",
       "devEndpointsFile": "/fake/path/to/fake-module/dev.endpoints.js",
+      "dockerNetworkToJoin": "one-test-environment-1234",
       "envVars": "MY_ENV_VAR=value",
       "moduleMapUrl": "httops://example.com/module-map.json",
       "modulesToServe": Array [
@@ -101,6 +114,7 @@ Array [
       "outputFile": "/fake/path/to/fake-module/one-app.log",
       "parrotMiddlewareFile": "/fake/path/to/fake-module/dev.middleware.js",
       "rootModuleName": "frank-lloyd-root",
+      "useHost": true,
     },
   ],
 ]
@@ -180,23 +194,27 @@ exports[`command errors out if --module-map-url option is not given 1`] = `
 Array [
   Array [
     "Options:
-  --version            Show version number                             [boolean]
-  --module-map-url     module map for One App to use and fetch modules from
+  --version                 Show version number                        [boolean]
+  --module-map-url          module map for One App to use and fetch modules from
                                                                         [string]
-  --root-module-name   name of the module to serve as an entry point to your
-                       application                           [string] [required]
-  --docker-image       docker image to use for One App       [string] [required]
-  --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App
+  --root-module-name        name of the module to serve as an entry point to
+                            your application                 [string] [required]
+  --docker-image            docker image to use for One App  [string] [required]
+  --parrot-middleware       path to parrot dev middleware file for One App to
+                            use for Parrot mocking                      [string]
+  --modules                 path to local module to serve to One App
                                                               [array] [required]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+  --dev-endpoints           path to dev endpoints file for One App to use for
+                            its One App Dev Proxy set up                [string]
+  --envVars                 Environment variables to be applied to the One App
+                            instance
+  --output-file             File to redirect all stdout and stderr from One App
+                            Container to                                [string]
+  --docker-network-to-join  Connect One App container to a docker network
+                                                                        [string]
+  --use-host                Use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
+  --help                    Show help                                  [boolean]",
   ],
   Array [],
   Array [
@@ -293,22 +311,26 @@ exports[`command errors out if an unknown option is given 1`] = `
 Array [
   Array [
     "Options:
-  --version            Show version number                             [boolean]
-  --module-map-url     module map for One App to use and fetch modules from
+  --version                 Show version number                        [boolean]
+  --module-map-url          module map for One App to use and fetch modules from
                                                                         [string]
-  --root-module-name   name of the module to serve as an entry point to your
-                       application                           [string] [required]
-  --docker-image       docker image to use for One App       [string] [required]
-  --parrot-middleware  path to parrot dev middleware file for One App to use for
-                       Parrot mocking                                   [string]
-  --modules            path to local module to serve to One App          [array]
-  --dev-endpoints      path to dev endpoints file for One App to use for its One
-                       App Dev Proxy set up                             [string]
-  --envVars            Environment variables to be applied to the One App
-                       instance
-  --output-file        File to redirect all stdout and stderr from One App
-                       Container to                                     [string]
-  --help               Show help                                       [boolean]",
+  --root-module-name        name of the module to serve as an entry point to
+                            your application                 [string] [required]
+  --docker-image            docker image to use for One App  [string] [required]
+  --parrot-middleware       path to parrot dev middleware file for One App to
+                            use for Parrot mocking                      [string]
+  --modules                 path to local module to serve to One App     [array]
+  --dev-endpoints           path to dev endpoints file for One App to use for
+                            its One App Dev Proxy set up                [string]
+  --envVars                 Environment variables to be applied to the One App
+                            instance
+  --output-file             File to redirect all stdout and stderr from One App
+                            Container to                                [string]
+  --docker-network-to-join  Connect One App container to a docker network
+                                                                        [string]
+  --use-host                Use req.headers.host instead of localhost for
+                            one-app-dev-cdn           [boolean] [default: false]
+  --help                    Show help                                  [boolean]",
   ],
   Array [],
   Array [
