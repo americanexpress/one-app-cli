@@ -69,6 +69,7 @@
     "ssri": "^7.1.0",
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^2.1.0",
+    "url-loader": "^4.1.0",
     "webpack": "^4.29.0",
     "webpack-custom-chunk-id-plugin": "^1.0.3",
     "webpack-dynamic-public-path": "^1.0.4",
