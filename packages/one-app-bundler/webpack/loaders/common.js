@@ -67,6 +67,7 @@ const babelLoader = (babelEnv) => ({
   options: {
     extends: path.join(packageRoot, '.babelrc'),
     envName: babelEnv,
+    cacheDirectory: path.join(packageRoot, '.build-cache'),
   },
 });
 
