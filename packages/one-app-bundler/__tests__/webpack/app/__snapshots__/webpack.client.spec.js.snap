@@ -12,6 +12,7 @@ Object {
     Object {
       "loader": "babel-loader",
       "options": Object {
+        "cacheDirectory": "/.build-cache",
         "envName": undefined,
         "extends": "/.babelrc",
       },
@@ -31,6 +32,7 @@ Object {
     Object {
       "loader": "babel-loader",
       "options": Object {
+        "cacheDirectory": "/.build-cache",
         "envName": undefined,
         "extends": "/.babelrc",
       },
@@ -51,6 +53,7 @@ Object {
     Object {
       "loader": "babel-loader",
       "options": Object {
+        "cacheDirectory": "/.build-cache",
         "envName": undefined,
         "extends": "/.babelrc",
       },
