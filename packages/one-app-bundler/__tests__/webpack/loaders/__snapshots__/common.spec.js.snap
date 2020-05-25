@@ -4,6 +4,7 @@ exports[`Common webpack loaders babel-loader should return a config that extends
 Object {
   "loader": "babel-loader",
   "options": Object {
+    "cacheDirectory": "/current/dir/.build-cache",
     "envName": "modern",
     "extends": "/current/dir/.babelrc",
   },
@@ -14,6 +15,7 @@ exports[`Common webpack loaders babel-loader should return a config with the exp
 Object {
   "loader": "babel-loader",
   "options": Object {
+    "cacheDirectory": "/current/dir/.build-cache",
     "envName": "legacy",
     "extends": "/current/dir/.babelrc",
   },

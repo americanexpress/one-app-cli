@@ -225,6 +225,56 @@ Or in `package.json`
 }
 ```
 
+### docker-network-to-join [Optional]
+
+Connect the One App container to a network. The value gets passed to the [docker flag](https://docs.docker.com/network/bridge/) `--network` 
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --doker-network-to-join my-network
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.0.0",
+    "dockerNetworkToJoin": "my-network"
+  }
+}
+```
+
+### use-host [Optional]
+
+Use `req.headers.host` instead of `localhost` for [one-app-dev-cdn](https://github.com/americanexpress/one-app-dev-cdn#usehost)
+
+Note: This flag is required when using `one-app-runner` for browser tests on a CI environment so the `one-app-dev-cdn` can be accessed by other containers running on the same network.
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --use-host
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.0.0",
+    "useHost": true
+  }
+}
+```
+
 ### envVars [Optional]
 
 Environment variables to provide to One App instance.
