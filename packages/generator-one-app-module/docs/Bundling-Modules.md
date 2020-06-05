@@ -1,10 +1,8 @@
 [👈 Return to Overview](../README.md)
 
-# Bundling
+## Bundling Modules
 
 Within [One App](https://github.com/americanexpress/one-app) you can bundle your modules once you've made changes to them. The bundled files are then loaded on the client and server.
-
-## Bundling Modules
 
 Generate your module using [generator-one-app-module](https://github.com/americanexpress/one-app-cli/tree/master/packages/generator-one-app-module).
 
