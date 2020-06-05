@@ -34,7 +34,6 @@ When the [build commands `npm run build`](#build-commands) is executed on the ab
 
 Module:
 ```
-
 module
 ├── README.md
 ├── package.json
