@@ -13,7 +13,6 @@ The module will have the following folder structure. Ensure it follows the patte
 
 Module:
 ```
-
 module
 ├── README.md
 ├── package.json
