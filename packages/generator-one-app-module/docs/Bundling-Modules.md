@@ -27,7 +27,6 @@ module
 
  ``` sh
  export NODE_ENV=development
-
  ```
 
 When the [build commands `npm run build`](#build-commands) is executed on the above root folder the following files are generated within the module. The root folder of the build would be the version number provided within the package.json.
