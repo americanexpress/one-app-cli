@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.6.0](https://github.com/americanexpress/one-app-cli/compare/v6.1.1...v6.6.0) (2020-05-22)
+
+
+### Bug Fixes
+
+* **generator:** remove deprecated holocron api ([#65](https://github.com/americanexpress/one-app-cli/issues/65)) ([8d8564a](https://github.com/americanexpress/one-app-cli/commit/8d8564a78bedbd95fd998b3606aa63ad2a4f9049))
+
+
+### Features
+
+* **deps:** update generator deps for react-intl and parrot-generator ([ac24226](https://github.com/americanexpress/one-app-cli/commit/ac24226ee1de6ac2f5b02c30050fc8a052c40f35))
+* **generator:** csp report-uri to ONE_CLIENT_CSP_REPORTING_URL ([#50](https://github.com/americanexpress/one-app-cli/issues/50)) ([9ae5dc9](https://github.com/americanexpress/one-app-cli/commit/9ae5dc9fb0d63dc666f7c386fec732e12249435d))
+* **generator:** update base-module template ([#25](https://github.com/americanexpress/one-app-cli/issues/25)) ([1a0af74](https://github.com/americanexpress/one-app-cli/commit/1a0af748f94790ceae7b2a87fc827be2d549cf6c))
+
+
+### Reverts
+
+* Revert "chore(release): bump to v6.5.0 (#62)" ([5f708de](https://github.com/americanexpress/one-app-cli/commit/5f708de11f30163687f3184adb4d57ccab46649c)), closes [#62](https://github.com/americanexpress/one-app-cli/issues/62)
+
+
+
+
+
 # [6.5.0](https://github.com/americanexpress/one-app-cli/compare/v6.1.1...v6.5.0) (2020-04-17)
 
 
