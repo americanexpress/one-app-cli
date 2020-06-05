@@ -26,7 +26,6 @@ module
 > If doing local development ensure that you've set the `process.env.NODE_ENV` to development using the below script by default webpack set its to production automatically.Please refer to [webpack mode](https://webpack.js.org/?configuration/mode/) for more information.
 
  ``` sh
-
  export NODE_ENV=development
 
  ```
