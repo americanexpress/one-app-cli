@@ -11,7 +11,6 @@ The module will have the following folder structure. Ensure it follows the patte
 
 Module:
 ```
-
 module
 ├── README.md
 ├── package.json
@@ -24,16 +23,13 @@ module
 > If doing local development ensure that you've set the `process.env.NODE_ENV` to development using the below script by default webpack set its to production automatically.Please refer to [webpack mode](https://webpack.js.org/?configuration/mode/) for more information.
 
  ``` sh
-
  export NODE_ENV=development
-
  ```
 
 When the [build commands `npm run build`](#build-commands) is executed on the above root folder the following files are generated within the module. The root folder of the build would be the version number provided within the package.json.
 
 Module:
 ```
-
 module
 ├── README.md
 ├── package.json
