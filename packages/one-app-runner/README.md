@@ -247,6 +247,34 @@ Or in `package.json`
     "dockerNetworkToJoin": "my-network"
   }
 }
+
+```
+### create-docker-network [Optional]
+
+>This option requires `docker-network-to-join` to be used as the network name.
+
+Creates a new [docker network](https://docs.docker.com/engine/reference/commandline/network_create/) using the network name provided.
+
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --create-docker-network --doker-network-to-join my-network
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.0.0",
+    "dockerNetworkToJoin": "my-network",
+    "createDockerNetwork": true
+  }
+}
 ```
 
 ### use-host [Optional]
@@ -307,3 +335,43 @@ Or in `package.json`
 `one-app-runner` respects the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables and passes them down to the One App docker container.
 
 Make use of these environment variables if the remote module map or modules you want One App to use are inaccessible without the use of a proxy server.
+
+
+## Test Environment
+
+### one-app-runner-test
+
+Creates a new instance of **one-app-runner** that runs in the background detached from the parent process.
+This option is useful to run a test suite against the running One App container.
+
+##### package.json
+```json
+"scripts": {
+  "start": "one-app-runner"
+  "start:test": "one-app-runner-test"
+},
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "dockerImage": "one-app-dev:5.0.0",
+    "parrotMiddleware": "./dev.middleware.js"
+  }
+}
+```
+### create-runner-env
+
+This command generates random ports and values for the following environment variables:
+
+``` bash 
+HTTP_PORT
+HTTP_ONE_APP_DEV_CDN_PORT
+HTTP_ONE_APP_DEV_PROXY_SERVER_PORT
+HTTP_METRICS_PORT
+NETWORK_NAME
+```
+
+It stores them in a `.env` file to be shared across the test environments and **one-app-runner** 
+
+This command should be executed before starting `one-app-runner-test`

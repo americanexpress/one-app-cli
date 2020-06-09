@@ -17,5 +17,5 @@
 require('dotenv').config();
 const { spawn } = require('child_process');
 
-const command = `one-app-runner --output-file=one-app-test.log --createDockerNetwork --docker-network-to-join=${process.env.NETWORK_NAME} --use-host`;
+const command = `one-app-runner --output-file=one-app-test.log --create-docker-network --docker-network-to-join=${process.env.NETWORK_NAME} --use-host`;
 spawn(command, { shell: true, stdio: 'ignore', detached: true }).unref();
