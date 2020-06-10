@@ -58,7 +58,8 @@ module.exports = (babelEnv) => {
       },
       node: { module: 'empty', net: 'empty', fs: 'empty' },
       performance: {
-        maxAssetSize: configOptions.performanceBudget || 200e3,
+        maxAssetSize: configOptions.performanceBudget || 250e3,
+        maxEntrypointSize: configOptions.performanceBudget || 250e3,
         hints: process.env.NODE_ENV === 'development' ? 'warning' : 'error',
       },
       module: {

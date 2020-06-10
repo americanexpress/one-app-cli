@@ -42,7 +42,7 @@ describe('webpack/module.client', () => {
     process.env.NODE_ENV = 'development';
     const webpackConfig = configGenerator();
     expect(webpackConfig.performance).toMatchObject({
-      maxAssetSize: 200e3,
+      maxAssetSize: 250e3,
       hints: 'warning',
     });
   });
@@ -51,7 +51,7 @@ describe('webpack/module.client', () => {
     process.env.NODE_ENV = 'production';
     const webpackConfig = configGenerator();
     expect(webpackConfig.performance).toMatchObject({
-      maxAssetSize: 200e3,
+      maxAssetSize: 250e3,
       hints: 'error',
     });
   });
@@ -62,6 +62,7 @@ describe('webpack/module.client', () => {
     const webpackConfig = configGenerator();
     expect(webpackConfig.performance).toMatchObject({
       maxAssetSize: 4103,
+      maxEntrypointSize: 4103,
       hints: 'error',
     });
   });
