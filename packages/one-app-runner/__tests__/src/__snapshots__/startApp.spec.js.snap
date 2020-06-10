@@ -28,7 +28,7 @@ exports[`startApp runs set middleware command and starts one app with mock flag 
 
 exports[`startApp sets the network to join if the network name is provided 1`] = `"docker pull one-app:5.0.0 && docker run -t -p 3000:3000 -p 3001:3001 -p 3002:3002 -p 3005:3005 -e NODE_ENV=development --network=one-test-environment-1234   -v /path/to/module-a:/opt/module-workspace/module-a one-app:5.0.0 /bin/sh -c \\"npm run serve-module /opt/module-workspace/module-a &&   node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  \\""`;
 
-exports[`startApp should not create a network if the networkName is not provided: create network calls 1`] = `Array []`;
+exports[`startApp should throw an error if createDockerNetwork is true but dockerNetworkToJoin is not provided: create network calls 1`] = `[Error: createDockerNetwork is true but dockerNetworkToJoin is undefined, please pass a valid network name]`;
 
 exports[`startApp throws an error if command errors: onErrorFunction 1`] = `"Error running docker. Are you sure you have it installed? For installation and setup details see https://www.docker.com/products/docker-desktop"`;
 

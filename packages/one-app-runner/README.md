@@ -232,7 +232,7 @@ Connect the One App container to a network. The value gets passed to the [docker
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --doker-network-to-join my-network
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --docker-network-to-join my-network
 ```
 
 Or in `package.json`
@@ -259,7 +259,7 @@ Creates a new [docker network](https://docs.docker.com/engine/reference/commandl
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --create-docker-network --doker-network-to-join my-network
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --create-docker-network --docker-network-to-join my-network
 ```
 
 Or in `package.json`

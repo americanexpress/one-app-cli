@@ -143,15 +143,11 @@ describe('startApp', () => {
     expect(mockCreateNetwork.mock.calls).toMatchSnapshot('create network calls');
   });
 
-  it('should not create a network if the networkName is not provided', () => {
-    const mockCreateNetwork = jest.fn(() => Promise.resolve());
-    Docker.mockImplementation(() => ({
-      createNetwork: mockCreateNetwork,
-    }));
-    startApp({
+  it('should throw an error if createDockerNetwork is true but dockerNetworkToJoin is not provided', () => {
+    const startAppTest = startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true,
     });
-    expect(mockCreateNetwork.mock.calls).toMatchSnapshot('create network calls');
+    expect(startAppTest).rejects.toMatchSnapshot('create network calls');
   });
 
   it('Displays an error if createNetwork fails', () => {

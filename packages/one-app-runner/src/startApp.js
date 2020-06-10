@@ -94,7 +94,12 @@ module.exports = async function startApp({
 
   const generateModuleMap = () => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
 
-  if (createDockerNetwork && dockerNetworkToJoin) {
+  if (createDockerNetwork) {
+    if (!dockerNetworkToJoin) {
+      throw new Error(
+        'createDockerNetwork is true but dockerNetworkToJoin is undefined, please pass a valid network name'
+      );
+    }
     try {
       const docker = new Docker();
       await docker.createNetwork({ name: dockerNetworkToJoin });
