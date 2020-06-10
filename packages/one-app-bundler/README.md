@@ -99,7 +99,7 @@ already provided by One App, your build will fail.
 #### `performanceBudget`
 
 Set a custom [performance budget](https://webpack.js.org/configuration/performance/#performancemaxassetsize)
-for your client module build. The default value is `200e3`.
+for your client module build. The default value is `250e3` (244kB).
 
 ```json
 {
