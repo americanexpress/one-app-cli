@@ -118,8 +118,6 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     });
   }
 
-  // console.log(JSON.stringify(merge(webpackConfig, customWebpackConfig)));
-
   return merge(webpackConfig, customWebpackConfig);
 }
 

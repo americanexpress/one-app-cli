@@ -112,7 +112,7 @@ describe('extendWebpackConfig', () => {
     getConfigOptions.mockReturnValueOnce({ requiredExternals: ['ajv', 'lodash'] });
     const result = extendWebpackConfig(originalWebpackConfig);
     const { rules } = result.module;
-    console.log('Rules: ', rules);
+
     expect(rules).toHaveLength(originalWebpackConfig.module.rules.length + 3);
     expect(rules[rules.length - 3]).toMatchSnapshot({
       test: expect.stringMatching(/ajv/),
