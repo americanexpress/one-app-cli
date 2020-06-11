@@ -19,9 +19,10 @@ const getConfigOptions = require('../../utils/getConfigOptions');
 
 const packageRoot = process.cwd();
 
-const cssLoader = ({ name = '' } = {}) => ({
+const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
   loader: 'css-loader',
   options: {
+    importLoaders,
     modules: {
       localIdentName: `${name && `${name}__`}[name]__[local]___[hash:base64:5]`,
     },
