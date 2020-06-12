@@ -72,7 +72,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     customWebpackConfig = merge(customWebpackConfig, {
       module: {
         rules: [...requiredExternals.map((externalName) => ({
-          test: resolve(externalName),
+          test: `${resolve(externalName)}/`,
           use: [{
             loader: '@americanexpress/one-app-bundler/webpack/loaders/externals-loader',
             options: {
