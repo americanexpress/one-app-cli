@@ -20,7 +20,7 @@ Object {
 
 exports[`extendWebpackConfig should use the provided requiredExternals configured 1`] = `
 Object {
-  "test": StringMatching /ajv\\$/,
+  "test": StringMatching /ajv/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
@@ -34,7 +34,7 @@ Object {
 
 exports[`extendWebpackConfig should use the provided requiredExternals configured 2`] = `
 Object {
-  "test": StringMatching /lodash\\$/,
+  "test": StringMatching /lodash/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
