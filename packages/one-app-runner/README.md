@@ -347,7 +347,7 @@ This option is useful to run a test suite against the running One App container.
 ##### package.json
 ```json
 "scripts": {
-  "start": "one-app-runner"
+  "start": "one-app-runner",
   "start:test": "one-app-runner-test"
 },
 "one-amex": {
