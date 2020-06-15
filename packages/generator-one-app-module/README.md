@@ -41,6 +41,11 @@ Doing this, you're able to extend the `generator-one-app-module` generator, enab
 
 [More on composing generators here](https://yeoman.io/authoring/composability.html).
 
+
+### Bundling modules
+
+For more information about what happens after bundling your module, read [Bundling modules](./docs/Bundling-Modules.md)
+
 ## 🏆 Contributing
 
 After making changes to the generator, test your changes locally:
