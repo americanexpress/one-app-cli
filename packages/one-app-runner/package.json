@@ -14,7 +14,9 @@
     "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)"
   ],
   "bin": {
-    "one-app-runner": "./bin/one-app-runner.js"
+    "one-app-runner": "./bin/one-app-runner.js",
+    "create-runner-env": "./bin/create-runner-env.js",
+    "one-app-runner-test": "bin/one-app-runner-test.js"
   },
   "files": [
     "src",
@@ -30,7 +32,12 @@
     "docker"
   ],
   "dependencies": {
+    "dockerode": "^3.2.0",
+    "dotenv": "^8.2.0",
+    "fs-extra": "^9.0.1",
+    "get-port": "^5.1.1",
     "pkg-up": "^3.1.0",
+    "uuid": "^3.3.2",
     "yargs": "^15.3.0"
   },
   "devDependencies": {
