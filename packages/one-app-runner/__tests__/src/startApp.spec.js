@@ -17,13 +17,14 @@
 const path = require('path');
 const fs = require('fs');
 const childProcess = require('child_process');
-
+const Docker = require('dockerode');
 
 const startApp = require('../../src/startApp');
 
 const pathToLogFile = path.join(__dirname, '..', 'fixtures', 'app.log');
 
 jest.mock('child_process', () => ({ spawn: jest.fn() }));
+jest.mock('dockerode');
 
 describe('startApp', () => {
   beforeEach(() => {
@@ -129,6 +130,35 @@ describe('startApp', () => {
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], dockerNetworkToJoin: 'one-test-environment-1234',
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('creates a docker network when the flag is provided', () => {
+    const mockCreateNetwork = jest.fn(() => Promise.resolve());
+    Docker.mockImplementation(() => ({
+      createNetwork: mockCreateNetwork,
+    }));
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true, dockerNetworkToJoin: 'one-test-environment-1234',
+    });
+    expect(mockCreateNetwork.mock.calls).toMatchSnapshot('create network calls');
+  });
+
+  it('should throw an error if createDockerNetwork is true but dockerNetworkToJoin is not provided', () => {
+    const startAppTest = startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true,
+    });
+    expect(startAppTest).rejects.toMatchSnapshot('create network calls');
+  });
+
+  it('Displays an error if createNetwork fails', () => {
+    const mockCreateNetwork = jest.fn(() => Promise.reject(new Error('Error creating network')));
+    Docker.mockImplementation(() => ({
+      createNetwork: mockCreateNetwork,
+    }));
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true, dockerNetworkToJoin: 'one-test-environment-1234',
+    });
+    expect(mockCreateNetwork()).rejects.toMatchSnapshot('create network calls');
   });
 
   it('uses host instead of localhost when the useHost flag is passed', () => {
