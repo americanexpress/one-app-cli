@@ -1,0 +1,33 @@
+version: 2
+updates:
+  # Enable npm updates for all of our package.json
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "npm"
+      - "dependencies"
+      - "dependabot"
+
+  # Enable npm updates for all of our package.json
+  - package-ecosystem: "npm"
+    directory: "/packages/*/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "npm"
+      - "dependencies"
+      - "dependabot"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "github-actions"
+      - "dependabot"
