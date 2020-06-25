@@ -245,7 +245,7 @@ describe('generator-one-app-module', () => {
           },
         },
         devDependencies: {
-          'parrot-middleware': '^3.1.0',
+          'parrot-middleware': '^4.1.1',
         },
       });
     });
