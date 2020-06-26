@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 6.8.0 (2020-06-26)
+
+### Features
+
+* **generator:** add one-app-runner script ([#96](https://github.com/americanexpress/one-app-cli/issues/96)) ([e1d0e63](https://github.com/americanexpress/one-app-cli/commit/e1d0e6363a6c66b26094e6c51d9a3ad22e4dab70))
+
 # 6.7.0 (2020-06-17)
 
 
