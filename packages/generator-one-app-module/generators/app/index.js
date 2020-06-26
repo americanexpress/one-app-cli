@@ -228,7 +228,7 @@ module.exports = class extends Generator {
           },
         },
         devDependencies: {
-          'parrot-middleware': '^3.1.0',
+          'parrot-middleware': '^4.1.1',
         },
       });
     } else {
