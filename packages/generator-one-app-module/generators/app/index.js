@@ -145,6 +145,11 @@ module.exports = class extends Generator {
         { globOptions: { dot: true } }
       );
       this.fs.extendJSON(this.destinationPath('package.json'), {
+        'one-amex': {
+          runner: {
+            rootModuleName: this.modulePackageName,
+          },
+        },
         dependencies: {
           'content-security-policy-builder': '^2.1.0',
         },
@@ -204,6 +209,9 @@ module.exports = class extends Generator {
         );
         this.fs.extendJSON(this.destinationPath('package.json'), {
           'one-amex': {
+            runner: {
+              rootModuleName: this.modulePackageName,
+            },
             bundler: {
               providesExternals: 'react-intl',
             },
@@ -220,7 +228,7 @@ module.exports = class extends Generator {
           },
         },
         devDependencies: {
-          'parrot-middleware': '^4.1.0',
+          'parrot-middleware': '^4.1.1',
         },
       });
     } else {
