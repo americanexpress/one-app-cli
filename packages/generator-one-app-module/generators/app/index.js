@@ -253,6 +253,7 @@ module.exports = class extends Generator {
   }
 
   install() {
+    this.spawnCommandSync('git', ['init']);
     this.npmInstall();
   }
 };
