@@ -15,6 +15,7 @@
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const Docker = require('dockerode');
 
 module.exports = async function startApp({
   moduleMapUrl,
@@ -25,6 +26,7 @@ module.exports = async function startApp({
   outputFile,
   parrotMiddlewareFile,
   devEndpointsFile,
+  createDockerNetwork,
   dockerNetworkToJoin,
   useHost,
 }) {
@@ -91,6 +93,23 @@ module.exports = async function startApp({
   };
 
   const generateModuleMap = () => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
+
+  if (createDockerNetwork) {
+    if (!dockerNetworkToJoin) {
+      throw new Error(
+        'createDockerNetwork is true but dockerNetworkToJoin is undefined, please pass a valid network name'
+      );
+    }
+    try {
+      const docker = new Docker();
+      await docker.createNetwork({ name: dockerNetworkToJoin });
+    } catch (e) {
+      throw new Error(
+        `Error creating docker network ${e}`
+      );
+    }
+  }
+
   const generateNetworkToJoin = () => (dockerNetworkToJoin ? `--network=${dockerNetworkToJoin}` : '');
   const generateUseHostFlag = () => (useHost ? '--use-host' : '');
   const appPort = process.env.HTTP_PORT || 3000;
