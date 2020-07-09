@@ -213,7 +213,7 @@ negative impact on performance_.**
 }
 ```
 
-#### Specify what version your module is compatible with
+#### Specify what version of One App your module is compatible with
 
 You can specify which version of One App you module is compatible with by simply adding the below configuration to your `package.json`.
 
