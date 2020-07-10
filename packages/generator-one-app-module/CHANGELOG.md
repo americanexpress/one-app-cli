@@ -28,11 +28,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **generator:** update base-module template ([#25](https://github.com/americanexpress/one-app-cli/issues/25)) ([1a0af74](https://github.com/americanexpress/one-app-cli/commit/1a0af748f94790ceae7b2a87fc827be2d549cf6c))
 
 
-### Reverts
-
-* Revert "chore(release): bump to v6.5.0 (#62)" ([5f708de](https://github.com/americanexpress/one-app-cli/commit/5f708de11f30163687f3184adb4d57ccab46649c)), closes [#62](https://github.com/americanexpress/one-app-cli/issues/62)
-
-
 
 ## 6.1.1 (2020-01-24)
 
