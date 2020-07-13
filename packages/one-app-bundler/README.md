@@ -26,19 +26,19 @@ Run the `bundle-module` script as part of your build. This script is provided by
     "prepare": "npm run build"
   }
 }
-
 ```
+
 When bundling a One App module, some options can be applied by adding a `bundler` config object to a `one-amex` section
 within `package.json`:
 
- ```json
- {
+```json
+{
   "one-amex": {
     "bundler": {
     }
   }
- }
-   ```
+}
+```
 
 #### `providedExternals` & `requiredExternals`
 
@@ -87,6 +87,7 @@ npm install some-dependency
   }
 }
 ```
+
 Modules shouldn't configure both `providedExternals` and `requiredExternals`.
 
 Any module with `requiredExternals` configured will be validate at runtime to ensure that
@@ -207,6 +208,22 @@ negative impact on performance_.**
       "purgecss": {
         "disabled": true
       }
+    }
+  }
+}
+```
+
+#### Specify what version of One App your module is compatible with
+
+You can specify which version of One App you module is compatible with by simply adding the below configuration to your `package.json`.
+
+```json
+{
+  "one-amex": {
+    "bundler": {
+      "app": {
+        "compatibility": "^5.0.0"
+      },
     }
   }
 }
