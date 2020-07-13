@@ -34,7 +34,7 @@ npm install --save-dev @americanexpress/one-app-runner
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:latest",
     "parrotMiddleware": "./dev.middleware.js"
   }
 }
@@ -55,7 +55,7 @@ provided is passed down to `docker pull` and `docker run`.
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --docker-image one-app-dev:5.0.0 --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --docker-image oneamex/one-app-dev:5.0.0 --module-map-url https://example.com/cdn/module-map.json
 ```
 
 Or in `package.json`
@@ -63,7 +63,7 @@ Or in `package.json`
 ```json
 "one-amex": {
   "runner": {
-    "dockerImage": "one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json"
   }
@@ -86,7 +86,7 @@ Or in `package.json`
 "one-amex": {
   "runner": {
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "dockerhub.com/oneamex/one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
     "rootModuleName": "frank-lloyd-root"
   }
 }
@@ -110,7 +110,7 @@ Or in `package.json`
   "runner": {
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
   }
 }
 ```
@@ -142,7 +142,7 @@ Or in `package.json`
     ],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
   }
 }
 ```
@@ -168,7 +168,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
   }
 }
 ```
@@ -196,7 +196,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
   }
 }
 ```
@@ -355,7 +355,7 @@ This option is useful to run a test suite against the running One App container.
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "one-app-dev:5.0.0",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
     "parrotMiddleware": "./dev.middleware.js"
   }
 }
