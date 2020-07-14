@@ -34,7 +34,7 @@ npm install --save-dev @americanexpress/one-app-runner
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "dockerImage": "oneamex/one-app-dev:latest",
+    "dockerImage": "oneamex/one-app-dev:5.0.0",
     "parrotMiddleware": "./dev.middleware.js"
   }
 }
