@@ -16,7 +16,7 @@ jobs:
   include:
     # Define the release stage that publishes lerna to npm
     - stage: release
-      if: commit_message ~= /chore\(release\):/
+      if: commit_message ~= /chore\(release\):.*/
       deploy:
           on:
             branch: master
