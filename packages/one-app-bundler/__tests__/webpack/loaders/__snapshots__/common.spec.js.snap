@@ -26,6 +26,7 @@ exports[`Common webpack loaders css-loader should still return a good localIdent
 Object {
   "loader": "css-loader",
   "options": Object {
+    "importLoaders": 2,
     "modules": Object {
       "localIdentName": "[name]__[local]___[hash:base64:5]",
     },
@@ -37,6 +38,7 @@ exports[`Common webpack loaders css-loader should use the chunk name in the loca
 Object {
   "loader": "css-loader",
   "options": Object {
+    "importLoaders": 2,
     "modules": Object {
       "localIdentName": "my-chunk__[name]__[local]___[hash:base64:5]",
     },
@@ -48,6 +50,7 @@ exports[`Common webpack loaders css-loader should use the css-loader 1`] = `
 Object {
   "loader": "css-loader",
   "options": Object {
+    "importLoaders": 2,
     "modules": Object {
       "localIdentName": "[name]__[local]___[hash:base64:5]",
     },
