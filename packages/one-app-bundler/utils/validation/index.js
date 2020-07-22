@@ -16,16 +16,16 @@
 const Joi = require('@hapi/joi');
 
 const externalsSchema = Joi.array().items(Joi.string().required()).messages({
-  'array.base': 'Externals must be an array.',
-  'array.includesRequiredUnknowns': 'Externals must have at least one entry.',
-  'string.base': 'Externals must contain strings.',
+  'array.base': 'Externals must be an array',
+  'array.includesRequiredUnknowns': 'Externals must have at least one entry',
+  'string.base': 'Externals must contain strings',
 });
 
 const webpackConfigSchema = Joi.string().messages({
-  'string.base': 'Webpack Configs must be a string.',
+  'string.base': 'Webpack Configs must be a string',
 });
 
-const performanceBudgetSchema = Joi.number();
+const performanceBudgetSchema = Joi.number().strict();
 
 const appSchema = Joi.object().keys({
   compatibility: Joi.string(),
@@ -37,13 +37,13 @@ const purgecssSchema = Joi.object({
     extractor: Joi.string(),
     extensions: Joi.array().items(Joi.string().required()),
   }).required()),
-  fontFace: Joi.boolean(),
-  keyframes: Joi.boolean(),
-  variables: Joi.boolean(),
+  fontFace: Joi.boolean().strict(),
+  keyframes: Joi.boolean().strict(),
+  variables: Joi.boolean().strict(),
   whitelist: Joi.array().items(Joi.string().required()),
   whitelistPatterns: Joi.array().items(Joi.string().required()),
   whitelistPatternsChildren: Joi.array().items(Joi.string().required()),
-  disabled: Joi.boolean(),
+  disabled: Joi.boolean().strict(),
 });
 
 const optionsSchema = Joi.object({
@@ -58,13 +58,12 @@ const optionsSchema = Joi.object({
 });
 
 function validateSchema(schema, validationTarget) {
-  const { error, value, warning } = schema.validate(
-    validationTarget
+  const { error, value } = schema.validate(
+    validationTarget,
+    { abortEarly: false }
   );
   if (error) throw error;
-  if (warning) {
-    console.warn(warning);
-  }
+
   return value;
 }
 
