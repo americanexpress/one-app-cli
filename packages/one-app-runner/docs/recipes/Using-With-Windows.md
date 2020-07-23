@@ -2,7 +2,7 @@
 
 ## System Requirements
 
-Since `one-app-runner` uses Docker, you will need to install Docker on your Windows machine. Due to this, you need the following requirements:
+Since `one-app-runner` uses Docker, you will need to install Docker on your Windows machine. You need the following requirements:
 
 * Windows 10 64-bit: Pro, Enterprise, Education (Build 16299 or later), Home (Version 2004 or higher)
 * Hyper-V enabled
@@ -13,7 +13,7 @@ Since `one-app-runner` uses Docker, you will need to install Docker on your Wind
 
 ## Download Docker Desktop
 
-If you haven't download Docker, go ahead and [download for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows) Docker.
+If you haven't downloaded Docker, go ahead and [download for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows) Docker.
 
 ## Start Docker Desktop
 
