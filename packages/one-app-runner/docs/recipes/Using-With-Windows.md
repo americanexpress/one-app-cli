@@ -13,7 +13,7 @@ Since `one-app-runner` uses Docker, you will need to install Docker on your Wind
 
 ## Download Docker Desktop
 
-If you haven't downloaded Docker, go ahead and [download for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows) Docker.
+If you haven't downloaded Docker, go ahead and [download Docker for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows).
 
 ## Start Docker Desktop
 
