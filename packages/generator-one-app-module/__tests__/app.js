@@ -20,7 +20,6 @@ const helpers = require('yeoman-test');
 describe('generator-one-app-module', () => {
   describe('basic child module creation', () => {
     beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
-      .inDir(path.join(__dirname, 'tmp'))
       .withPrompts({
         moduleName: 'my-basic-child-module',
         moduleType: 'child module',
