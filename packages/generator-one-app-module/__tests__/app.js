@@ -13,12 +13,14 @@
  */
 
 const path = require('path');
+const rimraf = require('rimraf');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
 describe('generator-one-app-module', () => {
   describe('basic child module creation', () => {
     beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .inDir(path.join(__dirname, 'tmp'))
       .withPrompts({
         moduleName: 'my-basic-child-module',
         moduleType: 'child module',
@@ -27,6 +29,12 @@ describe('generator-one-app-module', () => {
       })
       .toPromise()
     );
+
+    afterAll(() => {
+      rimraf.sync(path.join(__dirname, '../../../default-module'));
+      rimraf.sync(path.join(__dirname, '../../../my-basic-child-module'));
+    });
+
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyBasicChildModule.spec.jsx',
@@ -57,6 +65,11 @@ describe('generator-one-app-module', () => {
       })
       .toPromise()
     );
+
+    afterAll(() => {
+      rimraf.sync(path.join(__dirname, '../../../my-basic-root-module'));
+    });
+
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyBasicRootModule.spec.jsx',
@@ -94,6 +107,11 @@ describe('generator-one-app-module', () => {
       })
       .toPromise()
     );
+
+    afterAll(() => {
+      rimraf.sync(path.join(__dirname, '../../../my-intl-child-module'));
+    });
+
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyIntlChildModule.spec.jsx',
@@ -153,6 +171,11 @@ describe('generator-one-app-module', () => {
       })
       .toPromise()
     );
+
+    afterAll(() => {
+      rimraf.sync(path.join(__dirname, '../../../my-intl-root-module'));
+    });
+
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyIntlRootModule.spec.jsx',
@@ -216,6 +239,11 @@ describe('generator-one-app-module', () => {
       })
       .toPromise()
     );
+
+    afterAll(() => {
+      rimraf.sync(path.join(__dirname, '../../../my-intl-child-parrot-module'));
+    });
+
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyIntlChildParrotModule.spec.jsx',
@@ -250,6 +278,7 @@ describe('generator-one-app-module', () => {
       });
     });
   });
+
   describe('child with setupInternationalizationByDefault option module creation', () => {
     beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
       .withOptions({
@@ -262,6 +291,11 @@ describe('generator-one-app-module', () => {
       })
       .toPromise()
     );
+
+    afterAll(() => {
+      rimraf.sync(path.join(__dirname, '../../../my-intl-by-default-child'));
+    });
+
     it('creates files', () => {
       assert.file([
         '__tests__/components/MyIntlByDefaultChild.spec.jsx',
