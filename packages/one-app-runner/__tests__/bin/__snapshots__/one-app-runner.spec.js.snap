@@ -19,6 +19,8 @@ Array [
                             instance
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
+  --create-docker-network   Creates a new docker network
+                                                      [boolean] [default: false]
   --docker-network-to-join  Connect One App container to a docker network
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
@@ -53,6 +55,8 @@ Array [
                             instance
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
+  --create-docker-network   Creates a new docker network
+                                                      [boolean] [default: false]
   --docker-network-to-join  Connect One App container to a docker network
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
@@ -85,6 +89,8 @@ Array [
                             instance
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
+  --create-docker-network   Creates a new docker network
+                                                      [boolean] [default: false]
   --docker-network-to-join  Connect One App container to a docker network
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
@@ -104,6 +110,7 @@ Array [
   Array [
     Object {
       "appDockerImage": "one-app:5.0.0",
+      "createDockerNetwork": false,
       "devEndpointsFile": "/fake/path/to/fake-module/dev.endpoints.js",
       "dockerNetworkToJoin": "one-test-environment-1234",
       "envVars": "MY_ENV_VAR=value",
@@ -210,6 +217,8 @@ Array [
                             instance
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
+  --create-docker-network   Creates a new docker network
+                                                      [boolean] [default: false]
   --docker-network-to-join  Connect One App container to a docker network
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
@@ -326,6 +335,8 @@ Array [
                             instance
   --output-file             File to redirect all stdout and stderr from One App
                             Container to                                [string]
+  --create-docker-network   Creates a new docker network
+                                                      [boolean] [default: false]
   --docker-network-to-join  Connect One App container to a docker network
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for

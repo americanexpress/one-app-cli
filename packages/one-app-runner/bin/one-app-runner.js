@@ -115,6 +115,11 @@ const createYargsConfig = () => {
       describe: 'File to redirect all stdout and stderr from One App Container to',
       coerce: (value) => path.resolve(process.cwd(), value),
     })
+    .option('create-docker-network', {
+      default: false,
+      type: 'boolean',
+      describe: 'Creates a new docker network',
+    })
     .option('docker-network-to-join', {
       type: 'string',
       describe: 'Connect One App container to a docker network',
@@ -150,6 +155,7 @@ try {
     appDockerImage: argv.dockerImage,
     envVars: argv.envVars,
     outputFile: argv.outputFile,
+    createDockerNetwork: argv.createDockerNetwork,
     dockerNetworkToJoin: argv.dockerNetworkToJoin,
     useHost: argv.useHost,
   });
