@@ -20,8 +20,12 @@ const cssBasePathString = JSON.stringify(path.resolve(__dirname, 'css-base.js'))
 
 const CSS_LOADER_FINDER = /var ___CSS_LOADER_API_IMPORT___ = (__webpack_){0,1}require(__){0,1}\([.a-zA-Z0-9/_*!\s-]*"[.a-zA-Z0-9/_]+\/css-loader\/dist\/runtime\/api.js"\);\n\s*exports = ___CSS_LOADER_API_IMPORT___\((undefined|false)?\);/;
 
+const CSS_RUNTIME_FINDER = /var ___CSS_LOADER_API_IMPORT___ = (__webpack_){0,1}require(__){0,1}\([.a-zA-Z0-9/_*!\s-]*"[.a-zA-Z0-9/_]+\/css-loader\/dist\/runtime\/api.js"\);/;
+
+const CSS_EXPORTS_FINDER = /exports = ___CSS_LOADER_API_IMPORT___\((undefined|false)?\);/;
+
 module.exports = function ssrCssLoader(content) {
-  if (!CSS_LOADER_FINDER.test(content)) {
+  if (!CSS_RUNTIME_FINDER.test(content) || !CSS_EXPORTS_FINDER.test(content)) {
     throw new Error(`could not find the css-loader in\n${content}`);
   }
 

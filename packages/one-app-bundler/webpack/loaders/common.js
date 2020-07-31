@@ -25,6 +25,10 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
     importLoaders,
     modules: {
       localIdentName: `${name && `${name}__`}[name]__[local]___[hash:base64:5]`,
+      // eslint-disable-next-line max-params, no-unused-vars
+      getLocalIdent: (loaderContext, localIdentName, localName, options) => (
+        loaderContext.resourcePath.includes('node_modules') ? localName : null
+      ),
     },
   },
 });
