@@ -25,6 +25,12 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
     importLoaders,
     modules: {
       localIdentName: `${name && `${name}__`}[name]__[local]___[hash:base64:5]`,
+      // getLocalIdent is a function that allows you to specify a function to generate the classname
+      // The documentation can be found here:
+      // https://github.com/webpack-contrib/css-loader#getlocalident
+
+      // The below function returns the classnames as is if the resourcePath includes node_modules
+      // if it doesn't it returns null allowing localIdentName to define the classname
       // eslint-disable-next-line max-params, no-unused-vars
       getLocalIdent: (loaderContext, localIdentName, localName, options) => (
         loaderContext.resourcePath.includes('node_modules') ? localName : null

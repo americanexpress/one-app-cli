@@ -35,7 +35,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders css-loader should still return locaName from getLocalIdent if resourcePath includes node_modules 1`] = `
+exports[`Common webpack loaders css-loader should still return localName from getLocalIdent if resourcePath includes node_modules 1`] = `
 Object {
   "loader": "css-loader",
   "options": Object {

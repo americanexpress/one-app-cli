@@ -57,7 +57,7 @@ describe('Common webpack loaders', () => {
       expect(config.options.modules.localIdentName).toBe('[name]__[local]___[hash:base64:5]');
       expect(config).toMatchSnapshot();
     });
-    it('should still return locaName from getLocalIdent if resourcePath includes node_modules', () => {
+    it('should still return localName from getLocalIdent if resourcePath includes node_modules', () => {
       const config = cssLoader();
       const loaderContext = {
         resourcePath: 'node_modules/some-library/some-library.min.css',
