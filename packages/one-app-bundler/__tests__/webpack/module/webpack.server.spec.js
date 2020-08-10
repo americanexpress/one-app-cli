@@ -14,6 +14,10 @@
 
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 
+jest.mock('read-pkg-up', () => ({
+  sync: jest.fn(() => ({ pkg: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
+}));
+
 const webpackConfig = require('../../../webpack/module/webpack.server');
 const { validateWebpackConfig } = require('../../../test-utils');
 
