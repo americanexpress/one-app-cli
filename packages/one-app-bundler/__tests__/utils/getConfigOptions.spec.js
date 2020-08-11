@@ -37,12 +37,6 @@ describe('getConfigOptions', () => {
     expect(getConfigOptions).not.toThrow();
   });
 
-  it('should include any provided options', () => {
-    readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { bundler: { a: 1, b: 2 } } } });
-    const getConfigOptions = require('../../utils/getConfigOptions');
-    expect(getConfigOptions()).toMatchObject({ a: 1, b: 2 });
-  });
-
   it('should include app compatability', () => {
     readPkgUp.sync.mockReturnValueOnce({ pkg: { 'one-amex': { app: { compatibility: '^5.1.0' } } } });
     const getConfigOptions = require('../../utils/getConfigOptions');
