@@ -99,7 +99,7 @@ module.exports = (babelEnv) => merge(
           test: /\.s?css$/,
           use: [
             { loader: 'style-loader' },
-            cssLoader(),
+            cssLoader({ importLoaders: 1 }),
             sassLoader(),
           ],
         },

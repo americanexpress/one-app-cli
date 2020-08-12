@@ -191,7 +191,7 @@ module.exports = class extends Generator {
         this.fs.extendJSON(this.destinationPath('package.json'), {
           'one-amex': {
             bundler: {
-              externals: 'react-intl',
+              requiredExternals: ['react-intl'],
             },
           },
         });
@@ -213,7 +213,7 @@ module.exports = class extends Generator {
               rootModuleName: this.modulePackageName,
             },
             bundler: {
-              providesExternals: 'react-intl',
+              providedExternals: ['react-intl'],
             },
           },
         });
