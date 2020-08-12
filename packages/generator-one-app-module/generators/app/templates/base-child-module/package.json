@@ -15,6 +15,9 @@
     "test": "npm run test:lint && npm run test:unit"
   },
   "one-amex": {
+    "app": {
+      "compatibility": "^5.0.0"
+    },
     "runner": {
       "dockerImage": "oneamex/one-app-dev:latest",
       "modules": ["."]
