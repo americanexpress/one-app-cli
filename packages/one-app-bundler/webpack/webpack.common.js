@@ -64,7 +64,7 @@ module.exports = {
         use: [{ loader: 'url-loader' }],
       },
       {
-        test: /\.(woff)(\?.*)?$/,
+        test: /\.(woff|woff2)(\?.*)?$/,
         use: [{
           loader: 'url-loader',
           options: {
