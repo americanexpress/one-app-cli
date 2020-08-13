@@ -220,11 +220,9 @@ You can specify which version of One App you module is compatible with by simply
 ```json
 {
   "one-amex": {
-    "bundler": {
-      "app": {
-        "compatibility": "^5.0.0"
-      },
-    }
+    "app": {
+      "compatibility": "^5.0.0"
+    },
   }
 }
 ```

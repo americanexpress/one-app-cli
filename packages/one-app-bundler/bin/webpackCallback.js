@@ -24,6 +24,7 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
   return function webpackCallback(err, stats) {
     if (err) {
       console.log(chalk.red(err), chalk.red(err.stack));
+      throw err;
     }
 
     const jsonStats = stats.toJson();
@@ -32,6 +33,7 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
       jsonStats.errors.forEach((e) => {
         console.log(chalk.red(e), chalk.red(e.stack));
       });
+      process.exitCode = 1;
     }
 
     if (jsonStats.warnings.length > 0) {
