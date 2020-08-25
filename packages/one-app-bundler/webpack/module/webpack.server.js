@@ -54,7 +54,7 @@ module.exports = extendWebpackConfig(merge(
           use: [babelLoader()],
         },
         {
-          test: /\.s?css$/,
+          test: /\.(sa|sc|c)ss$/,
           use: [
             {
               loader: '@americanexpress/one-app-bundler/webpack/loaders/ssr-css-loader', options: { name },

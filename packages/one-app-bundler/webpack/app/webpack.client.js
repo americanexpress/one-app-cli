@@ -96,7 +96,7 @@ module.exports = (babelEnv) => merge(
           exclude: new RegExp(`^${path.resolve(packageRoot, 'node_modules', 'core-js')}`),
           use: [babelLoader(babelEnv)],
         }, {
-          test: /\.s?css$/,
+          test: /\.(sa|sc|c)ss$/,
           use: [
             { loader: 'style-loader' },
             cssLoader({ importLoaders: 1 }),
