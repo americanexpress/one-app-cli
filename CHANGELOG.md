@@ -1,3 +1,31 @@
+# [](https://github.com/americanexpress/one-app-cli/compare/v6.9.0...v) (2020-08-28)
+
+
+### Bug Fixes
+
+* **fetch:** cross-fetch and abort-controller polyfills ([#135](https://github.com/americanexpress/one-app-cli/issues/135)) ([af3300b](https://github.com/americanexpress/one-app-cli/commit/af3300bb783070b1daa4870e5534cc73e9b599c8))
+
+
+### Features
+
+* **sass:** allow the use of sass files ([#131](https://github.com/americanexpress/one-app-cli/issues/131)) ([f8e7cfe](https://github.com/americanexpress/one-app-cli/commit/f8e7cfe6d25a83ae914c93f5c54f42066491f2cd))
+
+
+
+# [](https://github.com/americanexpress/one-app-cli/compare/v6.9.0...v) (2020-08-28)
+
+
+### Bug Fixes
+
+* **fetch:** cross-fetch and abort-controller polyfills ([#135](https://github.com/americanexpress/one-app-cli/issues/135)) ([af3300b](https://github.com/americanexpress/one-app-cli/commit/af3300bb783070b1daa4870e5534cc73e9b599c8))
+
+
+### Features
+
+* **sass:** allow the use of sass files ([#131](https://github.com/americanexpress/one-app-cli/issues/131)) ([f8e7cfe](https://github.com/americanexpress/one-app-cli/commit/f8e7cfe6d25a83ae914c93f5c54f42066491f2cd))
+
+
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
