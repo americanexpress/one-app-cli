@@ -34,13 +34,14 @@ const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
 
+const jsonParseContext = require('json-parse-context');
 const glob = promisify(require('glob'));
 const rimraf = promisify(require('rimraf'));
 const promisifiedFs = require('./promisified-fs');
 const mkdirp = require('./mkdirp');
 
 function compileModuleLocales(modulePath) {
-  const pkg = JSON.parse(fs.readFileSync(path.join(modulePath, 'package.json')));
+  const pkg = jsonParseContext(fs.readFileSync(path.join(modulePath, 'package.json')));
   const { version, name } = pkg;
   const builtLocaleDir = path.join(modulePath, `build/${version}`);
 
@@ -67,7 +68,7 @@ function compileModuleLocales(modulePath) {
 
   function buildModuleLocaleFilesFromFile(moduleName, localeName, localePath) {
     return promisifiedFs.readFile(localePath)
-      .then((localeContents) => JSON.parse(localeContents))
+      .then((localeContents) => jsonParseContext(localeContents))
       .then((localeData) => Promise.all([
         writeLocaleFile({
           moduleName,
@@ -90,7 +91,7 @@ function compileModuleLocales(modulePath) {
       [
         // grab the base data
         promisifiedFs.readFile(path.join(localePath, 'copy.json'))
-          .then((localeContents) => JSON.parse(localeContents)),
+          .then((localeContents) => jsonParseContext(localeContents)),
       ].concat(
         // find all of the env-specific data (ex: links)
         [
@@ -103,7 +104,7 @@ function compileModuleLocales(modulePath) {
               const key = path.parse(envPropPath).dir;
               promisifiedFs
                 .readFile(path.join(localePath, envPropPath))
-                .then((propContents) => JSON.parse(propContents))
+                .then((propContents) => jsonParseContext(propContents))
                 .then((data) => res({ key, data }))
                 .catch(rej);
             }))))
