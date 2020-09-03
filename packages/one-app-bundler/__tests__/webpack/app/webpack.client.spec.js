@@ -51,12 +51,22 @@ describe('webpack/app', () => {
 
   it('should include a fetch polyfill for legacy browsers', () => {
     const webpackConfig = configGenerator('legacy');
-    expect(webpackConfig.entry.vendors.includes('cross-fetch')).toBe(true);
+    expect(webpackConfig.entry.vendors.includes('cross-fetch/polyfill')).toBe(true);
   });
 
   it('should not include a fetch polyfill for modern browsers', () => {
     const webpackConfig = configGenerator('modern');
-    expect(webpackConfig.entry.vendors.includes('cross-fetch')).toBe(false);
+    expect(webpackConfig.entry.vendors.includes('cross-fetch/polyfill')).toBe(false);
+  });
+
+  it('should include abort-controller polyfill for legacy browsers', () => {
+    const webpackConfig = configGenerator('legacy');
+    expect(webpackConfig.entry.vendors.includes('abort-controller/polyfill')).toBe(true);
+  });
+
+  it('should not include abort-controller polyfill for modern browsers', () => {
+    const webpackConfig = configGenerator('modern');
+    expect(webpackConfig.entry.vendors.includes('abort-controller/polyfill')).toBe(false);
   });
 
   it('should use more core-js modules for legacy browsers than modern ones', () => {

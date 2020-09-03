@@ -70,7 +70,7 @@ module.exports = (babelEnv) => {
             use: [babelLoader(babelEnv)],
           },
           {
-            test: /\.s?css$/,
+            test: /\.(sa|sc|c)ss$/,
             use: [
               { loader: 'style-loader' },
               cssLoader({ name }),
