@@ -7,7 +7,7 @@ export default MyComponent;
 MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
   providedExternals: {
     'ajv': { version: '6.10.2', module: require('ajv')},
-  'lodash': { version: '4.17.15', module: require('lodash')},
+  'lodash': { version: '4.17.20', module: require('lodash')},
   },
 });
 
