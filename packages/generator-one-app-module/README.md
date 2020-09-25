@@ -12,9 +12,9 @@ npx -p yo -p @americanexpress/generator-one-app-module -- yo @americanexpress/on
 
 The generator will start up and prompt you with the following questions:
 - What is the name of your module?
-- Is this a [root module or child module](https://github.com/americanexpress/one-app/blob/master/docs/api/API.md#modules)?
+- Is this a [root module or child module](https://github.com/americanexpress/one-app/blob/main/docs/api/API.md#modules)?
 - Generate with [Parrot Middleware](https://github.com/americanexpress/parrot)?
-- Setup with [internationalization](https://github.com/americanexpress/one-app/blob/master/docs/api/modules/Internationalization.md)?
+- Setup with [internationalization](https://github.com/americanexpress/one-app/blob/main/docs/api/modules/Internationalization.md)?
 
 #### Optional Flags
 ##### --setupInternationalizationByDefault

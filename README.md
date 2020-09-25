@@ -1,8 +1,8 @@
 <h1 align="center">
-  <img src='https://github.com/americanexpress/one-app-cli/raw/master/one-app-cli.png' alt="One App CLI - One Amex" width='50%'/>
+  <img src='https://github.com/americanexpress/one-app-cli/raw/main/one-app-cli.png' alt="One App CLI - One Amex" width='50%'/>
 </h1>
 
-[![Travis (.org) branch](https://img.shields.io/travis/americanexpress/one-app-cli/master)](https://travis-ci.org/americanexpress/one-app-cli)
+[![Travis (.org) branch](https://img.shields.io/travis/americanexpress/one-app-cli/main)](https://travis-ci.org/americanexpress/one-app-cli)
 
 > A set of command line interface (CLI) tools for bundling **[One App](https://github.com/americanexpress/one-app)**, its modules, and property files(locale and environment specific files).
 
