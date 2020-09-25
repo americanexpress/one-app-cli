@@ -21,10 +21,10 @@ const helper = require('./promptValidations');
 const packagejs = require('../../package.json');
 
 const isNegativeAnswer = (answer) => (answer === false)
-    || (
-      typeof answer === 'string'
-      && /^n+o?/i.test(answer.trim())
-    );
+  || (
+    typeof answer === 'string'
+    && /^n+o?/i.test(answer.trim())
+  );
 
 module.exports = class extends Generator {
   _printOneAppLogo() {
@@ -171,14 +171,14 @@ module.exports = class extends Generator {
         dependencies: {
           '@americanexpress/one-app-ducks': '^4.0.0',
           immutable: '^3.8.2',
-          'prop-types': '^15.5.9',
-          'react-intl': '^4.5.3',
-          'react-redux': '^7.1.3',
-          redux: '^4.0.4',
+          'prop-types': '^15.7.2',
+          'react-intl': '^5.8.2',
+          'react-redux': '^7.2.1',
+          redux: '^4.0.5',
         },
         devDependencies: {
           glob: '^7.1.6',
-          '@babel/polyfill': '^7.8.3',
+          '@babel/polyfill': '^7.11.5',
           'jest-json-schema': '^2.1.0',
 
         },

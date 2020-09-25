@@ -11,7 +11,7 @@ describe('appConfig', () => {
       jest.resetModules();
       process.env.ONE_CLIENT_REPORTING_URL = 'example.com';
     });
-    
+
     it('should be a valid csp string', () => {
       // eslint-disable-next-line global-require
       const cspString = require('../src/csp').default;
