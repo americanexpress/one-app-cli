@@ -68,7 +68,7 @@
     "sass": "^1.22.12",
     "sass-loader": "^9.0.2",
     "source-map": "^0.7.3",
-    "ssri": "^7.1.0",
+    "ssri": "^8.0.0",
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^2.1.0",
     "url-loader": "^4.1.0",
