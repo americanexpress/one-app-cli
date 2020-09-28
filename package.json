@@ -20,7 +20,7 @@
     "enzyme-to-json": "^3.2.2",
     "eslint": "^6.8.0",
     "eslint-config-amex": "^11.0.1",
-    "husky": "^3.1.0",
+    "husky": "^4.3.0",
     "jest": "^25.1.0",
     "lerna": "^3.20.2",
     "lockfile-lint": "^4.1.0",
