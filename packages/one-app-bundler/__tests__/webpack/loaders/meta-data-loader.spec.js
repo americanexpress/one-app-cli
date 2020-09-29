@@ -23,7 +23,7 @@ jest.mock('read-pkg-up', () => ({
   sync: jest.fn(),
 }));
 
-readPkgUp.sync.mockImplementation(() => ({ pkg: { version: '1.0.0' } }));
+readPkgUp.sync.mockImplementation(() => ({ packageJson: { version: '1.0.0' } }));
 
 describe('validate-required-externals-loader', () => {
   it('should add versions for server side validation ', () => {
@@ -45,6 +45,15 @@ export default from './components/MyComponent';
   it('should throw an error when the wrong syntax is used - module.exports', () => {
     const content = `\
 module.exports = require('./components/MyComponent');
+`;
+    expect(() => validateExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should throw an error when the wrong syntax is used - export default hoc()', () => {
+    const content = `\
+import SomeComponent from './SomeComponent';
+
+export default hocChain(SomeComponent);
 `;
     expect(() => validateExternalsLoader(content)).toThrowErrorMatchingSnapshot();
   });

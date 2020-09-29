@@ -15,7 +15,7 @@
 const readPkgUp = require('read-pkg-up');
 const get = require('lodash/get');
 const commonConfig = require('../webpack/webpack.common');
-const { validateBundler } = require('../utils/validation');
+const { validateBundler } = require('./validation');
 
 function validateOptions(options) {
   if (options.requiredExternals && options.providedExternals) {
@@ -49,11 +49,12 @@ function logConfigurationWarnings(options) {
   }
 }
 
-const { pkg } = readPkgUp.sync();
-const options = get(pkg, ['one-amex', 'bundler'], {});
+const { packageJson } = readPkgUp.sync();
+const options = get(packageJson, ['one-amex', 'bundler'], {});
 validateBundler(options);
-options.appCompatibility = get(pkg, ['one-amex', 'app', 'compatibility']);
+options.appCompatibility = get(packageJson, ['one-amex', 'app', 'compatibility']);
 options.purgecss = options.purgecss || {};
+options.moduleName = packageJson.name;
 validateOptions(options);
 logConfigurationWarnings(options);
 

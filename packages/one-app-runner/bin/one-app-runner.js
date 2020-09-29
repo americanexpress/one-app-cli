@@ -129,6 +129,15 @@ const createYargsConfig = () => {
       default: false,
       type: 'boolean',
     })
+    .option('offline', {
+      describe: 'skip docker pull when the docker registry is not available / offline',
+      default: false,
+      type: 'boolean',
+    })
+    .option('--container-name', {
+      describe: 'Assign a container name with the --name option',
+      type: 'string',
+    })
     .implies({
       'parrot-middleware': 'modules',
       'dev-endpoints': 'modules',
@@ -158,6 +167,8 @@ try {
     createDockerNetwork: argv.createDockerNetwork,
     dockerNetworkToJoin: argv.dockerNetworkToJoin,
     useHost: argv.useHost,
+    offline: argv.offline,
+    containerName: argv.containerName,
   });
 } catch (error) {
   /* eslint-disable no-console */

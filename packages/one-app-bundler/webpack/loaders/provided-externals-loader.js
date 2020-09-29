@@ -21,7 +21,7 @@ function providedExternalsLoader(content) {
     const { version } = require(`${externalName}/package.json`);
     return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
   });
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
+  const match = content.match(/export\s+default\s+(?!from)([\w\d]+);$/m);
 
   if (match) {
     return `${content};
@@ -31,7 +31,10 @@ ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
   },
 });
 
+if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${options.moduleName}')){
 global.getTenantRootModule = () => ${match[1]};
+global.rootModuleName = '${options.moduleName}';
+}
 `;
   }
 

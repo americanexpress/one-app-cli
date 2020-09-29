@@ -1,0 +1,366 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+// eslint-disable-next-line jest/no-large-snapshots
+exports[`cssLoader returns loader config for CSS files 1`] = `
+Object {
+  "fragment": Object {
+    "module": Object {
+      "rules": Array [
+        Object {
+          "exclude": /node_modules/,
+          "include": undefined,
+          "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+          "use": Array [
+            Object {
+              "loader": "style-loader",
+            },
+            Object {
+              "loader": "css-loader",
+              "options": Object {
+                "importLoaders": 2,
+                "modules": Object {
+                  "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+                },
+              },
+            },
+            Object {
+              "loader": "sass-loader",
+            },
+            Object {
+              "loader": "postcss-loader",
+              "options": Object {
+                "postcssOptions": Object {
+                  "plugins": Object {
+                    "cssnano": Object {},
+                    "postcss-browser-reporter": Object {},
+                    "postcss-preset-env": Object {
+                      "browsers": "last 2 versions",
+                    },
+                  },
+                  "syntax": "postcss-scss",
+                },
+                "sourceMap": undefined,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  },
+  "rule": Object {
+    "exclude": /node_modules/,
+    "include": undefined,
+    "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+    "use": Array [
+      Object {
+        "loader": "style-loader",
+      },
+      Object {
+        "loader": "css-loader",
+        "options": Object {
+          "importLoaders": 2,
+          "modules": Object {
+            "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+          },
+        },
+      },
+      Object {
+        "loader": "sass-loader",
+      },
+      Object {
+        "loader": "postcss-loader",
+        "options": Object {
+          "postcssOptions": Object {
+            "plugins": Object {
+              "cssnano": Object {},
+              "postcss-browser-reporter": Object {},
+              "postcss-preset-env": Object {
+                "browsers": "last 2 versions",
+              },
+            },
+            "syntax": "postcss-scss",
+          },
+          "sourceMap": undefined,
+        },
+      },
+    ],
+  },
+}
+`;
+// eslint-disable-next-line jest/no-large-snapshots
+exports[`cssLoader returns loader config for CSS files with postcss disabled 1`] = `
+Object {
+  "fragment": Object {
+    "module": Object {
+      "rules": Array [
+        Object {
+          "exclude": /node_modules/,
+          "include": undefined,
+          "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+          "use": Array [
+            Object {
+              "loader": "style-loader",
+            },
+            Object {
+              "loader": "css-loader",
+              "options": Object {
+                "importLoaders": 1,
+                "modules": Object {
+                  "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+                },
+              },
+            },
+            Object {
+              "loader": "sass-loader",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  "rule": Object {
+    "exclude": /node_modules/,
+    "include": undefined,
+    "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+    "use": Array [
+      Object {
+        "loader": "style-loader",
+      },
+      Object {
+        "loader": "css-loader",
+        "options": Object {
+          "importLoaders": 1,
+          "modules": Object {
+            "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+          },
+        },
+      },
+      Object {
+        "loader": "sass-loader",
+      },
+    ],
+  },
+}
+`;
+// eslint-disable-next-line jest/no-large-snapshots
+exports[`cssLoader returns loader config for CSS files with with inline and hot reloading disabled 1`] = `
+Object {
+  "fragment": Object {
+    "module": Object {
+      "rules": Array [
+        Object {
+          "exclude": /node_modules/,
+          "include": undefined,
+          "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+          "use": Array [
+            Object {
+              "loader": "css-loader",
+              "options": Object {
+                "importLoaders": 2,
+                "modules": Object {
+                  "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+                },
+              },
+            },
+            Object {
+              "loader": "sass-loader",
+            },
+            Object {
+              "loader": "postcss-loader",
+              "options": Object {
+                "postcssOptions": Object {
+                  "plugins": Object {
+                    "cssnano": Object {},
+                    "postcss-browser-reporter": Object {},
+                    "postcss-preset-env": Object {
+                      "browsers": "last 2 versions",
+                    },
+                  },
+                  "syntax": "postcss-scss",
+                },
+                "sourceMap": undefined,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  },
+  "rule": Object {
+    "exclude": /node_modules/,
+    "include": undefined,
+    "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+    "use": Array [
+      Object {
+        "loader": "css-loader",
+        "options": Object {
+          "importLoaders": 2,
+          "modules": Object {
+            "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+          },
+        },
+      },
+      Object {
+        "loader": "sass-loader",
+      },
+      Object {
+        "loader": "postcss-loader",
+        "options": Object {
+          "postcssOptions": Object {
+            "plugins": Object {
+              "cssnano": Object {},
+              "postcss-browser-reporter": Object {},
+              "postcss-preset-env": Object {
+                "browsers": "last 2 versions",
+              },
+            },
+            "syntax": "postcss-scss",
+          },
+          "sourceMap": undefined,
+        },
+      },
+    ],
+  },
+}
+`;
+// eslint-disable-next-line jest/no-large-snapshots
+exports[`cssLoader returns loader config for CSS files with with inline disabled 1`] = `
+Object {
+  "fragment": Object {
+    "module": Object {
+      "rules": Array [
+        Object {
+          "exclude": /node_modules/,
+          "include": undefined,
+          "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+          "use": Array [
+            Object {
+              "loader": "style-loader",
+            },
+            Object {
+              "loader": "css-loader",
+              "options": Object {
+                "importLoaders": 2,
+                "modules": Object {
+                  "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+                },
+              },
+            },
+            Object {
+              "loader": "sass-loader",
+            },
+            Object {
+              "loader": "postcss-loader",
+              "options": Object {
+                "postcssOptions": Object {
+                  "plugins": Object {
+                    "cssnano": Object {},
+                    "postcss-browser-reporter": Object {},
+                    "postcss-preset-env": Object {
+                      "browsers": "last 2 versions",
+                    },
+                  },
+                  "syntax": "postcss-scss",
+                },
+                "sourceMap": undefined,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  },
+  "rule": Object {
+    "exclude": /node_modules/,
+    "include": undefined,
+    "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+    "use": Array [
+      Object {
+        "loader": "style-loader",
+      },
+      Object {
+        "loader": "css-loader",
+        "options": Object {
+          "importLoaders": 2,
+          "modules": Object {
+            "localIdentName": "[name]__[local]___[contenthash:base64:5]",
+          },
+        },
+      },
+      Object {
+        "loader": "sass-loader",
+      },
+      Object {
+        "loader": "postcss-loader",
+        "options": Object {
+          "postcssOptions": Object {
+            "plugins": Object {
+              "cssnano": Object {},
+              "postcss-browser-reporter": Object {},
+              "postcss-preset-env": Object {
+                "browsers": "last 2 versions",
+              },
+            },
+            "syntax": "postcss-scss",
+          },
+          "sourceMap": undefined,
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`fileLoader returns loader config for file types for webpack version 4 and below 1`] = `
+Object {
+  "fragment": Object {
+    "module": Object {
+      "rules": Array [
+        Object {
+          "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
+          "use": Array [
+            Object {
+              "loader": "file-loader",
+              "options": Object {
+                "name": "assets/[name].[ext]",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  },
+  "rule": Object {
+    "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
+    "use": Array [
+      Object {
+        "loader": "file-loader",
+        "options": Object {
+          "name": "assets/[name].[ext]",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`fileLoader returns loader config for file types for webpack version 5 and above 1`] = `
+Object {
+  "fragment": Object {
+    "module": Object {
+      "rules": Array [
+        Object {
+          "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
+          "type": "asset/resource",
+        },
+      ],
+    },
+    "output": Object {
+      "assetModuleFilename": "assets/[name].[ext]",
+    },
+  },
+  "rule": Object {
+    "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
+    "type": "asset/resource",
+  },
+}
+`;

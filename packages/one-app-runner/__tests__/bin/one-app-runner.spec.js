@@ -21,13 +21,14 @@ const originalProcessArgv = process.argv;
 
 beforeAll(() => {
   process.exit = jest.fn();
+  jest.spyOn(console, 'error');
+  console.error.mockImplementation();
 });
 
 beforeEach(() => {
   jest
     .resetModules()
-    .restoreAllMocks()
-    .resetAllMocks();
+    .clearAllMocks();
 
   jest.unmock('../../../../package.json');
 
@@ -92,7 +93,6 @@ test('command errors out if --docker-image option is not given', () => {
   require('../../bin/one-app-runner');
   expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 });
-
 
 test('--parrot-middleware, --modules, --output-file, and --dev-endpoints values are coerced into absolute paths', () => {
   const modulesPath = '../fake/path/to/fake-module';
@@ -230,6 +230,7 @@ test('all options are used if specified', () => {
     '--docker-network-to-join',
     dockerNetworkToJoin,
     '--use-host',
+    '--offline',
   ];
 
   jest.mock('../../src/startApp', () => jest.fn());
@@ -263,7 +264,7 @@ test('--modules option is required if --parrot-middleware option is given', () =
   process.argv = ['', '', '--parrot-middleware', '../path/to/dev.middleware.js', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toContain('parrot-middleware -> modules');
 });
 
 test('--modules option is required if --dev-endpoints option is given', () => {
@@ -272,7 +273,7 @@ test('--modules option is required if --dev-endpoints option is given', () => {
   process.argv = ['', '', '--dev-endpoints', '../path/to/dev.endpoints.js', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toContain('dev-endpoints -> modules');
 });
 
 test('an `envVars` key is supported within the config entry', () => {

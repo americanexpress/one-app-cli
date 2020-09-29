@@ -13,7 +13,6 @@
  * under the License.
  */
 
-
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');

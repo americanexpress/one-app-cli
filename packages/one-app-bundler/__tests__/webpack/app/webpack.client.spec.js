@@ -16,6 +16,14 @@
 const { validateWebpackConfig } = require('../../../test-utils');
 const configGenerator = require('../../../webpack/app/webpack.client');
 
+jest.mock('../../../webpack/loaders/common', () => {
+  const originalModule = jest.requireActual('../../../webpack/loaders/common');
+
+  return {
+    ...originalModule,
+    sassLoader: jest.fn(() => 'sassLoader'),
+  };
+});
 describe('webpack/app', () => {
   let originalNodeEnv;
 
@@ -95,5 +103,20 @@ describe('webpack/app', () => {
     process.env.NODE_ENV = 'production';
     const webpackConfig = require('../../../webpack/app/webpack.client')();
     expect(webpackConfig.module.rules[3]).toMatchSnapshot();
+  });
+
+  it('should define global.BROWSER to be true', () => {
+    const webpackConfig = require('../../../webpack/app/webpack.client')();
+
+    expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
+    expect(webpackConfig.plugins).toContainEqual({ definitions: expect.any(Object) });
+    const definitionPlugins = webpackConfig.plugins.filter((plugin) => Object.keys(plugin).includes('definitions'));
+    // could have multiple definition sets
+    expect(definitionPlugins.length).toBeGreaterThan(0);
+    const browserDefinitions = definitionPlugins.filter((plugin) => Object.keys(plugin.definitions).includes('global.BROWSER'));
+    // but should only define this once
+    expect(browserDefinitions).toHaveProperty('length', 1);
+    // stringified, also can't use .toHaveProperty() as the key we need has a dot in it
+    expect(browserDefinitions[0].definitions['global.BROWSER']).toBe('true');
   });
 });

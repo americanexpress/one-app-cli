@@ -11,6 +11,8 @@ SomeComponent.__holocron_module_meta_data__ = {
 };"
 `;
 
+exports[`validate-required-externals-loader should throw an error when the wrong syntax is used - export default hoc() 1`] = `"one-app-bundler: Module must use \`export default VariableName\` syntax in index"`;
+
 exports[`validate-required-externals-loader should throw an error when the wrong syntax is used - export from 1`] = `"one-app-bundler: Module must use \`export default VariableName\` syntax in index"`;
 
 exports[`validate-required-externals-loader should throw an error when the wrong syntax is used - module.exports 1`] = `"one-app-bundler: Module must use \`export default VariableName\` syntax in index"`;

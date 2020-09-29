@@ -18,7 +18,6 @@ const getConfigOptions = require('./getConfigOptions');
 const getCliOptions = require('./getCliOptions');
 const createResolver = require('../webpack/createResolver');
 
-
 function getCustomWebpackConfigPath(options, bundleTarget) {
   const { webpackConfigPath, webpackClientConfigPath, webpackServerConfigPath } = options;
 
@@ -38,6 +37,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     appCompatibility,
     requiredExternals,
     providedExternals,
+    moduleName,
   } = configOptions;
   const { watch } = cliOptions;
 
@@ -61,6 +61,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader',
             options: {
               providedExternals,
+              moduleName,
             },
           }],
         }],
@@ -72,7 +73,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     customWebpackConfig = merge(customWebpackConfig, {
       module: {
         rules: [...requiredExternals.map((externalName) => ({
-          test: `${resolve(externalName)}/`,
+          test: resolve(externalName),
           use: [{
             loader: '@americanexpress/one-app-bundler/webpack/loaders/externals-loader',
             options: {

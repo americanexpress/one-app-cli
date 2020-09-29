@@ -35,7 +35,7 @@ const plugins = [
   new webpack.EnvironmentPlugin([
     'NODE_ENV',
   ]),
-  ...(nodeEnvIsProduction ? prodPlugins : []),
+  ...nodeEnvIsProduction ? prodPlugins : [],
 ];
 
 module.exports = {

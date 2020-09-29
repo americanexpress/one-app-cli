@@ -227,7 +227,7 @@ Or in `package.json`
 
 ### docker-network-to-join [Optional]
 
-Connect the One App container to a network. The value gets passed to the [docker flag](https://docs.docker.com/network/bridge/) `--network` 
+Connect the One App container to a network. The value gets passed to the [docker flag](https://docs.docker.com/network/bridge/) `--network`
 
 Sample usage:
 
@@ -303,6 +303,54 @@ Or in `package.json`
 }
 ```
 
+### offline [Optional]
+
+Bypass `docker pull` and run an existing image already downloaded to your machine. This is useful when working offline or you are unable to access the Docker registry.
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --offline
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "dockerImage": "oneamex/one-app-dev:5.x.x",
+    "offline": true
+  }
+}
+```
+
+### container-name [Optional]
+
+Assign a container name with the --name docker option
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --container-name one-app-at-test
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.x.x",
+    "containerName": "one-app-at-test"
+  }
+}
+```
+
 ### envVars [Optional]
 
 Environment variables to provide to One App instance.
@@ -329,6 +377,10 @@ Or in `package.json`
   }
 }
 ```
+
+#### NODE_EXTRA_CA_CERTS
+
+If `NODE_EXTRA_CA_CERTS` is set, either through the `envVars` option or as an environment variable, it will be mounted and passed to the One App docker container.
 
 ## Proxy Support
 
@@ -364,7 +416,7 @@ This option is useful to run a test suite against the running One App container.
 
 This command generates random ports and values for the following environment variables:
 
-``` bash 
+``` bash
 HTTP_PORT
 HTTP_ONE_APP_DEV_CDN_PORT
 HTTP_ONE_APP_DEV_PROXY_SERVER_PORT
@@ -372,6 +424,6 @@ HTTP_METRICS_PORT
 NETWORK_NAME
 ```
 
-It stores them in a `.env` file to be shared across the test environments and **one-app-runner** 
+It stores them in a `.env` file to be shared across the test environments and **one-app-runner**
 
 This command should be executed before starting `one-app-runner-test`

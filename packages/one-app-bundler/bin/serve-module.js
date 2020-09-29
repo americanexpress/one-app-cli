@@ -43,7 +43,6 @@ argv._.forEach((modulePath) => {
   rimraf.sync(path.join(symModulesPath, moduleName));
   mkdirp.sync(path.join(symModulesPath, moduleName));
 
-
   const sourceBundlePath = path.join(absoluteModulePath, 'build', version);
   const symBundlePath = path.join(symModulesPath, moduleName, version);
 
@@ -82,7 +81,6 @@ argv._.forEach((modulePath) => {
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.node.js`,
       },
     };
-
 
     fs.writeFileSync(moduleMapPath, JSON.stringify(moduleMap, null, 2));
   }

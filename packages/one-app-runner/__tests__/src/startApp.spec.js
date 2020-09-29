@@ -40,6 +40,7 @@ describe('startApp', () => {
     delete process.env.HTTP_ONE_APP_DEV_CDN_PORT;
     delete process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT;
     delete process.env.HTTP_METRICS_PORT;
+    delete process.env.NODE_EXTRA_CA_CERTS;
     jest.spyOn(process.stdout, 'write');
     jest.spyOn(process.stderr, 'write');
     jest.spyOn(require('fs'), 'createWriteStream');
@@ -171,6 +172,26 @@ describe('startApp', () => {
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
+  it('bypasses docker pull when the offline flag is passed', () => {
+    const mockSpawn = require('mock-spawn')();
+
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], offline: true,
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('Passes the container name to the docker --name flag', () => {
+    const mockSpawn = require('mock-spawn')();
+
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], containerName: 'one-app-at-test',
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
   it('outputs all logs from docker pull and docker run to a file if output file arg is given', () => {
     const mockSpawn = require('mock-spawn')();
     const mockStdout = 'hello world (stdout)';
@@ -199,5 +220,25 @@ describe('startApp', () => {
     expect(
       () => onErrorFunction()
     ).toThrowErrorMatchingSnapshot('onErrorFunction');
+  });
+
+  it('forwards NODE_EXTRA_CA_CERTS from process.env', () => {
+    process.env.NODE_EXTRA_CA_CERTS = '/process/env/location/extra_certs.pem';
+    const mockSpawn = require('mock-spawn')();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0',
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('runner configs envVar NODE_EXTRA_CA_CERTS has priority over process.env', () => {
+    process.env.NODE_EXTRA_CA_CERTS = '/process/env/location/extra_certs.pem';
+    const mockSpawn = require('mock-spawn')();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', envVars: { NODE_EXTRA_CA_CERTS: '/envVar/location/cert.pem' },
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 });

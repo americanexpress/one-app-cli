@@ -15,7 +15,7 @@
  */
 
 const getPort = require('get-port');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const fs = require('fs-extra');
 
 const createRunnerEnv = async () => {
@@ -33,7 +33,6 @@ HTTP_ONE_APP_DEV_PROXY_SERVER_PORT=${devProxyServer}
 HTTP_METRICS_PORT=${metricsPort}
   `);
 };
-
 
 createRunnerEnv().catch((error) => {
   /* eslint-disable no-console */

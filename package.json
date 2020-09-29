@@ -1,64 +1,49 @@
 {
   "name": "one-app-cli",
-  "scripts": {
-    "postinstall": "lerna bootstrap",
-    "test:lint": "eslint --ext js,jsx,snap,md .",
-    "test:unit": "NODE_ENV=production jest",
-    "test": "npm run test:unit",
-    "test:git-history": "commitlint --from origin/main --to HEAD",
-    "test:lockfile": "node lockFileLint.js",
-    "posttest": "npm run test:lint && npm run test:git-history && npm run test:lockfile",
-    "lerna:version": "lerna version",
-    "lerna:publish": "lerna publish from-package --yes",
-    "lerna:deploy": "node lernaDeploy.js"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "amex-jest-preset": "^6.1.0",
-    "enzyme": "^3.11.0",
-    "enzyme-to-json": "^3.2.2",
-    "eslint": "^6.8.0",
-    "eslint-config-amex": "^11.0.1",
-    "husky": "^3.1.0",
-    "jest": "^25.1.0",
-    "lerna": "^3.20.2",
-    "lockfile-lint": "^4.1.0",
-    "mock-fs": "^4.7.0",
-    "prop-types": "*"
-  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/americanexpress/one-app-cli.git"
   },
-  "jest": {
-    "preset": "amex-jest-preset",
-    "collectCoverageFrom": [
-      "packages/**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!**/build/**",
-      "!packages/*/lib/**",
-      "!packages/*/bin/**",
-      "!packages/*/test-utils.js",
-      "!packages/*/test-results/**",
-      "!packages/generator-one-app-module/generators/app/templates/**"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 99.31,
-        "branches": 99.15,
-        "lines": 99.71,
-        "functions": 97
-      }
-    },
-    "testPathIgnorePatterns": [
-      "packages/generator-one-app-module/generators/app/templates"
-    ]
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.12.0"
+  },
+  "scripts": {
+    "test": "yarn test:unit",
+    "test:lint": "eslint --ext js,jsx,snap,md .",
+    "test:unit": "cross-env NODE_ENV=production jest",
+    "test:git-history": "commitlint --from origin/main --to HEAD",
+    "posttest": "yarn test:lint && yarn test:git-history && yarn test:lockfile",
+    "test:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts registry.yarnpkg.com --validate-https",
+    "lerna:version": "lerna version",
+    "lerna:publish": "lerna publish from-package --yes",
+    "lerna:deploy": "node lernaDeploy.js"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "amex-jest-preset": "^6.1.0",
+    "cross-env": "^7.0.2",
+    "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.2.2",
+    "eslint": "^6.8.0",
+    "eslint-config-amex": "^11.0.1",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "lerna": "^3.20.2",
+    "lockfile-lint": "^4.1.0",
+    "mock-fs": "^4.7.0",
+    "prop-types": "*",
+    "regenerator-runtime": "^0.13.7"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
+      "pre-commit": "yarn test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }

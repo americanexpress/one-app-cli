@@ -33,8 +33,8 @@ const {
 } = require('../loaders/common');
 
 const packageRoot = process.cwd();
-const { pkg } = readPkgUp.sync();
-const { version, name } = pkg;
+const { packageJson } = readPkgUp.sync();
+const { version, name } = packageJson;
 
 module.exports = (babelEnv) => {
   const configOptions = getConfigOptions();

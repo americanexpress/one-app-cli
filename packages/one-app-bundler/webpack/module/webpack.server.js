@@ -27,8 +27,8 @@ const {
 } = require('../loaders/common');
 
 const packageRoot = process.cwd();
-const { pkg } = readPkgUp.sync();
-const { version, name } = pkg;
+const { packageJson } = readPkgUp.sync();
+const { version, name } = packageJson;
 
 module.exports = extendWebpackConfig(merge(
   commonConfig,
@@ -80,6 +80,9 @@ module.exports = extendWebpackConfig(merge(
     plugins: [
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
+      }),
+      new webpack.DefinePlugin({
+        'global.BROWSER': JSON.stringify(false),
       }),
     ],
   }

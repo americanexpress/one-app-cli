@@ -107,8 +107,8 @@ describe('serve-module', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
       '/mocked/static/modules/my-module-name/1.0.0': {
-        'my-module-name.client.js': (function MyModule() {}).toString(),
-        'my-module-name.server.js': (function MyModule() {}).toString(),
+        'my-module-name.client.js': function MyModule() {}.toString(),
+        'my-module-name.server.js': function MyModule() {}.toString(),
       },
       '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
     });
@@ -116,7 +116,7 @@ describe('serve-module', () => {
     setPlatform('win32');
     require('../../bin/serve-module');
     expect(fs.symlinkSync).toHaveBeenCalledWith('/my-module-name/build/1.0.0', '/mocked/static/modules/my-module-name/1.0.0', 'junction');
-    process.platform = platform;
+    setPlatform(platform);
   });
 
   it('adds to the existing module map', () => {

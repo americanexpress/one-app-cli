@@ -15,7 +15,7 @@
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 
 jest.mock('read-pkg-up', () => ({
-  sync: jest.fn(() => ({ pkg: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
+  sync: jest.fn(() => ({ packageJson: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
 }));
 
 const webpackConfig = require('../../../webpack/module/webpack.server');
@@ -23,4 +23,9 @@ const { validateWebpackConfig } = require('../../../test-utils');
 
 describe('webpack/module.server', () => {
   it('should export valid webpack config', () => validateWebpackConfig(webpackConfig));
+
+  it('should define global.BROWSER to be false', () => {
+    expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
+    expect(webpackConfig.plugins).toContainEqual({ definitions: { 'global.BROWSER': 'false' } });
+  });
 });
