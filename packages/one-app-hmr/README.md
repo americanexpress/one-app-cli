@@ -63,9 +63,11 @@ import { hmrServer } from '@americanexpress/one-app-hmr';
 
 Once `webpack` has completed the build and has been logged, navigate to `http://localhost:4000`.
 
-## Configuration
+## API
 
-> A CLI will be coming at a later date to fully configure the HMR experience.
+### Configuration
+
+> A CLI will be coming at a later date to configure the HMR experience.
 
 `one-app-hmr` uses pre-existing config so should start with zero-config needed for the server to start.
 The config is based on `one-amex.runner` (`modules`, `rootModuleName`, `moduleMapUrl`, `dockerImage`)
@@ -75,6 +77,51 @@ Holocron module.
 If a `mock/scenarios.js` exists in your module, the `parrot` scenarios will be watched for changes and updated.
 The same applies if `locale/*` folder exists in your Holocron module. When a given locale is modified, the dev
 server will notify the client and will load the language pack into state.
+
+Example config:
+
+```json
+{
+  "one-amex": {
+    "hmr": {
+      "externals": [],
+      "scenarios": [],
+      "languagePacks": [],
+      "modules": [
+        "../my-other-module"
+      ],
+      "dockerImage": "",
+      "logLevel": 2,
+      "port": 4000,
+      "useParrotMiddleware": true,
+      "useLanguagePacks": true,
+      "oneAppSource": "",
+      "rootModuleName": "",
+      "remoteModuleMap": "",
+    }
+  }
+}
+```
+
+### Node API
+
+The main exports to set up your own dev server.
+
+* `createConfig`
+* `setupStatics`
+* `hmrServer`
+* `loadWebpackMiddleware`
+* `createHotModuleRenderingMiddleware`
+* `renderDocument`
+* `setLogLevel`
+
+```js
+(async function startDevServer() {
+  const config = await createConfig();
+  await setupStatics(config);
+  const [app, server] = await hmrServer(config);
+}());
+```
 
 ## Troubleshooting
 
