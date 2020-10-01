@@ -58,7 +58,7 @@ export async function loadWebpackMiddleware({
   log(printWebpack('initializing webpack'));
 
   await time(printWebpack(orange('pre-building dll externals for Holocron modules')), async () => {
-    await buildExternalsDLL();
+    await buildExternalsDLL({ externals });
   });
 
   // TODO: consider building externals if changed
