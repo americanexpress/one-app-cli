@@ -17,11 +17,11 @@ import chokidar from 'chokidar';
 import parrot from 'parrot-middleware';
 
 import {
-  debug, log, warn, purple,
+  debug, log, warn, time, deeppink,
 } from './logs';
 
 export function printParrot() {
-  return purple('parrot');
+  return deeppink('parrot');
 }
 
 export function loadScenarios(scenarioPaths) {
@@ -80,13 +80,15 @@ export function createHotParrotMiddleware(scenarios = [], publish) {
 
 // TODO: GraphQL support
 
-export function loadParrotMiddleware(app, { scenarios, useParrotMiddleware, hotMiddleware } = {}) {
+export function loadParrotMiddleware(app, { scenarios, useParrotMiddleware, publish } = {}) {
   debug('"useParrotMiddleware" was set to "%s"', useParrotMiddleware);
 
   if (useParrotMiddleware && scenarios.length > 0) {
     debug(`${printParrot()} Loading scenarios %o`, scenarios);
-    const parrotMiddleware = createHotParrotMiddleware(scenarios, hotMiddleware.publish);
-    app.use(parrotMiddleware);
+    time(`${printParrot()} - initializing`, () => {
+      const parrotMiddleware = createHotParrotMiddleware(scenarios, publish);
+      app.use(parrotMiddleware);
+    });
   } else {
     debug(`${printParrot()} Scenarios were not found`);
   }

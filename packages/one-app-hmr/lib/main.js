@@ -12,7 +12,10 @@
  * under the License.
  */
 
-export {
-  getHMRConfig, preloadOneAppStatics, preBuildExternals, modifySource,
-} from './setup';
+export { createConfig } from './config';
+export { default as renderDocument } from './html';
+export { createHotModuleRenderingMiddleware } from './html/middleware';
+export { setLogLevel } from './logs';
 export { default as hmrServer } from './server';
+export { setupStatics } from './setup';
+export { loadWebpackMiddleware } from './webpack';

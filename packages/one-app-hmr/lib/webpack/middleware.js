@@ -16,22 +16,68 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
+import {
+  createOneAppExternals,
+} from './utility';
+import { createDLLConfig } from './dll';
 import { createHotModuleWebpackConfig } from './module';
 import {
-  error, warn, log, orange,
+  error, warn, time, log, orange, dodgerblue,
 } from '../logs';
 
-// eslint-disable-next-line import/prefer-default-export
-export function loadWebpackMiddleware({ modules, externals, entryModule } = {}) {
-  const webpackConfig = createHotModuleWebpackConfig({ modules, externals, entryModule });
+export const printWebpack = (message) => `${dodgerblue('webpack')} - ${message}`;
+
+export function buildExternalsDLL(config = {}) {
+  const { externals = [] } = config;
+
+  if (externals.length > 0 === false) return Promise.resolve();
+
+  return new Promise((resolve, reject) => {
+    webpack(createDLLConfig({
+      isDev: false,
+      dllVendors: externals,
+      dllExternals: createOneAppExternals(),
+    })).run((err, stats) => {
+      if (err) {
+        error(err);
+        reject(err);
+      }
+      resolve(stats);
+    });
+  });
+}
+
+export async function loadWebpackMiddleware({
+  context,
+  publicPath,
+  staticPath,
+  modules,
+  externals,
+  rootModuleName,
+} = {}) {
+  log(printWebpack('initializing webpack'));
+
+  await time(printWebpack(orange('pre-building dll externals for Holocron modules')), async () => {
+    await buildExternalsDLL();
+  });
+
+  // TODO: consider building externals if changed
+  const webpackConfig = createHotModuleWebpackConfig({
+    context,
+    publicPath,
+    staticPath,
+    modules,
+    externals,
+    rootModuleName,
+  });
   const compiler = webpack(webpackConfig);
   const devMiddleware = webpackDevMiddleware(compiler, {
     index: false,
     serverSideRender: true,
-    publicPath: webpackConfig.output.publicPath,
     writeToDisk: true,
-    logLevel: 'error',
     logTime: false,
+    logLevel: 'error',
+    publicPath: webpackConfig.output.publicPath,
     watchOptions: {
       aggregateTimeout: 500,
       poll: 1000,
@@ -41,9 +87,9 @@ export function loadWebpackMiddleware({ modules, externals, entryModule } = {}) 
         const { errors, warnings } = stats.compilation;
         errors.forEach((message) => error(message));
         warnings.forEach((message) => warn(message));
-        log(`webpack built in ${orange(`${stats.endTime - stats.startTime}`)} ms`);
+        log(printWebpack(`webpack built in ${orange(`${stats.endTime - stats.startTime}`)} ms`));
       } else {
-        log('webpack building...');
+        warn(printWebpack('webpack building...'));
       }
       return null;
     },
@@ -57,5 +103,6 @@ export function loadWebpackMiddleware({ modules, externals, entryModule } = {}) 
   return {
     devMiddleware,
     hotMiddleware,
+    publish: (...args) => hotMiddleware.publish(...args),
   };
 }

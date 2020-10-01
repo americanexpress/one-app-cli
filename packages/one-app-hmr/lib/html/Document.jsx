@@ -25,6 +25,7 @@ export default function Document({
   moduleMap,
   rootModuleName,
   lang = 'en-US',
+  errorReportingUrl,
 } = {}) {
   /* eslint-enable react/prop-types */
   const state = transit.toJSON(
@@ -32,7 +33,7 @@ export default function Document({
       config: {
         cdnUrl: getPublicPath(),
         rootModuleName,
-        reportingUrl: '/error',
+        reportingUrl: errorReportingUrl,
       },
       intl: {
         activeLocale: lang,

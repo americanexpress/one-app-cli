@@ -16,16 +16,25 @@ import express from 'express';
 
 import { loadWebpackMiddleware } from './webpack';
 import { getStaticPath } from './webpack/utility';
-import { createStaticRenderMiddleware } from './html/middleware';
+import { createHotModuleRenderingMiddleware } from './html/middleware';
 import { loadParrotMiddleware } from './parrot';
 import { loadLanguagePacks } from './locale';
-import { info, yellow, orange } from './logs';
+import {
+  info, warn, yellow, orange,
+} from './logs';
 
-export default function hmrServer({
+export const acceptedMiddleware = (req, res) => {
+  res.status(202);
+};
+
+export default async function hmrServer({
   port = 4000,
-  modules,
-  entryModule,
+  context,
+  publicPath,
+  staticPath,
+  rootModuleName,
   remoteModuleMap,
+  modules,
   externals,
   scenarios,
   languagePacks,
@@ -33,17 +42,25 @@ export default function hmrServer({
   useLanguagePacks,
 } = {}) {
   info('Starting HMR server');
-  info(`Root Holocron module: ${orange(entryModule.rootModuleName)}`);
+  info(`Root Holocron module: ${orange(rootModuleName)}`);
   info(`Holocron modules loaded: ${modules.map(({ moduleName }) => orange(`"${moduleName}"`)).join(', ')}`);
 
   const serverAddress = `http://localhost:${port}/`;
   const {
+    publish,
     devMiddleware,
     hotMiddleware,
-  } = loadWebpackMiddleware({ modules, externals, entryModule });
+  } = await loadWebpackMiddleware({
+    context,
+    publicPath,
+    staticPath,
+    modules,
+    externals,
+    rootModuleName,
+  });
 
   devMiddleware.waitUntilValid(() => {
-    info(`${orange('HMR server is ready')} - visit "${yellow(serverAddress)}" to start!\n`);
+    info(`${orange('🔥 HMR server is ready')} - visit "${yellow(serverAddress)}" to start!\n`);
   });
 
   const app = express();
@@ -53,23 +70,25 @@ export default function hmrServer({
     .use(hotMiddleware)
     .use('/static', express.static(getStaticPath()));
 
-  loadLanguagePacks(app, { languagePacks, useLanguagePacks, hotMiddleware });
-  loadParrotMiddleware(app, { scenarios, useParrotMiddleware, hotMiddleware });
+  loadLanguagePacks(app, { languagePacks, useLanguagePacks, publish });
+  loadParrotMiddleware(app, { scenarios, useParrotMiddleware, publish });
+
+  const renderMiddleware = await createHotModuleRenderingMiddleware({
+    rootModuleName,
+    remoteModuleMap,
+    errorReportingUrl: '/error',
+  });
 
   app
-    .get(
-      '*',
-      createStaticRenderMiddleware({
-        entryModule,
-        remoteModuleMap,
-      })
-    )
-    .post('/error', (req, res) => {
-      res.status(202);
-    });
+    .get('*', renderMiddleware)
+    .post('/error', acceptedMiddleware);
 
   return [app, app.listen(port, (error) => {
     if (error) throw error;
     info(`HMR server is up on "${serverAddress}" - ${yellow('initializing HMR')}`);
+
+    process.on('exit', () => {
+      warn('HMR server shutting down');
+    });
   })];
 }

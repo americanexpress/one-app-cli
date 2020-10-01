@@ -17,11 +17,11 @@ import chokidar from 'chokidar';
 import { execSync } from 'child_process';
 
 import {
-  debug, log, warn, orange,
+  debug, log, warn, time, palegreen,
 } from './logs';
 
 export function printLocale() {
-  return orange('locale');
+  return palegreen('locale');
 }
 
 export function buildHotModuleLocale(modulePath) {
@@ -71,12 +71,14 @@ export async function createHotLanguagePacks(modulePaths = [], publish) {
     });
 }
 
-export function loadLanguagePacks(app, { languagePacks, useLanguagePacks, hotMiddleware } = {}) {
+export function loadLanguagePacks(app, { languagePacks, useLanguagePacks, publish } = {}) {
   debug(`${printLocale()} "useLanguagePacks" was set to "%s"`, useLanguagePacks);
 
   if (useLanguagePacks && languagePacks.length > 0) {
-    createHotLanguagePacks(languagePacks, hotMiddleware.publish);
     debug(`${printLocale()} Loading language packs %o`, languagePacks);
+    time(`${printLocale()} - initializing`, () => {
+      createHotLanguagePacks(languagePacks, publish);
+    });
   } else {
     debug(`${printLocale()} Locale folders were not found`);
   }

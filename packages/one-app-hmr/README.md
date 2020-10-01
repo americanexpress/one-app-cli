@@ -12,6 +12,7 @@ would be the right tool to choose.
 
 ## Quick Start:
 
+> Prereq - Docker is required; oneamex/one-app-dev image is pulled down.
 
 install:
 

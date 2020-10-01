@@ -22,9 +22,6 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import HotHolocronModulePlugin from './plugins/hot-holocron';
 
 import {
-  getContext,
-  getPublicPath,
-  getModulesPath,
   createOneAppExternals,
   createHotModuleEntries,
 } from './utility';
@@ -37,13 +34,14 @@ import { createDLLConfig } from './dll';
 import { debug } from '../logs';
 
 // eslint-disable-next-line import/prefer-default-export
-export function createHotModuleWebpackConfig({ modules = [], externals = [], entryModule = {} }) {
-  const context = getContext();
-  const publicPath = getPublicPath();
-  const staticPath = getModulesPath();
-
-  const { rootModuleName } = entryModule;
-
+export function createHotModuleWebpackConfig({
+  context,
+  publicPath,
+  staticPath,
+  modules = [],
+  externals = [],
+  rootModuleName,
+}) {
   const languagePacksToCopy = modules
     .filter(({ languagePacks }) => languagePacks.length > 0)
     .map(({ moduleName, moduleVersion, modulePath }) => ({

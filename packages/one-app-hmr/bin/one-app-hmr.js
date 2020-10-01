@@ -14,19 +14,16 @@
  */
 
 const {
-  getHMRConfig,
+  createConfig,
+  setupStatics,
   hmrServer,
-  preloadOneAppStatics,
-  preBuildExternals,
-  modifySource,
 } = require('../lib');
 
-// TODO: add support for cli options, merge with default config
 (async function oneAppHMR() {
-  const config = await getHMRConfig();
-  await preloadOneAppStatics(config);
-  await preBuildExternals(config);
+  // TODO: add support for cli options, merge with default config, pass to createConfig
+  const config = await createConfig();
+  // setup before starting
+  await setupStatics(config);
+
   await hmrServer(config);
-  // update gitignore to include static
-  modifySource();
 }());

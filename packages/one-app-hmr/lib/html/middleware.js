@@ -13,10 +13,27 @@
  */
 
 import fs from 'fs';
+import fetch from 'cross-fetch';
 
 import renderDocument from '.';
 import { getPublicPath, getExternalsPublicPath, getStaticPath } from '../webpack/utility';
-import { log, yellow, green } from '../logs';
+import {
+  log, error, yellow, green,
+} from '../logs';
+
+export async function loadRemoteModuleMap(remoteModuleMapUrl) {
+  if (typeof remoteModuleMapUrl === 'string') {
+    const response = await fetch(remoteModuleMapUrl);
+    if (response.ok) {
+      return response.json();
+    }
+    error('fetching the remote module map has failed');
+  }
+
+  return {
+    modules: {},
+  };
+}
 
 export function createLocalModulesFromStats(stats) {
   const modules = Object.keys(stats.assetsByChunkName)
@@ -52,10 +69,12 @@ export function createLocalModulesFromStats(stats) {
   };
 }
 
-export function createStaticRenderMiddleware({
-  entryModule: { rootModuleName },
-  remoteModuleMap,
+export async function createHotModuleRenderingMiddleware({
+  rootModuleName,
+  remoteModuleMap: remoteModuleMapUrl,
+  errorReportingUrl,
 } = {}) {
+  const remoteModuleMap = await loadRemoteModuleMap(remoteModuleMapUrl);
   const externals = (fs.existsSync(getStaticPath('vendor'))
     ? fs.readdirSync(getStaticPath('vendor')) : [])
     .filter((pathname) => pathname.endsWith('.js'))
@@ -79,7 +98,7 @@ export function createStaticRenderMiddleware({
       const rootModule = moduleMap.modules[rootModuleName];
 
       if (!rootModule) {
-        console.error('[One App HMR]: Root Module not found');
+        error('Root Module not found');
       } else {
         modules.unshift({
           name: rootModuleName,
@@ -101,6 +120,7 @@ export function createStaticRenderMiddleware({
       modules,
       externals,
       moduleMap,
+      errorReportingUrl,
     });
 
     log(yellow(`Rendered HTML with local modules: [${green(modules.map(({ name }) => name).join(', '))}]`));

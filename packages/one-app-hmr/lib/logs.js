@@ -29,14 +29,26 @@ export function setLogLevel(level = 2) {
 export const {
   red, green, yellow,
 } = chalk;
+export const pink = chalk.keyword('pink');
+export const bisque = chalk.keyword('bisque');
+export const deeppink = chalk.keyword('deeppink');
+export const dodgerblue = chalk.keyword('dodgerblue');
+export const blueviolet = chalk.keyword('blueviolet');
+export const palegreen = chalk.keyword('palegreen');
 export const purple = chalk.keyword('purple');
 export const orange = chalk.keyword('orange');
 export const cyan = chalk.keyword('cyan');
-export const printLibName = () => cyan.bold(`  ${libName} ::`);
-export const log = (message) => logLevel > 1 && console.log(`${printLibName()} %s`, message);
-export const warn = (message) => logLevel > 0 && console.warn(`${printLibName()} %s`, orange(message));
-export const error = (message) => console.error(`${printLibName()} %s`, red(message));
-export const info = (message) => console.info(`\n${printLibName()} %s`, green(message));
+export const printLibName = () => `  ${libName} ::`;
+export const log = (message) => logLevel > 1 && console.log(`${cyan.bold(printLibName())} %s`, message);
+export const warn = (message) => logLevel > 0 && console.warn(`${orange.bold(printLibName())} %s`, orange(message));
+export const error = (message) => console.error(`${red.bold(printLibName())} %s`, red(message));
+export const info = (message) => console.info(`\n${green.bold(printLibName())} %s`, green(message));
+export const time = async (label, callback) => {
+  const timeLabel = `${bisque.bold(printLibName())} ${label}`;
+  console.time(timeLabel);
+  await callback();
+  console.timeEnd(timeLabel);
+};
 
 export function setDebugMode() {
   process.env.DEBUG = [process.env.DEBUG || '', 'one-app-hmr'].join(' ').trim();
