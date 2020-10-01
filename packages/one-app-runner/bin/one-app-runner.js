@@ -129,6 +129,11 @@ const createYargsConfig = () => {
       default: false,
       type: 'boolean',
     })
+    .option('offline', {
+      describe: 'skip docker pull when the docker registry is not available / offline',
+      default: false,
+      type: 'boolean',
+    })
     .implies({
       'parrot-middleware': 'modules',
       'dev-endpoints': 'modules',
@@ -158,6 +163,7 @@ try {
     createDockerNetwork: argv.createDockerNetwork,
     dockerNetworkToJoin: argv.dockerNetworkToJoin,
     useHost: argv.useHost,
+    offline: argv.offline,
   });
 } catch (error) {
   /* eslint-disable no-console */
