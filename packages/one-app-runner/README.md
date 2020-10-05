@@ -303,6 +303,30 @@ Or in `package.json`
 }
 ```
 
+### offline [Optional]
+
+Bypass `docker pull` and run an existing image already downloaded to your machine. This is useful when working offline or you are unable to access the Docker registry.
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --offline
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "dockerImage": "oneamex/one-app-dev:5.x.x",
+    "offline": true
+  }
+}
+```
+
 ### envVars [Optional]
 
 Environment variables to provide to One App instance.
