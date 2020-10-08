@@ -52,7 +52,10 @@ describe('extendWebpackConfig', () => {
 
   jest.spyOn(process, 'cwd').mockImplementation(() => '/path');
 
+  const originalPlatform = process.platform;
+
   beforeEach(() => {
+    Object.defineProperty(process, 'platform', { value: originalPlatform });
     jest.clearAllMocks();
     originalWebpackConfig = {
       resolve: {
@@ -115,13 +118,30 @@ describe('extendWebpackConfig', () => {
 
     expect(rules).toHaveLength(originalWebpackConfig.module.rules.length + 3);
     expect(rules[rules.length - 3]).toMatchSnapshot({
-      test: expect.stringMatching(/ajv/),
+      test: expect.stringMatching(/ajv\/$/),
     });
     expect(rules[rules.length - 2]).toMatchSnapshot({
-      test: expect.stringMatching(/lodash/),
+      test: expect.stringMatching(/lodash\/$/),
     });
     expect(rules[rules.length - 1]).toMatchSnapshot();
   });
+
+  it('should use the correct trailing slash on windows', () => {
+    Object.defineProperty(process, 'platform', { value: 'win32' });
+    getConfigOptions.mockReturnValueOnce({ requiredExternals: ['ajv', 'lodash'] });
+    const result = extendWebpackConfig(originalWebpackConfig);
+    const { rules } = result.module;
+
+    expect(rules).toHaveLength(originalWebpackConfig.module.rules.length + 3);
+    expect(rules[rules.length - 3]).toMatchSnapshot({
+      test: expect.stringMatching(/ajv\\$/),
+    });
+    expect(rules[rules.length - 2]).toMatchSnapshot({
+      test: expect.stringMatching(/lodash\\$/),
+    });
+    expect(rules[rules.length - 1]).toMatchSnapshot();
+  });
+
 
   it('should validate the one app version', () => {
     getConfigOptions.mockReturnValueOnce({ appCompatibility: '^4.41.0' });

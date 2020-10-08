@@ -2,6 +2,8 @@
 
 exports[`startApp Displays an error if createNetwork fails: create network calls 1`] = `[Error: Error creating network]`;
 
+exports[`startApp bypasses docker pull when the offline flag is passed 1`] = `" docker run -t -p 3000:3000 -p 3001:3001 -p 3002:3002 -p 3005:3005 -e NODE_ENV=development    -v /path/to/module-a:/opt/module-workspace/module-a one-app:5.0.0 /bin/sh -c \\"npm run serve-module /opt/module-workspace/module-a &&   node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  \\""`;
+
 exports[`startApp creates a docker network when the flag is provided: create network calls 1`] = `
 Array [
   Array [

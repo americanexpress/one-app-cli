@@ -8,11 +8,11 @@ const <%=moduleNamePascal%> = () => (
 );
 
 // Read about childRoutes:
-// https://github.com/americanexpress/one-app/blob/master/docs/api/modules/Routing.md#childroutes
+// https://github.com/americanexpress/one-app/blob/main/docs/api/modules/Routing.md#childroutes
 <%=moduleNamePascal%>.childRoutes = childRoutes;
 
 // Read about appConfig:
-// https://github.com/americanexpress/one-app/blob/master/docs/api/modules/App-Configuration.md
+// https://github.com/americanexpress/one-app/blob/main/docs/api/modules/App-Configuration.md
 /* istanbul ignore next */
 if (!global.BROWSER) {
   // eslint-disable-next-line global-require
