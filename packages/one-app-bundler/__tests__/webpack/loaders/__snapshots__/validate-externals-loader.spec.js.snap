@@ -9,7 +9,7 @@ if (!global.BROWSER) {
   SomeComponent.appConfig = Object.assign({}, SomeComponent.appConfig, {
     requiredExternals: {
       'ajv': '^6.7.0',
-      'lodash': '^4.17.11',
+      'lodash': '^4.17.20',
     },
   });
 }

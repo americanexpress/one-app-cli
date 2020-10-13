@@ -28,6 +28,10 @@ If applicable, add screenshots to help explain your problem.
 
 ## System information
 
+<!--
+Run npx envinfo --system --binaries --npmPackages --markdown
+Paste results here:-->
+
 - OS: [e.g. macOS, Windows]
 - Browser (if applies) [e.g. chrome, safari]
 - Version of one-app-cli: [e.g. 5.0.0]
