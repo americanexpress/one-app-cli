@@ -230,6 +230,7 @@ test('all options are used if specified', () => {
     '--docker-network-to-join',
     dockerNetworkToJoin,
     '--use-host',
+    '--offline',
   ];
 
   jest.mock('../../src/startApp', () => jest.fn());

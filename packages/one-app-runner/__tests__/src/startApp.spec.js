@@ -171,6 +171,16 @@ describe('startApp', () => {
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
+  it('bypasses docker pull when the offline flag is passed', () => {
+    const mockSpawn = require('mock-spawn')();
+
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], offline: true,
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
   it('outputs all logs from docker pull and docker run to a file if output file arg is given', () => {
     const mockSpawn = require('mock-spawn')();
     const mockStdout = 'hello world (stdout)';
