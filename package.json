@@ -3,7 +3,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "test:lint": "eslint --ext js,jsx,snap,md .",
-    "test:unit": "NODE_ENV=production jest",
+    "test:unit": "cross-env NODE_ENV=production jest",
     "test": "npm run test:unit",
     "test:git-history": "commitlint --from origin/main --to HEAD",
     "test:lockfile": "node lockFileLint.js",
@@ -16,6 +16,7 @@
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "amex-jest-preset": "^6.1.0",
+    "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.2.2",
     "eslint": "^6.8.0",
