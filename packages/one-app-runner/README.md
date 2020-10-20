@@ -2,7 +2,7 @@
 
 > A command line interface (CLI) tool for running [One App](https://github.com/americanexpress/one-app) locally.
 
-**one-app-runner** allows you to work locally on your [Holocron Module](https://github.com/americanexpress/one-app/blob/master/docs/api/API.md#modules) without having to clone [One App](https://github.com/americanexpress/one-app).
+**one-app-runner** allows you to work locally on your [Holocron Module](https://github.com/americanexpress/one-app/blob/main/docs/api/API.md#modules) without having to clone [One App](https://github.com/americanexpress/one-app).
 
 It works by pulling a Docker image for One App and mounting your module to it as a volume.
 
@@ -14,7 +14,7 @@ Note that [Docker](https://www.docker.com/products/docker-desktop) is required a
 
 ### Quick start
 
-In any [Holocron Module](https://github.com/americanexpress/one-app/blob/master/docs/api/API.md#modules) directory:
+In any [Holocron Module](https://github.com/americanexpress/one-app/blob/main/docs/api/API.md#modules) directory:
 
 1. Install:
 ```bash
@@ -40,7 +40,7 @@ npm install --save-dev @americanexpress/one-app-runner
 }
 ```
 
-Use the runner config to tell `one-app-runner` what module map and One App version to use, what your root module is, where your module is (current directory in this case), and optionally where your [Parrot mocks](https://github.com/americanexpress/one-app/blob/master/docs/recipes/Mocking-API-Calls.md) middleware file is located.
+Use the runner config to tell `one-app-runner` what module map and One App version to use, what your root module is, where your module is (current directory in this case), and optionally where your [Parrot mocks](https://github.com/americanexpress/one-app/blob/main/docs/recipes/Mocking-API-Calls.md) middleware file is located.
 
 ##  Command options reference
 
@@ -151,7 +151,7 @@ Or in `package.json`
 
 Path to parrot dev middleware file for One App to use for Parrot mocking. This option must be used in conjunction with the `--module` option.
 
-For more information on setting up parrot dev middleware, check out the [One App Mocking APIs recipe](https://github.com/americanexpress/one-app/blob/master/docs/recipes/Mocking-API-Calls.md).
+For more information on setting up parrot dev middleware, check out the [One App Mocking APIs recipe](https://github.com/americanexpress/one-app/blob/main/docs/recipes/Mocking-API-Calls.md).
 
 Sample usage:
 
@@ -179,7 +179,7 @@ If middleware is defined in the `package.json`, you can use the `--no-parrot-mid
 
 Path to dev endpoints file for One App to use for the One App Dev Proxy set up. This option must be used in conjunction with the `--module` option.
 
-For more information on setting up your dev endpoints file, check out the [Configuring One App with your API URLs guide](https://github.com/americanexpress/one-app/blob/master/docs/recipes/Mocking-API-Calls.md).
+For more information on setting up your dev endpoints file, check out the [Configuring One App with your API URLs guide](https://github.com/americanexpress/one-app/blob/main/docs/recipes/Mocking-API-Calls.md).
 
 Sample usage:
 
@@ -299,6 +299,30 @@ Or in `package.json`
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
     "oneAppVersion": "5.x.x",
     "useHost": true
+  }
+}
+```
+
+### offline [Optional]
+
+Bypass `docker pull` and run an existing image already downloaded to your machine. This is useful when working offline or you are unable to access the Docker registry.
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --offline
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "dockerImage": "oneamex/one-app-dev:5.x.x",
+    "offline": true
   }
 }
 ```

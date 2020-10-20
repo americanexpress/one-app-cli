@@ -25,6 +25,8 @@ Array [
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
                             one-app-dev-cdn           [boolean] [default: false]
+  --offline                 skip docker pull when the docker registry is not
+                            available / offline       [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -61,6 +63,8 @@ Array [
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
                             one-app-dev-cdn           [boolean] [default: false]
+  --offline                 skip docker pull when the docker registry is not
+                            available / offline       [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -95,6 +99,8 @@ Array [
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
                             one-app-dev-cdn           [boolean] [default: false]
+  --offline                 skip docker pull when the docker registry is not
+                            available / offline       [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -118,6 +124,7 @@ Array [
       "modulesToServe": Array [
         "/fake/path/to/fake-module",
       ],
+      "offline": true,
       "outputFile": "/fake/path/to/fake-module/one-app.log",
       "parrotMiddlewareFile": "/fake/path/to/fake-module/dev.middleware.js",
       "rootModuleName": "frank-lloyd-root",
@@ -223,6 +230,8 @@ Array [
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
                             one-app-dev-cdn           [boolean] [default: false]
+  --offline                 skip docker pull when the docker registry is not
+                            available / offline       [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -341,6 +350,8 @@ Array [
                                                                         [string]
   --use-host                Use req.headers.host instead of localhost for
                             one-app-dev-cdn           [boolean] [default: false]
+  --offline                 skip docker pull when the docker registry is not
+                            available / offline       [boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
