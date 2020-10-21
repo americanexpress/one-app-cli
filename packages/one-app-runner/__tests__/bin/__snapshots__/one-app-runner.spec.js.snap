@@ -122,8 +122,8 @@ Array [
   Array [
     Object {
       "appDockerImage": "one-app:5.0.0",
-      "createDockerNetwork": false,
       "containerName": undefined,
+      "createDockerNetwork": false,
       "devEndpointsFile": "/fake/path/to/fake-module/dev.endpoints.js",
       "dockerNetworkToJoin": "one-test-environment-1234",
       "envVars": "MY_ENV_VAR=value",
