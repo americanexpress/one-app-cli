@@ -181,6 +181,16 @@ describe('startApp', () => {
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
+  it('Passes the container name to the docker --name flag', () => {
+    const mockSpawn = require('mock-spawn')();
+
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], containerName: 'one-app-at-test',
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
   it('outputs all logs from docker pull and docker run to a file if output file arg is given', () => {
     const mockSpawn = require('mock-spawn')();
     const mockStdout = 'hello world (stdout)';
