@@ -20,8 +20,8 @@ const { hashElement } = require('folder-hash');
 const readPkgUp = require('read-pkg-up');
 const generateIntegrityManifest = require('./generateIntegrityManifest');
 
-const { pkg, path: pkgPath } = readPkgUp.sync();
-const { version } = pkg;
+const { packageJson, path: pkgPath } = readPkgUp.sync();
+const { version } = packageJson;
 const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 
 
