@@ -327,6 +327,30 @@ Or in `package.json`
 }
 ```
 
+### container-name [Optional]
+
+Assign a container name with the --name docker option
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --container-name one-app-at-test
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.x.x",
+    "containerName": "one-app-at-test"
+  }
+}
+```
+
 ### envVars [Optional]
 
 Environment variables to provide to One App instance.
