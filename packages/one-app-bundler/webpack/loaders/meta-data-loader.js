@@ -16,7 +16,7 @@ const readPkgUp = require('read-pkg-up');
 const { META_DATA_KEY } = require('../..');
 
 function metaDataLoader(content) {
-  const { pkg: { version } } = readPkgUp.sync();
+  const { packageJson: { version } } = readPkgUp.sync();
   const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
 
   if (match) {
