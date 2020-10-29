@@ -13,7 +13,7 @@
     "lerna:deploy": "node lernaDeploy.js"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
+    "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^8.3.4",
     "amex-jest-preset": "^6.1.0",
     "cross-env": "^7.0.2",
