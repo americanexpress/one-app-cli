@@ -23,7 +23,7 @@ jest.mock('read-pkg-up', () => ({
   sync: jest.fn(),
 }));
 
-readPkgUp.sync.mockImplementation(() => ({ pkg: { version: '1.0.0' } }));
+readPkgUp.sync.mockImplementation(() => ({ packageJson: { version: '1.0.0' } }));
 
 describe('validate-required-externals-loader', () => {
   it('should add versions for server side validation ', () => {

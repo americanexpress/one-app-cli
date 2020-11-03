@@ -49,10 +49,10 @@ function logConfigurationWarnings(options) {
   }
 }
 
-const { pkg } = readPkgUp.sync();
-const options = get(pkg, ['one-amex', 'bundler'], {});
+const { packageJson } = readPkgUp.sync();
+const options = get(packageJson, ['one-amex', 'bundler'], {});
 validateBundler(options);
-options.appCompatibility = get(pkg, ['one-amex', 'app', 'compatibility']);
+options.appCompatibility = get(packageJson, ['one-amex', 'app', 'compatibility']);
 options.purgecss = options.purgecss || {};
 validateOptions(options);
 logConfigurationWarnings(options);
