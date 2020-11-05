@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 6.11.0 (2020-11-04)
+
+
+### Features
+
+* **deps:** update generated module deps ([#153](https://github.com/americanexpress/one-app-cli/issues/153)) ([865bf24](https://github.com/americanexpress/one-app-cli/commit/865bf245de329dc6f4d08e79b75a90bea8c92996))
+
+
+
 # 6.10.0 (2020-08-27)
 
 

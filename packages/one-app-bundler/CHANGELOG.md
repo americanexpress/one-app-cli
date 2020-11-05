@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 6.11.0 (2020-11-04)
+
+
+### Bug Fixes
+
+* **bundler:** add trailing slash to externals resolver ([a106d16](https://github.com/americanexpress/one-app-cli/commit/a106d16ff84bb65a76c171edea1d1c543eb3b964))
+* **lodash:** bring in security fix for prototype pollution ([9e063c3](https://github.com/americanexpress/one-app-cli/commit/9e063c313ced8f0ca0533b7b2e47d2c3b211a9d5))
+* **readPkgUp:** fix use packageJson from readPkgUp.sync instead of pkg ([f36c328](https://github.com/americanexpress/one-app-cli/commit/f36c32810d06ddd8920ad82f26fec6b98a458978))
+
+
+### Features
+
+* **one-app-locale-bundler:** friendly json parse errors ([#137](https://github.com/americanexpress/one-app-cli/issues/137)) ([a05ca27](https://github.com/americanexpress/one-app-cli/commit/a05ca27698b1a2d8a38d2ea5e086961d046dd96e))
+
+
+
 # 6.10.0 (2020-08-27)
 
 
