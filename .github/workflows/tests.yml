@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - name: Install Dependencies
-      run: npm ci
+      run: npm install
       env:
         NODE_ENV: development
     - name: Unit Tests

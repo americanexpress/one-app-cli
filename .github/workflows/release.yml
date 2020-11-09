@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: '12'
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
         env:
           NODE_ENV: development
       - name: Test packages
