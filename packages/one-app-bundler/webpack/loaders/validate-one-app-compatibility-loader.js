@@ -16,12 +16,12 @@ const loaderUtils = require('loader-utils');
 
 function validateOneAppCompatabilityLoader(content) {
   const { appCompatibility } = loaderUtils.getOptions(this);
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
+  const match = content.match(/export\s+default\s+(?!from)([\w\d]+;)/);
 
   if (match) {
     const newContent = `${content};
 if (!global.BROWSER) {
-  ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
+  ${match[1].replace(';', '')}.appConfig = Object.assign({}, ${match[1].replace(';', '')}.appConfig, {
     appCompatibility: "${appCompatibility}",
   });
 }

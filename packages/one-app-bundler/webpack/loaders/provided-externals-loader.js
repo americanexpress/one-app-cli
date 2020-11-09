@@ -21,17 +21,17 @@ function providedExternalsLoader(content) {
     const { version } = require(`${externalName}/package.json`);
     return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
   });
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
+  const match = content.match(/export\s+default\s+(?!from)([\w\d]+;)/);
 
   if (match) {
     return `${content};
-${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
+${match[1].replace(';', '')}.appConfig = Object.assign({}, ${match[1].replace(';', '')}.appConfig, {
   providedExternals: {
     ${providedExternals.join(',\n  ')},
   },
 });
 
-global.getTenantRootModule = () => ${match[1]};
+global.getTenantRootModule = () => ${match[1].replace(';', '')};
 `;
   }
 
