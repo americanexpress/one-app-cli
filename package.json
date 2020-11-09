@@ -3,7 +3,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "test:lint": "eslint --ext js,jsx,snap,md .",
-    "test:unit": "jest",
+    "test:unit": "cross-env NODE_ENV=production jest",
     "test": "npm run test:unit",
     "test:git-history": "commitlint --from origin/main --to HEAD",
     "test:lockfile": "node lockFileLint.js",
