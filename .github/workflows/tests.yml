@@ -27,7 +27,7 @@ jobs:
       env:
         NODE_ENV: development
     - name: Unit Tests
-      run: npm run test:unit
+      run: npm run test
     - name: Git History Test
       run: npm run test:git-history
     - name: Lockfile Lint Test
