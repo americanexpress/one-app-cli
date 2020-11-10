@@ -32,9 +32,6 @@
     "mock-fs": "^4.7.0",
     "prop-types": "*"
   },
-  "resolutions": {
-    "yargs": "15.4.1"
-  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
