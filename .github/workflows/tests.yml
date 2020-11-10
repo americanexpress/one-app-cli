@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - name: Install Dependencies
-      run: yarn
+      run: yarn && yarn list yargs
       env:
         NODE_ENV: development
     - name: Unit Tests
