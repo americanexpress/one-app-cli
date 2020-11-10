@@ -1,13 +1,17 @@
 {
   "name": "one-app-cli",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "postinstall": "lerna bootstrap",
     "test:lint": "eslint --ext js,jsx,snap,md .",
     "test:unit": "cross-env NODE_ENV=production jest",
-    "test": "npm run test:unit",
+    "test": "yarn test:unit",
     "test:git-history": "commitlint --from origin/main --to HEAD",
-    "test:lockfile": "node lockFileLint.js",
-    "posttest": "npm run test:lint && npm run test:git-history && npm run test:lockfile",
+    "test:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts registry.yarnpkg.com --validate-https",
+    "posttest": "yarn test:lint && yarn test:git-history && yarn test:lockfile",
     "lerna:version": "lerna version",
     "lerna:publish": "lerna publish from-package --yes",
     "lerna:deploy": "node lernaDeploy.js"
@@ -24,7 +28,7 @@
     "husky": "^4.3.0",
     "jest": "^25.1.0",
     "lerna": "^3.20.2",
-    "lockfile-lint": "^4.1.0",
+    "lockfile-lint": "^4.3.7",
     "mock-fs": "^4.7.0",
     "prop-types": "*"
   },
@@ -59,7 +63,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
+      "pre-commit": "yarn test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
