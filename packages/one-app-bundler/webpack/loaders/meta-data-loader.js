@@ -17,12 +17,12 @@ const { META_DATA_KEY } = require('../..');
 
 function metaDataLoader(content) {
   const { packageJson: { version } } = readPkgUp.sync();
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+;)/);
+  const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
 
   if (match) {
     return `${content};
 
-${match[1].replace(';', '')}.${META_DATA_KEY} = {
+${match[1]}.${META_DATA_KEY} = {
   version: '${version}',
 };`;
   }

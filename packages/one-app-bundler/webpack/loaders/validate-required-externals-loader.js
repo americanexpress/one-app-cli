@@ -24,12 +24,12 @@ function validateRequiredExternalsLoader(content) {
     const version = packageJson.dependencies[externalName];
     return `'${externalName}': '${version}'`;
   });
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+;)/);
+  const match = content.match(/export\s+default\s+(?!from)([\w\d]+);$/m);
 
   if (match) {
     const newContent = `${content};
 if (!global.BROWSER) {
-  ${match[1].replace(';', '')}.appConfig = Object.assign({}, ${match[1].replace(';', '')}.appConfig, {
+  ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
     requiredExternals: {
       ${requiredExternals.join(',\n      ')},
     },
