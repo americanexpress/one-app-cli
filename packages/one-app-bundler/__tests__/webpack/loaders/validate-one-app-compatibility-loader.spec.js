@@ -41,4 +41,13 @@ module.exports = require('./components/MyComponent');
 `;
     expect(() => validateOneAppCompatabilityLoader(content)).toThrowErrorMatchingSnapshot();
   });
+
+  it('should throw an error when the wrong syntax is used - export default hoc()', () => {
+    const content = `\
+import SomeComponent from './SomeComponent';
+
+export default hocChain(SomeComponent);
+`;
+    expect(() => validateOneAppCompatabilityLoader(content)).toThrowErrorMatchingSnapshot();
+  });
 });

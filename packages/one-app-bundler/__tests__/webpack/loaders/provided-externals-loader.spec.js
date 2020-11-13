@@ -40,4 +40,13 @@ module.exports = require('./components/MyComponent');
 `;
     expect(() => providedExternalsLoader(content)).toThrowErrorMatchingSnapshot();
   });
+
+  it('should throw an error when the wrong syntax is used - export default hoc()', () => {
+    const content = `\
+import SomeComponent from './SomeComponent';
+
+export default hocChain(SomeComponent);
+`;
+    expect(() => providedExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+  });
 });
