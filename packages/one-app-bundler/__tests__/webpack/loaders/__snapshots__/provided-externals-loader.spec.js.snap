@@ -15,6 +15,8 @@ global.getTenantRootModule = () => MyComponent;
 "
 `;
 
+exports[`provided-externals-loader should throw an error when the wrong syntax is used - export default hoc() 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use providedExternals"`;
+
 exports[`provided-externals-loader should throw an error when the wrong syntax is used - export from 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use providedExternals"`;
 
 exports[`provided-externals-loader should throw an error when the wrong syntax is used - module.exports 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use providedExternals"`;
