@@ -24,7 +24,7 @@ function validateRequiredExternalsLoader(content) {
     const version = packageJson.dependencies[externalName];
     return `'${externalName}': '${version}'`;
   });
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
+  const match = content.match(/export\s+default\s+(?!from)([\w\d]+);$/m);
 
   if (match) {
     const newContent = `${content};
