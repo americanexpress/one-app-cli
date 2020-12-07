@@ -90,9 +90,9 @@ npm install some-dependency
 
 Modules shouldn't configure both `providedExternals` and `requiredExternals`.
 
-Any module with `requiredExternals` configured will be validate at runtime to ensure that
+Any module with `requiredExternals` configured will be validated at runtime to ensure that
 the root module is in fact providing those requiredExternals, and will fail to load if it is
-not.
+not. For example, if your child module is requiring `^2.1.0` of a dependency but your root module is providing `^2.0.0` of the dependency, One App will fail to load your child module as it is requiring a version that your root module is not providing.
 
 If you attempt to include in `providedExternals` or `requiredExternals` and dependencies
 already provided by One App, your build will fail.
