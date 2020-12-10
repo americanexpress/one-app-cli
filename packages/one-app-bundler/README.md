@@ -50,10 +50,11 @@ module. The root module should include in its configuration
 with it and provided to other modules.
 
 Modules shouldn't configure both `providedExternals` and `requiredExternals`.
+Remember `providedExternals` are dependencies which your root module will make available to child modules. `requiredExternals` are a list of dependencies the child module will need to be made available by the root module.
 
-Any module with `requiredExternals` configured will be validated at runtime to ensure that
-the root module is in fact providing those `requiredExternals`, and will fail to load if it is
-not. For example, if your child module requires `^2.1.0` of a dependency but your root module provides `2.0.0`, One App will fail to load your child module as it does not satisfy the required semantic range.
+All modules `requiredExternals` are validated at runtime against the root modules list of `providedExternals`. If the external dependency is not provided One App will throw an error. This will either result in the One App server not starting or, if it is already running, One App will not load that module. For example, if your child module requires `^2.1.0` of a dependency but your root module provides `2.0.0`, this will result in One App not loading that child module as the provided dependencies version does not satisfy the required semantic range.
+
+This ensures that all of the listed dependencies features potentially required by the child module to work will be provided which could result in hard to debug bugs.
 
 If you attempt to include one of the [dependencies](https://github.com/americanexpress/one-app-cli/blob/main/packages/one-app-bundler/webpack/webpack.common.js#L102-L155) provided by One App in your `providedExternals` or `requiredExternals`, your build will fail.
 
