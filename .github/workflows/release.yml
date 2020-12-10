@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  checkCommit:
+    name: Check Commit
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+    - id: commit
+      run: echo "::set-output name=message::${{ github.even.head_commit.message }}"
+    outputs:
+      commitMessage: ${{ steps.commit.outputs.message }}
+  release:
+    name: Release
+    needs: [checkCommit]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install Dependencies
+        run: npm ci
+        env:
+          NODE_ENV: development
+      - name: Test Packages
+        run: npm run test
+      - name: Release Packages
+        env:
+          NODE_ENV: production
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |-
+          echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null
+          npm run lerna:deploy -- "${{ need.checkCommit.outputs.commitMsg }}"
