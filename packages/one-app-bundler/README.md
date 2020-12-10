@@ -97,6 +97,21 @@ npm install some-dependency
 }
 ```
 
+##### Pros and Cons of Externals
+
+**Pros:**
+
+* Smaller module bundle size
+* Can allow for centralized updates
+* Easy security patches providing child module sem ver range permits
+
+**Cons:**
+
+* Lose treeshaking potentially causing larger bundle sizes
+  * For example, adding something like lodash as an external when only a small part of the library is used could result in the client having to download more than if the tree shaken versions were bundled with the module.
+* Couples your child and root module together
+* Increases complexity when managing updates to the provided and required dependency
+
 #### `performanceBudget`
 
 Set a custom [performance budget](https://webpack.js.org/configuration/performance/#performancemaxassetsize)
