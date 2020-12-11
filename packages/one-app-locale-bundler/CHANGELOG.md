@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 6.4.0 (2020-11-04)
+
+
+### Features
+
+* **one-app-locale-bundler:** friendly json parse errors ([#137](https://github.com/americanexpress/one-app-cli/issues/137)) ([a05ca27](https://github.com/americanexpress/one-app-cli/commit/a05ca27698b1a2d8a38d2ea5e086961d046dd96e))
+
+
+
 # 6.3.0 (2020-08-27)
 
 
