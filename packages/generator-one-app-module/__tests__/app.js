@@ -133,16 +133,16 @@ describe('generator-one-app-module', () => {
     it('installs intl dependencies and test scripts', () => {
       assert.jsonFileContent('package.json', {
         dependencies: {
-          '@americanexpress/one-app-ducks': '^4.0.0',
-          immutable: '^3.8.2',
+          '@americanexpress/one-app-ducks': '^4.2.2',
+          immutable: '^4.0.0-rc.12',
           'prop-types': '^15.7.2',
-          'react-intl': '^5.8.2',
-          'react-redux': '^7.2.1',
+          'react-intl': '^5.10.6',
+          'react-redux': '^7.2.2',
           redux: '^4.0.5',
         },
         devDependencies: {
           glob: '^7.1.6',
-          '@babel/polyfill': '^7.11.5',
+          '@babel/polyfill': '^7.12.1',
         },
         jest: {
           setupFilesAfterEnv: './test-setup.js',
@@ -201,16 +201,16 @@ describe('generator-one-app-module', () => {
     it('installs intl dependencies and test scripts', () => {
       assert.jsonFileContent('package.json', {
         dependencies: {
-          '@americanexpress/one-app-ducks': '^4.0.0',
-          immutable: '^3.8.2',
+          '@americanexpress/one-app-ducks': '^4.2.2',
+          immutable: '^4.0.0-rc.12',
           'prop-types': '^15.7.2',
-          'react-intl': '^5.8.2',
-          'react-redux': '^7.2.1',
+          'react-intl': '^5.10.6',
+          'react-redux': '^7.2.2',
           redux: '^4.0.5',
         },
         devDependencies: {
           glob: '^7.1.6',
-          '@babel/polyfill': '^7.11.5',
+          '@babel/polyfill': '^7.12.1',
         },
         jest: {
           setupFilesAfterEnv: './test-setup.js',
