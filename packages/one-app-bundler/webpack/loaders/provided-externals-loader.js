@@ -21,7 +21,7 @@ function providedExternalsLoader(content) {
     const { version } = require(`${externalName}/package.json`);
     return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
   });
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+)/);
+  const match = content.match(/export\s+default\s+(?!from)([\w\d]+);$/m);
 
   if (match) {
     return `${content};
