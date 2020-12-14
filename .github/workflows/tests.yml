@@ -15,15 +15,14 @@ jobs:
     name: Node ${{ matrix.node }}
     steps:
     - uses: actions/checkout@v2
-    - run: |
-        git remote set-branches --add origin main
-        git fetch
+      with:
+        fetch-depth: 0
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node }}
     - name: Install Dependencies
-      run: npm ci && npm i -g yargs@latest
+      run: npm ci && npm i --no-save yargs@latest
       env:
         NODE_ENV: development
     - name: Unit Tests
