@@ -49,6 +49,15 @@ module. The root module should include in its configuration
 `providedExternals`, which is an array of external dependencies to be bundled
 with it and provided to other modules.
 
+Modules shouldn't configure both `providedExternals` and `requiredExternals`.
+Remember `providedExternals` are dependencies which your root module will make available to child modules. `requiredExternals` are a list of dependencies the child module will need to be made available by the root module.
+
+All modules `requiredExternals` are validated at runtime against the root modules list of `providedExternals`. If the external dependency is not provided One App will throw an error. This will either result in the One App server not starting or, if it is already running, One App will not load that module. For example, if your child module requires `^2.1.0` of a dependency but your root module provides `2.0.0`, this will result in One App not loading that child module as the provided dependencies version does not satisfy the required semantic range.
+
+This ensures that all of the listed dependencies features potentially required by the child module to work will be provided which could result in hard to debug bugs.
+
+If you attempt to include one of the [dependencies](https://github.com/americanexpress/one-app-cli/blob/main/packages/one-app-bundler/webpack/webpack.common.js#L102-L155) provided by One App in your `providedExternals` or `requiredExternals`, your build will fail.
+
 First make sure to add your dependency to your module's `package.json`:
 
 ```bash
@@ -88,14 +97,20 @@ npm install some-dependency
 }
 ```
 
-Modules shouldn't configure both `providedExternals` and `requiredExternals`.
+##### Pros and Cons of Externals
 
-Any module with `requiredExternals` configured will be validate at runtime to ensure that
-the root module is in fact providing those requiredExternals, and will fail to load if it is
-not.
+**Pros:**
 
-If you attempt to include in `providedExternals` or `requiredExternals` and dependencies
-already provided by One App, your build will fail.
+* Smaller module bundle size
+* Can allow for centralized updates
+* Easy security patches providing child module sem ver range permits
+
+**Cons:**
+
+* Lose treeshaking potentially causing larger bundle sizes
+  * For example, adding something like lodash as an external when only a small part of the library is used could result in the client having to download more than if the tree shaken versions were bundled with the module.
+* Couples your child and root module together
+* Increases complexity when managing updates to the provided and required dependency
 
 #### `performanceBudget`
 
