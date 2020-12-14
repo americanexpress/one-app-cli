@@ -1,7 +1,7 @@
 # @americanexpress/one-app-bundler
-
+<!--ONE-DOCS-HIDE start-->
 [![npm](https://img.shields.io/npm/v/@americanexpress/one-app-bundler)](https://www.npmjs.com/package/@americanexpress/one-app-bundler)
-
+<!--ONE-DOCS-HIDE end-->
 > A command line interface(CLI) tool for bundling [One App](https://github.com/americanexpress/one-app)
 and One App modules.
 
@@ -146,8 +146,8 @@ There are two options when customizing your webpack build.
 }
 ```
 
-2. Add `webpackClientConfigPath` and/or `webpackServerConfigPath` to apply different configs 
-to your client and server builds. You don't need to add both of these options. 
+2. Add `webpackClientConfigPath` and/or `webpackServerConfigPath` to apply different configs
+to your client and server builds. You don't need to add both of these options.
 You can pass only one if you wish to customize a single build target.
 
 ```json
