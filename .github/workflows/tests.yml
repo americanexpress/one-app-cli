@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - name: Install Dependencies
-      run: npm ci && npm i --no-save yargs@latest
+      run: npm ci && npm ls yargs && npm list -g --depth 0
       env:
         NODE_ENV: development
     - name: Unit Tests
