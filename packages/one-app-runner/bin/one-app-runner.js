@@ -65,6 +65,8 @@ const createYargsConfig = () => {
       },
     })
     .option('parrot-middleware', {
+      // eslint-disable-next-line global-require
+      demandOption: !require('yargs').argv.modules && require('yargs').argv.moduleMapUrl,
       describe: 'path to parrot dev middleware file for One App to use for Parrot mocking',
       type: 'string',
       coerce: (value) => {
@@ -88,6 +90,8 @@ const createYargsConfig = () => {
       },
     })
     .option('dev-endpoints', {
+      // eslint-disable-next-line global-require
+      demandOption: !require('yargs').argv.modules && require('yargs').argv.moduleMapUrl,
       describe: 'path to dev endpoints file for One App to use for its One App Dev Proxy set up',
       type: 'string',
       coerce: (value) => {
@@ -137,10 +141,6 @@ const createYargsConfig = () => {
     .option('--container-name', {
       describe: 'Assign a container name with the --name option',
       type: 'string',
-    })
-    .implies({
-      'parrot-middleware': 'modules',
-      'dev-endpoints': 'modules',
     })
     .strict()
     .help();
