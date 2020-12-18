@@ -45,7 +45,7 @@ test('command errors out if --module-map-url option is not given a value', () =>
   process.argv = ['', '', '--module-map-url'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('⚠️   --module-map-url option must be given a value but was not given one. Did you mean to pass a value? ⚠️');
 });
 
 test('command errors out if --module-map-url option is not given', () => {
@@ -54,7 +54,7 @@ test('command errors out if --module-map-url option is not given', () => {
   process.argv = ['', '', '--root-module-name', 'frank-lloyd-root', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('Missing required argument: modules');
 });
 
 test('command errors out if --root-module-name option is not given a value', () => {
@@ -63,7 +63,7 @@ test('command errors out if --root-module-name option is not given a value', () 
   process.argv = ['', '', '--root-module-name'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('⚠️   --root-module-name option must be given a value but was not given one. Did you mean to pass a value? ⚠️');
 });
 
 test('command errors out if --root-module-name option is not given', () => {
@@ -72,7 +72,7 @@ test('command errors out if --root-module-name option is not given', () => {
   process.argv = ['', '', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('Missing required argument: root-module-name');
 });
 
 test('command errors out if --docker-image option is not given a value', () => {
@@ -81,7 +81,7 @@ test('command errors out if --docker-image option is not given a value', () => {
   process.argv = ['', '', '--docker-image'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('⚠️   --docker-image option must be given a value but was not given one. Did you mean to pass a value? ⚠️');
 });
 
 test('command errors out if --docker-image option is not given', () => {
@@ -90,7 +90,7 @@ test('command errors out if --docker-image option is not given', () => {
   process.argv = ['', '', '--module-map-url', 'https://example.com/module-map.json', '--root-module-name', 'frank-lloyd-root'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('Missing required argument: docker-image');
 });
 
 
@@ -134,7 +134,7 @@ test('command errors out if --dev-endpoints is not given a value', () => {
   process.argv = ['', '', '--dev-endpoints'];
   jest.mock('../../src/startApp', () => jest.fn(() => Promise.resolve()));
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('Missing required arguments: root-module-name, docker-image');
 });
 
 test('reads modules from package.json', async () => {
@@ -161,7 +161,7 @@ test('command errors out if --modules option is not given any values', () => {
   process.argv = ['', '', '--modules'];
   jest.mock('../../src/startApp', () => jest.fn(() => Promise.resolve()));
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('Missing required arguments: root-module-name, docker-image');
 });
 
 test('--parrot-middleware, --module values, --output-file, and --dev-endpoints are left alone if already absolute paths', () => {
@@ -246,7 +246,7 @@ test('command errors out if an unknown option is given', () => {
   process.argv = ['', '', '--not-a-valid-option', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual('Unknown arguments: not-a-valid-option, notAValidOption');
 });
 
 test('--modules option is required if --module-map-url option is not given', () => {
@@ -273,7 +273,9 @@ test('--modules option is required if --dev-endpoints option is given', () => {
   process.argv = ['', '', '--dev-endpoints', '../path/to/dev.endpoints.js', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual(
+    'Missing dependent arguments:\n dev-endpoints -> modules'
+  );
 });
 
 test('an `envVars` key is supported within the config entry', () => {
