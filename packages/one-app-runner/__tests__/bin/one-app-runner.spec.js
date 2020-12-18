@@ -264,7 +264,9 @@ test('--modules option is required if --parrot-middleware option is given', () =
   process.argv = ['', '', '--parrot-middleware', '../path/to/dev.middleware.js', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls[2][0]).toEqual(
+    'Missing dependent arguments:\n parrot-middleware -> modules'
+  );
 });
 
 test('--modules option is required if --dev-endpoints option is given', () => {

@@ -39,45 +39,6 @@ Array [
 ]
 `;
 
-exports[`--modules option is required if --parrot-middleware option is given 1`] = `
-Array [
-  Array [
-    "Options:
-  --version                 Show version number                        [boolean]
-  --module-map-url          module map for One App to use and fetch modules from
-                                                                        [string]
-  --root-module-name        name of the module to serve as an entry point to
-                            your application                 [string] [required]
-  --docker-image            docker image to use for One App  [string] [required]
-  --parrot-middleware       path to parrot dev middleware file for One App to
-                            use for Parrot mocking                      [string]
-  --modules                 path to local module to serve to One App     [array]
-  --dev-endpoints           path to dev endpoints file for One App to use for
-                            its One App Dev Proxy set up                [string]
-  --envVars                 Environment variables to be applied to the One App
-                            instance
-  --output-file             File to redirect all stdout and stderr from One App
-                            Container to                                [string]
-  --create-docker-network   Creates a new docker network
-                                                      [boolean] [default: false]
-  --docker-network-to-join  Connect One App container to a docker network
-                                                                        [string]
-  --use-host                Use req.headers.host instead of localhost for
-                            one-app-dev-cdn           [boolean] [default: false]
-  --offline                 skip docker pull when the docker registry is not
-                            available / offline       [boolean] [default: false]
-  ----container-name        Assign a container name with the --name option
-                                                                        [string]
-  --help                    Show help                                  [boolean]",
-  ],
-  Array [],
-  Array [
-    "Missing dependent arguments:
- parrot-middleware -> modules",
-  ],
-]
-`;
-
 exports[`all options are used if specified 1`] = `
 Array [
   Array [
