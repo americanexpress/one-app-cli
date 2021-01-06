@@ -2,19 +2,44 @@
 
 exports[`webpack/app always transpiles node_modules when env is production 1`] = `
 Object {
-  "exclude": /\\^\\\\/node_modules\\\\/core-js/,
-  "include": Array [
-    "/src",
-    "/node_modules",
-  ],
-  "test": /\\\\\\.jsx\\?\\$/,
+  "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
   "use": Array [
     Object {
-      "loader": "babel-loader",
+      "loader": "style-loader",
+    },
+    Object {
+      "loader": "css-loader",
       "options": Object {
-        "cacheDirectory": "/.build-cache",
-        "envName": undefined,
-        "extends": "/.babelrc",
+        "importLoaders": 1,
+        "modules": Object {
+          "getLocalIdent": [Function],
+          "localIdentName": "[name]__[local]___[hash:base64:5]",
+        },
+      },
+    },
+    Object {
+      "loader": "sass-loader",
+      "options": Object {
+        "implementation": Object {
+          "info": "dart-sass	1.23.7	(Sass Compiler)	[Dart]
+dart2js	2.6.1	(Dart Compiler)	[Dart]",
+          "render": [Function],
+          "renderSync": [Function],
+          "run_": [Function],
+          "types": Object {
+            "Boolean": [Function],
+            "Color": [Function],
+            "Error": [Function],
+            "List": [Function],
+            "Map": [Function],
+            "Null": [Function],
+            "Number": [Function],
+            "String": [Function],
+          },
+        },
+        "sassOptions": Object {
+          "fiber": [Function],
+        },
       },
     },
   ],
@@ -23,18 +48,44 @@ Object {
 
 exports[`webpack/app does not transpile node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION true 1`] = `
 Object {
-  "exclude": /\\^\\\\/node_modules\\\\/core-js/,
-  "include": Array [
-    "/src",
-  ],
-  "test": /\\\\\\.jsx\\?\\$/,
+  "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
   "use": Array [
     Object {
-      "loader": "babel-loader",
+      "loader": "style-loader",
+    },
+    Object {
+      "loader": "css-loader",
       "options": Object {
-        "cacheDirectory": "/.build-cache",
-        "envName": undefined,
-        "extends": "/.babelrc",
+        "importLoaders": 1,
+        "modules": Object {
+          "getLocalIdent": [Function],
+          "localIdentName": "[name]__[local]___[hash:base64:5]",
+        },
+      },
+    },
+    Object {
+      "loader": "sass-loader",
+      "options": Object {
+        "implementation": Object {
+          "info": "dart-sass	1.23.7	(Sass Compiler)	[Dart]
+dart2js	2.6.1	(Dart Compiler)	[Dart]",
+          "render": [Function],
+          "renderSync": [Function],
+          "run_": [Function],
+          "types": Object {
+            "Boolean": [Function],
+            "Color": [Function],
+            "Error": [Function],
+            "List": [Function],
+            "Map": [Function],
+            "Null": [Function],
+            "Number": [Function],
+            "String": [Function],
+          },
+        },
+        "sassOptions": Object {
+          "fiber": [Function],
+        },
       },
     },
   ],
@@ -43,19 +94,44 @@ Object {
 
 exports[`webpack/app transpiles node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION false 1`] = `
 Object {
-  "exclude": /\\^\\\\/node_modules\\\\/core-js/,
-  "include": Array [
-    "/src",
-    "/node_modules",
-  ],
-  "test": /\\\\\\.jsx\\?\\$/,
+  "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
   "use": Array [
     Object {
-      "loader": "babel-loader",
+      "loader": "style-loader",
+    },
+    Object {
+      "loader": "css-loader",
       "options": Object {
-        "cacheDirectory": "/.build-cache",
-        "envName": undefined,
-        "extends": "/.babelrc",
+        "importLoaders": 1,
+        "modules": Object {
+          "getLocalIdent": [Function],
+          "localIdentName": "[name]__[local]___[hash:base64:5]",
+        },
+      },
+    },
+    Object {
+      "loader": "sass-loader",
+      "options": Object {
+        "implementation": Object {
+          "info": "dart-sass	1.23.7	(Sass Compiler)	[Dart]
+dart2js	2.6.1	(Dart Compiler)	[Dart]",
+          "render": [Function],
+          "renderSync": [Function],
+          "run_": [Function],
+          "types": Object {
+            "Boolean": [Function],
+            "Color": [Function],
+            "Error": [Function],
+            "List": [Function],
+            "Map": [Function],
+            "Null": [Function],
+            "Number": [Function],
+            "String": [Function],
+          },
+        },
+        "sassOptions": Object {
+          "fiber": [Function],
+        },
       },
     },
   ],

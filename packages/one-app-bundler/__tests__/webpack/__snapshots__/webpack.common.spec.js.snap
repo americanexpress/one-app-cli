@@ -8,6 +8,39 @@ Array [
       "NODE_ENV",
     ],
   },
+  ESLintWebpackPlugin {
+    "options": Object {
+      "allowInlineConfig": false,
+      "extensions": "js",
+      "failOnError": true,
+      "ignore": false,
+      "overrideConfig": Object {
+        "parserOptions": Object {
+          "ecmaFeatures": Object {
+            "modules": true,
+          },
+          "ecmaVersion": 6,
+          "sourceType": "module",
+        },
+        "plugins": Array [
+          "@americanexpress/one-app",
+        ],
+        "rules": Object {
+          "@americanexpress/one-app/no-app-config-on-client": "error",
+          "no-restricted-imports": Array [
+            "error",
+            "create-react-class",
+          ],
+          "no-restricted-modules": Array [
+            "error",
+            "create-react-class",
+          ],
+        },
+      },
+      "useEslintrc": false,
+    },
+    "run": [Function],
+  },
   LoaderOptionsPlugin {
     "options": Object {
       "debug": false,
@@ -27,6 +60,39 @@ Array [
     "keys": Array [
       "NODE_ENV",
     ],
+  },
+  ESLintWebpackPlugin {
+    "options": Object {
+      "allowInlineConfig": false,
+      "extensions": "js",
+      "failOnError": true,
+      "ignore": false,
+      "overrideConfig": Object {
+        "parserOptions": Object {
+          "ecmaFeatures": Object {
+            "modules": true,
+          },
+          "ecmaVersion": 6,
+          "sourceType": "module",
+        },
+        "plugins": Array [
+          "@americanexpress/one-app",
+        ],
+        "rules": Object {
+          "@americanexpress/one-app/no-app-config-on-client": "error",
+          "no-restricted-imports": Array [
+            "error",
+            "create-react-class",
+          ],
+          "no-restricted-modules": Array [
+            "error",
+            "create-react-class",
+          ],
+        },
+      },
+      "useEslintrc": false,
+    },
+    "run": [Function],
   },
 ]
 `;
