@@ -13,21 +13,40 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
 const localeBundler = require('@americanexpress/one-app-locale-bundler');
 
 const clientConfig = require('../webpack/module/webpack.client');
 const serverConfig = require('../webpack/module/webpack.server');
-const getWebpackCallback = require('./webpackCallback');
+const buildWebpack = require('../utils/buildWebpack');
+const time = require('../utils/time');
 const { watch } = require('../utils/getCliOptions')();
 
-const modernClientConfig = clientConfig('modern');
-const legacyClientConfig = clientConfig('legacy');
+(async function bundleModule() {
+  await (
+    time(() => localeBundler(watch))
+      .then((timeInMs) => {
+        console.log(timeInMs);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  );
 
-fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
-localeBundler(watch);
-webpack(serverConfig, getWebpackCallback('node', true));
-webpack(modernClientConfig, getWebpackCallback('browser', true));
-webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+  await (
+    time(() => {
+      const configs = [
+        ['node', serverConfig],
+        ['browser', clientConfig('modern')],
+        ['legacyBrowser', clientConfig('legacy')],
+      ].map(([name, config]) => ({
+        ...config,
+        name,
+      }));
+
+      return buildWebpack(configs, { watch });
+    })
+      .then((timeInMs) => {
+        console.log(timeInMs);
+      })
+  );
+}());
