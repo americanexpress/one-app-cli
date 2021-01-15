@@ -55,7 +55,7 @@ const plugins = [
       plugins: ['@americanexpress/one-app'],
     },
   }),
-  ...(nodeEnvIsProduction ? prodPlugins : []),
+  ...nodeEnvIsProduction ? prodPlugins : [],
 ];
 
 module.exports = {

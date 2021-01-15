@@ -93,7 +93,6 @@ test('command errors out if --docker-image option is not given', () => {
   expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 });
 
-
 test('--parrot-middleware, --modules, --output-file, and --dev-endpoints values are coerced into absolute paths', () => {
   const modulesPath = '../fake/path/to/fake-module';
   const parrotMiddlewarePath = '../fake/path/to/fake-module/dev.middleware.js';

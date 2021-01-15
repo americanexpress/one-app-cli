@@ -24,7 +24,6 @@ const { packageJson, path: pkgPath } = readPkgUp.sync();
 const { version } = packageJson;
 const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 
-
 module.exports = async function postProcessBuild() {
   const endsWithJS = (fileName) => fileName.endsWith('.js');
   const legacyPath = path.join(tmpPath, 'legacy');

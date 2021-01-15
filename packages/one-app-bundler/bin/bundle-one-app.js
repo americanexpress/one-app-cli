@@ -13,7 +13,6 @@
  * under the License.
  */
 
-
 const { promisify } = require('util');
 const webpack = promisify(require('webpack'));
 const chalk = require('chalk');
@@ -21,7 +20,6 @@ const chalk = require('chalk');
 const config = require('../webpack/app/webpack.client');
 const getWebpackCallback = require('./webpackCallback');
 const postProcessOneAppBundle = require('./postProcessOneAppBundle');
-
 
 Promise.all([
   webpack(config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)),
