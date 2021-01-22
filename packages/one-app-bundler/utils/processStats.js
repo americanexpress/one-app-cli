@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -22,7 +22,7 @@ module.exports = function processStats(stats, watch) {
   const jsonStats = stats.toJson();
 
   if (stats.hasErrors()) {
-    const errorMessages = jsonStats.errors.map((e) => ([chalk.red(e), chalk.red(e.stack)].join('\n')).join('\n'));
+    const errorMessages = jsonStats.errors.map((e) => [chalk.red(e), chalk.red(e.stack)].join('\n')).join('\n');
     console.error(chalk.red(`\nerror - "${stats.compilation.name}":\n`), errorMessages);
     process.exitCode = 1;
     return;

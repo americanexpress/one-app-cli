@@ -12,11 +12,18 @@
  * under the License.
  */
 
-const { performance } = require('perf_hooks');
+const time = require('../../utils/time');
 
-module.exports = async function time(asyncCallback) {
-  const now = performance.now();
-  await asyncCallback();
-  const timeToComplete = performance.now() - now;
-  return timeToComplete;
-};
+function sleep(timeToSleep = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeToSleep);
+  });
+}
+
+describe('time', () => {
+  it('should return the time in milliseconds that it took to run the provided callback', async () => {
+    const timeTakenToRun = await time(() => sleep());
+    expect(timeTakenToRun).toBeGreaterThan(999);
+    expect(timeTakenToRun).toBeLessThan(1100);
+  });
+});

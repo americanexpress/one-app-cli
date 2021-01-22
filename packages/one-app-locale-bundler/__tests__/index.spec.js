@@ -36,18 +36,18 @@ describe('index', () => {
   });
 
   it('returns undefined', () => {
-    expect(index()).toEqual(undefined);
+    expect(index()).toBeInstanceOf(Promise);
   });
 
-  it('compiles the module locales', () => {
-    index();
+  it('compiles the module locales', async () => {
+    await index();
     expect(compileModuleLocales).toHaveBeenCalledTimes(1);
     expect(chokidar.watch).not.toHaveBeenCalled();
     expect(chokidar.on).not.toHaveBeenCalled();
   });
 
-  it('watches the locale directory for changes', () => {
-    index(true);
+  it('watches the locale directory for changes', async () => {
+    await index(true);
     expect(compileModuleLocales).toHaveBeenCalledTimes(1);
     expect(chokidar.watch).toHaveBeenCalledTimes(1);
     expect(chokidar.watch.mock.calls).toMatchSnapshot();

@@ -12,15 +12,23 @@
  * under the License.
  */
 
-jest.mock('webpack');
-jest.mock('@americanexpress/one-app-locale-bundler');
-jest.mock('../../bin/webpackCallback', () => jest.fn((x, y) => `cb(${x}, ${y})`));
+const buildWebpack = require('../../utils/buildWebpack');
+const time = require('../../utils/time');
+
+jest.mock('@americanexpress/one-app-locale-bundler', () => jest.fn(() => Promise.resolve()));
+jest.mock('../../utils/buildWebpack', () => jest.fn(() => Promise.resolve()));
+jest.mock('../../utils/time', () => jest.fn((cb) => Promise.resolve(cb())));
 jest.mock('../../webpack/module/webpack.client', () => (babelEnv) => ({ config: 'client', babelEnv }));
 jest.mock('../../webpack/module/webpack.server', () => ({ config: 'server' }));
 
+function loadBundleModule() {
+  jest.isolateModules(() => {
+    require('../../bin/bundle-module');
+  });
+}
+
 describe('bundle-module', () => {
   let argv;
-  let webpack;
   let localeBundler;
   let clientConfig;
   let serverConfig;
@@ -31,8 +39,6 @@ describe('bundle-module', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.resetModules();
-    webpack = require('webpack');
     localeBundler = require('@americanexpress/one-app-locale-bundler');
     clientConfig = require('../../webpack/module/webpack.client');
     serverConfig = require('../../webpack/module/webpack.server');
@@ -44,41 +50,29 @@ describe('bundle-module', () => {
 
   it('should bundle language packs', () => {
     process.argv = [];
-    require('../../bin/bundle-module');
+    loadBundleModule();
     expect(localeBundler).toHaveBeenCalledTimes(1);
     expect(localeBundler).toHaveBeenCalledWith(false);
   });
 
-  it('should bundle the module for the server', () => {
+  it('should bundle the module for the server, browser and legacy', () => {
     process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(serverConfig, 'cb(node, true)');
-    expect(webpack.mock.calls[0][0]).not.toHaveProperty('watch');
-    expect(webpack.mock.calls[0][0]).not.toHaveProperty('watchOptions');
-  });
-
-  it('should bundle the module for modern browsers', () => {
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(clientConfig('modern'), 'cb(browser, true)');
-    expect(webpack.mock.calls[1][0]).not.toHaveProperty('watch');
-    expect(webpack.mock.calls[1][0]).not.toHaveProperty('watchOptions');
-  });
-
-  it('should bundle the module for legacy browsers', () => {
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
-    expect(webpack.mock.calls[2][0]).not.toHaveProperty('watch');
-    expect(webpack.mock.calls[2][0]).not.toHaveProperty('watchOptions');
+    loadBundleModule();
+    const configs = [
+      ['node', serverConfig],
+      ['browser', clientConfig('modern')],
+      ['legacyBrowser', clientConfig('legacy')],
+    ].map(([name, config]) => ({
+      ...config,
+      name,
+    }));
+    expect(time).toHaveBeenCalledTimes(2);
+    expect(buildWebpack).toHaveBeenCalledWith(configs, { watch: false });
   });
 
   it('should use the locale bundler\'s watch mode', () => {
     process.argv = ['--watch'];
-    require('../../bin/bundle-module');
+    loadBundleModule();
     expect(localeBundler).toHaveBeenCalledTimes(1);
     expect(localeBundler).toHaveBeenCalledWith(true);
   });

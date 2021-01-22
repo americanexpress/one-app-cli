@@ -18,7 +18,7 @@ const path = require('path');
 const fs = require('fs');
 const { hashElement } = require('folder-hash');
 const readPkgUp = require('read-pkg-up');
-const generateIntegrityManifest = require('./generateIntegrityManifest');
+const generateIntegrityManifest = require('../utils/generateIntegrityManifest');
 
 const { packageJson, path: pkgPath } = readPkgUp.sync();
 const { version } = packageJson;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -16,9 +16,9 @@ const webpack = require('webpack');
 
 const processStats = require('./processStats');
 
-module.exports = function buildModule(configs = [], { watch } = {}) {
+module.exports = function buildWebpack(configs = [], { watch } = {}) {
   return new Promise((resolve, reject) => {
-    webpack(configs, (err, stats) => {
+    webpack([].concat(configs), (err, stats) => {
       if (err) reject(err);
       else resolve(stats);
     });

@@ -20,25 +20,18 @@ const createClientConfig = require('../webpack/app/webpack.client');
 const buildWebpack = require('../utils/buildWebpack');
 const time = require('../utils/time');
 
-(async function bundleOneApp() {
-  await (
-    time(() => {
-      const configs = [
-        ['browser', createClientConfig('modern')],
-        ['legacyBrowser', createClientConfig('legacy')],
-      ].map(([name, config]) => ({
-        ...config,
-        name,
-      }));
+time(() => {
+  const configs = [
+    ['browser', createClientConfig('modern')],
+    ['legacyBrowser', createClientConfig('legacy')],
+  ].map(([name, config]) => ({
+    ...config,
+    name,
+  }));
 
-      return buildWebpack(configs)
-        .then(postProcessOneAppBundle)
-        .catch((err) => {
-          console.log(chalk.red(err), chalk.red(err.stack));
-        });
-    })
-      .then((timeInMs) => {
-        console.log(timeInMs);
-      })
-  );
-}());
+  return buildWebpack(configs)
+    .then(postProcessOneAppBundle)
+    .catch((err) => {
+      console.error(chalk.red(err), chalk.red(err.stack));
+    });
+}, 'One App');

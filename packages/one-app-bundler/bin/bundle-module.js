@@ -21,32 +21,16 @@ const buildWebpack = require('../utils/buildWebpack');
 const time = require('../utils/time');
 const { watch } = require('../utils/getCliOptions')();
 
-(async function bundleModule() {
-  await (
-    time(() => localeBundler(watch))
-      .then((timeInMs) => {
-        console.log(timeInMs);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-  );
+time(() => localeBundler(watch), 'Language Packs');
+time(() => {
+  const configs = [
+    ['node', serverConfig],
+    ['browser', clientConfig('modern')],
+    ['legacyBrowser', clientConfig('legacy')],
+  ].map(([name, config]) => ({
+    ...config,
+    name,
+  }));
 
-  await (
-    time(() => {
-      const configs = [
-        ['node', serverConfig],
-        ['browser', clientConfig('modern')],
-        ['legacyBrowser', clientConfig('legacy')],
-      ].map(([name, config]) => ({
-        ...config,
-        name,
-      }));
-
-      return buildWebpack(configs, { watch });
-    })
-      .then((timeInMs) => {
-        console.log(timeInMs);
-      })
-  );
-}());
+  return buildWebpack(configs, { watch });
+}, 'Module Bundle');
