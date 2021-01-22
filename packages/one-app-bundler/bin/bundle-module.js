@@ -32,5 +32,5 @@ time(() => {
     name,
   }));
 
-  return buildWebpack(configs, { watch });
+  return buildWebpack(configs, { watch, isModuleBuild: true });
 }, 'Module Bundle');

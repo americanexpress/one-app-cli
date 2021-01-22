@@ -48,9 +48,22 @@ describe('processStats', () => {
     },
   };
 
-  it('should not throw and process the stats', () => {
+  it('should not throw and process the stats per bundle type', () => {
     expect(() => processStats(stats)).not.toThrow();
+    expect(hasErrors).toHaveBeenCalledTimes(1);
+    expect(hasWarnings).toHaveBeenCalledTimes(1);
+    expect(generateIntegrityManifest).toHaveBeenCalledTimes(0);
+    expect(console.warn).toHaveBeenCalledTimes(0);
+    expect(console.error).toHaveBeenCalledTimes(0);
+  });
+
+  it('should write the integrity manifest to file per bundle type only on module builds', () => {
+    expect(() => processStats(stats, { isModuleBuild: true })).not.toThrow();
+    expect(hasErrors).toHaveBeenCalledTimes(1);
+    expect(hasWarnings).toHaveBeenCalledTimes(1);
     expect(generateIntegrityManifest).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledTimes(0);
+    expect(console.error).toHaveBeenCalledTimes(0);
   });
 
   it('should exit the process when there are webpack stats errors', () => {
@@ -69,7 +82,7 @@ describe('processStats', () => {
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
-  it('should not throw if compilation errors exist while in watch mode', () => {
+  it('should throw when a compilation error is found', () => {
     const error = new Error('failed to build');
     expect(() => processStats({
       ...stats,
@@ -80,7 +93,7 @@ describe('processStats', () => {
     })).toThrow();
   });
 
-  it('should throw when a compilation error is found', () => {
+  it('should not throw if compilation errors exist while in watch mode', () => {
     const error = new Error('failed to build');
     expect(() => processStats({
       ...stats,
@@ -88,6 +101,7 @@ describe('processStats', () => {
         ...stats.compilation,
         errors: [error],
       },
-    }, true)).not.toThrow();
+    }, { watch: true })).not.toThrow();
+    expect(console.error).toHaveBeenCalledTimes(0);
   });
 });

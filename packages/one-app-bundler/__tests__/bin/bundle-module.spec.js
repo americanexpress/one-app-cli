@@ -67,7 +67,7 @@ describe('bundle-module', () => {
       name,
     }));
     expect(time).toHaveBeenCalledTimes(2);
-    expect(buildWebpack).toHaveBeenCalledWith(configs, { watch: false });
+    expect(buildWebpack).toHaveBeenCalledWith(configs, { isModuleBuild: true, watch: false });
   });
 
   it('should use the locale bundler\'s watch mode', () => {

@@ -29,8 +29,9 @@ beforeEach(() => {
 
 describe('buildWebpack', () => {
   it('should not throw', async () => {
-    webpack.mockImplementation((configs, callback) => callback(null, { stats: [{}, {}] }));
-    await expect(buildWebpack()).resolves.toEqual(undefined);
+    const multiStats = { stats: [{}, {}] };
+    webpack.mockImplementation((configs, callback) => callback(null, multiStats));
+    await expect(buildWebpack()).resolves.toEqual(multiStats);
     expect(webpack).toHaveBeenCalledTimes(1);
     expect(webpack).toHaveBeenCalledWith([], expect.any(Function));
     expect(processStats).toHaveBeenCalledTimes(2);

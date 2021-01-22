@@ -16,7 +16,7 @@ const webpack = require('webpack');
 
 const processStats = require('./processStats');
 
-module.exports = function buildWebpack(configs = [], { watch } = {}) {
+module.exports = function buildWebpack(configs = [], { watch, isModuleBuild } = {}) {
   return new Promise((resolve, reject) => {
     webpack([].concat(configs), (err, stats) => {
       if (err) reject(err);
@@ -24,7 +24,8 @@ module.exports = function buildWebpack(configs = [], { watch } = {}) {
     });
   })
     .then((multiStats) => {
-      multiStats.stats.forEach((stats) => processStats(stats, watch));
+      multiStats.stats.forEach((stats) => processStats(stats, { watch, isModuleBuild }));
+      return multiStats;
     })
     .catch((err) => {
       console.error(err.stack || err);

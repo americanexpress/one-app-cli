@@ -14,9 +14,14 @@
 
 const { performance } = require('perf_hooks');
 
-module.exports = async function time(asyncCallback) {
+function printBuildTime(buildName, buildTime) {
+  console.log('The build for "%s" has taken %d seconds to complete.', buildName, buildTime / 1000);
+}
+
+module.exports = async function time(asyncCallback, buildName = 'Module') {
   const now = performance.now();
   await asyncCallback();
   const timeToComplete = performance.now() - now;
+  printBuildTime(buildName, timeToComplete);
   return timeToComplete;
 };

@@ -29,7 +29,7 @@ time(() => {
     name,
   }));
 
-  return buildWebpack(configs)
+  return buildWebpack(configs, { isModuleBuild: false })
     .then(postProcessOneAppBundle)
     .catch((err) => {
       console.error(chalk.red(err), chalk.red(err.stack));

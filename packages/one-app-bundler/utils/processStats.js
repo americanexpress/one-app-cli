@@ -18,7 +18,7 @@ const chalk = require('chalk');
 
 const generateIntegrityManifest = require('./generateIntegrityManifest');
 
-module.exports = function processStats(stats, watch) {
+module.exports = function processStats(stats, { watch, isModuleBuild } = {}) {
   const jsonStats = stats.toJson();
 
   if (stats.hasErrors()) {
@@ -35,10 +35,12 @@ module.exports = function processStats(stats, watch) {
 
   fs.writeFileSync(path.join(process.cwd(), `.webpack-stats.${stats.compilation.name}.json`), JSON.stringify(jsonStats));
 
-  generateIntegrityManifest(
-    stats.compilation.name,
-    path.join(stats.compilation.compiler.outputPath, stats.compilation.outputOptions.filename)
-  );
+  if (isModuleBuild) {
+    generateIntegrityManifest(
+      stats.compilation.name,
+      path.join(stats.compilation.compiler.outputPath, stats.compilation.outputOptions.filename)
+    );
+  }
 
   if (watch) {
     return;
