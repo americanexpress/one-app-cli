@@ -2,8 +2,7 @@
 
 exports[`--modules option is required if --dev-endpoints option is given 1`] = `
 Array [
-  Array [
-    "Options:
+  "Options:
   --version                 Show version number                        [boolean]
   --module-map-url          module map for One App to use and fetch modules from
                                                                         [string]
@@ -30,12 +29,6 @@ Array [
   ----container-name        Assign a container name with the --name option
                                                                         [string]
   --help                    Show help                                  [boolean]",
-  ],
-  Array [],
-  Array [
-    "Missing dependent arguments:
- dev-endpoints -> modules",
-  ],
 ]
 `;
 
@@ -80,8 +73,7 @@ Array [
 
 exports[`--modules option is required if --parrot-middleware option is given 1`] = `
 Array [
-  Array [
-    "Options:
+  "Options:
   --version                 Show version number                        [boolean]
   --module-map-url          module map for One App to use and fetch modules from
                                                                         [string]
@@ -108,12 +100,6 @@ Array [
   ----container-name        Assign a container name with the --name option
                                                                         [string]
   --help                    Show help                                  [boolean]",
-  ],
-  Array [],
-  Array [
-    "Missing dependent arguments:
- parrot-middleware -> modules",
-  ],
 ]
 `;
 
