@@ -12,6 +12,7 @@
  * under the License.
  */
 
+const chalk = require('chalk');
 const webpack = require('webpack');
 
 const processStats = require('./processStats');
@@ -28,9 +29,11 @@ module.exports = function buildWebpack(configs = [], { watch, isModuleBuild } = 
       return multiStats;
     })
     .catch((err) => {
-      console.error(err.stack || err);
+      console.error(
+        [chalk.bold.red('\n[one-app-bundler]: webpack error'), chalk.red(err.stack || err)].join('\n')
+      );
       if (err.details) {
-        console.error(err.details);
+        console.error(chalk.red(err.details));
       }
     });
 };

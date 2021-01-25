@@ -24,8 +24,10 @@ module.exports = function processStats(stats, { watch, isModuleBuild } = {}) {
   const jsonStats = stats.toJson();
 
   if (stats.hasErrors()) {
-    const errorMessages = jsonStats.errors.map((e) => [chalk.red(e), chalk.red(e.stack)].join('\n')).join('\n');
-    console.error(chalk.bold.red(`\n[one-app-bundler]: error - "${stats.compilation.name}":\n`), orange(errorMessages));
+    const errorMessages = jsonStats.errors.map((e) => chalk.red(e)).join('\n');
+    console.error(
+      [chalk.bold.red(`\n[one-app-bundler]: error - "${stats.compilation.name}":`), orange(errorMessages)].join('\n')
+    );
     process.exitCode = 1;
     return;
   }
@@ -34,7 +36,7 @@ module.exports = function processStats(stats, { watch, isModuleBuild } = {}) {
     const warningMessages = jsonStats.warnings.join('\n');
     console.warn(
       chalk.bgBlack.yellow(
-        [orange.bold(`\n[one-app-bundler]: warning - "${stats.compilation.name}":\n`), chalk.yellow(warningMessages)].join('\n')
+        [orange.bold(`\n[one-app-bundler]: warning - "${stats.compilation.name}":`), chalk.yellow(warningMessages)].join('\n')
       )
     );
   }
