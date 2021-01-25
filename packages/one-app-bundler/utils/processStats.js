@@ -18,19 +18,25 @@ const chalk = require('chalk');
 
 const generateIntegrityManifest = require('./generateIntegrityManifest');
 
+const orange = chalk.keyword('orange');
+
 module.exports = function processStats(stats, { watch, isModuleBuild } = {}) {
   const jsonStats = stats.toJson();
 
   if (stats.hasErrors()) {
     const errorMessages = jsonStats.errors.map((e) => [chalk.red(e), chalk.red(e.stack)].join('\n')).join('\n');
-    console.error(chalk.red(`\nerror - "${stats.compilation.name}":\n`), errorMessages);
+    console.error(chalk.bold.red(`\n[one-app-bundler]: error - "${stats.compilation.name}":\n`), orange(errorMessages));
     process.exitCode = 1;
     return;
   }
 
   if (stats.hasWarnings()) {
     const warningMessages = jsonStats.warnings.join('\n');
-    console.warn(chalk.yellow(`\nwarning - "${stats.compilation.name}":\n`), warningMessages);
+    console.warn(
+      chalk.bgBlack.yellow(
+        [orange.bold(`\n[one-app-bundler]: warning - "${stats.compilation.name}":\n`), chalk.yellow(warningMessages)].join('\n')
+      )
+    );
   }
 
   fs.writeFileSync(path.join(process.cwd(), `.webpack-stats.${stats.compilation.name}.json`), JSON.stringify(jsonStats));

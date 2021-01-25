@@ -34,4 +34,4 @@ time(() => {
     .catch((err) => {
       console.error(chalk.red(err), chalk.red(err.stack));
     });
-}, 'One App');
+}, 'One App Client Bundle Build');

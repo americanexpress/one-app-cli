@@ -21,7 +21,7 @@ const buildWebpack = require('../utils/buildWebpack');
 const time = require('../utils/time');
 const { watch } = require('../utils/getCliOptions')();
 
-time(() => localeBundler(watch), 'Language Packs');
+time(() => localeBundler(watch), 'Language Packs Build');
 time(() => {
   const configs = [
     ['node', serverConfig],
@@ -33,4 +33,4 @@ time(() => {
   }));
 
   return buildWebpack(configs, { watch, isModuleBuild: true });
-}, 'Module Bundle');
+}, 'Module Bundle Build');

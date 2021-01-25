@@ -12,16 +12,17 @@
  * under the License.
  */
 
+const chalk = require('chalk');
 const { performance } = require('perf_hooks');
 
-function printBuildTime(buildName, buildTime) {
-  console.log('The "%s" build has taken %d seconds to complete.', buildName, buildTime / 1000);
+function printTimeDuration(name, duration) {
+  console.log('\n[one-app-bundler]: %s took %s seconds to complete.\n', chalk.bold.green(name), chalk.bold.green(`${duration / 1000}`));
 }
 
 module.exports = async function time(asyncCallback, buildName = 'Module') {
   const now = performance.now();
   await asyncCallback();
   const timeToComplete = performance.now() - now;
-  printBuildTime(buildName, timeToComplete);
+  printTimeDuration(buildName, timeToComplete);
   return timeToComplete;
 };
