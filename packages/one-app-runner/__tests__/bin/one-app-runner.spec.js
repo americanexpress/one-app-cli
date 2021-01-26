@@ -28,8 +28,7 @@ beforeAll(() => {
 beforeEach(() => {
   jest
     .resetModules()
-    .restoreAllMocks()
-    .resetAllMocks();
+    .clearAllMocks();
 
   jest.unmock('../../../../package.json');
 
@@ -265,8 +264,7 @@ test('--modules option is required if --parrot-middleware option is given', () =
   process.argv = ['', '', '--parrot-middleware', '../path/to/dev.middleware.js', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  const [error] = consoleErrorSpy.mock.calls;
-  expect(error).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls.toString()).toContain('parrot-middleware -> modules');
 });
 
 test('--modules option is required if --dev-endpoints option is given', () => {
@@ -275,8 +273,7 @@ test('--modules option is required if --dev-endpoints option is given', () => {
   process.argv = ['', '', '--dev-endpoints', '../path/to/dev.endpoints.js', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
-  const [error] = consoleErrorSpy.mock.calls;
-  expect(error).toMatchSnapshot();
+  expect(consoleErrorSpy.mock.calls.toString()).toContain('dev-endpoints -> modules');
 });
 
 test('an `envVars` key is supported within the config entry', () => {
