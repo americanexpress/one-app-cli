@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-locale-bundler",
-  "version": "6.4.0",
+  "version": "6.5.0",
   "description": "A command line interface(CLI) tool for bundling the locale files.",
   "bin": {
     "bundle-module-locale": "./bin/bundle-module-locale.js"
