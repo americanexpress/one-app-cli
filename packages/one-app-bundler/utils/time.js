@@ -15,8 +15,28 @@
 const chalk = require('chalk');
 const { performance } = require('perf_hooks');
 
-function printTimeDuration(name, duration) {
-  console.log('\n[one-app-bundler]: %s took %s seconds to complete.\n', chalk.bold.green(name), chalk.bold.green(`${duration / 1000}`));
+function clamp(number, min, max) {
+  return Math.min(Math.max(number, min), max);
+}
+
+function getDurationInSeconds(milliseconds, rounding) {
+  const seconds = milliseconds / 1000;
+  return Math.round(seconds * rounding) / rounding;
+}
+
+function printTimeDuration(name, durationInMilliseconds) {
+  // rounding to the first two decimal places
+  const seconds = getDurationInSeconds(durationInMilliseconds, 100);
+  console.log(
+    '\n[one-app-bundler]: %s took %s seconds to complete.\n',
+    chalk.bold.green(name),
+    chalk
+      // start at green (120) and stop at red (0)
+      // the longer a build takes the hotter the printed color
+      // will be - a minute build should be printed yellow-orange
+      .hsl(120 - clamp(seconds * 3, 0, 120), 100, 50)
+      .bold(seconds)
+  );
 }
 
 module.exports = async function time(asyncCallback, buildName = 'Module') {
