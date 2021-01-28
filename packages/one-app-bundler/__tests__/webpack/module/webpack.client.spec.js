@@ -66,4 +66,10 @@ describe('webpack/module.client', () => {
       hints: 'error',
     });
   });
+
+  it('should define global.BROWSER to be true', () => {
+    const webpackConfig = configGenerator();
+    expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
+    expect(webpackConfig.plugins).toContainEqual({ definitions: { 'global.BROWSER': 'true' } });
+  });
 });

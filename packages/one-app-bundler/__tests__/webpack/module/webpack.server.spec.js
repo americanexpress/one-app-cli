@@ -23,4 +23,9 @@ const { validateWebpackConfig } = require('../../../test-utils');
 
 describe('webpack/module.server', () => {
   it('should export valid webpack config', () => validateWebpackConfig(webpackConfig));
+
+  it('should define global.BROWSER to be false', () => {
+    expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
+    expect(webpackConfig.plugins).toContainEqual({ definitions: { 'global.BROWSER': 'false' } });
+  });
 });
