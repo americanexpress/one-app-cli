@@ -46,7 +46,7 @@
     "@americanexpress/one-app-locale-bundler": "^6.4.0",
     "@americanexpress/purgecss-loader": "^2.0.0",
     "@hapi/joi": "^17.1.1",
-    "ajv": "^6.7.0",
+    "ajv": "^7.0.3",
     "babel-loader": "^8.0.6",
     "babel-preset-amex": "^3.2.0",
     "chalk": "^2.4.2",
