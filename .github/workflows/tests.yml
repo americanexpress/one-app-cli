@@ -35,4 +35,3 @@ jobs:
         run: yarn test:lockfile
       - name: Lint
         run: yarn test:lint
-        
