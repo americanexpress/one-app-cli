@@ -13,17 +13,18 @@ jobs:
         node: [ '10.x', '12.x', '14.x' ]
     name: Node ${{ matrix.node }}
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
     - run: |
         git remote set-branches --add origin main
         git fetch
-    - name: Setup Node
-      uses: actions/setup-node@v1
+    - name: Node Install
       with:
         node-version: ${{ matrix.node }}
-    - name: Install Dependencies
-      run: yarn
+      uses: actions/setup-node@v1
+    - name: Installing Packages
       env:
         NODE_ENV: development
-    - name: Run Test Script
+      run: yarn install --frozen-lockfile
+    - name: Testing Packages
       run: yarn test

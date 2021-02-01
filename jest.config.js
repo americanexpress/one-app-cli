@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -26,10 +26,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 99.31,
-      branches: 99.15,
-      lines: 99.71,
-      functions: 97,
+      statements: 99.38,
+      branches: 99.53,
+      functions: 97.27,
+      lines: 99.78,
     },
   },
   testPathIgnorePatterns: [
