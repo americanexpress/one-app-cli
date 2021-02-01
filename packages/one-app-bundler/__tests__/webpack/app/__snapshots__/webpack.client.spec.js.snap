@@ -21,11 +21,20 @@ Object {
       "loader": "sass-loader",
       "options": Object {
         "implementation": Object {
-          "info": "dart-sass	1.23.7	(Sass Compiler)	[Dart]
-dart2js	2.6.1	(Dart Compiler)	[Dart]",
+          "FALSE": SassBoolean {
+            "value": false,
+          },
+          "NULL": SassNull {
+            "toString": [Function],
+          },
+          "TRUE": SassBoolean {
+            "value": true,
+          },
+          "cli_pkg_main_0_": [Function],
+          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
+dart2js	2.10.4	(Dart Compiler)	[Dart]",
           "render": [Function],
           "renderSync": [Function],
-          "run_": [Function],
           "types": Object {
             "Boolean": [Function],
             "Color": [Function],
@@ -67,11 +76,20 @@ Object {
       "loader": "sass-loader",
       "options": Object {
         "implementation": Object {
-          "info": "dart-sass	1.23.7	(Sass Compiler)	[Dart]
-dart2js	2.6.1	(Dart Compiler)	[Dart]",
+          "FALSE": SassBoolean {
+            "value": false,
+          },
+          "NULL": SassNull {
+            "toString": [Function],
+          },
+          "TRUE": SassBoolean {
+            "value": true,
+          },
+          "cli_pkg_main_0_": [Function],
+          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
+dart2js	2.10.4	(Dart Compiler)	[Dart]",
           "render": [Function],
           "renderSync": [Function],
-          "run_": [Function],
           "types": Object {
             "Boolean": [Function],
             "Color": [Function],
@@ -113,11 +131,20 @@ Object {
       "loader": "sass-loader",
       "options": Object {
         "implementation": Object {
-          "info": "dart-sass	1.23.7	(Sass Compiler)	[Dart]
-dart2js	2.6.1	(Dart Compiler)	[Dart]",
+          "FALSE": SassBoolean {
+            "value": false,
+          },
+          "NULL": SassNull {
+            "toString": [Function],
+          },
+          "TRUE": SassBoolean {
+            "value": true,
+          },
+          "cli_pkg_main_0_": [Function],
+          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
+dart2js	2.10.4	(Dart Compiler)	[Dart]",
           "render": [Function],
           "renderSync": [Function],
-          "run_": [Function],
           "types": Object {
             "Boolean": [Function],
             "Color": [Function],

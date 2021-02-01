@@ -18,7 +18,6 @@ const getConfigOptions = require('./getConfigOptions');
 const getCliOptions = require('./getCliOptions');
 const createResolver = require('../webpack/createResolver');
 
-
 function getCustomWebpackConfigPath(options, bundleTarget) {
   const { webpackConfigPath, webpackClientConfigPath, webpackServerConfigPath } = options;
 

@@ -1,13 +1,25 @@
 {
   "name": "one-app-cli",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/americanexpress/one-app-cli.git"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.12.0"
+  },
   "scripts": {
-    "postinstall": "lerna bootstrap",
+    "test": "yarn test:unit",
     "test:lint": "eslint --ext js,jsx,snap,md .",
     "test:unit": "cross-env NODE_ENV=production jest",
-    "test": "npm run test:unit",
     "test:git-history": "commitlint --from origin/main --to HEAD",
-    "test:lockfile": "node lockFileLint.js",
-    "posttest": "npm run test:lint && npm run test:git-history && npm run test:lockfile",
+    "posttest": "yarn test:lint && yarn test:git-history && yarn test:lockfile",
+    "test:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts registry.yarnpkg.com --validate-https",
     "lerna:version": "lerna version",
     "lerna:publish": "lerna publish from-package --yes",
     "lerna:deploy": "node lernaDeploy.js"
@@ -27,35 +39,6 @@
     "lockfile-lint": "^4.1.0",
     "mock-fs": "^4.7.0",
     "prop-types": "*"
-  },
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/americanexpress/one-app-cli.git"
-  },
-  "jest": {
-    "preset": "amex-jest-preset",
-    "collectCoverageFrom": [
-      "packages/**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!**/build/**",
-      "!packages/*/lib/**",
-      "!packages/*/bin/**",
-      "!packages/*/test-utils.js",
-      "!packages/*/test-results/**",
-      "!packages/generator-one-app-module/generators/app/templates/**"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 99.31,
-        "branches": 99.15,
-        "lines": 99.71,
-        "functions": 97
-      }
-    },
-    "testPathIgnorePatterns": [
-      "packages/generator-one-app-module/generators/app/templates"
-    ]
   },
   "husky": {
     "hooks": {
