@@ -32,7 +32,7 @@ module.exports = function createResolver({ mainFields, resolveToContext = false 
     resolveToContext,
   });
 
-  const trailingSlash = (process.platform === 'win32') ? '\\' : '/';
+  const trailingSlash = process.platform === 'win32' ? '\\' : '/';
   // if resolveToContext add a trailing slash to indicate the value is a folder rather than  a file
   return (request) => `${enhancedResolver.resolveSync({}, __dirname, request)}${resolveToContext ? trailingSlash : ''}`;
 };

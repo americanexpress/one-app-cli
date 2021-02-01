@@ -236,7 +236,6 @@ module.exports = class extends Generator {
       this.fs.delete(this.destinationPath('mock'));
     }
 
-
     this.fs.move(
       this.destinationPath('src/components/ModuleContainer.jsx'),
       this.destinationPath(`src/components/${this.moduleNamePascal}.jsx`)
