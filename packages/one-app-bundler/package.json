@@ -38,7 +38,6 @@
   ],
   "license": "Apache-2.0",
   "peerDependencies": {
-    "babel-eslint": "7.x || 8.x",
     "eslint": "7.x"
   },
   "dependencies": {
