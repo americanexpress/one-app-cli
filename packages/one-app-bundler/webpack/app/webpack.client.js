@@ -46,7 +46,6 @@ if (process.env.NODE_ENV === 'production' || process.env.DANGEROUSLY_DISABLE_DEP
   pathsToTranspile = pathsToTranspile.concat(path.resolve(packageRoot, 'node_modules'));
 }
 
-
 const getCoreJsModulePaths = (targets) => {
   const filter = /^es\.|web\./;
   const moduleNames = coreJsCompat({ filter, targets }).list;
@@ -66,7 +65,7 @@ module.exports = (babelEnv) => merge(
     entry: {
       app: './src/client/client',
       vendors: [
-        ...(babelEnv !== 'modern' ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : []),
+        ...babelEnv !== 'modern' ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
         ...(babelEnv !== 'modern' ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
         resolve('regenerator-runtime/runtime'),
         ...Object.keys(moduleExternals).map(resolve),

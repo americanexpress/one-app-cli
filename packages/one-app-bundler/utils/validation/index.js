@@ -71,7 +71,6 @@ function validateBundler(options) {
   return validateSchema(optionsSchema, options);
 }
 
-
 module.exports = {
   externalsSchema,
   webpackConfigSchema,

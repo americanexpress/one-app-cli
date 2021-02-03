@@ -34,7 +34,6 @@ HTTP_METRICS_PORT=${metricsPort}
   `);
 };
 
-
 createRunnerEnv().catch((error) => {
   /* eslint-disable no-console */
   console.log();
