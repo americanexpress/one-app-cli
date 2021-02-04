@@ -142,7 +142,6 @@ describe('extendWebpackConfig', () => {
     expect(rules[rules.length - 1]).toMatchSnapshot();
   });
 
-
   it('should validate the one app version', () => {
     getConfigOptions.mockReturnValueOnce({ appCompatibility: '^4.41.0' });
     const result = extendWebpackConfig(originalWebpackConfig);
