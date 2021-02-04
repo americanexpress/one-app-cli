@@ -17,9 +17,9 @@
     "test": "yarn test:unit",
     "test:lint": "eslint --ext js,jsx,snap,md .",
     "test:unit": "cross-env NODE_ENV=production jest",
+    "test:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts registry.yarnpkg.com --validate-https",
     "test:git-history": "commitlint --from origin/main --to HEAD",
     "posttest": "yarn test:lint && yarn test:git-history && yarn test:lockfile",
-    "test:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts registry.yarnpkg.com --validate-https",
     "lerna:version": "lerna version",
     "lerna:publish": "lerna publish from-package --yes",
     "lerna:deploy": "node lernaDeploy.js"
