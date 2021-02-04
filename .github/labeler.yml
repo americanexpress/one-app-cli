@@ -1,0 +1,41 @@
+# Add 'eslint-plugin-one-app' label to any file changes
+# in the eslint-plugin-one-app package
+eslint-plugin-one-app:
+  - packages/eslint-plugin-one-app/*
+
+# Add 'generator-one-app-module' label to any file changes
+# in the generator-one-app-module package
+generator-one-app-module:
+  - packages/generator-one-app-module/*
+
+# Add 'one-app-bundler' label to any file changes
+# in the one-app-bundler package
+one-app-bundler:
+  - packages/one-app-bundler/*
+
+# Add 'one-app-locale-bundler' label to any file changes
+# in the one-app-locale-bundler package
+one-app-locale-bundler:
+  - packages/one-app-locale-bundler/*
+
+# Add 'one-app-runner' label to any file changes
+# in the one-app-runner package
+one-app-runner:
+  - packages/one-app-runner/*
+
+# Add 'test' label to any change to *.spec.js(x) files
+test:
+  - packages/**/__tests__/**/*.spec.js
+  - packages/**/__tests__/**/*.spec.jsx
+
+# Add 'github' label to any changes in .github folder
+github:
+  - .github/**
+
+# Add 'workflow' label to any changes in .github/workflow
+workflow:
+  - .github/workflows/*
+
+# Add 'github-template' label to any changes in .github/ISSUE_TEMPLATE
+github-template:
+  - .github/ISSUE_TEMPLATE/*

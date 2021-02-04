@@ -18,6 +18,7 @@
 
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const validateNodeEnv = require('../utils/validateNodeEnv');
 
 validateNodeEnv();
@@ -35,7 +36,26 @@ const plugins = [
   new webpack.EnvironmentPlugin([
     'NODE_ENV',
   ]),
-  ...(nodeEnvIsProduction ? prodPlugins : []),
+  new ESLintPlugin({
+    allowInlineConfig: false,
+    ignore: false,
+    failOnError: true,
+    useEslintrc: false,
+    overrideConfig: {
+      parserOptions: {
+        ecmaVersion: 6,
+        sourceType: 'module',
+        ecmaFeatures: { modules: true },
+      },
+      rules: {
+        'no-restricted-modules': ['error', 'create-react-class'],
+        'no-restricted-imports': ['error', 'create-react-class'],
+        '@americanexpress/one-app/no-app-config-on-client': 'error',
+      },
+      plugins: ['@americanexpress/one-app'],
+    },
+  }),
+  ...nodeEnvIsProduction ? prodPlugins : [],
 ];
 
 module.exports = {
@@ -72,30 +92,6 @@ module.exports = {
             mimetype: 'application/font-woff',
           },
         }],
-      },
-      {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          allowInlineConfig: false,
-          ignore: false,
-          useEslintrc: false,
-          failOnError: true,
-          plugins: ['@americanexpress/one-app'],
-          parser: 'babel-eslint',
-          parserOptions: {
-            ecmaVersion: 6,
-            sourceType: 'module',
-            ecmaFeatures: { modules: true },
-          },
-          rules: {
-            'no-restricted-modules': ['error', 'create-react-class'],
-            'no-restricted-imports': ['error', 'create-react-class'],
-            '@americanexpress/one-app/no-app-config-on-client': 'error',
-          },
-        },
       },
     ],
   },
