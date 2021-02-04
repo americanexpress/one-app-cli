@@ -22,7 +22,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          fetch-depth: 0
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Node Install
         uses: actions/setup-node@v1
         with:
