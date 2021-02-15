@@ -81,6 +81,9 @@ module.exports = extendWebpackConfig(merge(
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
       }),
+      new webpack.DefinePlugin({
+        'global.BROWSER': JSON.stringify(false),
+      }),
     ],
   }
 ), 'server');
