@@ -31,8 +31,8 @@ Object {
             "value": true,
           },
           "cli_pkg_main_0_": [Function],
-          "info": "dart-sass	1.32.7	(Sass Compiler)	[Dart]
-dart2js	2.10.5	(Dart Compiler)	[Dart]",
+          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
+dart2js	2.10.4	(Dart Compiler)	[Dart]",
           "render": [Function],
           "renderSync": [Function],
           "types": Object {
@@ -86,8 +86,8 @@ Object {
             "value": true,
           },
           "cli_pkg_main_0_": [Function],
-          "info": "dart-sass	1.32.7	(Sass Compiler)	[Dart]
-dart2js	2.10.5	(Dart Compiler)	[Dart]",
+          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
+dart2js	2.10.4	(Dart Compiler)	[Dart]",
           "render": [Function],
           "renderSync": [Function],
           "types": Object {
@@ -141,8 +141,8 @@ Object {
             "value": true,
           },
           "cli_pkg_main_0_": [Function],
-          "info": "dart-sass	1.32.7	(Sass Compiler)	[Dart]
-dart2js	2.10.5	(Dart Compiler)	[Dart]",
+          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
+dart2js	2.10.4	(Dart Compiler)	[Dart]",
           "render": [Function],
           "renderSync": [Function],
           "types": Object {

@@ -11,8 +11,6 @@ Array [
   ESLintWebpackPlugin {
     "options": Object {
       "allowInlineConfig": false,
-      "emitError": true,
-      "emitWarning": true,
       "extensions": "js",
       "failOnError": true,
       "ignore": false,
@@ -66,8 +64,6 @@ Array [
   ESLintWebpackPlugin {
     "options": Object {
       "allowInlineConfig": false,
-      "emitError": true,
-      "emitWarning": true,
       "extensions": "js",
       "failOnError": true,
       "ignore": false,
