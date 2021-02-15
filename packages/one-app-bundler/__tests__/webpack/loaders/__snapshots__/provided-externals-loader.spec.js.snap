@@ -11,7 +11,9 @@ MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
   },
 });
 
+if(global.getTenantRootModule === undefined || (global.getTenantRootModule && global.getTenantRootModule().holocron.name === 'undefined')){
 global.getTenantRootModule = () => MyComponent;
+}
 "
 `;
 

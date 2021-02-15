@@ -31,7 +31,9 @@ ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
   },
 });
 
+if(global.getTenantRootModule === undefined || (global.getTenantRootModule && global.getTenantRootModule().holocron.name === '${options.moduleName}')){
 global.getTenantRootModule = () => ${match[1]};
+}
 `;
   }
 
