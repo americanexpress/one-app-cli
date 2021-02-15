@@ -13,18 +13,19 @@
  */
 
 import readPkgUp from 'read-pkg-up';
-import { getModuleConfig, getDefaultLocalesPath } from '../../src/config';
+import fs from 'fs';
+import path from 'path';
+import { getModuleConfig, createConfig } from '../../src/config';
 
 jest.mock('read-pkg-up');
 jest.mock('../../src/webpack/utility');
 jest.mock('path');
-jest.mock(getDefaultLocalesPath('test'));
+jest.mock('fs');
 
-describe('index', () => {
+describe('getModuleConfig', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-
   readPkgUp.mockImplementation(() => ({
     packageJson: {
       name: 'hmr',
@@ -40,11 +41,6 @@ describe('index', () => {
           ],
           rootModuleName: 'hmr',
           parrotMiddleware: './dev.middleware.js',
-        },
-        bundler: {
-          providedExternals: [
-            'react-intl',
-          ],
         },
       },
     },
@@ -82,11 +78,6 @@ describe('index', () => {
             rootModuleName: 'hmr',
             parrotMiddleware: './dev.middleware.js',
           },
-          bundler: {
-            providedExternals: [
-              'react-intl',
-            ],
-          },
         },
       },
     }));
@@ -95,29 +86,19 @@ describe('index', () => {
     expect(moduleConfiguration.modules.length).toEqual(0);
   });
   it('returns the language packs configured', async () => {
-    readPkgUp.mockImplementation(() => ({
-      packageJson: {
-        name: 'hmr',
-        version: '1.0.0',
-        'one-amex': {
-          app: {
-            compatibility: '^5.0.0',
-          },
-          runner: {
-            dockerImage: 'dockerproxy.aexp.com/oneamex/one-app-dev:latest',
-            rootModuleName: 'hmr',
-            parrotMiddleware: './dev.middleware.js',
-          },
-          bundler: {
-            providedExternals: [
-              'react-intl',
-            ],
-          },
-        },
-      },
-    }));
-
+    path.resolve.mockReturnValue('/modules/locales');
+    fs.existsSync = jest.fn(() => true);
     const moduleConfiguration = await getModuleConfig();
-    expect(moduleConfiguration.modules.length).toEqual(0);
+    expect(moduleConfiguration.languagePacks.length).toEqual(1);
+  });
+  it('returns the scenarios configured', async () => {
+    path.resolve.mockReturnValue('/mock/scenarios.js');
+    fs.existsSync = jest.fn(() => true);
+    const moduleConfiguration = await getModuleConfig();
+    expect(moduleConfiguration.scenarios[0]).toEqual('/mock/scenarios.js');
+  });
+  it('creates a configuration', async () => {
+    const createConfigMock = await createConfig();
+    expect(createConfigMock.rootModule).toEqual('root-module');
   });
 });

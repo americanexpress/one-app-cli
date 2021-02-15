@@ -51,8 +51,7 @@ export const BUNDLER_CONFIG_KEY = 'bundler';
 export const RUNNER_CONFIG_KEY = 'runner';
 export const HMR_CONFIG_KEY = 'hmr';
 
-// eslint-disable-next-line complexity
-export async function getModuleConfig(modulePath = getContext()) {
+export async function getPackageJson(modulePath) {
   const {
     packageJson: {
       [ONE_AMEX_CONFIG_KEY]: oneAmexConfig,
@@ -61,31 +60,56 @@ export async function getModuleConfig(modulePath = getContext()) {
     },
   } = await readPkgUp({ cwd: modulePath });
 
+  return {
+    oneAmexConfig,
+    moduleName,
+    moduleVersion,
+  };
+}
+
+const getOneAmexConfig = (oneAmexConfig, moduleName) => {
   const {
     [RUNNER_CONFIG_KEY]: {
       modules, rootModuleName, moduleMapUrl, dockerImage,
     } = { modules: ['.'], rootModuleName: moduleName },
-    [BUNDLER_CONFIG_KEY]: { providedExternals = [], requiredExternals } = {},
+    [BUNDLER_CONFIG_KEY]: { providedExternals, requiredExternals } = {},
     [HMR_CONFIG_KEY]: hmr = {},
   } = oneAmexConfig || {};
+  return {
+    modules,
+    rootModuleName,
+    moduleMapUrl,
+    dockerImage,
+    hmr,
+    providedExternals,
+    requiredExternals,
+  };
+};
+const getLocalModules = (modulePath, hmr, modules) => (hmr.modules || modules || [])
+  .map((pathName) => path.resolve(modulePath, pathName))
+  .filter((pathName) => pathName !== modulePath)
+  .filter((pathName) => fs.existsSync(pathName));
+const getLanguagePacks = (modulePath, hmr) => []
+  .concat(hmr.languagePacks || [], getDefaultLocalesPath(modulePath))
+  .filter((pathName) => fs.existsSync(pathName));
 
-  const localModules = (hmr.modules || modules || [])
-    .map((pathName) => path.resolve(modulePath, pathName))
-    .filter((pathName) => pathName !== modulePath)
-    .filter((pathName) => fs.existsSync(pathName));
+const getScenarios = (modulePath, hmr) => []
+  .concat(hmr.scenarios || [], getDefaultScenariosPath(modulePath)
+  ).filter((pathName) => fs.existsSync(pathName));
+const getExternals = (hmr, providedExternals, requiredExternals) => [...new Set([].concat(
+  hmr.externals || [],
+  providedExternals || [],
+  requiredExternals || []
+)).values()];
+export async function getModuleConfig(modulePath = getContext()) {
+  const { oneAmexConfig, moduleName, moduleVersion } = await getPackageJson(modulePath);
+  const {
+    modules, rootModuleName, moduleMapUrl, dockerImage, hmr, providedExternals, requiredExternals,
+  } = getOneAmexConfig(oneAmexConfig, moduleName);
 
-  const languagePacks = []
-    .concat(hmr.languagePacks || [], getDefaultLocalesPath(modulePath))
-    .filter((pathName) => fs.existsSync(pathName));
-  const scenarios = []
-    .concat(hmr.scenarios || [], getDefaultScenariosPath(modulePath)
-    ).filter((pathName) => fs.existsSync(pathName));
-  const externals = [...new Set([].concat(
-    hmr.externals || [],
-    providedExternals || [],
-    requiredExternals || []
-  )).values()];
-
+  const languagePacks = getLanguagePacks(modulePath, hmr);
+  const scenarios = getScenarios(modulePath, hmr);
+  const externals = getExternals(hmr, providedExternals, requiredExternals);
   return {
     moduleName,
     moduleVersion,
@@ -94,7 +118,7 @@ export async function getModuleConfig(modulePath = getContext()) {
     scenarios,
     languagePacks,
     // hmr profile
-    modules: localModules,
+    modules: getLocalModules(modulePath, hmr, modules),
     dockerImage: hmr.dockerImage || dockerImage,
     logLevel: hmr.logLevel || 2,
     port: hmr.port || 4000,
