@@ -49,10 +49,10 @@ export function createExternalEntry([packageName, varName] = []) {
   return {
     [packageName]: {
       commonjs2: packageName,
-      ...(varName ? {
+      ...varName ? {
         var: varName,
         root: varName,
-      } : {}),
+      } : {},
     },
   };
 }

@@ -36,7 +36,7 @@ export function createDLLConfig({
   dllExternals = [],
 } = {}) {
   return {
-    ...(dllAsReference
+    ...dllAsReference
       ? {}
       : merge(
         createMinifyConfig({ isDev }),
@@ -53,7 +53,7 @@ export function createDLLConfig({
             rules: [jsxLoader()],
           },
         }
-      )),
+      ),
     plugins: dllAsReference
       ? [
         new webpack.DllReferencePlugin({

@@ -30,7 +30,7 @@ export const printWebpack = (message) => `${dodgerblue('webpack')} - ${message}`
 export function buildExternalsDLL(config = {}) {
   const { externals = [] } = config;
 
-  if (externals.length > 0 === false) return Promise.resolve();
+  if (!(externals.length > 0)) return Promise.resolve();
 
   return new Promise((resolve, reject) => {
     webpack(createDLLConfig({

@@ -17,7 +17,7 @@ const {
   createConfig,
   setupStatics,
   hmrServer,
-} = require('../lib');
+} = require('../src');
 
 (async function oneAppHMR() {
   // TODO: add support for cli options, merge with default config, pass to createConfig

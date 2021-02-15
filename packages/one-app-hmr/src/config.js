@@ -16,11 +16,7 @@ import fs from 'fs';
 import path from 'path';
 import readPkgUp from 'read-pkg-up';
 
-import {
-  getContext,
-  getPublicPath,
-  getModulesPath,
-} from './webpack/utility';
+import { getContext, getModulesPath, getPublicPath } from './webpack/utility';
 import { debug } from './logs';
 
 export const defaultConfig = {
@@ -90,7 +86,7 @@ export async function getModuleConfig(modulePath = getContext()) {
     requiredExternals || []
   )).values()];
 
-  const moduleConfig = {
+  return {
     moduleName,
     moduleVersion,
     modulePath,
@@ -108,8 +104,6 @@ export async function getModuleConfig(modulePath = getContext()) {
     rootModuleName: hmr.rootModuleName || rootModuleName,
     remoteModuleMap: hmr.remoteModuleMap || moduleMapUrl,
   };
-
-  return moduleConfig;
 }
 
 export async function createConfig(initialConfig) {
@@ -140,9 +134,9 @@ export async function createConfig(initialConfig) {
     .map((paths) => [].concat(paths).filter((pathName) => fs.existsSync(pathName)))
     .reduce((langPacksArray, nextSet) => langPacksArray.concat(nextSet), []);
   config.externals = [
-    ...(new Set(
+    ...new Set(
       modules.reduce((externalsArray, { externals }) => externalsArray.concat(externals), [])
-    ).values()),
+    ).values(),
   ];
 
   debug('configuration %o', config.entryModule);
