@@ -58,9 +58,9 @@ export function createHotModuleWebpackConfig({
 
   return merge(
     entryConfig,
-    (externals && externals.length > 0 ? createDLLConfig({
+    externals && externals.length > 0 ? createDLLConfig({
       dllAsReference: true,
-    }) : {}),
+    }) : {},
     {
       externals: createOneAppExternals(externals),
       target: 'web',

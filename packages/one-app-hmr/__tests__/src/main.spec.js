@@ -1,6 +1,5 @@
-#! /usr/bin/env node
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,17 +12,16 @@
  * under the License.
  */
 
-const {
-  createConfig,
-  setupStatics,
-  hmrServer,
-} = require('../src');
+import * as nodeAPI from '../../src/main';
 
-module.exports = (async function oneAppHMR() {
-  // TODO: add support for cli options, merge with default config, pass to createConfig
-  const config = await createConfig();
-  // setup before starting
-  await setupStatics(config);
-
-  await hmrServer(config);
-}());
+test('exports all node API functions', () => {
+  expect(Object.keys(nodeAPI)).toEqual([
+    'createConfig',
+    'renderDocument',
+    'createHotModuleRenderingMiddleware',
+    'setLogLevel',
+    'hmrServer',
+    'setupStatics',
+    'loadWebpackMiddleware',
+  ]);
+});

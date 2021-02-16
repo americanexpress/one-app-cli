@@ -33,7 +33,7 @@ export function loadScenarios(scenarioPaths) {
   // TODO: safely source scenarios
   // TODO: warn when scenarios are overwritten between other module scenarios
   // eslint-disable-next-line global-require, import/no-dynamic-require
-  return scenarioPaths.reduce(((map, nextPath) => ({ ...map, ...require(nextPath) })), {});
+  return scenarioPaths.reduce((map, nextPath) => ({ ...map, ...require(nextPath) }), {});
 }
 
 export function getModuleNameFromFilePath(filePath) {

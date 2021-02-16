@@ -14,6 +14,7 @@
 
 module.exports = {
   preset: 'amex-jest-preset',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   collectCoverageFrom: [
     'packages/**/*.{js,jsx}',
     '!**/node_modules/**',
@@ -23,6 +24,9 @@ module.exports = {
     '!packages/*/test-utils.js',
     '!packages/*/test-results/**',
     '!packages/generator-one-app-module/generators/app/templates/**',
+    // TODO: remove after hmr testing in place
+    'packages/one-app-hmr/bin/*.js',
+    '!packages/one-app-hmr/src/**',
   ],
   coverageThreshold: {
     global: {
