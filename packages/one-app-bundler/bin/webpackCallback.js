@@ -57,6 +57,8 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
 
     // for CI/CD have webpack exit if a module isn't found (should be default behavior but isn't)
     if (stats.compilation.errors[0]) {
+      const errorMessage = stats.compilation.errors[0].message;
+      if (errorMessage) { console.error(errorMessage); }
       throw stats.compilation.errors[0];
     }
   };
