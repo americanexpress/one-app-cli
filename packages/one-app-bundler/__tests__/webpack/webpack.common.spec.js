@@ -73,14 +73,14 @@ describe('webpack/one-amex.base', () => {
   it('should only include the EnvironmentPlugin in development', () => {
     process.env.NODE_ENV = 'development';
     const webpackConfig = require('../../webpack/webpack.common');
-    expect(webpackConfig.plugins).toHaveLength(2);
+    expect(webpackConfig.plugins).toHaveLength(1);
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
 
   it('should add loader options plugin in production', () => {
     process.env.NODE_ENV = 'production';
     const webpackConfig = require('../../webpack/webpack.common');
-    expect(webpackConfig.plugins).toHaveLength(3);
+    expect(webpackConfig.plugins).toHaveLength(2);
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
 });

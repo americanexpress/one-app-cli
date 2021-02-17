@@ -38,8 +38,7 @@
   ],
   "license": "Apache-2.0",
   "peerDependencies": {
-    "babel-eslint": "7.x || 8.x",
-    "eslint": "7.x"
+    "babel-eslint": "7.x || 8.x"
   },
   "dependencies": {
     "@americanexpress/eslint-plugin-one-app": "^6.11.0",
@@ -53,7 +52,7 @@
     "core-js-compat": "^3.4.2",
     "css-loader": "3.4.2",
     "enhanced-resolve": "^4.1.0",
-    "eslint-webpack-plugin": "^2.4.1",
+    "eslint-loader": "^2.1.1",
     "expose-loader": "^0.7.5",
     "fibers": "^4.0.1",
     "file-loader": "^6.0.0",
