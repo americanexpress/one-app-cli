@@ -1,11 +1,3 @@
 {
-  "extends": "amex/test",
-  "rules": {
-    "jest/no-large-snapshots": [
-      "error",
-      {
-        "maxSize": 53
-      }
-    ]
-  }
+  "extends": "amex/test"
 }
