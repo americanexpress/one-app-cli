@@ -37,6 +37,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     appCompatibility,
     requiredExternals,
     providedExternals,
+    moduleName,
   } = configOptions;
   const { watch } = cliOptions;
 
@@ -60,6 +61,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader',
             options: {
               providedExternals,
+              moduleName,
             },
           }],
         }],
