@@ -11,7 +11,10 @@ MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
   },
 });
 
+if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === 'undefined')){
 global.getTenantRootModule = () => MyComponent;
+global.rootModuleName = 'undefined';
+}
 "
 `;
 

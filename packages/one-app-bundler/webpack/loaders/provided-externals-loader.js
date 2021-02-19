@@ -31,7 +31,10 @@ ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
   },
 });
 
+if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${options.moduleName}')){
 global.getTenantRootModule = () => ${match[1]};
+global.rootModuleName = '${options.moduleName}';
+}
 `;
   }
 
