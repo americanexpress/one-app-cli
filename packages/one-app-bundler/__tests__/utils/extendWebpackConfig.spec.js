@@ -104,7 +104,7 @@ describe('extendWebpackConfig', () => {
   });
 
   it('should bundle requiredExternals designated by providedExternals', () => {
-    getConfigOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'chalk', 'lodash'] });
+    getConfigOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'chalk', 'lodash'], moduleName: 'test-root-module' });
     const result = extendWebpackConfig(originalWebpackConfig);
     const { rules } = result.module;
     expect(rules).toHaveLength(originalWebpackConfig.module.rules.length + 1);
