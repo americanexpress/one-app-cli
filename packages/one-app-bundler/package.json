@@ -59,7 +59,7 @@
     "folder-hash": "^3.3.0",
     "glob": "^7.1.3",
     "holocron-module-register-webpack-plugin": "^1.0.0-0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.2.0",
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.20",
     "mkdirp": "^0.5.1",
