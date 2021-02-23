@@ -12,8 +12,8 @@ jobs:
     steps:
     - id: commit
       run: echo "::set-output name=message::${{ github.event.head_commit.message }}"
-      outputs:
-        commitMsg: ${{ steps.commit.outputs.message }}
+    outputs:
+      commitMsg: ${{ steps.commit.outputs.message }}
   release:
     name: Release
     needs: [info]
