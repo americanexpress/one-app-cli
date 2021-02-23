@@ -15,7 +15,7 @@
  */
 
 const getPort = require('get-port');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const fs = require('fs-extra');
 
 const createRunnerEnv = async () => {
