@@ -3,12 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# 6.12.0 (2021-02-22)
+# 6.12.0 (2021-02-23)
 
 
 ### Features
 
 * **one-app-runner:** add container name flag ([#76](https://github.com/americanexpress/one-app-cli/issues/76)) ([fbd0fb5](https://github.com/americanexpress/one-app-cli/commit/fbd0fb55ef7f7998cef9ebab5b99e78132f401a5))
+* **oneAppRunner:** mount NODE_EXTRA_CA_CERTS cert ([#225](https://github.com/americanexpress/one-app-cli/issues/225)) ([fdf1f42](https://github.com/americanexpress/one-app-cli/commit/fdf1f424286bf5698e7df0e3d80a530dca6b958d))
 * **runner:** add offline flag ([#158](https://github.com/americanexpress/one-app-cli/issues/158)) ([fb05b7d](https://github.com/americanexpress/one-app-cli/commit/fb05b7de67a4de0088466423e3d73dc45195cc93))
 
 
