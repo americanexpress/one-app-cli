@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hot reloads parrot scenarios loadParrotMiddleware are loaded 1`] = `
+Array [
+  Array [
+    "[97m[1m  one-app-hmr ::[22m[39m [95mparrot[39m - initializing",
+  ],
+]
+`;
+
+exports[`hot reloads parrot scenarios on add hot reload scenarios  1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[95mparrot[39m - scenarios for \\"sample-module\\" has been added",
+  ],
+]
+`;
+
+exports[`hot reloads parrot scenarios on change hot reload scenarios  1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[95mparrot[39m - scenarios for \\"sample-module\\" has been changed",
+  ],
+]
+`;
+
+exports[`hot reloads parrot scenarios on error log the error 1`] = `
+Array [
+  Array [
+    "[93m[1m  one-app-hmr ::[22m[39m %s",
+    "[93m[95mparrot[39m[93m - Watch error: undefined[39m",
+  ],
+]
+`;
+
+exports[`hot reloads parrot scenarios on ready watches scenarios 1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[95mparrot[39m - Watching scenarios",
+  ],
+]
+`;
+
+exports[`hot reloads parrot scenarios on unlink hot reload scenarios 1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[95mparrot[39m - scenarios for \\"sample-module\\" has been removed",
+  ],
+]
+`;

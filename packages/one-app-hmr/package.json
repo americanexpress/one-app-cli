@@ -32,7 +32,7 @@
       "./test-setup.js"
     ],
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
+      "lib/**/*.{js,jsx}",
       "scripts/**/*.{js}",
       "!**/node_modules/**",
       "!test-results/**"
@@ -40,10 +40,10 @@
   },
   "files": [
     "bin/",
-    "src/"
+    "lib/"
   ],
-  "main": "src/index.js",
-  "module": "src/main.js",
+  "main": "lib/index.js",
+  "module": "lib/main.js",
   "bin": {
     "one-app-hmr": "bin/one-app-hmr.js"
   },

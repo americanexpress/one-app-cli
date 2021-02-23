@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`locale build hot reload language-packs language packs are loaded 1`] = `
+Array [
+  Array [
+    "[97m[1m  one-app-hmr ::[22m[39m [97mlocale[39m - initializing",
+  ],
+]
+`;
+
+exports[`locale build hot reload language-packs language packs are not loaded 1`] = `Array []`;
+
+exports[`locale build hot reload language-packs on add hot reload language pack  1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - \\"en-us\\" for module \\"sample-module\\" has been added",
+  ],
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - en-US",
+  ],
+]
+`;
+
+exports[`locale build hot reload language-packs on change hot reload language pack  1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - \\"en-us\\" for module \\"sample-module\\" has been changed",
+  ],
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - en-US",
+  ],
+]
+`;
+
+exports[`locale build hot reload language-packs on error log the error 1`] = `
+Array [
+  Array [
+    "[93m[1m  one-app-hmr ::[22m[39m %s",
+    "[93m[97mlocale[39m[93m - Language pack watcher error: undefined[39m",
+  ],
+]
+`;
+
+exports[`locale build hot reload language-packs on ready watches language packs 1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - Watching language packs",
+  ],
+]
+`;
+
+exports[`locale build hot reload language-packs on unlink hot reload language pack 1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - \\"en-us\\" for module \\"sample-module\\" has been removed",
+  ],
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - en-US",
+  ],
+]
+`;
+
+exports[`locale build language packs are loaded 1`] = `
+Array [
+  Array [
+    "[97m[1m  one-app-hmr ::[22m[39m [97mlocale[39m - initializing",
+  ],
+]
+`;
+
+exports[`locale build language packs are not loaded 1`] = `Array []`;
+
+exports[`locale build update module bundle  1`] = `
+Array [
+  Array [
+    "[96m[1m  one-app-hmr ::[22m[39m %s",
+    "[97mlocale[39m - en-US",
+  ],
+]
+`;

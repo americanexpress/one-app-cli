@@ -16,9 +16,9 @@ import {
   createConfig,
   setupStatics,
   hmrServer,
-} from '../../src';
+} from '../../lib';
 
-jest.mock('../../src/index', () => ({
+jest.mock('../../lib/index', () => ({
   createConfig: jest.fn(() => Promise.resolve('config')),
   setupStatics: jest.fn(() => Promise.resolve()),
   hmrServer: jest.fn(() => Promise.resolve()),
