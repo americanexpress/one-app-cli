@@ -40,6 +40,7 @@ describe('startApp', () => {
     delete process.env.HTTP_ONE_APP_DEV_CDN_PORT;
     delete process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT;
     delete process.env.HTTP_METRICS_PORT;
+    delete process.env.NODE_EXTRA_CA_CERTS;
     jest.spyOn(process.stdout, 'write');
     jest.spyOn(process.stderr, 'write');
     jest.spyOn(require('fs'), 'createWriteStream');
@@ -219,5 +220,25 @@ describe('startApp', () => {
     expect(
       () => onErrorFunction()
     ).toThrowErrorMatchingSnapshot('onErrorFunction');
+  });
+
+  it('forwards NODE_EXTRA_CA_CERTS from process.env', () => {
+    process.env.NODE_EXTRA_CA_CERTS = '/process/env/location/extra_certs.pem';
+    const mockSpawn = require('mock-spawn')();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0',
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('runner configs envVar NODE_EXTRA_CA_CERTS has priority over process.env', () => {
+    process.env.NODE_EXTRA_CA_CERTS = '/process/env/location/extra_certs.pem';
+    const mockSpawn = require('mock-spawn')();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', envVars: { NODE_EXTRA_CA_CERTS: '/envVar/location/cert.pem' },
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 });

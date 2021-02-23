@@ -2,53 +2,19 @@
 
 exports[`webpack/app always transpiles node_modules when env is production 1`] = `
 Object {
-  "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+  "exclude": /\\^\\\\/node_modules\\\\/core-js/,
+  "include": Array [
+    "/src",
+    "/node_modules",
+  ],
+  "test": /\\\\\\.jsx\\?\\$/,
   "use": Array [
     Object {
-      "loader": "style-loader",
-    },
-    Object {
-      "loader": "css-loader",
+      "loader": "babel-loader",
       "options": Object {
-        "importLoaders": 1,
-        "modules": Object {
-          "getLocalIdent": [Function],
-          "localIdentName": "[name]__[local]___[hash:base64:5]",
-        },
-      },
-    },
-    Object {
-      "loader": "sass-loader",
-      "options": Object {
-        "implementation": Object {
-          "FALSE": SassBoolean {
-            "value": false,
-          },
-          "NULL": SassNull {
-            "toString": [Function],
-          },
-          "TRUE": SassBoolean {
-            "value": true,
-          },
-          "cli_pkg_main_0_": [Function],
-          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
-dart2js	2.10.4	(Dart Compiler)	[Dart]",
-          "render": [Function],
-          "renderSync": [Function],
-          "types": Object {
-            "Boolean": [Function],
-            "Color": [Function],
-            "Error": [Function],
-            "List": [Function],
-            "Map": [Function],
-            "Null": [Function],
-            "Number": [Function],
-            "String": [Function],
-          },
-        },
-        "sassOptions": Object {
-          "fiber": [Function],
-        },
+        "cacheDirectory": "/.build-cache",
+        "envName": undefined,
+        "extends": "/.babelrc",
       },
     },
   ],
@@ -57,53 +23,18 @@ dart2js	2.10.4	(Dart Compiler)	[Dart]",
 
 exports[`webpack/app does not transpile node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION true 1`] = `
 Object {
-  "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+  "exclude": /\\^\\\\/node_modules\\\\/core-js/,
+  "include": Array [
+    "/src",
+  ],
+  "test": /\\\\\\.jsx\\?\\$/,
   "use": Array [
     Object {
-      "loader": "style-loader",
-    },
-    Object {
-      "loader": "css-loader",
+      "loader": "babel-loader",
       "options": Object {
-        "importLoaders": 1,
-        "modules": Object {
-          "getLocalIdent": [Function],
-          "localIdentName": "[name]__[local]___[hash:base64:5]",
-        },
-      },
-    },
-    Object {
-      "loader": "sass-loader",
-      "options": Object {
-        "implementation": Object {
-          "FALSE": SassBoolean {
-            "value": false,
-          },
-          "NULL": SassNull {
-            "toString": [Function],
-          },
-          "TRUE": SassBoolean {
-            "value": true,
-          },
-          "cli_pkg_main_0_": [Function],
-          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
-dart2js	2.10.4	(Dart Compiler)	[Dart]",
-          "render": [Function],
-          "renderSync": [Function],
-          "types": Object {
-            "Boolean": [Function],
-            "Color": [Function],
-            "Error": [Function],
-            "List": [Function],
-            "Map": [Function],
-            "Null": [Function],
-            "Number": [Function],
-            "String": [Function],
-          },
-        },
-        "sassOptions": Object {
-          "fiber": [Function],
-        },
+        "cacheDirectory": "/.build-cache",
+        "envName": undefined,
+        "extends": "/.babelrc",
       },
     },
   ],
@@ -112,53 +43,19 @@ dart2js	2.10.4	(Dart Compiler)	[Dart]",
 
 exports[`webpack/app transpiles node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION false 1`] = `
 Object {
-  "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+  "exclude": /\\^\\\\/node_modules\\\\/core-js/,
+  "include": Array [
+    "/src",
+    "/node_modules",
+  ],
+  "test": /\\\\\\.jsx\\?\\$/,
   "use": Array [
     Object {
-      "loader": "style-loader",
-    },
-    Object {
-      "loader": "css-loader",
+      "loader": "babel-loader",
       "options": Object {
-        "importLoaders": 1,
-        "modules": Object {
-          "getLocalIdent": [Function],
-          "localIdentName": "[name]__[local]___[hash:base64:5]",
-        },
-      },
-    },
-    Object {
-      "loader": "sass-loader",
-      "options": Object {
-        "implementation": Object {
-          "FALSE": SassBoolean {
-            "value": false,
-          },
-          "NULL": SassNull {
-            "toString": [Function],
-          },
-          "TRUE": SassBoolean {
-            "value": true,
-          },
-          "cli_pkg_main_0_": [Function],
-          "info": "dart-sass	1.32.4	(Sass Compiler)	[Dart]
-dart2js	2.10.4	(Dart Compiler)	[Dart]",
-          "render": [Function],
-          "renderSync": [Function],
-          "types": Object {
-            "Boolean": [Function],
-            "Color": [Function],
-            "Error": [Function],
-            "List": [Function],
-            "Map": [Function],
-            "Null": [Function],
-            "Number": [Function],
-            "String": [Function],
-          },
-        },
-        "sassOptions": Object {
-          "fiber": [Function],
-        },
+        "cacheDirectory": "/.build-cache",
+        "envName": undefined,
+        "extends": "/.babelrc",
       },
     },
   ],
