@@ -54,6 +54,7 @@ const options = get(packageJson, ['one-amex', 'bundler'], {});
 validateBundler(options);
 options.appCompatibility = get(packageJson, ['one-amex', 'app', 'compatibility']);
 options.purgecss = options.purgecss || {};
+options.moduleName = packageJson.name;
 validateOptions(options);
 logConfigurationWarnings(options);
 

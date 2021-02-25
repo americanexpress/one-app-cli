@@ -42,7 +42,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
+      "pre-commit": "yarn test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
