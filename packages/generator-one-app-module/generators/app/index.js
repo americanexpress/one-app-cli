@@ -169,7 +169,7 @@ module.exports = class extends Generator {
       );
       this.fs.extendJSON(this.destinationPath('package.json'), {
         dependencies: {
-          '@americanexpress/one-app-ducks': '^4.2.2',
+          '@americanexpress/one-app-ducks': '^4.3.1',
           immutable: '^4.0.0-rc.12',
           'prop-types': '^15.7.2',
           'react-intl': '^5.10.6',
