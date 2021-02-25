@@ -133,7 +133,7 @@ describe('generator-one-app-module', () => {
     it('installs intl dependencies and test scripts', () => {
       assert.jsonFileContent('package.json', {
         dependencies: {
-          '@americanexpress/one-app-ducks': '^4.2.2',
+          '@americanexpress/one-app-ducks': '^4.3.1',
           immutable: '^4.0.0-rc.12',
           'prop-types': '^15.7.2',
           'react-intl': '^5.10.6',
@@ -201,7 +201,7 @@ describe('generator-one-app-module', () => {
     it('installs intl dependencies and test scripts', () => {
       assert.jsonFileContent('package.json', {
         dependencies: {
-          '@americanexpress/one-app-ducks': '^4.2.2',
+          '@americanexpress/one-app-ducks': '^4.3.1',
           immutable: '^4.0.0-rc.12',
           'prop-types': '^15.7.2',
           'react-intl': '^5.10.6',

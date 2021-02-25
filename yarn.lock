@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@americanexpress/one-app-ducks@*":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.0.tgz#62c14f61b4a9c7e53a479a7ef93061a7745d8cc4"
-  integrity sha512-iuETfs3j8LuF1kkaHtBDB2bRwK55CMKSpj3UmjonjC4terbqTB+cjLDBWwVI9ct2Xd98rVLLKay0G8YbHO2Y5A==
+"@americanexpress/one-app-ducks@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.1.tgz#9c12faeddb687aaf02f2ec9a92d4311b3a7f87f0"
+  integrity sha512-DSa1DdJsrB0pCuduwqU6pPaTntT5z6w41sbj4qk9WhjitFMFJmnhcQPOdLtt5HBi2L29ZMYDGEP/G8E2iDIFYg==
   dependencies:
     holocron "^1.0.0"
     immutable "^4.0.0-rc.12"
@@ -12050,6 +12050,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.3:
   version "2.2.0"
