@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@americanexpress/one-app-ducks@^4.3.1":
+"@americanexpress/one-app-ducks@*":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.1.tgz#9c12faeddb687aaf02f2ec9a92d4311b3a7f87f0"
   integrity sha512-DSa1DdJsrB0pCuduwqU6pPaTntT5z6w41sbj4qk9WhjitFMFJmnhcQPOdLtt5HBi2L29ZMYDGEP/G8E2iDIFYg==
@@ -9932,7 +9932,7 @@ react-side-effect@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.1.tgz#66c5701c3e7560ab4822a4ee2742dee215d72eb3"
   integrity sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==
 
-react@^16.11.0, react@^16.13.1, react@^16.7.0:
+react@^16.11.0, react@^16.13.1:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
@@ -9940,6 +9940,14 @@ react@^16.11.0, react@^16.13.1, react@^16.7.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
+
+react@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
+  integrity sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 read-chunk@^3.2.0:
   version "3.2.0"
