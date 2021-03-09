@@ -51,10 +51,11 @@ function install(root, dependencies, { useYarn, isOnline }) {
     }
     const child = spawn(command, args, {
       stdio: 'inherit',
-      env: Object.assign(Object.assign({}, process.env), {
+      env: {
+        ...process.env,
         ADBLOCK: '1',
         DISABLE_OPENCOLLECTIVE: '1', // Disable open collective messages
-      }),
+      },
     });
 
     child.on('close', (code) => {
@@ -106,10 +107,11 @@ function installDevDependencies(
     }
     const child = spawn(command, args, {
       stdio: 'inherit',
-      env: Object.assign(Object.assign({}, process.env), {
+      env: {
+        ...process.env,
         ADBLOCK: '1',
         DISABLE_OPENCOLLECTIVE: '1', // Disable open collective messages
-      }),
+      },
     });
     child.on('close', (code) => {
       if (code !== 0) {
@@ -123,5 +125,5 @@ function installDevDependencies(
 
 module.exports = {
   install,
-  installDevDependencies
-}
+  installDevDependencies,
+};

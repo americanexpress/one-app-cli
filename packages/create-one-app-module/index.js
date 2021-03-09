@@ -22,7 +22,7 @@ const Commander = require('commander');
 const path = require('path');
 const prompts = require('prompts');
 const checkForUpdate = require('update-check');
-const { DownloadError, createModule } = require('./create-module')
+const { DownloadError, createModule } = require('./create-module');
 const { shouldUseYarn } = require('./helpers/use-yarn');
 const { validateNpmName } = require('./helpers/validate-package-name');
 const packageJson = require('./package.json');
@@ -130,8 +130,8 @@ async function run() {
       type: 'confirm',
       name: 'builtin',
       message:
-        `Could not download "${example}" because of a connectivity issue between your machine and GitHub.\n` +
-        `Do you want to use the default template instead?`,
+        `Could not download "${example}" because of a connectivity issue between your machine and GitHub.\n`
+        + 'Do you want to use the default template instead?',
       initial: true,
     });
     if (!res.builtin) {

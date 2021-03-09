@@ -1,3 +1,23 @@
 {
-  "extends": "amex"
+  "extends": "amex",
+  "overrides": [
+    {
+      "files": ["packages/create-one-app-module/index.js", 
+        "packages/create-one-app-module/create-module.js",
+        "packages/create-one-app-module/helpers/**"
+      ],
+      "extends": ["amex"],
+      "rules": {
+        "no-console": "off",
+        "unicorn/no-process-exit": "off",
+        "import/no-extraneous-dependencies": "off",
+        "no-empty": "off",
+        "consistent-return": "warn"
+      }
+    }, {
+      "files": ["packages/create-one-app-module/__tests__/**"
+      ],
+      "extends": ["amex/test"]
+    }
+  ]
 }

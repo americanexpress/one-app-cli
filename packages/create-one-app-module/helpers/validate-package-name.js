@@ -25,8 +25,8 @@ function validateNpmName(name) {
   return {
     valid: false,
     problems: [
-      ...(nameValidation.errors || []),
-      ...(nameValidation.warnings || []),
+      ...nameValidation.errors || [],
+      ...nameValidation.warnings || [],
     ],
   };
 }

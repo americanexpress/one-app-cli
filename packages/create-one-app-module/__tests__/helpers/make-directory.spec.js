@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-const fs = require('fs');
+const makeDirectory = require('../../helpers/make-directory');
 
-function makeDirectory(root, options = { recursive: true }) {
-  return fs.promises.mkdir(root, options);
-}
+describe('Make Directory', () => {
+  it('should create a directory', () => {
 
-module.exports = makeDirectory;
+  });
+});

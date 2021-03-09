@@ -43,16 +43,22 @@ async function getRepositoryInformation(url, examplePath) {
       return;
     }
     const info = JSON.parse(infoResponse.body);
-    return { username, name, branch: info.default_branch, filePath };
+    return {
+      username, name, branch: info.default_branch, filePath,
+    };
   }
   const branch = examplePath
     ? `${_branch}/${file.join('/')}`.replace(new RegExp(`/${filePath}|/$`), '')
     : _branch;
   if (username && name && branch && t === 'tree') {
-    return { username, name, branch, filePath };
+    return {
+      username, name, branch, filePath,
+    };
   }
 }
-function hasRepository({ username, name, branch, filePath }) {
+function hasRepository({
+  username, name, branch, filePath,
+}) {
   const contentsUrl = `https://api.github.com/repos/${username}/${name}/contents`;
   const packagePath = `${filePath ? `/${filePath}` : ''}/package.json`;
   return isUrlOk(`${contentsUrl + packagePath}?ref=${branch}`);
@@ -66,7 +72,9 @@ function hasExample(name) {
 }
 function downloadAndExtractRepository(
   root,
-  { username, name, branch, filePath }
+  {
+    username, name, branch, filePath,
+  }
 ) {
   return pipeline(
     got.stream(
@@ -96,5 +104,5 @@ module.exports = {
   hasRepository,
   hasExample,
   downloadAndExtractRepository,
-  downloadAndExtractExample
-}
+  downloadAndExtractExample,
+};

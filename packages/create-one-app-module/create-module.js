@@ -34,10 +34,12 @@ const { isDirectoryEmpty } = require('./helpers/is-directory-empty');
 const { getOnline } = require('./helpers/is-online');
 const { shouldUseYarn } = require('./helpers/use-yarn');
 
-class DownloadError extends Error {};
+class DownloadError extends Error {}
 
 // eslint-disable-next-line complexity
-async function createModule({ appPath, useNpm, example, examplePath }) {
+async function createModule({
+  appPath, useNpm, example, examplePath,
+}) {
   let repoInfo;
   if (example) {
     let repoUrl;
@@ -87,7 +89,7 @@ async function createModule({ appPath, useNpm, example, examplePath }) {
     process.exit(1);
   }
   const useYarn = useNpm ? false : shouldUseYarn();
-  const isOnline = !useYarn || (await getOnline());
+  const isOnline = !useYarn || await getOnline();
   const originalDirectory = process.cwd();
   const displayedCommand = useYarn ? 'yarn' : 'npm';
   console.log(`Creating a new One App module in ${chalk.green(root)}.`);
@@ -245,5 +247,5 @@ async function createModule({ appPath, useNpm, example, examplePath }) {
 
 module.exports = {
   DownloadError,
-  createModule
-}
+  createModule,
+};
