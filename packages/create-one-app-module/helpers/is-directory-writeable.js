@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+const fs = require('fs');
 
-export async function isDirectoryWriteable(directory) {
+async function isDirectoryWriteable(directory) {
   try {
     await fs.promises.access(directory, (fs.constants || fs).W_OK);
     return true;
@@ -24,3 +24,5 @@ export async function isDirectoryWriteable(directory) {
     return false;
   }
 }
+
+module.exports = isDirectoryWriteable;

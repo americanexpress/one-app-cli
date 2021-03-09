@@ -17,15 +17,15 @@
  */
 /* eslint-disable complexity */
 
-import chalk from 'chalk';
-import Commander from 'commander';
-import path from 'path';
-import prompts from 'prompts';
-import checkForUpdate from 'update-check';
-import { createModule, DownloadError } from './create-module';
-import { shouldUseYarn } from './helpers/use-yarn';
-import { validateNpmName } from './helpers/validate-package-name';
-import packageJson from './package.json';
+const chalk = require('chalk');
+const Commander = require('commander');
+const path = require('path');
+const prompts = require('prompts');
+const checkForUpdate = require('update-check');
+const { DownloadError, createModule } = require('./create-module')
+const { shouldUseYarn } = require('./helpers/use-yarn');
+const { validateNpmName } = require('./helpers/validate-package-name');
+const packageJson = require('./package.json');
 
 let modulePath = '';
 const program = new Commander.Command(packageJson.name)

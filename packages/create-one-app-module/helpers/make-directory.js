@@ -14,8 +14,10 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+const fs = require('fs');
 
-export function makeDirectory(root, options = { recursive: true }) {
+function makeDirectory(root, options = { recursive: true }) {
   return fs.promises.mkdir(root, options);
 }
+
+module.exports = makeDirectory

@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-import { execSync } from 'child_process';
+const { execSync } = require('child_process');
 
-export function shouldUseYarn() {
+function shouldUseYarn() {
   try {
     const userAgent = process.env.npm_config_user_agent;
     if (userAgent) {
@@ -28,3 +28,5 @@ export function shouldUseYarn() {
     return false;
   }
 }
+
+module.exports = shouldUseYarn;

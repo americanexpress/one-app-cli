@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-import { execSync } from 'child_process';
-import dns from 'dns';
-import url from 'url';
+const { execSync } = require('child_process');
+const dns = require('dns');
+const url = require('url');
 
 function getProxy() {
   if (process.env.HTTPS_PROXY) {
@@ -30,7 +30,7 @@ function getProxy() {
   }
 }
 
-export function getOnline() {
+function getOnline() {
   return new Promise((resolve) => {
     dns.lookup('registry.yarnpkg.com', (registryError) => {
       if (!registryError) {
@@ -52,3 +52,5 @@ export function getOnline() {
     });
   });
 }
+
+module.exports = getOnline;

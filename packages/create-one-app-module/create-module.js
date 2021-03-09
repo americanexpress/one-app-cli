@@ -14,30 +14,30 @@
  * permissions and limitations under the License.
  */
 
-import retry from 'async-retry';
-import chalk from 'chalk';
-import cpy from 'cpy';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import {
+const retry = require('async-retry');
+const chalk = require('chalk');
+const cpy = require('cpy');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const {
   downloadAndExtractExample,
   downloadAndExtractRepository,
   getRepositoryInformation,
   hasExample,
   hasRepository,
-} from './helpers/get-examples';
-import { makeDirectory } from './helpers/make-directory';
-import { tryGitInit } from './helpers/git';
-import { install, installDevDependencies } from './helpers/install';
-import { isDirectoryEmpty } from './helpers/is-directory-empty';
-import { getOnline } from './helpers/is-online';
-import { shouldUseYarn } from './helpers/use-yarn';
+} = require('./helpers/get-examples');
+const { makeDirectory } = require('./helpers/make-directory');
+const { tryGitInit } = require('./helpers/git');
+const { install, installDevDependencies } = require('./helpers/install');
+const { isDirectoryEmpty } = require('./helpers/is-directory-empty');
+const { getOnline } = require('./helpers/is-online');
+const { shouldUseYarn } = require('./helpers/use-yarn');
 
-export class DownloadError extends Error {}
+class DownloadError extends Error {};
 
 // eslint-disable-next-line complexity
-export async function createModule({ appPath, useNpm, example, examplePath }) {
+async function createModule({ appPath, useNpm, example, examplePath }) {
   let repoInfo;
   if (example) {
     let repoUrl;
@@ -241,4 +241,9 @@ export async function createModule({ appPath, useNpm, example, examplePath }) {
     `  ${chalk.cyan(`${displayedCommand} ${useYarn ? '' : 'run '}dev`)}`
   );
   console.log();
+}
+
+module.exports = {
+  DownloadError,
+  createModule
 }

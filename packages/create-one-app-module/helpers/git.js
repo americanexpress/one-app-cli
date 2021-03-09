@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-import { execSync } from 'child_process';
-import path from 'path';
-import rimraf from 'rimraf';
+const { execSync } = require('child_process');
+const path = require('path');
+const rimraf = require('rimraf');
 
 function isInGitRepository() {
   try {
@@ -26,7 +26,7 @@ function isInGitRepository() {
   return false;
 }
 
-export function tryGitInit(root) {
+function tryGitInit(root) {
   let didInit = false;
   try {
     execSync('git --version', { stdio: 'ignore' });
@@ -57,3 +57,5 @@ export function tryGitInit(root) {
     return false;
   }
 }
+
+module.exports = tryGitInit;

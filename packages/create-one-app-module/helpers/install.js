@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-import chalk from 'chalk';
-import spawn from 'cross-spawn';
+const chalk = require('chalk');
+const spawn = require('cross-spawn');
 
-export function install(root, dependencies, { useYarn, isOnline }) {
+function install(root, dependencies, { useYarn, isOnline }) {
   return new Promise((resolve, reject) => {
     let command;
     let args;
@@ -67,7 +67,7 @@ export function install(root, dependencies, { useYarn, isOnline }) {
   });
 }
 
-export function installDevDependencies(
+function installDevDependencies(
   root,
   dependencies,
   { useYarn, isOnline }
@@ -119,4 +119,9 @@ export function installDevDependencies(
       resolve();
     });
   });
+}
+
+module.exports = {
+  install,
+  installDevDependencies
 }

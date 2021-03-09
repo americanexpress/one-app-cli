@@ -15,9 +15,9 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import validateProjectName from 'validate-npm-package-name';
+const validateProjectName = require('validate-npm-package-name');
 
-export function validateNpmName(name) {
+function validateNpmName(name) {
   const nameValidation = validateProjectName(name);
   if (nameValidation.validForNewPackages) {
     return { valid: true };
@@ -30,3 +30,5 @@ export function validateNpmName(name) {
     ],
   };
 }
+
+module.exports = validateNpmName;

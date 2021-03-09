@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-import got from 'got';
-import tar from 'tar';
-import { Stream } from 'stream';
-import { promisify } from 'util';
-import 'global-agent/bootstrap';
+const got = require('got');
+const tar = require('tar');
+const { Stream } = require('stream');
+const { promisify } = require('util');
+require('global-agent/bootstrap');
 
 // These are needed to work behind a proxy
 global.GLOBAL_AGENT.HTTPS_PROXY = process.env.HTTPS_PROXY;
@@ -26,11 +26,11 @@ global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY;
 global.GLOBAL_AGENT.NO_PROXY = process.env.NO_PROXY;
 
 const pipeline = promisify(Stream.pipeline);
-export async function isUrlOk(url) {
+async function isUrlOk(url) {
   const response = await got.head(url).catch((e) => e);
   return response.statusCode === 200;
 }
-export async function getRepositoryInformation(url, examplePath) {
+async function getRepositoryInformation(url, examplePath) {
   const [, username, name, t, _branch, ...file] = url.pathname.split('/');
   const filePath = examplePath
     ? examplePath.replace(/^\//, '')
@@ -52,19 +52,19 @@ export async function getRepositoryInformation(url, examplePath) {
     return { username, name, branch, filePath };
   }
 }
-export function hasRepository({ username, name, branch, filePath }) {
+function hasRepository({ username, name, branch, filePath }) {
   const contentsUrl = `https://api.github.com/repos/${username}/${name}/contents`;
   const packagePath = `${filePath ? `/${filePath}` : ''}/package.json`;
   return isUrlOk(`${contentsUrl + packagePath}?ref=${branch}`);
 }
-export function hasExample(name) {
+function hasExample(name) {
   return isUrlOk(
     `https://api.github.com/repos/americanexpress/one-app-cli/contents/examples/${encodeURIComponent(
       name
     )}/package.json`
   );
 }
-export function downloadAndExtractRepository(
+function downloadAndExtractRepository(
   root,
   { username, name, branch, filePath }
 ) {
@@ -78,7 +78,7 @@ export function downloadAndExtractRepository(
     )
   );
 }
-export function downloadAndExtractExample(root, name) {
+function downloadAndExtractExample(root, name) {
   if (name === '__internal-testing-retry') {
     throw new Error('This is an internal example for testing the CLI.');
   }
@@ -88,4 +88,13 @@ export function downloadAndExtractExample(root, name) {
     ),
     tar.extract({ cwd: root, strip: 3 }, [`one-app-cli-main/examples/${name}`])
   );
+}
+
+module.exports = {
+  isUrlOk,
+  getRepositoryInformation,
+  hasRepository,
+  hasExample,
+  downloadAndExtractRepository,
+  downloadAndExtractExample
 }

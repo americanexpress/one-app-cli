@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-import chalk from 'chalk';
-import fs from 'fs';
-import path from 'path';
+const chalk = require('chalk');
+const fs = require('fs');
+const path = require('path');
 
-export function isDirectoryEmpty(root, name) {
+function isDirectoryEmpty(root, name) {
   const validFiles = [
     '.git',
     '.gitignore',
@@ -61,3 +61,5 @@ export function isDirectoryEmpty(root, name) {
   }
   return true;
 }
+
+module.exports = isDirectoryEmpty;
