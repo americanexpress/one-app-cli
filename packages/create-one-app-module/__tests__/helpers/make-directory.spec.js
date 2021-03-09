@@ -14,10 +14,20 @@
  * permissions and limitations under the License.
  */
 
+const fs = require('fs');
 const makeDirectory = require('../../helpers/make-directory');
+
+jest.mock('fs', () => ({
+  promises: {
+    mkdir: jest.fn().mockResolvedValue(),
+  },
+}
+));
 
 describe('Make Directory', () => {
   it('should create a directory', () => {
+    makeDirectory('test-directory');
 
+    expect(fs.promises.mkdir).toHaveBeenCalled();
   });
 });
