@@ -26,13 +26,13 @@ const {
   getRepositoryInformation,
   hasExample,
   hasRepository,
-} = require('./helpers/get-examples');
-const { makeDirectory } = require('./helpers/make-directory');
+} = require('./helpers/getExamples');
+const { makeDirectory } = require('./helpers/makeDirectory');
 const { tryGitInit } = require('./helpers/git');
 const { install, installDevDependencies } = require('./helpers/install');
-const { isDirectoryEmpty } = require('./helpers/is-directory-empty');
-const { getOnline } = require('./helpers/is-online');
-const { shouldUseYarn } = require('./helpers/use-yarn');
+const { isDirectoryEmpty } = require('./helpers/isDirectoryEmpty');
+const { getOnline } = require('./helpers/isOnline');
+const { shouldUseYarn } = require('./helpers/useYarn');
 
 class DownloadError extends Error {}
 

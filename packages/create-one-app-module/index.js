@@ -22,9 +22,9 @@ const Commander = require('commander');
 const path = require('path');
 const prompts = require('prompts');
 const checkForUpdate = require('update-check');
-const { DownloadError, createModule } = require('./create-module');
-const { shouldUseYarn } = require('./helpers/use-yarn');
-const { validateNpmName } = require('./helpers/validate-package-name');
+const { DownloadError, createModule } = require('./createModule');
+const { shouldUseYarn } = require('./helpers/useYarn');
+const { validateNpmName } = require('./helpers/validatePackageName');
 const packageJson = require('./package.json');
 
 let modulePath = '';

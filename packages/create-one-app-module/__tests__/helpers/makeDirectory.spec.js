@@ -15,7 +15,7 @@
  */
 
 const fs = require('fs');
-const makeDirectory = require('../../helpers/make-directory');
+const makeDirectory = require('../../helpers/makeDirectory');
 
 jest.mock('fs', () => ({
   promises: {

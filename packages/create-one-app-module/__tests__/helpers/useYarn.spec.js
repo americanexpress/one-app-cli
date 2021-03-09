@@ -15,7 +15,7 @@
  */
 
 const { execSync } = require('child_process');
-const shouldUseYarn = require('../../helpers/use-yarn');
+const shouldUseYarn = require('../../helpers/useYarn');
 
 jest.mock('child_process', () => ({
   execSync: jest.fn().mockResolvedValue(),
