@@ -19,15 +19,23 @@ const isDirectoryWriteable = require('../../helpers/isDirectoryWriteable');
 
 jest.mock('fs', () => ({
   promises: {
-    access: jest.fn().mockResolvedValue(),
+    access: jest.fn(),
   },
 }
 ));
 
 describe('isDirectoryWriteable', () => {
-  it('should do something', () => {
-    isDirectoryWriteable('test-directory');
+  it('should do something', async () => {
+    const directoryWriteable = await isDirectoryWriteable('test-directory');
 
     expect(fs.promises.access).toHaveBeenCalled();
+    expect(directoryWriteable).toBe(true);
+  });
+  it('should return false if there is no access', async () => {
+    fs.promises.access.mockImplementation(() => Promise.reject());
+    const directoryWriteable = await isDirectoryWriteable('test-directory');
+
+    expect(fs.promises.access).toHaveBeenCalled();
+    expect(directoryWriteable).toBe(false);
   });
 });
