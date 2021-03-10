@@ -14,7 +14,6 @@
  * permissions and limitations under the License.
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const validateProjectName = require('validate-npm-package-name');
 
 function validateNpmName(name) {
