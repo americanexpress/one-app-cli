@@ -12,7 +12,8 @@
         "unicorn/no-process-exit": "off",
         "import/no-extraneous-dependencies": "off",
         "no-empty": "off",
-        "consistent-return": "warn"
+        "consistent-return": "warn",
+        "no-process-exit": "off"
       }
     }, {
       "files": ["packages/create-one-app-module/__tests__/**"
