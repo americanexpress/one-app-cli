@@ -53,7 +53,7 @@ describe('validateNpmName', () => {
     const isNameValid = validateNpmName('test-name');
     console.log(isNameValid);
     expect(isNameValid.valid).toBe(false);
-    expect(isNameValid.problems).toBe([
+    expect(isNameValid.problems).toStrictEqual([
       'name can no longer contain capital letters',
       'name can no longer contain more than 214 characters',
     ]);
