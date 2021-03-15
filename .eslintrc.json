@@ -4,7 +4,7 @@
     {
       "files": ["packages/create-one-app-module/index.js", 
         "packages/create-one-app-module/create-module.js",
-        "packages/create-one-app-module/helpers/**"
+        "packages/create-one-app-module/**/**"
       ],
       "extends": ["amex"],
       "rules": {

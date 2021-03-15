@@ -14,18 +14,8 @@
  * permissions and limitations under the License.
  */
 
-const path = require('path');
-const isDirectoryEmpty = require('../../helpers/isDirectoryEmpty');
+const { createModule } = require('../createModule');
 
-describe('isDirectoryEmpty', () => {
-  it('should', () => {
-    const root = path.resolve('./packages/create-one-app-module/__tests__/__testfixtures__/empty');
-    const isDirEmpty = isDirectoryEmpty(root, 'empty');
-    expect(isDirEmpty).toBe(true);
-  });
-  it('should not', () => {
-    const root = path.resolve('./packages/create-one-app-module/__tests__/__testfixtures__/notEmpty');
-    const isDirEmpty = isDirectoryEmpty(root, 'notEmpty');
-    expect(isDirEmpty).toBe(false);
-  });
+describe('createModule', () => {
+
 });

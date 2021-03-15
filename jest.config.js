@@ -34,5 +34,10 @@ module.exports = {
   },
   testPathIgnorePatterns: [
     'packages/generator-one-app-module/generators/app/templates',
+    'packages/create-one-app-module/dist',
+    'packages/create-one-app-module/__tests__/__testfixtures__',
+  ],
+  coveragePathIgnorePatterns: [
+    'packages/create-one-app-module/__tests__/__testfixtures__',
   ],
 };
