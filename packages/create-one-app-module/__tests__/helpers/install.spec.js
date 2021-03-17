@@ -15,6 +15,7 @@
  */
 
 const spawn = require('cross-spawn');
+
 const { install, installDevDependencies } = require('../../helpers/install');
 
 jest.mock('cross-spawn', () => jest.fn());
@@ -47,7 +48,68 @@ describe('install', () => {
     expect(spawn).toHaveBeenCalled();
   });
 
-  // it('installs devDependencies', () => {
+  it('installs devDependencies using yarn', async () => {
+    const mockSpawn = require('mock-spawn')();
+    spawn.mockImplementationOnce(mockSpawn);
+    const useYarn = true;
+    const isOnline = true;
+    await installDevDependencies('test-module', ['@americanexpress/one-app-bundler',
+      '@americanexpress/one-app-runner',
+      'amex-jest-preset-react',
+      'babel-eslint',
+      'babel-preset-amex',
+      'enzyme',
+      'enzyme-to-json',
+      'eslint',
+      'eslint-config-amex',
+      'jest',
+      'rimraf'], { useYarn, isOnline });
 
-  // });
+    expect(mockSpawn.calls[0].command).toEqual('yarnpkg');
+    expect(mockSpawn.calls[0].args).toMatchSnapshot();
+  });
+
+  it('installs devDependencies offline using yarn', async () => {
+    const mockSpawn = require('mock-spawn')();
+    spawn.mockImplementationOnce(mockSpawn);
+    const useYarn = true;
+    const isOnline = false;
+    await installDevDependencies('test-module', ['@americanexpress/one-app-bundler',
+      '@americanexpress/one-app-runner',
+      'amex-jest-preset-react',
+      'babel-eslint',
+      'babel-preset-amex',
+      'enzyme',
+      'enzyme-to-json',
+      'eslint',
+      'eslint-config-amex',
+      'jest',
+      'rimraf'], { useYarn, isOnline });
+    expect(mockSpawn.calls[0].command).toEqual('yarnpkg');
+    expect(mockSpawn.calls[0].args).toMatchSnapshot();
+  });
+
+  it('installs devDependencies using npm', async () => {
+    const mockSpawn = require('mock-spawn')();
+    spawn.mockImplementationOnce(mockSpawn);
+    const useYarn = false;
+    const isOnline = true;
+    await installDevDependencies('test-module',
+      [
+        '@americanexpress/one-app-bundler',
+        '@americanexpress/one-app-runner',
+        'amex-jest-preset-react',
+        'babel-eslint',
+        'babel-preset-amex',
+        'enzyme',
+        'enzyme-to-json',
+        'eslint',
+        'eslint-config-amex',
+        'jest',
+        'rimraf',
+      ], { useYarn, isOnline });
+
+    expect(mockSpawn.calls[0].command).toEqual('npm');
+    expect(mockSpawn.calls[0].args).toMatchSnapshot();
+  });
 });

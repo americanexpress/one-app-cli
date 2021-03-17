@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`install installs devDependencies offline using yarn 1`] = `
+Array [
+  "add",
+  "--exact",
+  "--dev",
+  "--offline",
+  "@americanexpress/one-app-bundler",
+  "@americanexpress/one-app-runner",
+  "amex-jest-preset-react",
+  "babel-eslint",
+  "babel-preset-amex",
+  "enzyme",
+  "enzyme-to-json",
+  "eslint",
+  "eslint-config-amex",
+  "jest",
+  "rimraf",
+  "--cwd",
+  "test-module",
+]
+`;
+
+exports[`install installs devDependencies using npm 1`] = `
+Array [
+  "install",
+  "--save-dev",
+  "--save-exact",
+  "--loglevel",
+  "error",
+  "@americanexpress/one-app-bundler",
+  "@americanexpress/one-app-runner",
+  "amex-jest-preset-react",
+  "babel-eslint",
+  "babel-preset-amex",
+  "enzyme",
+  "enzyme-to-json",
+  "eslint",
+  "eslint-config-amex",
+  "jest",
+  "rimraf",
+]
+`;
+
+exports[`install installs devDependencies using yarn 1`] = `
+Array [
+  "add",
+  "--exact",
+  "--dev",
+  "@americanexpress/one-app-bundler",
+  "@americanexpress/one-app-runner",
+  "amex-jest-preset-react",
+  "babel-eslint",
+  "babel-preset-amex",
+  "enzyme",
+  "enzyme-to-json",
+  "eslint",
+  "eslint-config-amex",
+  "jest",
+  "rimraf",
+  "--cwd",
+  "test-module",
+]
+`;
