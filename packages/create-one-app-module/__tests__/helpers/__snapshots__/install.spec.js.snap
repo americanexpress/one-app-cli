@@ -1,22 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`install installs devDependencies offline using yarn 1`] = `
+exports[`install installs dependencies with npm 1`] = `
+Array [
+  "install",
+  "--save",
+  "--save-exact",
+  "--loglevel",
+  "error",
+  "react",
+  "react-dom",
+]
+`;
+
+exports[`install installs dependencies with yarn 1`] = `
 Array [
   "add",
   "--exact",
-  "--dev",
+  "react",
+  "react-dom",
+  "--cwd",
+  "test-module",
+]
+`;
+
+exports[`install installs dependencies with yarn while offline 1`] = `
+Array [
+  "add",
+  "--exact",
   "--offline",
-  "@americanexpress/one-app-bundler",
-  "@americanexpress/one-app-runner",
-  "amex-jest-preset-react",
-  "babel-eslint",
-  "babel-preset-amex",
-  "enzyme",
-  "enzyme-to-json",
-  "eslint",
-  "eslint-config-amex",
-  "jest",
-  "rimraf",
+  "react",
+  "react-dom",
   "--cwd",
   "test-module",
 ]
@@ -43,11 +56,33 @@ Array [
 ]
 `;
 
-exports[`install installs devDependencies using yarn 1`] = `
+exports[`install installs devDependencies with yarn 1`] = `
 Array [
   "add",
   "--exact",
   "--dev",
+  "@americanexpress/one-app-bundler",
+  "@americanexpress/one-app-runner",
+  "amex-jest-preset-react",
+  "babel-eslint",
+  "babel-preset-amex",
+  "enzyme",
+  "enzyme-to-json",
+  "eslint",
+  "eslint-config-amex",
+  "jest",
+  "rimraf",
+  "--cwd",
+  "test-module",
+]
+`;
+
+exports[`install installs devDependencies with yarn while offline 1`] = `
+Array [
+  "add",
+  "--exact",
+  "--dev",
+  "--offline",
   "@americanexpress/one-app-bundler",
   "@americanexpress/one-app-runner",
   "amex-jest-preset-react",

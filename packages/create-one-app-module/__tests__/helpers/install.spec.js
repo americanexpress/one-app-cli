@@ -21,13 +21,14 @@ const { install, installDevDependencies } = require('../../helpers/install');
 jest.mock('cross-spawn', () => jest.fn());
 
 describe('install', () => {
-  it('installs dependencies without yarn', async () => {
+  it('installs dependencies with npm', async () => {
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
     const useYarn = false;
     const isOnline = true;
     await install('test-module', ['react', 'react-dom'], { useYarn, isOnline });
-    expect(spawn).toHaveBeenCalled();
+    expect(mockSpawn.calls[0].command).toEqual('npm');
+    expect(mockSpawn.calls[0].args).toMatchSnapshot();
   });
 
   it('installs dependencies with yarn', async () => {
@@ -36,19 +37,22 @@ describe('install', () => {
     const useYarn = true;
     const isOnline = true;
     await install('test-module', ['react', 'react-dom'], { useYarn, isOnline });
-    expect(spawn).toHaveBeenCalled();
+    expect(mockSpawn.calls[0].command).toEqual('yarnpkg');
+    expect(mockSpawn.calls[0].args).toMatchSnapshot();
   });
 
-  it('installs dependencies with "--offline" flag if offline', async () => {
+  it('installs dependencies with yarn while offline', async () => {
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
     const useYarn = true;
     const isOnline = false;
     await install('test-module', ['react', 'react-dom'], { useYarn, isOnline });
-    expect(spawn).toHaveBeenCalled();
+    expect(mockSpawn.calls[0].command).toEqual('yarnpkg');
+    expect(mockSpawn.calls[0].args).toMatchSnapshot();
+    expect(mockSpawn.calls[0].args).toContain('--offline');
   });
 
-  it('installs devDependencies using yarn', async () => {
+  it('installs devDependencies with yarn', async () => {
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
     const useYarn = true;
@@ -69,7 +73,7 @@ describe('install', () => {
     expect(mockSpawn.calls[0].args).toMatchSnapshot();
   });
 
-  it('installs devDependencies offline using yarn', async () => {
+  it('installs devDependencies with yarn while offline', async () => {
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
     const useYarn = true;
@@ -87,6 +91,7 @@ describe('install', () => {
       'rimraf'], { useYarn, isOnline });
     expect(mockSpawn.calls[0].command).toEqual('yarnpkg');
     expect(mockSpawn.calls[0].args).toMatchSnapshot();
+    expect(mockSpawn.calls[0].args).toContain('--offline');
   });
 
   it('installs devDependencies using npm', async () => {
