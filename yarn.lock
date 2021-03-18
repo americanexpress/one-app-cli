@@ -6312,9 +6312,9 @@ holocron-module-route@*:
     react "^16.13.1"
 
 holocron@*, holocron@^1.0.0:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/holocron/-/holocron-1.1.2.tgz#6f4d8ff6eaaed5e9a51cb6368e79a5995d6cc23e"
-  integrity sha512-LhMPViB0MyKokrvoTionJlLFTBSXlE8XRQfyqXc7+dx6JHs99TmvYtgq3Z9TM6O8AN04Q7coRoAQmzWTF9VYfw==
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/holocron/-/holocron-1.1.4.tgz#d04258106ee5e227baa8f339b080144d3380ee17"
+  integrity sha512-0lKIDureOJICmiW7fjInFwitjWPx9gCXVO6iW0znR60BYLYZ47yv0fZDebKF5w9/9QJjXMez0uzbdg7GFQkRtA==
   dependencies:
     "@americanexpress/vitruvius" "^2.0.0"
     hoist-non-react-statics "^3.3.0"
