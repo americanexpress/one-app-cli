@@ -28,4 +28,10 @@ describe('isDirectoryEmpty', () => {
     const isDirEmpty = isDirectoryEmpty(root, 'notEmpty');
     expect(isDirEmpty).toBe(false);
   });
+
+  it('should not use conflicted', () => {
+    const root = path.resolve('./packages/create-one-app-module/__tests__/__testfixtures__/conflicted');
+    const isDirEmpty = isDirectoryEmpty(root, 'conflicted');
+    expect(isDirEmpty).toBe(false);
+  });
 });

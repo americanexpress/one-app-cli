@@ -14,24 +14,8 @@
  * permissions and limitations under the License.
  */
 
-const got = require('got');
-const tar = require('tar');
-const { Stream } = require('stream');
-const { promisify } = require('util');
+function test() {
+  return true;
+}
 
-const {
-  downloadAndExtractExample,
-  downloadAndExtractRepository,
-  getRepositoryInformation,
-  hasExample,
-  hasRepository,
-} = require('../../helpers/getExamples');
-
-describe('getExample', () => {
-  it('Gets the Repo Information', async () => {
-    const url = new URL('https://github.com/americanexpress/one-app-cli/examples');
-    console.log(url.pathname);
-    const repoInfo = await getRepositoryInformation(url);
-    expect(repoInfo).toMatchSnapshot();
-  });
-});
+module.exports = test;
