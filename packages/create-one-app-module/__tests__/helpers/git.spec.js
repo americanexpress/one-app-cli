@@ -16,15 +16,31 @@
 
 const { execSync } = require('child_process');
 
-const tryGitInit = require('../../helpers/git');
+const { tryGitInit, isInGitRepository } = require('../../helpers/git');
 
-jest.mock('child_process', () => ({
-  execSync: jest.fn(),
-}));
+jest.mock('child_process');
 
-describe('tryGitInit', () => {
-  it('should call execSync', () => {
-    tryGitInit('test-module');
-    expect(execSync).toHaveBeenCalled();
+// Lines 37-57
+
+describe('git', () => {
+  describe('tryGitInit', () => {
+    it('should call execSync', () => {
+      jest.mock('child_process', () => ({
+        execSync: jest.fn(),
+      }));
+      tryGitInit('test-module');
+      expect(execSync).toHaveBeenCalled();
+    });
+  });
+
+  describe('isInGitRepository', () => {
+    it('should return false', () => {
+      execSync.mockImplementation(() => {
+        throw new Error('Error');
+      });
+      isInGitRepository();
+      expect(execSync).toHaveBeenCalled();
+      expect(isInGitRepository()).toBe(false);
+    });
   });
 });

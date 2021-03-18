@@ -42,7 +42,7 @@ describe('shouldUseYarn', () => {
 
     expect(execSync).toHaveBeenCalledTimes(1);
   });
-  it('should do something', () => {
+  it('should return false if execSync errors', () => {
     process.env.npm_config_user_agent = '';
     execSync.mockImplementation(() => {
       throw new Error('Error');

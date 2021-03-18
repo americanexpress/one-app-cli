@@ -58,4 +58,7 @@ function tryGitInit(root) {
   }
 }
 
-module.exports = tryGitInit;
+module.exports = {
+  isInGitRepository,
+  tryGitInit,
+};
