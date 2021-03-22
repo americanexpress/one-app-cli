@@ -60,7 +60,7 @@ function install(root, dependencies, { useYarn, isOnline }) {
 
     child.on('close', (code) => {
       if (code !== 0) {
-        reject({ command: `${command} ${args.join(' ')}` });
+        reject(new Error(`${command} ${args.join(' ')}`));
         return;
       }
       resolve();
@@ -115,7 +115,7 @@ function installDevDependencies(
     });
     child.on('close', (code) => {
       if (code !== 0) {
-        reject({ command: `${command} ${args.join(' ')}` });
+        reject(new Error(`${command} ${args.join(' ')}`));
         return;
       }
       resolve();

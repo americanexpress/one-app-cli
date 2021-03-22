@@ -21,6 +21,9 @@ const { install, installDevDependencies } = require('../../helpers/install');
 jest.mock('cross-spawn', () => jest.fn());
 
 describe('install', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   it('installs dependencies with npm', async () => {
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
@@ -50,6 +53,23 @@ describe('install', () => {
     expect(mockSpawn.calls[0].command).toEqual('yarnpkg');
     expect(mockSpawn.calls[0].args).toMatchSnapshot();
     expect(mockSpawn.calls[0].args).toContain('--offline');
+  });
+
+  it('installing dependencies fails with error message if exit code is not 0', async () => {
+    expect.assertions(2);
+    const mockSpawn = require('mock-spawn')();
+    mockSpawn.sequence.add(mockSpawn.simple(1));
+    spawn.mockImplementationOnce(mockSpawn);
+
+    const useYarn = false;
+    const isOnline = true;
+    try {
+      await install('test-module', ['react', 'react-dom'], { useYarn, isOnline });
+    } catch (error) {
+      expect(error).toMatchSnapshot();
+    }
+
+    expect(mockSpawn.calls[0].command).toEqual('npm');
   });
 
   it('installs devDependencies with yarn', async () => {
@@ -93,10 +113,10 @@ describe('install', () => {
     expect(mockSpawn.calls[0].args).toMatchSnapshot();
     expect(mockSpawn.calls[0].args).toContain('--offline');
   });
-
   it('installs devDependencies using npm', async () => {
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
+
     const useYarn = false;
     const isOnline = true;
     await installDevDependencies('test-module',
@@ -116,5 +136,35 @@ describe('install', () => {
 
     expect(mockSpawn.calls[0].command).toEqual('npm');
     expect(mockSpawn.calls[0].args).toMatchSnapshot();
+  });
+
+  it('installing devDependencies fails with error message if exit code is not 0', async () => {
+    expect.assertions(2);
+    const mockSpawn = require('mock-spawn')();
+    mockSpawn.sequence.add(mockSpawn.simple(1));
+    spawn.mockImplementationOnce(mockSpawn);
+
+    const useYarn = false;
+    const isOnline = true;
+    try {
+      await installDevDependencies('test-module',
+        [
+          '@americanexpress/one-app-bundler',
+          '@americanexpress/one-app-runner',
+          'amex-jest-preset-react',
+          'babel-eslint',
+          'babel-preset-amex',
+          'enzyme',
+          'enzyme-to-json',
+          'eslint',
+          'eslint-config-amex',
+          'jest',
+          'rimraf',
+        ], { useYarn, isOnline });
+    } catch (error) {
+      expect(error).toMatchSnapshot();
+    }
+
+    expect(mockSpawn.calls[0].command).toEqual('npm');
   });
 });

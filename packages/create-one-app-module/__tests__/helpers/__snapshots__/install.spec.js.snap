@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`install installing dependencies fails with error message if exit code is not 0 1`] = `[Error: npm install --save --save-exact --loglevel error react react-dom]`;
+
+exports[`install installing devDependencies fails with error message if exit code is not 0 1`] = `[Error: npm install --save-dev --save-exact --loglevel error @americanexpress/one-app-bundler @americanexpress/one-app-runner amex-jest-preset-react babel-eslint babel-preset-amex enzyme enzyme-to-json eslint eslint-config-amex jest rimraf]`;
+
 exports[`install installs dependencies with npm 1`] = `
 Array [
   "install",

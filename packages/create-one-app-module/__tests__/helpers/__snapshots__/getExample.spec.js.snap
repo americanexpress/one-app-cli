@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`getExample Gets the Repo Information 1`] = `undefined`;
+
+exports[`getExample returns if statusCode is not 200 1`] = `undefined`;

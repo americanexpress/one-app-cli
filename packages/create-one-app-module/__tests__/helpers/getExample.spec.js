@@ -15,9 +15,6 @@
  */
 
 const got = require('got');
-const tar = require('tar');
-const { Stream } = require('stream');
-const { promisify } = require('util');
 
 const {
   downloadAndExtractExample,
@@ -27,10 +24,27 @@ const {
   hasRepository,
 } = require('../../helpers/getExamples');
 
+jest.mock('got', () => jest.fn({
+  statusCode: 200,
+  body: JSON.stringify('hello'),
+}));
+
 describe('getExample', () => {
   it('Gets the Repo Information', async () => {
-    const url = new URL('https://github.com/americanexpress/one-app-cli/examples');
-    console.log(url.pathname);
+    const url = {
+      pathname: '/americanexpress/one-app-cli/examples',
+    };
+    const repoInfo = await getRepositoryInformation(url);
+    expect(repoInfo).toMatchSnapshot();
+  });
+  it('returns if statusCode is not 200', async () => {
+    const got404 = () => ({
+      statusCode: 404,
+    });
+    got.mockImplementationOnce(got404);
+    const url = {
+      pathname: '/americanexpress/one-app-cli/examples',
+    };
     const repoInfo = await getRepositoryInformation(url);
     expect(repoInfo).toMatchSnapshot();
   });
