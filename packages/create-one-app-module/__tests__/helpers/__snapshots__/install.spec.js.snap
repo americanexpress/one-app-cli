@@ -1,10 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`install installing dependencies fails with error message if exit code is not 0 1`] = `[Error: npm install --save --save-exact --loglevel error react react-dom]`;
+exports[`install dependencies fails with error message if exit code is not 0 1`] = `[Error: npm install --save --save-exact --loglevel error react react-dom]`;
 
-exports[`install installing devDependencies fails with error message if exit code is not 0 1`] = `[Error: npm install --save-dev --save-exact --loglevel error @americanexpress/one-app-bundler @americanexpress/one-app-runner amex-jest-preset-react babel-eslint babel-preset-amex enzyme enzyme-to-json eslint eslint-config-amex jest rimraf]`;
-
-exports[`install installs dependencies with npm 1`] = `
+exports[`install dependencies with npm 1`] = `
 Array [
   "install",
   "--save",
@@ -16,7 +14,15 @@ Array [
 ]
 `;
 
-exports[`install installs dependencies with yarn 1`] = `
+exports[`install dependencies with npm without passing dependencies 1`] = `
+Array [
+  "install",
+  "--loglevel",
+  "error",
+]
+`;
+
+exports[`install dependencies with yarn 1`] = `
 Array [
   "add",
   "--exact",
@@ -27,7 +33,7 @@ Array [
 ]
 `;
 
-exports[`install installs dependencies with yarn while offline 1`] = `
+exports[`install dependencies with yarn while offline 1`] = `
 Array [
   "add",
   "--exact",
@@ -39,7 +45,17 @@ Array [
 ]
 `;
 
-exports[`install installs devDependencies using npm 1`] = `
+exports[`install dependencies with yarn without passing dependencies 1`] = `
+Array [
+  "install",
+  "--cwd",
+  "test-module",
+]
+`;
+
+exports[`install devDependencies fails with error message if exit code is not 0 1`] = `[Error: npm install --save-dev --save-exact --loglevel error @americanexpress/one-app-bundler @americanexpress/one-app-runner amex-jest-preset-react babel-eslint babel-preset-amex enzyme enzyme-to-json eslint eslint-config-amex jest rimraf]`;
+
+exports[`install devDependencies using npm 1`] = `
 Array [
   "install",
   "--save-dev",
@@ -60,7 +76,15 @@ Array [
 ]
 `;
 
-exports[`install installs devDependencies with yarn 1`] = `
+exports[`install devDependencies with npm without passing dependencies 1`] = `
+Array [
+  "install",
+  "--loglevel",
+  "error",
+]
+`;
+
+exports[`install devDependencies with yarn 1`] = `
 Array [
   "add",
   "--exact",
@@ -81,7 +105,7 @@ Array [
 ]
 `;
 
-exports[`install installs devDependencies with yarn while offline 1`] = `
+exports[`install devDependencies with yarn while offline 1`] = `
 Array [
   "add",
   "--exact",
@@ -98,6 +122,15 @@ Array [
   "eslint-config-amex",
   "jest",
   "rimraf",
+  "--cwd",
+  "test-module",
+]
+`;
+
+exports[`install devDependencies with yarn without passing dependencies 1`] = `
+Array [
+  "install",
+  "--production=false",
   "--cwd",
   "test-module",
 ]
