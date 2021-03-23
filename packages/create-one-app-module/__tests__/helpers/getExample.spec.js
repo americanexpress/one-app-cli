@@ -22,6 +22,7 @@ const {
   getRepositoryInformation,
   hasExample,
   hasRepository,
+  isUrlOk,
 } = require('../../helpers/getExamples');
 
 jest.mock('got', () => jest.fn({
@@ -29,23 +30,103 @@ jest.mock('got', () => jest.fn({
   body: JSON.stringify('hello'),
 }));
 
+// 54-93
+
 describe('getExample', () => {
-  it('Gets the Repo Information', async () => {
-    const url = {
-      pathname: '/americanexpress/one-app-cli/examples',
-    };
-    const repoInfo = await getRepositoryInformation(url);
-    expect(repoInfo).toMatchSnapshot();
-  });
-  it('returns if statusCode is not 200', async () => {
-    const got404 = () => ({
-      statusCode: 404,
+  describe('isUrlOk', () => {
+    beforeEach(() => jest.clearAllMocks());
+    it('returns true if statusCode is 200', async () => {
+      const testUrl = 'https://example.com/success';
+      got.head = jest.fn().mockImplementation(() => ({
+        statusCode: 200,
+      }));
+      const urlOk = await isUrlOk(testUrl);
+      expect(urlOk).toBe(true);
     });
-    got.mockImplementationOnce(got404);
-    const url = {
-      pathname: '/americanexpress/one-app-cli/examples',
-    };
-    const repoInfo = await getRepositoryInformation(url);
-    expect(repoInfo).toMatchSnapshot();
+    it('returns false if statusCode is not 200', async () => {
+      const testUrl = 'https://example.com/not-found';
+      got.head = jest.fn().mockImplementation(() => ({
+        statusCode: 404,
+      }));
+      const urlOk = await isUrlOk(testUrl);
+      expect(urlOk).toBe(false);
+    });
+  });
+  describe('getRepositoryInformation', () => {
+    beforeEach(() => jest.clearAllMocks());
+    it('gets repository information', async () => {
+      const url = {
+        pathname: '/americanexpress/one-app-cli/examples',
+      };
+      const repoInfo = await getRepositoryInformation(url);
+      expect(repoInfo).toMatchSnapshot();
+    });
+    it('succeeds without examples directory passed', async () => {
+      const url = {
+        pathname: '/americanexpress/one-app-cli',
+      };
+      const got200 = () => Promise.resolve({
+        statusCode: 200,
+        body: JSON.stringify('hello world'),
+      });
+      got.mockImplementationOnce(got200);
+
+      await getRepositoryInformation(url);
+
+      expect(got.mock.calls[0]).toEqual(expect.arrayContaining(['https://api.github.com/repos/americanexpress/one-app-cli']));
+    });
+    it('handles a 404', async () => {
+      const url = {
+        pathname: '/americanexpress/one-app-cli',
+      };
+      const got404 = () => Promise.resolve({
+        statusCode: 404,
+        body: JSON.stringify('hello world'),
+      });
+      got.mockImplementationOnce(got404);
+      await getRepositoryInformation(url);
+
+      const { statusCode } = await got.mock.results[0].value;
+      expect(statusCode).toEqual(404);
+    });
+    it('throws an error if got throws', () => {
+      const url = {
+        pathname: '/americanexpress/one-app-cli',
+      };
+      const gotError = new Error('Rejected');
+      const gotRejected = () => Promise.reject(gotError);
+      got.mockImplementationOnce(gotRejected);
+
+      expect(getRepositoryInformation(url)).rejects.toThrow(gotError);
+    });
+    it('returns if statusCode is not 200', async () => {
+      const got404 = () => ({
+        statusCode: 404,
+      });
+      got.mockImplementationOnce(got404);
+      const url = {
+        pathname: '/americanexpress/one-app-cli/examples',
+      };
+      const repoInfo = await getRepositoryInformation(url);
+      expect(repoInfo).toMatchSnapshot();
+    });
+    it('handles passing an examplePath', async () => {
+      const url = {
+        pathname: '/americanexpress/one-app-cli/examples',
+      };
+      const examplePath = 'foo/bar';
+      const got200 = () => Promise.resolve({
+        statusCode: 200,
+        body: JSON.stringify('hello world'),
+      });
+      got.mockImplementationOnce(got200);
+      const repoInfo = await getRepositoryInformation(url, examplePath);
+      expect(repoInfo).toMatchSnapshot();
+    });
+  });
+  describe('hasRepository', () => {
+    it('returns if there is a repository', () => {
+
+    });
   });
 });

@@ -21,9 +21,6 @@ const { install, installDevDependencies } = require('../../helpers/install');
 jest.mock('cross-spawn', () => jest.fn());
 
 describe('install', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
   describe('dependencies', () => {
     it('with npm', async () => {
       const mockSpawn = require('mock-spawn')();

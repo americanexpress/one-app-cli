@@ -39,5 +39,6 @@ module.exports = {
   ],
   coveragePathIgnorePatterns: [
     'packages/create-one-app-module/__tests__/__testfixtures__',
+    'packages/create-one-app-module/dist',
   ],
 };

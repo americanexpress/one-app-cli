@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getExample Gets the Repo Information 1`] = `undefined`;
+exports[`getExample getRepositoryInformation gets repository information 1`] = `undefined`;
 
-exports[`getExample returns if statusCode is not 200 1`] = `undefined`;
+exports[`getExample getRepositoryInformation handles passing an examplePath 1`] = `undefined`;
+
+exports[`getExample getRepositoryInformation returns if statusCode is not 200 1`] = `undefined`;

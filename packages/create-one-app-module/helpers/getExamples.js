@@ -27,7 +27,7 @@ global.GLOBAL_AGENT.NO_PROXY = process.env.NO_PROXY;
 
 const pipeline = promisify(Stream.pipeline);
 async function isUrlOk(url) {
-  const response = await got.head(url).catch((e) => e);
+  const response = await got.head(url);
   return response.statusCode === 200;
 }
 async function getRepositoryInformation(url, examplePath) {
@@ -38,7 +38,7 @@ async function getRepositoryInformation(url, examplePath) {
   if (t === undefined) {
     const infoResponse = await got(
       `https://api.github.com/repos/${username}/${name}`
-    ).catch((e) => e);
+    ).catch((error) => error);
     if (infoResponse.statusCode !== 200) {
       return;
     }
