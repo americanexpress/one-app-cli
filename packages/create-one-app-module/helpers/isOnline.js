@@ -30,28 +30,27 @@ function getProxy() {
   }
 }
 
-function getOnline() {
+function isUrlAvailableAsync(host) {
   return new Promise((resolve) => {
-    dns.lookup('registry.yarnpkg.com', (registryError) => {
-      if (!registryError) {
-        return resolve(true);
-      }
-      const proxy = getProxy();
-
-      if (!proxy) {
-        return resolve(false);
-      }
-      const { hostname } = url.parse(proxy);
-
-      if (!hostname) {
-        return resolve(false);
-      }
-
-      dns.lookup(hostname, (proxyError) => {
-        resolve(proxyError == null);
-      });
+    dns.lookup(host, (err) => {
+      resolve(!err);
     });
   });
+}
+
+async function getOnline() {
+  if (await isUrlAvailableAsync('registry.yarnpkg.com')) {
+    return true;
+  }
+  const proxy = getProxy();
+  if (!proxy) {
+    return false;
+  }
+  const { hostname } = url.parse(proxy);
+  if (!hostname) {
+    return false;
+  }
+  return !await isUrlAvailableAsync(hostname);
 }
 
 module.exports = {
