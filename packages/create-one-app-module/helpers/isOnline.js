@@ -53,4 +53,7 @@ function getOnline() {
   });
 }
 
-module.exports = getOnline;
+module.exports = {
+  getProxy,
+  getOnline,
+};

@@ -18,20 +18,62 @@ const { execSync } = require('child_process');
 const dns = require('dns');
 const url = require('url');
 
-const getOnline = require('../../helpers/isOnline');
+const { getProxy, getOnline } = require('../../helpers/isOnline');
 
-jest.mock('child_process', () => ({
-  execSync: jest.fn(),
-}));
+// jest.mock('child_process', () => ({
+//   execSync: jest.fn(),
+// }));
 
-jest.mock('dns', () => ({
-  lookup: jest.fn(),
-}));
+// jest.mock('dns', () => ({
+//   lookup: jest.fn(),
+// }));
 
-describe('getOnline', () => {
-  it('should return if online or not', () => {
-    getOnline();
+jest.mock('child_process');
+jest.mock('dns');
 
-    expect(dns.lookup).toHaveBeenCalled();
+// 22-27, 36-50
+const cacheEnv = {};
+
+describe('isOnline', () => {
+  const OLD_ENV = process.env;
+
+  beforeAll(() => {
+    if (process.env.https_proxy) {
+      cacheEnv.https_proxy = process.env.https_proxy;
+    }
   });
+  beforeEach(() => {
+    delete process.env.HTTPS_PROXY;
+  });
+
+  afterAll(() => {
+    Object.assign(process.env, cacheEnv);
+  });
+
+  describe('getProxy', () => {
+    it('retrieves the npm proxy configuration from environment if available', () => {
+      const expected = 'mock proxy setting env';
+      process.env.HTTPS_PROXY = expected;
+      const result = getProxy();
+      expect(result).toEqual(expected);
+    });
+    it('retrieves the npm proxy configuration from npm config', () => {
+      const expected = 'mock proxy setting npm config';
+      execSync.mockReturnValueOnce(expected);
+      const result = getProxy();
+      expect(result).toEqual(expected);
+    });
+    it('returns undefined when npm command errors', () => {
+      execSync.mockImplementationOnce(() => { throw new Error('mock failed npm command'); });
+      const result = getProxy();
+      expect(result).toEqual(undefined);
+    });
+  });
+
+  // describe('getOnline', () => {
+  //   it('uses DNS to see if Yarn registry is reachable', async () => {
+  //     dns.lookup.mockReturnValueOnce('mock dns result');
+  //     expect(await getOnline()).toBe(true);
+  //   });
+  // });
 });

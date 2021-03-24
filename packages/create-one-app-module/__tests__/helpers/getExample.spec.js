@@ -125,8 +125,28 @@ describe('getExample', () => {
     });
   });
   describe('hasRepository', () => {
-    it('returns if there is a repository', () => {
+    it('returns if there is a repository', async () => {
+      const repoInfo = {
+        username: 'americanexpress',
+        name: 'one-app-cli',
+        branch: 'main',
+        filePath: 'test/path',
+      };
 
+      got.head = jest.fn().mockImplementation(() => ({
+        statusCode: 200,
+      }));
+      const repoFound = await hasRepository(repoInfo);
+      expect(repoFound).toBe(true);
+    });
+  });
+  describe('hasExample', () => {
+    it('returns if there is an example', async () => {
+      got.head = jest.fn().mockImplementation(() => ({
+        statusCode: 200,
+      }));
+      const exampleFound = await hasExample('with-fetchye');
+      expect(exampleFound).toBe(true);
     });
   });
 });
