@@ -30,7 +30,7 @@ jest.mock('got', () => jest.fn({
   body: JSON.stringify('hello'),
 }));
 
-// 54-93
+// 54, 79-93
 
 describe('getExample', () => {
   describe('isUrlOk', () => {

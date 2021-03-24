@@ -16,30 +16,22 @@
 
 const { execSync } = require('child_process');
 const dns = require('dns');
-const url = require('url');
 
 const { getProxy, getOnline } = require('../../helpers/isOnline');
 
-// jest.mock('child_process', () => ({
-//   execSync: jest.fn(),
-// }));
-
-// jest.mock('dns', () => ({
-//   lookup: jest.fn(),
-// }));
-
 jest.mock('child_process');
 jest.mock('dns');
+// jest.mock('dns', () => jest.fn({
+//   lookup: (hostname, callback) => (hostname === 'example.com' ? callback() : callback('error')),
+// }));
 
 // 22-27, 36-50
 const cacheEnv = {};
 
 describe('isOnline', () => {
-  const OLD_ENV = process.env;
-
   beforeAll(() => {
-    if (process.env.https_proxy) {
-      cacheEnv.https_proxy = process.env.https_proxy;
+    if (process.env.HTTPS_PROXY) {
+      cacheEnv.HTTPS_PROXY = process.env.HTTPS_PROXY;
     }
   });
   beforeEach(() => {
@@ -70,10 +62,17 @@ describe('isOnline', () => {
     });
   });
 
-  // describe('getOnline', () => {
-  //   it('uses DNS to see if Yarn registry is reachable', async () => {
-  //     dns.lookup.mockReturnValueOnce('mock dns result');
-  //     expect(await getOnline()).toBe(true);
-  //   });
-  // });
+  describe('getOnline', () => {
+    it('should return if online or not', () => {
+      getOnline((resolved) => {
+        expect(resolved).toEqual(true);
+      });
+    });
+    it('uses proxy', () => {
+      process.env.HTTPS_PROXY = 'https://example.com';
+      getOnline((resolved) => {
+        expect(resolved).toEqual(true);
+      });
+    });
+  });
 });

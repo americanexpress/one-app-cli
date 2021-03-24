@@ -37,6 +37,7 @@ function getOnline() {
         return resolve(true);
       }
       const proxy = getProxy();
+
       if (!proxy) {
         return resolve(false);
       }
