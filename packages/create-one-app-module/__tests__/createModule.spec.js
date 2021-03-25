@@ -13,9 +13,28 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
+const path = require('path');
 const { createModule } = require('../createModule');
 
-describe('createModule', () => {
+jest.mock('../helpers/makeDirectory.js', () => ({
+  makeDirectory: jest.fn(),
+}));
 
+jest.mock('../helpers/isDirectoryEmpty.js', () => ({
+  isDirectoryEmpty: jest.fn(),
+}));
+
+jest.mock('child_process');
+
+describe('createModule', () => {
+  it('does', async () => {
+    const appPath = path.resolve('packages/create-one-app-module/__tests__/__testfixtures__/empty');
+    const useNpm = true;
+
+    try {
+      expect(await createModule({ appPath, useNpm })).toMatchSnapshot();
+    } catch (error) {
+
+    }
+  });
 });

@@ -52,7 +52,7 @@ function tryGitInit(root) {
     if (didInit) {
       try {
         rimraf.sync(path.join(root, '.git'));
-      } catch (_) {}
+      } catch (error) {}
     }
     return false;
   }
