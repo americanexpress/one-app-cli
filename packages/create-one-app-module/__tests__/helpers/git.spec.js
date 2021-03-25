@@ -18,29 +18,44 @@ const { execSync } = require('child_process');
 
 const { tryGitInit, isInGitRepository } = require('../../helpers/git');
 
-jest.mock('child_process');
+jest.mock('child_process', () => ({
+  execSync: jest.fn(),
+}));
 
 // Lines 37-57
 
 describe('git', () => {
-  describe('tryGitInit', () => {
-    it('should call execSync', () => {
-      jest.mock('child_process', () => ({
-        execSync: jest.fn(),
-      }));
-      tryGitInit('test-module');
-      expect(execSync).toHaveBeenCalled();
-    });
-  });
+  beforeEach(() => jest.clearAllMocks());
 
   describe('isInGitRepository', () => {
     it('should return false', () => {
       execSync.mockImplementation(() => {
         throw new Error('Error');
       });
-      isInGitRepository();
-      expect(execSync).toHaveBeenCalled();
+
       expect(isInGitRepository()).toBe(false);
+    });
+    it('should return true', () => {
+      execSync.mockImplementation(() => jest.fn());
+      expect(isInGitRepository()).toBe(true);
+    });
+  });
+
+  describe('tryGitInit', () => {
+    it('succeeds if not in git repository', () => {
+      execSync.mockImplementation((args) => {
+        if (args === 'git rev-parse --is-inside-work-tree') {
+          throw new Error('error');
+        }
+        return jest.fn();
+      });
+      const didInit = tryGitInit('../__testfixtures__/git_init');
+      expect(didInit).toBe(true);
+    });
+    it('fails if in a git repository', () => {
+      execSync.mockImplementation(jest.fn());
+      const didInit = tryGitInit();
+      expect(didInit).toBe(false);
     });
   });
 });
