@@ -31,7 +31,6 @@ function tryGitInit(root) {
   try {
     execSync('git --version', { stdio: 'ignore' });
     if (isInGitRepository()) {
-      console.log('IN HERE');
       return false;
     }
 
@@ -50,7 +49,6 @@ function tryGitInit(root) {
     );
     return true;
   } catch (e) {
-    console.log('IN CATCH');
     if (didInit) {
       try {
         rimraf.sync(path.join(root, '.git'));
