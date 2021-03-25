@@ -50,7 +50,7 @@ async function getOnline() {
   if (!hostname) {
     return false;
   }
-  return !await isUrlAvailableAsync(hostname);
+  return isUrlAvailableAsync(hostname);
 }
 
 module.exports = {

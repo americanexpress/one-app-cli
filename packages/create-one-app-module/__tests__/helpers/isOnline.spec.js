@@ -15,10 +15,16 @@
  */
 
 const { execSync } = require('child_process');
+const dns = require('dns');
 
 const { getProxy, getOnline } = require('../../helpers/isOnline');
 
 jest.mock('child_process');
+jest.mock('dns');
+
+// jest.mock('dns', () => ({
+//   lookup: (address, callback) => (address === 'registry.yarnpkg.com' ? callback(null, {}) : callback(new Error('Not Found'))),
+// }));
 
 const cacheEnv = {};
 
@@ -51,44 +57,40 @@ describe('isOnline', () => {
       expect(result).toEqual(expected);
     });
     it('returns undefined when npm command errors', () => {
-      execSync.mockImplementationOnce(() => { throw new Error('mock failed npm command'); });
+      execSync.mockReturnValueOnce('null');
       const result = getProxy();
       expect(result).toEqual(undefined);
     });
   });
 
   describe('getOnline', () => {
-    it('returns false when registry.yarnpkg.com cannot be reached and no proxy', async () => {
-      jest.mock('dns', () => jest.fn({
-        lookup(url, callback) {
-          callback();
-        },
-      }));
-
-      const isOnline = await getOnline();
-      expect(isOnline).toBe(false);
-    });
-    it('returns true when registry.yarnpkg.com cannot be reached and proper proxy is given', async () => {
-      process.env.HTTPS_PROXY = 'https://example.com';
-      jest.mock('dns', () => jest.fn({
-        lookup(url, callback) {
-          callback();
-        },
-      }));
-
+    it('returns true when registry.yarnpkg.com can be reached and no proxy', async () => {
+      dns.lookup.mockImplementationOnce((address, callback) => (address === 'registry.yarnpkg.com' ? callback(null, {}) : callback(new Error('Not Found'))));
       const isOnline = await getOnline();
       expect(isOnline).toBe(true);
     });
-    it('returns false when registry.yarnpkg.com cannot be reached and proper proxy is not given', async () => {
-      process.env.HTTPS_PROXY = 'not-a-proper-proxy';
-      jest.mock('dns', () => jest.fn({
-        lookup(url, callback) {
-          callback();
-        },
-      }));
 
+    it('returns false when registry.yarnpkg.com cannot be reached and no proxy', async () => {
+      dns.lookup.mockImplementationOnce((address, callback) => (address === 'registry.yarnpkg.com' ? callback(new Error('Not Found')) : callback(null, {})));
       const isOnline = await getOnline();
       expect(isOnline).toBe(false);
+    });
+
+    it('returns false when registry.yarnpkg.com cannot be reached and improper proxy proxy', async () => {
+      process.env.HTTPS_PROXY = 'not-a-proper-proxy';
+      dns.lookup.mockImplementationOnce((address, callback) => (address === 'registry.yarnpkg.com' ? callback(new Error('Not Found')) : callback(null, {})));
+      const isOnline = await getOnline();
+      expect(isOnline).toBe(false);
+    });
+
+    it('uses the proxy', async () => {
+      process.env.HTTPS_PROXY = 'https://example.com';
+      dns.lookup = jest.fn()
+        .mockImplementationOnce((address, callback) => (address === 'registry.yarnpkg.com' ? callback(new Error('Not Found')) : callback(null, {})))
+        .mockImplementationOnce((address, callback) => (address === 'example.com' ? callback(null, {}) : callback(new Error('Not Found'))));
+
+      const isOnline = await getOnline();
+      expect(isOnline).toBe(true);
     });
   });
 });
