@@ -40,6 +40,7 @@ function isDirectoryEmpty(root, name) {
       `The directory ${chalk.green(name)} contains files that could conflict:`
     );
     console.log();
+    // eslint-disable-next-line no-restricted-syntax
     for (const file of conflictedFiles) {
       try {
         const stats = fs.lstatSync(path.join(root, file));
@@ -48,7 +49,7 @@ function isDirectoryEmpty(root, name) {
         } else {
           console.log(`  ${file}`);
         }
-      } catch (_a) {
+      } catch (error) {
         console.log(`  ${file}`);
       }
     }

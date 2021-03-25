@@ -22,7 +22,7 @@ function isInGitRepository() {
   try {
     execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
     return true;
-  } catch (_) {}
+  } catch (error) {}
   return false;
 }
 
