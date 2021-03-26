@@ -83,9 +83,7 @@ async function createModule({
     }
   }
   const root = path.resolve(appPath);
-  console.log({ root });
   const appName = path.basename(root);
-  console.log({ appName });
   await makeDirectory(root);
   if (!isDirectoryEmpty(root, appName)) {
     process.exit(1);

@@ -18,6 +18,7 @@ const fs = require('fs');
 const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
 const { createModule } = require('../createModule');
+const { isDirectoryEmpty } = require('../helpers/isDirectoryEmpty');
 
 jest.mock('../helpers/makeDirectory.js', () => ({
   makeDirectory: jest.fn(),
@@ -26,7 +27,9 @@ jest.mock('../helpers/makeDirectory.js', () => ({
 jest.mock('../helpers/install.js');
 
 jest.mock('../helpers/isDirectoryEmpty.js', () => ({
-  isDirectoryEmpty: () => true,
+  isDirectoryEmpty: jest.fn()
+    .mockReturnValueOnce(true)
+    .mockReturnValueOnce(false),
 }));
 
 jest.mock('child_process');
@@ -35,12 +38,13 @@ jest.mock('cross-spawn', () => jest.fn());
 
 describe('createModule', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     fs.mkdirSync(path.join(__dirname, '../__tests__/__testfixtures__/createModule'));
   });
   afterEach(() => {
     rimraf.sync(path.join(__dirname, '../__tests__/__testfixtures__/createModule'));
   });
-  it('does', async () => {
+  it('uses the default template', async () => {
     const appPath = path.resolve('packages/create-one-app-module/__tests__/__testfixtures__/createModule');
     const useNpm = true;
     const mockSpawn = require('mock-spawn')();
@@ -48,5 +52,10 @@ describe('createModule', () => {
 
     const res = await createModule({ appPath, useNpm });
     expect(res).toMatchSnapshot();
+  });
+  it('exits if directory is not empty', async () => {
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
+    const useNpm = true;
+    expect(await createModule({ appPath, useNpm })).toThrow();
   });
 });
