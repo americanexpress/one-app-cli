@@ -28,13 +28,14 @@ jest.mock('child_process');
 
 describe('createModule', () => {
   it('does', async () => {
-    const appPath = path.resolve('packages/create-one-app-module/__tests__/__testfixtures__/empty');
+    const appPath = path.resolve('packages/create-one-app-module/__tests__/__testfixtures__/createModule');
     const useNpm = true;
 
     try {
-      expect(await createModule({ appPath, useNpm })).toMatchSnapshot();
+      const res = await createModule({ appPath, useNpm });
+      expect(res).toMatchSnapshot();
     } catch (error) {
-
+      console.log({ error });
     }
   });
 });

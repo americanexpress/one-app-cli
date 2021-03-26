@@ -35,6 +35,7 @@ function isDirectoryEmpty(root, name) {
     .filter((file) => !validFiles.includes(file))
     .filter((file) => !/\.iml$/.test(file));
 
+  console.log({ conflictedFiles, root, name });
   if (conflictedFiles.length > 0) {
     console.log(
       `The directory ${chalk.green(name)} contains files that could conflict:`
