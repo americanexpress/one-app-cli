@@ -87,11 +87,9 @@ async function createModule({
   const appName = path.basename(root);
   console.log({ appName });
   await makeDirectory(root);
-  console.log({ root, appName });
-  console.log(isDirectoryEmpty(root, appName));
-  // if (!isDirectoryEmpty(root, appName)) {
-  //   process.exit(1);
-  // }
+  if (!isDirectoryEmpty(root, appName)) {
+    process.exit(1);
+  }
   const useYarn = useNpm ? false : shouldUseYarn();
   const isOnline = !useYarn || await getOnline();
   const originalDirectory = process.cwd();

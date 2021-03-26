@@ -14,28 +14,39 @@
  * permissions and limitations under the License.
  */
 const path = require('path');
+const fs = require('fs');
+const spawn = require('cross-spawn');
+const rimraf = require('rimraf');
 const { createModule } = require('../createModule');
 
 jest.mock('../helpers/makeDirectory.js', () => ({
   makeDirectory: jest.fn(),
 }));
 
+jest.mock('../helpers/install.js');
+
 jest.mock('../helpers/isDirectoryEmpty.js', () => ({
-  isDirectoryEmpty: jest.fn(),
+  isDirectoryEmpty: () => true,
 }));
 
 jest.mock('child_process');
 
+jest.mock('cross-spawn', () => jest.fn());
+
 describe('createModule', () => {
+  beforeEach(() => {
+    fs.mkdirSync(path.join(__dirname, '../__tests__/__testfixtures__/createModule'));
+  });
+  afterEach(() => {
+    rimraf.sync(path.join(__dirname, '../__tests__/__testfixtures__/createModule'));
+  });
   it('does', async () => {
     const appPath = path.resolve('packages/create-one-app-module/__tests__/__testfixtures__/createModule');
     const useNpm = true;
+    const mockSpawn = require('mock-spawn')();
+    spawn.mockImplementationOnce(mockSpawn);
 
-    try {
-      const res = await createModule({ appPath, useNpm });
-      expect(res).toMatchSnapshot();
-    } catch (error) {
-      console.log({ error });
-    }
+    const res = await createModule({ appPath, useNpm });
+    expect(res).toMatchSnapshot();
   });
 });
