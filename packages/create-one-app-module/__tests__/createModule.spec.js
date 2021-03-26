@@ -19,9 +19,14 @@ const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
 const { createModule } = require('../createModule');
 const { isDirectoryEmpty } = require('../helpers/isDirectoryEmpty');
+const { shouldUseYarn } = require('../helpers/useYarn');
 
 jest.mock('../helpers/makeDirectory.js', () => ({
   makeDirectory: jest.fn(),
+}));
+
+jest.mock('../helpers/useYarn.js', () => ({
+  shouldUseYarn: jest.fn(),
 }));
 
 jest.mock('../helpers/install.js');
@@ -44,7 +49,7 @@ describe('createModule', () => {
   });
   it('uses the default template', async () => {
     isDirectoryEmpty.mockImplementationOnce(() => true);
-    const appPath = path.resolve('packages/create-one-app-module/__tests__/__testfixtures__/createModule');
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/createModule');
     const useNpm = true;
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
@@ -60,5 +65,16 @@ describe('createModule', () => {
     await createModule({ appPath, useNpm });
     expect(mockExit).toHaveBeenCalled();
     mockExit.mockRestore();
+  });
+  it('uses the default template with yarn', async () => {
+    isDirectoryEmpty.mockImplementationOnce(() => true);
+    // shouldUseYarn.mockImplementationOnce(() => true);
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/createModule');
+    const useNpm = false;
+    const mockSpawn = require('mock-spawn')();
+    spawn.mockImplementationOnce(mockSpawn);
+
+    const res = await createModule({ appPath, useNpm });
+    expect(res).toMatchSnapshot();
   });
 });

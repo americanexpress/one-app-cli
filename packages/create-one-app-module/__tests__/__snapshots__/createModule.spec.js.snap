@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`createModule uses the default template 1`] = `undefined`;
+
+exports[`createModule uses the default template with yarn 1`] = `undefined`;
