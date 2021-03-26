@@ -86,7 +86,7 @@ async function createModule({
   const appName = path.basename(root);
   await makeDirectory(root);
   if (!isDirectoryEmpty(root, appName)) {
-    process.exit(1);
+    process.exit(1); return;
   }
   const useYarn = useNpm ? false : shouldUseYarn();
   const isOnline = !useYarn || await getOnline();

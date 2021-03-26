@@ -27,9 +27,7 @@ jest.mock('../helpers/makeDirectory.js', () => ({
 jest.mock('../helpers/install.js');
 
 jest.mock('../helpers/isDirectoryEmpty.js', () => ({
-  isDirectoryEmpty: jest.fn()
-    .mockReturnValueOnce(true)
-    .mockReturnValueOnce(false),
+  isDirectoryEmpty: jest.fn(),
 }));
 
 jest.mock('child_process');
@@ -45,6 +43,7 @@ describe('createModule', () => {
     rimraf.sync(path.join(__dirname, '../__tests__/__testfixtures__/createModule'));
   });
   it('uses the default template', async () => {
+    isDirectoryEmpty.mockImplementationOnce(() => true);
     const appPath = path.resolve('packages/create-one-app-module/__tests__/__testfixtures__/createModule');
     const useNpm = true;
     const mockSpawn = require('mock-spawn')();
@@ -54,8 +53,12 @@ describe('createModule', () => {
     expect(res).toMatchSnapshot();
   });
   it('exits if directory is not empty', async () => {
+    isDirectoryEmpty.mockImplementationOnce(() => false);
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
     const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
     const useNpm = true;
-    expect(await createModule({ appPath, useNpm })).toThrow();
+    await createModule({ appPath, useNpm });
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
   });
 });
