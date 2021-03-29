@@ -119,7 +119,56 @@ describe('createModule', () => {
     expect(mockExit).toHaveBeenCalledTimes(0);
     mockExit.mockRestore();
   });
-  it('exits if invalid url', async () => {
+  it('exits if given an invalid GitHub URL', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
+    const useNpm = true;
+    const example = 'https://example.com';
+
+    await createModule({ appPath, useNpm, example });
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
+  });
+  it('exits if repository could not be located', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    jest.mock('url', () => ({
+      URL: () => ({
+        host: 'github.com',
+        hostname: 'github.com',
+        href: 'https://github.com/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
+        origin: 'https://github.com',
+        pathname: '/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
+        protocol: 'https:',
+      }),
+    }));
+
+    getRepositoryInformation.mockImplementationOnce(() => ({
+      username: 'americanexpress',
+      name: 'one-app-cli',
+      branch: 'main',
+      filePath: 'with-fetchye',
+    }));
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
+    const useNpm = true;
+    const example = 'https://github.com/americanexpress/one-app-cli/tree/main/examples/with-fetchye';
+
+    hasRepository.mockImplementationOnce(() => false);
+
+    await createModule({ appPath, useNpm, example });
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
+  });
+  it('exits if given an example that cannot be found', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
+    const useNpm = true;
+    const example = 'with-fetchye';
+
+    await createModule({ appPath, useNpm, example });
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
+  });
+  it('exits if new URL fails', async () => {
     global.URL = () => new Error('Error');
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
     const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
