@@ -23,12 +23,12 @@ function loadBin() {
   let promise = null;
   jest.isolateModules(() => {
     // eslint-disable-next-line global-require
-    promise = require('../../bin/one-app-hmr');
+    promise = require('../../bin/holocron-dev-server');
   });
   return promise;
 }
 
-describe('one-app-hmr ', () => {
+describe('holocron-dev-server ', () => {
   test('runs the bin script without error', async () => {
     await expect(loadBin()).resolves.toBeUndefined();
     expect(createConfig).toHaveBeenCalledTimes(1);

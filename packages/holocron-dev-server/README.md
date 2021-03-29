@@ -16,9 +16,9 @@
 [react-refresh-troubleshooting]: https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/TROUBLESHOOTING.md
 [docker]: https://www.docker.com/
 [React Dev tools extension]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
-# @americanexpress/one-app-hmr
+# @americanexpress/holocron-dev-server
 
-`@americanexpress/one-app-hmr` is an **experimental** development server
+`@americanexpress/holocron-dev-server` is an **experimental** development server
 made for [One App][One APP] Holocron modules designed for enabling fast refresh and reloading of assets
 while creating web experiences.
 
@@ -58,11 +58,11 @@ to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-run
 ### Installation
 
 ```bash
-npm install -D @americanexpress/one-app-hmr
+npm install -D @americanexpress/holocron-dev-server
 
 # or
 
-yarn add -D @americanexpress/one-app-hmr
+yarn add -D @americanexpress/holocron-dev-server
 ```
 
 ### Start Up
@@ -72,8 +72,8 @@ add the script in the `package.json` of your Holocron module:
 ```json
 {
   "scripts": {
-    "dev": "one-app-hmr"
-  },
+    "dev": "holocron-dev-server"
+  }
 }
 ```
 
@@ -94,20 +94,20 @@ will start up using the configuration found in the modules `package.json`.
 
 **The API is subject to change**
 
-### `one-app-hmr`
+### `holocron-dev-server`
 
 Command line tool usage.
 #### Usage
 
 ```bash
-npx -p @americanexpress/one-app-hmr -- one-app-hmr
+npx -p @americanexpress/holocron-dev-server -- holocron-dev-server
 ```
 
 #### Configuration
 
 **Zero-Config**
 
-`one-app-hmr` uses existing configurations from `"one-amex"`
+`holocron-dev-server` uses existing configurations from `"one-amex"`
 to source what modules, externals and other configuration like
 `rootModuleName` are used.
 

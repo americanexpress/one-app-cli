@@ -1,5 +1,5 @@
 {
-  "name": "@americanexpress/one-app-hmr",
+  "name": "@americanexpress/holocron-dev-server",
   "version": "0.0.1",
   "description": "A micro-frontend dev server for Holocron Modules",
   "license": "Apache-2.0",
@@ -28,7 +28,7 @@
     "access": "public"
   },
   "bin": {
-    "one-app-hmr": "bin/one-app-hmr.js"
+    "holocron-dev-server": "bin/holocron-dev-server.js"
   },
   "files": [
     "bin/",
