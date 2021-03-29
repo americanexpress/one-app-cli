@@ -2,7 +2,7 @@
 [parrot]: https://github.com/americanexpress/parrot
 [One App]: https://github.com/americanexpress/one-app
 [one-app-bundler]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler
-[dll plugin]: https://webpack.js.org/plugins/dll-plugin/
+[dll-plugin]: https://webpack.js.org/plugins/dll-plugin/
 [providedExternals & requiredExternals]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler#providedexternals--requiredexternals
 [one-app-runner]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-runner
 [express]: https://github.com/expressjs/express
@@ -16,6 +16,7 @@
 [react-refresh-troubleshooting]: https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/TROUBLESHOOTING.md
 [docker]: https://www.docker.com/
 [React Dev tools extension]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
+[esbuild-loader]: https://github.com/privatenumber/esbuild-loader
 # @americanexpress/holocron-dev-server
 
 `@americanexpress/holocron-dev-server` is an **experimental** development server
@@ -34,20 +35,18 @@ to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-run
 
 ## ✨ Features
 
-- [Fast refresh][react-refresh] for Holocron modules, React components and styles are all hot loaded in the browser.
-- Experimental development server that runs One App Holocron modules.
-- Zero-config start up with pre-existing `"one-amex"` configuration in the `package.json`.
-- Pre-loads One App development statics from Docker image [`oneamex/one-app-dev`](one-app-dev) by default.
-- Hot reload [parrot][parrot] scenarios and watch for changes.
-- Hot reload language packs and watch for changes from the local modules.
-- Combines the remote module if provided with the local module map.
+- Runs One App Holocron modules on an experimental development server
+- [Fast refresh][react-refresh] for Holocron modules, React components and styles are all hot loaded in the browser
+- Zero-config start up with pre-existing `"one-amex"` configuration in the `package.json`
+- Hot reload [parrot][parrot] scenarios and watch for changes
+- Hot reload language packs and watch for changes from the local modules
+- Combines the remote module if provided with the local module map
  remote module map with the universal map
-- [providedExternals & requiredExternals][providedExternals & requiredExternals] are pre-built as a [DLL][dll plugin] bundle to speed up build times of the local modules
+- [providedExternals & requiredExternals][providedExternals & requiredExternals] are pre-built with [esbuild-loader] as a [DLL][dll-plugin] bundle to speed up build times of the local modules
 - local Holocron modules bundles analyzed and reported using [webpack bundle analyzer][webpack bundle analyzer]
 
 ### Caveats
 - No support for custom `babel` config or auto-merge option (with zero-config)
-- No support for providing environment variables or an auto-merge (with zero-config)
 
 ## 🤹‍ Usage
 
@@ -90,6 +89,27 @@ yarn dev
 Once the command runs, the sandbox Holocron module reload server
 will start up using the configuration found in the modules `package.json`.
 
+### **Zero-Config**
+
+`holocron-dev-server` uses existing configurations from `"one-amex"`
+to source what modules, externals and other configuration like
+`rootModuleName` are used.
+
+The config uses [`one-amex.runner`][one-app-runner] (`modules`, `rootModuleName`, `moduleMapUrl`, `dockerImage`, `envVars`)
+and [`one-amex.bundler`][one-app-bundler] (`providedExternals`, `requiredExternals`)
+to set up the HMR environment for your Holocron module.
+
+#### **Parrot Scenarios**
+If a `mock/scenarios.js` exists in your module,
+the `parrot` scenarios will be watched for changes and updated,
+please note that the parrot browser extension will need to be changed to refer
+to the port used by the holocron development server.
+
+#### **Language Packs**
+The same applies if `locale/*` folder exists in your Holocron module.
+When a given locale gets modified, the holocron dev server will notify the client
+and will load the language pack into state.
+
 ## 🎛️ API
 
 **The API is subject to change**
@@ -104,34 +124,11 @@ npx -p @americanexpress/holocron-dev-server -- holocron-dev-server
 ```
 
 #### Configuration
+##### **`hmr` Options**
 
-**Zero-Config**
-
-`holocron-dev-server` uses existing configurations from `"one-amex"`
-to source what modules, externals and other configuration like
-`rootModuleName` are used.
-
-The config uses [`one-amex.runner`][one-app-runner] (`modules`, `rootModuleName`, `moduleMapUrl`, `dockerImage`)
-and [`one-amex.bundler`][one-app-bundler] (`providedExternals`, `requiredExternals`)
-to set up the HMR environment for your Holocron module.
-
-### Parrot Scenarios
-If a `mock/scenarios.js` exists in your module,
-the `parrot` scenarios will be watched for changes and updated,
-please note that the parrot browser extension will need to be changed to refer 
-to the port used by the holocron development server.
-
-### Language Packs
-The same applies if `locale/*` folder exists in your Holocron module.
-When a given locale gets modified, the holocron dev server will notify the client
-and will load the language pack into state.
-
-### Advanced Configuration
 Use the `one-amex.hmr` config for
 more advanced configurations. The experimental `hmr` config is
 subject to change. The options supported are:
-
-##### Options
 
 | name | type | required | value |
 |---|---|---|---|
