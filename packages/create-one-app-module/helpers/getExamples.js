@@ -87,9 +87,6 @@ function downloadAndExtractRepository(
   );
 }
 function downloadAndExtractExample(root, name) {
-  if (name === '__internal-testing-retry') {
-    throw new Error('This is an internal example for testing the CLI.');
-  }
   return pipeline(
     got.stream(
       'https://codeload.github.com/americanexpress/one-app-cli/tar.gz/main'

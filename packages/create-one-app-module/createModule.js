@@ -48,7 +48,7 @@ async function createModule({
     } catch (error) {
       if (error.code !== 'ERR_INVALID_URL') {
         console.error(error);
-        process.exit(1);
+        process.exit(1); return;
       }
     }
     if (repoUrl) {
@@ -59,7 +59,7 @@ async function createModule({
             `"${example}"`
           )}. Please fix the URL and try again.`
         );
-        process.exit(1);
+        process.exit(1); return;
       }
       const found = await hasRepository(repoInfo);
       if (!found) {
@@ -68,7 +68,7 @@ async function createModule({
             `"${example}"`
           )}. Please check that the repository exists and try again.`
         );
-        process.exit(1);
+        process.exit(1); return;
       }
     } else {
       const found = await hasExample(example);
@@ -78,7 +78,7 @@ async function createModule({
             `"${example}"`
           )}. Please check your spelling and try again.`
         );
-        process.exit(1);
+        process.exit(1); return;
       }
     }
   }
@@ -88,6 +88,7 @@ async function createModule({
   if (!isDirectoryEmpty(root, appName)) {
     process.exit(1); return;
   }
+  console.log('WE MADE IT PASSED isDirectoryEmpty');
   const useYarn = useNpm ? false : shouldUseYarn();
   const isOnline = !useYarn || await getOnline();
   const originalDirectory = process.cwd();

@@ -19,25 +19,36 @@ const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
 const { createModule } = require('../createModule');
 const { isDirectoryEmpty } = require('../helpers/isDirectoryEmpty');
-const { shouldUseYarn } = require('../helpers/useYarn');
+const { getRepositoryInformation, hasRepository } = require('../helpers/getExamples');
 
-jest.mock('../helpers/makeDirectory.js', () => ({
+jest.mock('child_process');
+jest.mock('cross-spawn', () => jest.fn());
+
+jest.mock('../helpers/makeDirectory', () => ({
   makeDirectory: jest.fn(),
 }));
 
-jest.mock('../helpers/useYarn.js', () => ({
+jest.mock('../helpers/useYarn', () => ({
   shouldUseYarn: jest.fn(),
 }));
 
-jest.mock('../helpers/install.js');
+jest.mock('../helpers/install');
 
-jest.mock('../helpers/isDirectoryEmpty.js', () => ({
+jest.mock('../helpers/isDirectoryEmpty', () => ({
   isDirectoryEmpty: jest.fn(),
 }));
 
-jest.mock('child_process');
+jest.mock('../helpers/git', () => ({
+  tryGitInit: () => true,
+}));
 
-jest.mock('cross-spawn', () => jest.fn());
+jest.mock('../helpers/getExamples', () => ({
+  getRepositoryInformation: jest.fn(),
+  hasRepository: jest.fn(),
+  hasExample: jest.fn(),
+  downloadAndExtractRepository: jest.fn(),
+  downloadAndExtractExample: jest.fn(),
+}));
 
 describe('createModule', () => {
   beforeEach(() => {
@@ -68,7 +79,6 @@ describe('createModule', () => {
   });
   it('uses the default template with yarn', async () => {
     isDirectoryEmpty.mockImplementationOnce(() => true);
-    // shouldUseYarn.mockImplementationOnce(() => true);
     const appPath = path.join(__dirname, '../__tests__/__testfixtures__/createModule');
     const useNpm = false;
     const mockSpawn = require('mock-spawn')();
@@ -76,5 +86,50 @@ describe('createModule', () => {
 
     const res = await createModule({ appPath, useNpm });
     expect(res).toMatchSnapshot();
+  });
+  it('handles an example passed to it', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    jest.mock('url', () => ({
+      URL: () => ({
+        host: 'github.com',
+        hostname: 'github.com',
+        href: 'https://github.com/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
+        origin: 'https://github.com',
+        pathname: '/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
+        protocol: 'https:',
+      }),
+    }));
+    getRepositoryInformation.mockImplementationOnce(() => ({
+      username: 'americanexpress',
+      name: 'one-app-cli',
+      branch: 'main',
+      filePath: 'with-fetchye',
+    }));
+
+    hasRepository.mockImplementationOnce(() => true);
+    isDirectoryEmpty.mockImplementationOnce(() => true);
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/createModule');
+    const useNpm = false;
+    const example = 'https://github.com/americanexpress/one-app-cli/tree/main/examples/with-fetchye';
+    const mockSpawn = require('mock-spawn')();
+    spawn.mockImplementationOnce(mockSpawn);
+
+    await createModule({ appPath, useNpm, example });
+    expect(mockExit).toHaveBeenCalledTimes(0);
+    mockExit.mockRestore();
+  });
+  it('exits if invalid url', async () => {
+    jest.mock('url', () => ({
+      URL: jest.fn().mockImplementation(() => new Error({
+        code: 'ERR_INVALID_URL',
+      })),
+    }));
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
+    const useNpm = true;
+    const example = 'with-fetchye';
+    await createModule({ appPath, useNpm, example });
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
   });
 });
