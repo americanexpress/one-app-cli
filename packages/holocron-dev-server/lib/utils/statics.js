@@ -47,7 +47,7 @@ export function loadOneAppStaticsFromDocker({
     logPullingDockerImage();
 
     // TODO: spinner while loading, use spawn
-    // TODO: replace stdout with meaningful feedback
+    // TODO: replace stdout with meaningful feedback instead of docker output
 
     execSync(`docker pull ${dockerImage}`, { stdio: 'inherit' });
     execSync(`docker cp $(docker create ${dockerImage}):opt/one-app/build/ ${tempDir}`, {

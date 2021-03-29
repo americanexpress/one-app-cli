@@ -17,28 +17,27 @@ import { createConfig } from '../../../lib';
 import { getContextPath } from '../../../lib/utils';
 import { createConfigurationContext } from '../../../lib/utils/config';
 
-jest.mock('path');
-jest.mock('../../../lib/utils/paths', () => ({
-  getContextPath: jest.fn(() => '/module-path'),
-  createModuleScriptUrl: jest.fn(() => 'my-module/my-module.js'),
-  getPublicModulesUrl: jest.fn(() => '/static/modules/holocron-module/holocron-module.js'),
-}));
-
 jest.mock('read-pkg-up');
 
+beforeAll(() => {
+  jest.spyOn(process, 'cwd').mockImplementation(() => '/home');
+});
+
 describe('createConfig', () => {
-  beforeAll(() => {
-    readPkgUp.mockImplementation(() => ({
-      packageJson: {
-        name: 'hmr',
-        version: '1.0.0',
-        'one-amex': {
-          app: {
-            compatibility: '^5.0.0',
-          },
+  const hmrModuleMock = () => ({
+    packageJson: {
+      name: 'hmr',
+      version: '1.0.0',
+      'one-amex': {
+        app: {
+          compatibility: '^5.0.0',
         },
       },
-    }));
+    },
+  });
+
+  beforeAll(() => {
+    readPkgUp.mockImplementation(hmrModuleMock);
   });
 
   it('creates a zero-config configuration using package.json "one-amex" key', async () => {
@@ -58,7 +57,7 @@ describe('createConfig', () => {
           requiredExternals: undefined,
           environmentVariables: undefined,
           rootModule: true,
-          src: '/static/modules/holocron-module/holocron-module.js',
+          src: '/static/modules/hmr/hmr.js',
         },
       ],
       externals: [],
@@ -84,9 +83,6 @@ describe('createConfig', () => {
         name: 'holocron-module',
         version: '1.0.0',
         'one-amex': {
-          app: {
-            compatibility: '^5.0.0',
-          },
           runner: {
             modules: ['.', '../another-module'],
             dockerImage: 'oneamex/one-app-dev:latest',
@@ -96,7 +92,25 @@ describe('createConfig', () => {
         },
       },
     });
-    readPkgUp.mockImplementationOnce(rootMock).mockImplementationOnce(rootMock);
+    const anotherModuleMock = () => ({
+      packageJson: {
+        name: 'another-module',
+        version: '1.0.0',
+        'one-amex': {
+          runner: {
+            modules: ['.', '../another-module'],
+            dockerImage: 'oneamex/one-app-dev:latest',
+            rootModuleName: 'holocron-module',
+            parrotMiddleware: './dev.middleware.js',
+          },
+        },
+      },
+    });
+    readPkgUp
+      // initial load
+      .mockImplementationOnce(rootMock)
+      .mockImplementationOnce(rootMock)
+      .mockImplementationOnce(anotherModuleMock);
     const createConfigMock = await createConfig();
     expect(createConfigMock).toMatchObject({
       clientConfig: {
@@ -106,13 +120,13 @@ describe('createConfig', () => {
       externals: [],
       logLevel: 4,
       moduleName: 'holocron-module',
-      modulePath: '/module-path',
+      modulePath: '/home',
       moduleVersion: '1.0.0',
       modules: [
         {
           externals: [],
           moduleName: 'holocron-module',
-          modulePath: '/module-path',
+          modulePath: '/home',
           moduleVersion: '1.0.0',
           name: 'holocron-module',
           rootModule: true,
@@ -120,21 +134,12 @@ describe('createConfig', () => {
         },
         {
           externals: [],
-          moduleName: 'hmr',
-          modulePath: '/module-path',
+          moduleName: 'another-module',
+          modulePath: '/another-module',
           moduleVersion: '1.0.0',
-          name: 'hmr',
+          name: 'another-module',
           rootModule: false,
-          src: '/static/modules/holocron-module/holocron-module.js',
-        },
-        {
-          externals: [],
-          moduleName: 'hmr',
-          modulePath: '/module-path',
-          moduleVersion: '1.0.0',
-          name: 'hmr',
-          rootModule: false,
-          src: '/static/modules/holocron-module/holocron-module.js',
+          src: '/static/modules/another-module/another-module.js',
         },
       ],
       openWhenReady: false,
@@ -171,14 +176,14 @@ describe('createConfig', () => {
       externals: [],
       logLevel: 4,
       moduleName: 'holocron-module',
-      modulePath: '/module-path',
+      modulePath: '/home',
       moduleVersion: '1.0.0',
       modules: [
         {
           environmentVariables: undefined,
           externals: [],
           moduleName: 'holocron-module',
-          modulePath: '/module-path',
+          modulePath: '/home',
           moduleVersion: '1.0.0',
           name: 'holocron-module',
           rootModule: true,

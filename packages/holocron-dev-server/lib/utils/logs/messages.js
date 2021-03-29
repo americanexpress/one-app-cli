@@ -33,6 +33,7 @@ import {
   deeppink,
   palegreen,
   red,
+  newLine,
 } from './logs';
 
 export function printWebpack(message) {
@@ -100,13 +101,20 @@ export function logServerUrl(serverAddress, port) {
   log(`visit ${yellow.bold(`"${serverAddress}"`)} to start!\n`);
 }
 
-export function logExternalsBundleAnalyzerUrl(serverAddress) {
+export function logExternalsBundleAnalyzerUrl(serverAddress, externals = []) {
   const externalsReportUrl = joinUrlFragments(
     serverAddress,
     getPublicVendorsUrl(getReportFilename(externalsBundleName))
   );
   log(
-    printWebpack(orange('Bundle Analyzer for Dll externals can be found at \n\n   %s')),
+    printWebpack(
+      [
+        `externals bundled: ${externals
+          .map((external) => green(external))
+          .join(', ')}`,
+        newLine(orange('Bundle Analyzer for Dll externals can be found at \n\n   %s')),
+      ].join('\n')
+    ),
     yellow.bold(`"${externalsReportUrl}"\n`)
   );
 }

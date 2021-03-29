@@ -73,8 +73,14 @@ describe('onLaunch', () => {
     expect(() => onLaunch({ port: 4000, serverAddress: 'http://link.some.where' })()).not.toThrow();
     expect(logHotReloadReady).toHaveBeenCalled();
     expect(logServerUrl).toHaveBeenCalled();
-    expect(logExternalsBundleAnalyzerUrl).toHaveBeenCalled();
     expect(logModuleBundlerAnalyzerUrl).toHaveBeenCalled();
+    expect(logExternalsBundleAnalyzerUrl).not.toHaveBeenCalled();
+  });
+
+  test('logs externals bundle stats when provided', () => {
+    const fn = onLaunch({ externals: ['react'] });
+    expect(() => fn()).not.toThrow();
+    expect(logExternalsBundleAnalyzerUrl).toHaveBeenCalled();
   });
 
   test('opens the browser when "openWhenReady" is configured to true', () => {

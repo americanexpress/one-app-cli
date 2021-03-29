@@ -35,6 +35,9 @@ export default function createRenderingMiddleware({
   };
 
   return (_, res) => {
+    // TODO: invalidate with webpack hash, memoize hash and check
+    // with res.locals.webpack.devMiddleware.stats.toJson().hash
+    // https://github.com/webpack/webpack-dev-middleware#server-side-rendering
     if (!html) render();
     res.status(200).type('html').send(html);
   };
