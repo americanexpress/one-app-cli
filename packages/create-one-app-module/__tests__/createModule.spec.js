@@ -99,6 +99,7 @@ describe('createModule', () => {
         protocol: 'https:',
       }),
     }));
+
     getRepositoryInformation.mockImplementationOnce(() => ({
       username: 'americanexpress',
       name: 'one-app-cli',
@@ -119,15 +120,12 @@ describe('createModule', () => {
     mockExit.mockRestore();
   });
   it('exits if invalid url', async () => {
-    jest.mock('url', () => ({
-      URL: jest.fn().mockImplementation(() => new Error({
-        code: 'ERR_INVALID_URL',
-      })),
-    }));
+    global.URL = () => new Error('Error');
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
     const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
     const useNpm = true;
     const example = 'with-fetchye';
+
     await createModule({ appPath, useNpm, example });
     expect(mockExit).toHaveBeenCalled();
     mockExit.mockRestore();
