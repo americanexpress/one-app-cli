@@ -160,6 +160,7 @@ describe('createModule', () => {
     const example = 'with-fetchye';
 
     await createModule({ appPath, useNpm, example });
+    expect(global.URL).toThrow();
     expect(mockExit).toHaveBeenCalled();
     mockExit.mockRestore();
     urlError.mockRestore();
