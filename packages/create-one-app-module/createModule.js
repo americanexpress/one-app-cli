@@ -88,7 +88,6 @@ async function createModule({
   if (!isDirectoryEmpty(root, appName)) {
     process.exit(1); return;
   }
-  console.log('WE MADE IT PASSED isDirectoryEmpty');
   const useYarn = useNpm ? false : shouldUseYarn();
   const isOnline = !useYarn || await getOnline();
   const originalDirectory = process.cwd();
@@ -190,7 +189,6 @@ async function createModule({
       parents: true,
       cwd: path.join(__dirname, 'templates', 'default'),
       rename: (name) => {
-        console.log('Name: ', name);
         switch (name) {
           case 'gitignore': {
             return '.'.concat(name);

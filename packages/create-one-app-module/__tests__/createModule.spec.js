@@ -89,16 +89,6 @@ describe('createModule', () => {
   });
   it('handles an example passed to it', async () => {
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
-    jest.mock('url', () => ({
-      URL: () => ({
-        host: 'github.com',
-        hostname: 'github.com',
-        href: 'https://github.com/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
-        origin: 'https://github.com',
-        pathname: '/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
-        protocol: 'https:',
-      }),
-    }));
 
     getRepositoryInformation.mockImplementationOnce(() => ({
       username: 'americanexpress',
@@ -131,16 +121,6 @@ describe('createModule', () => {
   });
   it('exits if repository could not be located', async () => {
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
-    jest.mock('url', () => ({
-      URL: () => ({
-        host: 'github.com',
-        hostname: 'github.com',
-        href: 'https://github.com/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
-        origin: 'https://github.com',
-        pathname: '/americanexpress/one-app-cli/tree/main/examples/with-fetchye',
-        protocol: 'https:',
-      }),
-    }));
 
     getRepositoryInformation.mockImplementationOnce(() => ({
       username: 'americanexpress',
