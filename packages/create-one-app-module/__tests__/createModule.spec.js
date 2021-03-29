@@ -57,6 +57,7 @@ describe('createModule', () => {
   });
   afterEach(() => {
     rimraf.sync(path.join(__dirname, '../__tests__/__testfixtures__/createModule'));
+    jest.clearAllMocks();
   });
   it('uses the default template', async () => {
     isDirectoryEmpty.mockImplementationOnce(() => true);
@@ -149,7 +150,10 @@ describe('createModule', () => {
     mockExit.mockRestore();
   });
   it('exits if new URL fails', async () => {
-    global.URL = () => new Error('Error');
+    const urlError = jest.spyOn(global, 'URL').mockImplementation(() => {
+      throw new Error('Error');
+    });
+
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
     const appPath = path.join(__dirname, '../__tests__/__testfixtures__/conflicted');
     const useNpm = true;
@@ -158,5 +162,6 @@ describe('createModule', () => {
     await createModule({ appPath, useNpm, example });
     expect(mockExit).toHaveBeenCalled();
     mockExit.mockRestore();
+    urlError.mockRestore();
   });
 });
