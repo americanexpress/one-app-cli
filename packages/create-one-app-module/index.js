@@ -91,7 +91,7 @@ async function run() {
     console.log(
       `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
     );
-    process.exit(1);
+    process.exit(1); return;
   }
   const resolvedModulePath = path.resolve(modulePath);
   const moduleName = path.basename(resolvedModulePath);
@@ -183,3 +183,5 @@ run()
     await notifyUpdate();
     process.exit(1);
   });
+
+module.exports = run;

@@ -17,9 +17,11 @@ const path = require('path');
 const fs = require('fs');
 const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
-const { createModule } = require('../createModule');
+const { createModule, DownloadError } = require('../createModule');
 const { isDirectoryEmpty } = require('../helpers/isDirectoryEmpty');
-const { getRepositoryInformation, hasRepository, hasExample } = require('../helpers/getExamples');
+const {
+  getRepositoryInformation, hasRepository, hasExample, downloadAndExtractExample,
+} = require('../helpers/getExamples');
 
 jest.mock('child_process');
 jest.mock('cross-spawn', () => jest.fn());
