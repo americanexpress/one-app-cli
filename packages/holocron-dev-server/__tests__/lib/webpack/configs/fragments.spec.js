@@ -272,8 +272,8 @@ describe('createResolverConfigFragment', () => {
         modules: [
           'node_modules',
           '/relative/path',
-          '/relative/path',
-          '/relative/path',
+          '/path/module/path/src',
+          '/path/module/path/node_modules',
         ],
       }
       );

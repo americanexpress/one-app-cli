@@ -162,17 +162,19 @@ export function createResolverConfigFragment({
   alias = {},
 }) {
   const resolveModulePackages = [
+    // Relative paths
     // default node modules
     'node_modules',
     // package level node modules
-    path.relative(context, path.resolve(__dirname, '..', '..', 'node_modules')),
+    path.relative(context, path.resolve(__dirname, '..', '..', '..', 'node_modules')),
   ].concat(
+    // Absolute paths
     // TODO: document experimental features
     // EXPERIMENTAL - pre formal API
     // project level importing from 'src/', eg "components/Form.jsx", "childRoutes"
-    modules.map(({ modulePath }) => path.relative(context, path.join(modulePath, 'src'))),
+    modules.map(({ modulePath }) => path.resolve(context, path.join(modulePath, 'src'))),
     // other modules loaded in and their package context
-    modules.map(({ modulePath }) => path.relative(context, path.join(modulePath, 'node_modules')))
+    modules.map(({ modulePath }) => path.resolve(context, path.join(modulePath, 'node_modules')))
   );
 
   return {
