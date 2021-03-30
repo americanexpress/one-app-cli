@@ -14,53 +14,60 @@
  * permissions and limitations under the License.
  */
 
-const execa = require('execa');
-const path = require('path');
-const os = require('os');
-const fs = require('fs-extra');
-const cli = require('..');
+const checkForUpdate = require('update-check');
+const { createModule } = require('../createModule');
 
-const run = (args, options) => execa('node', [cli].concat(args), options);
+const { validateNpmName } = require('../helpers/validatePackageName');
 
-async function usingTempDir(fn, options) {
-  const folder = path.join(os.tmpdir(), Math.random().toString(36).substring(2));
-  await fs.mkdirp(folder, options);
-  try {
-    return await fn(folder);
-  } finally {
-    await fs.remove(folder);
-  }
-}
+jest.mock('update-check', () => jest.fn());
+
+jest.mock('../createModule', () => ({
+  createModule: jest.fn(),
+}));
+
+jest.mock('../helpers/validatePackageName', () => ({
+  validateNpmName: () => ({
+    valid: true,
+  }),
+}));
 
 describe('create one app module', () => {
-  it('non-empty directory', async () => {
-    await usingTempDir(async (cwd) => {
-      const projectName = 'non-empty-directory';
-      await fs.mkdirp(path.join(cwd, projectName));
-      const pkg = path.join(cwd, projectName, 'package.json');
-      fs.writeFileSync(pkg, '{ "foo": "bar" }');
+  const originalProcessExit = process.exit;
+  const originalProcessArgv = process.argv;
 
-      const res = await run([projectName], { cwd, reject: false });
-      expect(res.exitCode).toBe(1);
-    });
+  beforeAll(() => {
+    process.exit = jest.fn();
   });
 
-  it('valid example', async () => {
-    await usingTempDir(async (cwd) => {
-      const projectName = 'valid-example';
-      const res = await run([projectName, '--example', 'basic-css'], { cwd });
-      expect(res.exitCode).toBe(0);
+  beforeEach(() => {
+    jest
+      .resetModules()
+      .clearAllMocks();
 
-      expect(
-        fs.existsSync(path.join(cwd, projectName, 'package.json'))
-      ).toBeTruthy();
-      expect(
-        fs.existsSync(path.join(cwd, projectName, 'pages/index.js'))
-      ).toBeTruthy();
-      // check we copied default `.gitignore`
-      expect(
-        fs.existsSync(path.join(cwd, projectName, '.gitignore'))
-      ).toBeTruthy();
-    });
+    process.argv = originalProcessArgv;
+  });
+
+  afterAll(() => {
+    process.argv = originalProcessArgv;
+    process.exit = originalProcessExit;
+  });
+
+  it('name passed to command', async () => {
+    process.argv = [
+      '',
+      '',
+      'test-module',
+    ];
+    await require('..');
+    console.log(createModule.mock);
+  });
+  it('name not passed', async () => {
+    process.argv = [
+      '',
+      '',
+      '',
+    ];
+    await require('..');
+    console.log(createModule.mock);
   });
 });

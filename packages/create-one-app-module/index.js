@@ -57,6 +57,7 @@ const program = new Commander.Command(packageJson.name)
   .parse(process.argv);
 
 async function run() {
+  console.log({ modulePath });
   if (typeof modulePath === 'string') {
     modulePath = modulePath.trim();
   }
@@ -143,7 +144,7 @@ async function run() {
     });
   }
 }
-const update = checkForUpdate(packageJson).catch(() => null);
+const update = checkForUpdate(packageJson);
 async function notifyUpdate() {
   try {
     const res = await update;
