@@ -19,7 +19,7 @@ const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
 const { createModule } = require('../createModule');
 const { isDirectoryEmpty } = require('../helpers/isDirectoryEmpty');
-const { getRepositoryInformation, hasRepository } = require('../helpers/getExamples');
+const { getRepositoryInformation, hasRepository, hasExample } = require('../helpers/getExamples');
 
 jest.mock('child_process');
 jest.mock('cross-spawn', () => jest.fn());
@@ -88,7 +88,7 @@ describe('createModule', () => {
     const res = await createModule({ appPath, useNpm });
     expect(res).toMatchSnapshot();
   });
-  it('handles an example passed to it', async () => {
+  it('handles an example url passed to it', async () => {
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
 
     getRepositoryInformation.mockImplementationOnce(() => ({
@@ -103,6 +103,21 @@ describe('createModule', () => {
     const appPath = path.join(__dirname, '../__tests__/__testfixtures__/createModule');
     const useNpm = false;
     const example = 'https://github.com/americanexpress/one-app-cli/tree/main/examples/with-fetchye';
+    const mockSpawn = require('mock-spawn')();
+    spawn.mockImplementationOnce(mockSpawn);
+
+    await createModule({ appPath, useNpm, example });
+    expect(mockExit).toHaveBeenCalledTimes(0);
+    mockExit.mockRestore();
+  });
+  it('handles an example passed to it', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+
+    hasExample.mockImplementationOnce(() => true);
+    isDirectoryEmpty.mockImplementationOnce(() => true);
+    const appPath = path.join(__dirname, '../__tests__/__testfixtures__/createModule');
+    const useNpm = false;
+    const example = 'with-fetchye';
     const mockSpawn = require('mock-spawn')();
     spawn.mockImplementationOnce(mockSpawn);
 
