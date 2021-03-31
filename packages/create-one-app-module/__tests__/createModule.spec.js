@@ -18,7 +18,7 @@ const fs = require('fs');
 const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
 const { createModule, DownloadError } = require('../createModule');
-const { isDirectoryEmpty } = require('../helpers/isDirectoryEmpty');
+const isDirectoryEmpty = require('../helpers/isDirectoryEmpty');
 const {
   getRepositoryInformation, hasRepository, hasExample, downloadAndExtractExample,
 } = require('../helpers/getExamples');
@@ -30,15 +30,11 @@ jest.mock('../helpers/makeDirectory', () => ({
   makeDirectory: jest.fn(),
 }));
 
-jest.mock('../helpers/useYarn', () => ({
-  shouldUseYarn: jest.fn(),
-}));
+jest.mock('../helpers/useYarn', () => jest.fn());
 
 jest.mock('../helpers/install');
 
-jest.mock('../helpers/isDirectoryEmpty', () => ({
-  isDirectoryEmpty: jest.fn(),
-}));
+jest.mock('../helpers/isDirectoryEmpty', () => jest.fn());
 
 jest.mock('../helpers/git', () => ({
   tryGitInit: () => true,

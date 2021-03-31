@@ -23,8 +23,8 @@ const path = require('path');
 const prompts = require('prompts');
 const checkForUpdate = require('update-check');
 const { DownloadError, createModule } = require('./createModule');
-const { shouldUseYarn } = require('./helpers/useYarn');
-const { validateNpmName } = require('./helpers/validatePackageName');
+const shouldUseYarn = require('./helpers/useYarn');
+const validateNpmName = require('./helpers/validatePackageName');
 const packageJson = require('./package.json');
 
 let modulePath = '';
@@ -57,7 +57,6 @@ const program = new Commander.Command(packageJson.name)
   .parse(process.argv);
 
 async function run() {
-  console.log({ modulePath });
   if (typeof modulePath === 'string') {
     modulePath = modulePath.trim();
   }
@@ -68,6 +67,7 @@ async function run() {
       message: 'What is your module name?',
       initial: 'my-module',
       validate: (name) => {
+        console.log(`Name: ${name}`);
         const validation = validateNpmName(path.basename(path.resolve(name)));
         if (validation.valid) {
           return true;
@@ -97,7 +97,11 @@ async function run() {
   const resolvedModulePath = path.resolve(modulePath);
   const moduleName = path.basename(resolvedModulePath);
   const { valid, problems } = validateNpmName(moduleName);
+  console.log({ moduleName, valid });
   const options = program.opts();
+
+  console.log({ options });
+
   if (!valid) {
     console.error(
       `Could not create a project called ${chalk.red(
@@ -105,14 +109,13 @@ async function run() {
       )} because of npm naming restrictions:`
     );
     problems.forEach((p) => console.error(`    ${chalk.red.bold('*')} ${p}`));
-    process.exit(1);
+    process.exit(1); return;
   }
   if (options.example === true) {
     console.error(
       'Please provide an example name or url, otherwise remove the example option.'
     );
-    process.exit(1);
-    return;
+    process.exit(1); return;
   }
   const example = typeof options.example === 'string' && options.example.trim();
 

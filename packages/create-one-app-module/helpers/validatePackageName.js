@@ -16,7 +16,7 @@
 
 const validateProjectName = require('validate-npm-package-name');
 
-function validateNpmName(name) {
+module.exports = function validateNpmName(name) {
   const nameValidation = validateProjectName(name);
   if (nameValidation.validForNewPackages) {
     return { valid: true };
@@ -28,6 +28,4 @@ function validateNpmName(name) {
       ...nameValidation.warnings || [],
     ],
   };
-}
-
-module.exports = validateNpmName;
+};

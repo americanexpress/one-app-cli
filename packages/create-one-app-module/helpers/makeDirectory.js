@@ -16,8 +16,6 @@
 
 const fs = require('fs');
 
-function makeDirectory(root, options = { recursive: true }) {
+module.exports = function makeDirectory(root, options = { recursive: true }) {
   return fs.promises.mkdir(root, options);
-}
-
-module.exports = makeDirectory;
+};

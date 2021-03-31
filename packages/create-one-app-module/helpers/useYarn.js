@@ -16,7 +16,7 @@
 
 const { execSync } = require('child_process');
 
-function shouldUseYarn() {
+module.exports = function shouldUseYarn() {
   try {
     const userAgent = process.env.npm_config_user_agent;
     if (userAgent) {
@@ -27,6 +27,4 @@ function shouldUseYarn() {
   } catch (e) {
     return false;
   }
-}
-
-module.exports = shouldUseYarn;
+};

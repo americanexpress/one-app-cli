@@ -16,13 +16,11 @@
 
 const fs = require('fs');
 
-async function isDirectoryWriteable(directory) {
+module.exports = async function isDirectoryWriteable(directory) {
   try {
     await fs.promises.access(directory, (fs.constants || fs).W_OK);
     return true;
   } catch (err) {
     return false;
   }
-}
-
-module.exports = isDirectoryWriteable;
+};

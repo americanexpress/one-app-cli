@@ -18,7 +18,7 @@ const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
 
-function isDirectoryEmpty(root, name) {
+module.exports = function isDirectoryEmpty(root, name) {
   const validFiles = [
     '.git',
     '.gitignore',
@@ -61,6 +61,4 @@ function isDirectoryEmpty(root, name) {
     return false;
   }
   return true;
-}
-
-module.exports = isDirectoryEmpty;
+};

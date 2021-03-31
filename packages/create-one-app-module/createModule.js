@@ -30,9 +30,9 @@ const {
 const { makeDirectory } = require('./helpers/makeDirectory');
 const { tryGitInit } = require('./helpers/git');
 const { install, installDevDependencies } = require('./helpers/install');
-const { isDirectoryEmpty } = require('./helpers/isDirectoryEmpty');
+const isDirectoryEmpty = require('./helpers/isDirectoryEmpty');
 const { getOnline } = require('./helpers/isOnline');
-const { shouldUseYarn } = require('./helpers/useYarn');
+const shouldUseYarn = require('./helpers/useYarn');
 
 class DownloadError extends Error {}
 

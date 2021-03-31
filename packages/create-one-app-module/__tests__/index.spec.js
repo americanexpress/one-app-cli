@@ -14,21 +14,22 @@
  * permissions and limitations under the License.
  */
 
-const checkForUpdate = require('update-check');
 const { createModule } = require('../createModule');
 
-const { validateNpmName } = require('../helpers/validatePackageName');
+const validateNpmName = require('../helpers/validatePackageName');
 
 jest.mock('update-check', () => jest.fn());
+
+jest.mock('prompts', () => jest.fn(() => Promise.resolve({
+  path: 'prompts-test',
+})));
 
 jest.mock('../createModule', () => ({
   createModule: jest.fn(),
 }));
 
 jest.mock('../helpers/validatePackageName', () => ({
-  validateNpmName: () => ({
-    valid: true,
-  }),
+  valid: true,
 }));
 
 describe('create one app module', () => {
@@ -59,7 +60,7 @@ describe('create one app module', () => {
       'test-module',
     ];
     await require('..');
-    console.log(createModule.mock);
+    expect(createModule).toHaveBeenCalled();
   });
   it('name not passed', async () => {
     process.argv = [
@@ -68,6 +69,32 @@ describe('create one app module', () => {
       '',
     ];
     await require('..');
-    console.log(createModule.mock);
+    expect(createModule).toHaveBeenCalled();
+  });
+  it('exits if example flag given without a value', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    process.argv = [
+      '',
+      '',
+      'test-module',
+      '--example',
+    ];
+    await require('..');
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
+  });
+  it('pass an invalid name', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    // validateNpmName.mockImplementationOnce(() => ({
+    //   valid: false,
+    // }));
+    process.argv = [
+      '',
+      '',
+      'invalid-example',
+    ];
+    await require('..');
+    expect(mockExit).toHaveBeenCalledTimes(1);
+    mockExit.mockRestore();
   });
 });
