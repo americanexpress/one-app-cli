@@ -67,7 +67,6 @@ async function run() {
       message: 'What is your module name?',
       initial: 'my-module',
       validate: (name) => {
-        console.log(`Name: ${name}`);
         const validation = validateNpmName(path.basename(path.resolve(name)));
         if (validation.valid) {
           return true;
