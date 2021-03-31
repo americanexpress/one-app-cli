@@ -28,9 +28,7 @@ jest.mock('../createModule', () => ({
   createModule: jest.fn(),
 }));
 
-jest.mock('../helpers/validatePackageName', () => ({
-  valid: true,
-}));
+jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
 
 describe('create one app module', () => {
   const originalProcessExit = process.exit;
@@ -85,9 +83,8 @@ describe('create one app module', () => {
   });
   it('pass an invalid name', async () => {
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
-    // validateNpmName.mockImplementationOnce(() => ({
-    //   valid: false,
-    // }));
+    validateNpmName.mockImplementationOnce(() => jest.fn(() => ({ valid: false })));
+
     process.argv = [
       '',
       '',
