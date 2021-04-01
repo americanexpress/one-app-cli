@@ -227,7 +227,7 @@ Or in `package.json`
 
 ### docker-network-to-join [Optional]
 
-Connect the One App container to a network. The value gets passed to the [docker flag](https://docs.docker.com/network/bridge/) `--network` 
+Connect the One App container to a network. The value gets passed to the [docker flag](https://docs.docker.com/network/bridge/) `--network`
 
 Sample usage:
 
@@ -378,6 +378,10 @@ Or in `package.json`
 }
 ```
 
+#### NODE_EXTRA_CA_CERTS
+
+If `NODE_EXTRA_CA_CERTS` is set, either through the `envVars` option or as an environment variable, it will be mounted and passed to the One App docker container.
+
 ## Proxy Support
 
 `one-app-runner` respects the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables and passes them down to the One App docker container.
@@ -412,7 +416,7 @@ This option is useful to run a test suite against the running One App container.
 
 This command generates random ports and values for the following environment variables:
 
-``` bash 
+``` bash
 HTTP_PORT
 HTTP_ONE_APP_DEV_CDN_PORT
 HTTP_ONE_APP_DEV_PROXY_SERVER_PORT
@@ -420,6 +424,6 @@ HTTP_METRICS_PORT
 NETWORK_NAME
 ```
 
-It stores them in a `.env` file to be shared across the test environments and **one-app-runner** 
+It stores them in a `.env` file to be shared across the test environments and **one-app-runner**
 
 This command should be executed before starting `one-app-runner-test`
