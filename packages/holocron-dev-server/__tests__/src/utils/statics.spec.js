@@ -61,7 +61,7 @@ describe('addStaticsDirToGitIgnore', () => {
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
   });
 
-  it(' ignores adding static directory to .gitignore if gitignore is not present', () => {
+  it('ignores adding static directory to .gitignore if gitignore is not present', () => {
     ufs.existsSync.mockImplementationOnce(() => false);
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
   });
