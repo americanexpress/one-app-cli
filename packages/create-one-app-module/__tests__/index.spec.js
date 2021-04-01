@@ -20,15 +20,9 @@ const validateNpmName = require('../helpers/validatePackageName');
 
 jest.mock('update-check', () => jest.fn());
 
-jest.mock('prompts', () => jest.fn(() => Promise.resolve({
-  path: 'prompts-test',
-})));
-
 jest.mock('../createModule', () => ({
   createModule: jest.fn(),
 }));
-
-jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
 
 describe('create one app module', () => {
   const originalProcessExit = process.exit;
@@ -51,7 +45,26 @@ describe('create one app module', () => {
     process.exit = originalProcessExit;
   });
 
+  it('exits if nothing given', async () => {
+    jest.mock('prompts', () => jest.fn(() => Promise.resolve({
+      path: '',
+    })));
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    process.argv = [
+      '',
+      '',
+      '',
+    ];
+    await require('..');
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
+  });
+
   it('name passed to command', async () => {
+    jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
+    jest.mock('prompts', () => jest.fn(() => Promise.resolve({
+      path: 'prompts-test',
+    })));
     process.argv = [
       '',
       '',
@@ -70,6 +83,7 @@ describe('create one app module', () => {
     expect(createModule).toHaveBeenCalled();
   });
   it('exits if example flag given without a value', async () => {
+    jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
     process.argv = [
       '',
@@ -81,9 +95,15 @@ describe('create one app module', () => {
     expect(mockExit).toHaveBeenCalled();
     mockExit.mockRestore();
   });
+
   it('pass an invalid name', async () => {
+    jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({
+      valid: false,
+      problems: [
+        'invalid name',
+      ],
+    })));
     const mockExit = jest.spyOn(process, 'exit').mockImplementation();
-    validateNpmName.mockImplementationOnce(() => jest.fn(() => ({ valid: false })));
 
     process.argv = [
       '',

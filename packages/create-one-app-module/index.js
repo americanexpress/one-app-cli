@@ -82,7 +82,7 @@ async function run() {
     console.log();
     console.log('Please specify the project directory:');
     console.log(
-      `  ${chalk.cyan(program.name())} ${chalk.green('<project-directory>')}`
+      `  ${chalk.cyan(program.name())} ${chalk.green('[project-directory]')}`
     );
     console.log();
     console.log('For example:');
@@ -96,10 +96,7 @@ async function run() {
   const resolvedModulePath = path.resolve(modulePath);
   const moduleName = path.basename(resolvedModulePath);
   const { valid, problems } = validateNpmName(moduleName);
-  console.log({ moduleName, valid });
   const options = program.opts();
-
-  console.log({ options });
 
   if (!valid) {
     console.error(
