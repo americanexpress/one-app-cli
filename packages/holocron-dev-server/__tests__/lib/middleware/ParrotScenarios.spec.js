@@ -20,29 +20,29 @@ import createMocksMiddleware, {
   loadScenarios,
   createMockRouter,
   createWatchEventHandler,
-} from '../../../lib/middleware/mocks';
+} from '../../../src/middleware/mocks';
 import {
   publish, watchFiles, getScenarioPathForModule, getMockDirectoryForModule,
-} from '../../../lib/utils';
-import { error, logMockAction, logScenariosRegistered } from '../../../lib/utils/logs';
+} from '../../../src/utils';
+import { error, logMockAction, logScenariosRegistered } from '../../../src/utils/logs';
 
 jest.mock('parrot-middleware');
-jest.mock('../../../lib/utils/logs');
-jest.mock('../../../lib/utils/helpers', () => ({
+jest.mock('../../../src/utils/logs');
+jest.mock('../../../src/utils/helpers', () => ({
   getModuleFromFilePath: jest.fn((s) => s),
 }));
-jest.mock('../../../lib/utils/virtual-file-system', () => ({
+jest.mock('../../../src/utils/virtual-file-system', () => ({
   ufs: {
     existsSync: jest.fn(() => true),
   },
 }));
-jest.mock('../../../lib/utils/publish', () => ({
+jest.mock('../../../src/utils/publish', () => ({
   publish: jest.fn(),
 }));
-jest.mock('../../../lib/utils/watcher', () => ({
+jest.mock('../../../src/utils/watcher', () => ({
   watchFiles: jest.fn(),
 }));
-jest.mock('../../../lib/utils/paths', () => ({
+jest.mock('../../../src/utils/paths', () => ({
   joinUrlFragments: jest.fn((...args) => args.join('')),
   getScenarioPathForModule: jest.fn((s) => `${s}/__mocks__/scenario.js`),
   getMockDirectoryForModule: jest.fn((s) => `${s}/__mocks__`),
