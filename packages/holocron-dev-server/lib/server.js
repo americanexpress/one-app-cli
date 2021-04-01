@@ -39,14 +39,17 @@ import {
 } from './utils/logs';
 import { errorReportingUrlFragment } from './constants';
 
-export function onLaunch({ openWhenReady, serverAddress, port }) {
+export function onLaunch({
+  openWhenReady, externals = [], serverAddress, port,
+}) {
   return (error) => {
     if (error) throw error;
-
     logServerUrl(serverAddress, port);
     logHotReloadReady();
     logModuleBundlerAnalyzerUrl(serverAddress);
-    logExternalsBundleAnalyzerUrl(serverAddress);
+    if (externals.length > 0) {
+      logExternalsBundleAnalyzerUrl(serverAddress, externals);
+    }
 
     if (openWhenReady) openBrowser(serverAddress);
   };
@@ -56,27 +59,27 @@ export default async function holocronDevServer({
   port = 4000,
   serverAddress = `http://localhost:${port}/`,
   logLevel,
-  modules,
-  externals,
-  rootModuleName,
-  dockerImage,
-  remoteModuleMapUrl,
-  openWhenReady,
   clientConfig,
+  openWhenReady,
+  externals,
+  modules,
+  rootModuleName,
   environmentVariables,
+  remoteModuleMapUrl,
+  dockerImage,
   webpackConfigPath,
 }) {
   setLogLevel(logLevel);
 
   logServerStart({ rootModuleName });
 
+  await loadStatics({ dockerImage });
+  await loadLanguagePacks({ modules });
+
   const { moduleMap, localModuleMap, remoteModuleMap } = await createModuleMap({
     modules,
     remoteModuleMapUrl,
   });
-
-  await loadStatics({ dockerImage });
-  await loadLanguagePacks({ modules });
 
   const proxyRelayMiddleware = createModulesProxyRelayMiddleware({
     moduleMap,
@@ -114,7 +117,9 @@ export default async function holocronDevServer({
     .use(mockMiddleware)
     .get('*', renderMiddleware);
 
-  app.start = () => app.listen(port, onLaunch({ port, serverAddress, openWhenReady }));
+  app.start = () => app.listen(port, onLaunch({
+    port, serverAddress, openWhenReady, externals,
+  }));
 
   return app;
 }

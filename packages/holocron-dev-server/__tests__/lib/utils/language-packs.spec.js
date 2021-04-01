@@ -12,15 +12,13 @@
  * under the License.
  */
 
-import jsonParse from 'json-parse-context';
-
 import {
+  loadLanguagePacks,
+  loadModuleLanguagePack,
+  loadModuleLanguagePacks,
   writeModuleLanguagePacksToVolume,
   addModuleLanguagePackToVolume,
-  extractLanguageDataFromLocale,
-  loadModuleLanguagePacks,
   removeModuleLanguagePackFromVolume,
-  loadLanguagePacks,
 } from '../../../lib/utils/language-packs';
 
 import { createLanguagePackWatcher } from '../../../lib/utils/watcher';
@@ -41,12 +39,6 @@ jest.mock('../../../lib/utils/virtual-file-system', () => ({
     writeFileSync: jest.fn(() => 'test'),
   },
 }));
-jest.mock('../../../lib/utils/paths', () => ({
-  getModulesPath: jest.fn(() => '/sample-module'),
-  getLocalesPathForModule: jest.fn((pathName) => `${pathName}/locale`),
-}));
-
-jest.mock('path');
 jest.mock('../../../lib/utils/logs/messages', () => ({
   logWebpackStatsWhenDone: jest.fn(),
   logModuleLanguagePacksLoaded: jest.fn(),
@@ -55,86 +47,55 @@ jest.mock('json-parse-context', () => jest.fn(() => ({ title: 'this is the US lo
 
 const isDirectory = jest.fn(() => false);
 const isFile = jest.fn(() => true);
+const existsSync = jest.fn(() => true);
 
 beforeAll(() => {
   jest.spyOn(console, 'log').mockImplementation((str) => str);
   ufs.statSync = jest.fn(() => ({ isDirectory, isFile, mtime: 342345 }));
   ufs.readFileSync = jest.fn(() => ({ toString: jest.fn() }));
   ufs.readdirSync = jest.fn(() => []);
+  ufs.existsSync = existsSync;
 });
 
 afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe('extract language packs', () => {
-  beforeEach(() => {
-    ufs.readFileSync.mockReturnValue(JSON.stringify({ value: 'test' }));
+describe('loadModuleLanguagePack', () => {
+  const locale = 'en-US';
+  const moduleName = 'my-module';
+  const modulePath = `path/to/${moduleName}`;
+
+  test('does nothing and returns null if no language pack was found for a given locale', () => {
+    existsSync.mockImplementationOnce(() => false).mockImplementationOnce(() => false);
+    expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toBe(null);
   });
 
-  test('extracts language pack from locale', () => {
-    jest.spyOn(ufs, 'statSync').mockImplementationOnce(() => ({
-      isDirectory: () => false,
-      isFile: () => true,
-    }));
-    expect(extractLanguageDataFromLocale('sample-module/locale')).toMatchObject({
+  test('does not return language pack for a module locale if neither a directory or file', () => {
+    isFile.mockImplementationOnce(() => false);
+    expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toBe(null);
+  });
+
+  test('returns language pack for a module locale from a file', () => {
+    expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toEqual({ title: 'this is the US localization' });
+  });
+
+  test('returns language pack for a module locale from a directory with links folder', () => {
+    isDirectory.mockImplementationOnce(() => true);
+    expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toEqual({
+      links: { title: 'this is the US localization' },
       title: 'this is the US localization',
-    });
-  });
-  test('returns null if extracting locale is not directory or file', () => {
-    jest.spyOn(ufs, 'statSync').mockImplementationOnce(() => ({
-      isDirectory: () => false,
-      isFile: () => false,
-    }));
-    expect(extractLanguageDataFromLocale('sample-module/locale')).toBeNull();
-  });
-  test('extracts language pack from locale in a Directory', () => {
-    jest
-      .spyOn(ufs, 'statSync')
-      .mockImplementationOnce(() => ({
-        isDirectory: () => true,
-        isFile: () => false,
-      }))
-      .mockImplementationOnce(() => ({
-        isDirectory: () => false,
-        isFile: () => true,
-      }))
-      .mockImplementationOnce(() => ({
-        isDirectory: () => false,
-        isFile: () => true,
-      }));
-
-    expect(extractLanguageDataFromLocale('sample-module/locale')).toMatchObject({ links: {} });
-  });
-  test('extracts language pack from locale in a Directory with default links', () => {
-    const greeting = 'hello';
-    jest
-      .spyOn(ufs, 'statSync')
-      .mockImplementationOnce(() => ({
-        isDirectory: () => true,
-        isFile: () => false,
-      }))
-      .mockImplementationOnce(() => ({
-        isDirectory: () => false,
-        isFile: () => true,
-      }))
-      .mockImplementationOnce(() => ({
-        isDirectory: () => false,
-        isFile: () => true,
-      }));
-
-    jsonParse.mockImplementationOnce(() => ({ greeting }));
-    jsonParse.mockImplementationOnce(() => '');
-    expect(extractLanguageDataFromLocale('sample-module/locale')).toMatchObject({
-      greeting,
-      links: {},
     });
   });
 });
 
 describe('loadModuleLanguagePacks', () => {
+  const moduleName = 'sample-module';
+  const modulePath = `path/to/${moduleName}`;
+
   test('return empty array if language pack doesnt exists', () => {
-    expect(loadModuleLanguagePacks('sample-module')).toEqual([]);
+    existsSync.mockImplementationOnce(() => false);
+    expect(loadModuleLanguagePacks({ moduleName, modulePath })).toEqual([]);
   });
 });
 
@@ -188,7 +149,7 @@ describe('addModuleLanguagePackToVolume', () => {
     expect(() => {
       addModuleLanguagePackToVolume({
         moduleName: 'sample-module',
-        filePath: '/sample-module',
+        filePath: '/path/to/sample-module/en-US.json',
         locale: 'en-US',
       });
     }).not.toThrow();
@@ -213,9 +174,9 @@ describe('loadLanguagePacks', () => {
   test('resolves to watcher if language packs were found at "<modulePath>/locale"', async () => {
     const moduleName = 'my-module';
     const modulePath = `path/to/${moduleName}`;
-    const modules = [{ modulePath }];
+    const modules = [{ moduleName, modulePath }];
     const watcher = {};
-    ufs.existsSync.mockImplementationOnce(() => true);
+    // existsSync.mockImplementationOnce(() => true);
     createLanguagePackWatcher.mockImplementationOnce(() => Promise.resolve(watcher));
     await expect(loadLanguagePacks({ modules })).resolves.toBe(watcher);
     expect(createLanguagePackWatcher).toHaveBeenCalledTimes(1);

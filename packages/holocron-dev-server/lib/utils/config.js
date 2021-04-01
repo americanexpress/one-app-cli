@@ -53,7 +53,8 @@ export function extractRunnerOptions({
   envVars,
 } = {}) {
   return {
-    modules: modules.map((relativeModulePath) => path.resolve(relativeModulePath)),
+    modules: modules.map(
+      (relativeModulePath) => path.resolve(getContextPath(), relativeModulePath)),
     remoteModuleMapUrl: moduleMapUrl,
     environmentVariables: envVars,
     rootModuleName,
@@ -109,6 +110,7 @@ export function createModulesConfig(context) {
         ...extractHmrOptions(hmr),
       };
       const { moduleName: name } = moduleConfig;
+      // console.log(name);
       return {
         ...moduleConfig,
         name,
@@ -122,7 +124,6 @@ export function createModulesConfig(context) {
       };
     }))
     .then((modules) => {
-      // map out module config to include rootModule bool Prop
       const externals = [
         ...new Set(
           modules
@@ -166,8 +167,9 @@ export function createConfigurationContext({
     ...extractHmrOptions(hmr),
   };
 
-  // TODO:Does this need an if statement?
-  modules.unshift(modulePath);
+  if (!modules.find((pathName) => pathName === modulePath)) {
+    modules.unshift(modulePath);
+  }
 
   return {
     moduleName,

@@ -28,24 +28,24 @@ export function getContextPath(filePath = '') {
   return path.join(process.cwd(), filePath);
 }
 
-export function getStaticPath(filePath = '', context) {
-  return path.join(context || getContextPath(), STATIC_DIR, filePath);
+export function getStaticPath(filePath = '', context = getContextPath()) {
+  return path.join(context, STATIC_DIR, filePath);
 }
 
-export function getModulesPath(filePath = '', context) {
-  return path.join(context || getContextPath(), STATIC_DIR, MODULES_DIR, filePath);
+export function getModulesPath(filePath = '', context = getContextPath()) {
+  return path.join(context, STATIC_DIR, MODULES_DIR, filePath);
 }
 
-export function getOneAppPath(filePath = '', context) {
-  return path.join(context || getContextPath(), STATIC_DIR, ONE_APP_DIR, filePath);
+export function getOneAppPath(filePath = '', context = getContextPath()) {
+  return path.join(context, STATIC_DIR, ONE_APP_DIR, filePath);
 }
 
-export function getVendorsPath(filePath = '', context) {
-  return path.join(context || getContextPath(), STATIC_DIR, EXTERNAL_DIR, filePath);
+export function getVendorsPath(filePath = '', context = getContextPath()) {
+  return path.join(context, STATIC_DIR, EXTERNAL_DIR, filePath);
 }
 
-export function getTempPath(filePath = '', context) {
-  return path.join(context || getContextPath(), STATIC_DIR, TEMP_DIR, filePath);
+export function getTempPath(filePath = '', context = getContextPath()) {
+  return path.join(context, STATIC_DIR, TEMP_DIR, filePath);
 }
 
 export function getMockDirectoryForModule(modulePath = getContextPath()) {

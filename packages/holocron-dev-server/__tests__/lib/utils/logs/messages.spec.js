@@ -177,6 +177,10 @@ describe('messages', () => {
       expect(logExternalsBundleAnalyzerUrl(serverAddress)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
+    test('logExternalsBundleAnalyzerUrl with externals', () => {
+      expect(logExternalsBundleAnalyzerUrl(serverAddress, externals)).toBeUndefined();
+      expect(log).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('logModuleBundlerAnalyzerUrl', () => {
