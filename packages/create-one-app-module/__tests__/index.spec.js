@@ -45,25 +45,33 @@ describe('create one app module', () => {
 
   it('name passed to command', async () => {
     jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
-    jest.mock('prompts', () => jest.fn(() => Promise.resolve({
-      path: 'prompts-test',
-    })));
+
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
     process.argv = [
       '',
       '',
       'test-module',
     ];
     await require('..');
-    expect(createModule).toHaveBeenCalled();
+    // expect(createModule).toHaveBeenCalled();
+    expect(mockExit).toHaveBeenCalledTimes(0);
+    mockExit.mockRestore();
   });
   it('name not passed', async () => {
+    jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
+    jest.mock('prompts', () => jest.fn(() => Promise.resolve({
+      path: 'prompts-test',
+    })));
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
     process.argv = [
       '',
       '',
       '',
     ];
     await require('..');
-    expect(createModule).toHaveBeenCalled();
+    // expect(createModule).toHaveBeenCalled();
+    expect(mockExit).toHaveBeenCalledTimes(0);
+    mockExit.mockRestore();
   });
   it('exits if nothing given', async () => {
     jest.mock('prompts', () => jest.fn(() => Promise.resolve({
