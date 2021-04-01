@@ -47,12 +47,12 @@ import {
   logGitIgnoreAddition,
   logPullingDockerImage,
   logOneAppVersion,
-} from '../../../../lib/utils/logs/messages';
+} from '../../../../src/utils/logs/messages';
 import {
   info, log, warn, error, yellow, orange,
-} from '../../../../lib/utils/logs/logs';
+} from '../../../../src/utils/logs/logs';
 
-jest.mock('../../../../lib/utils/logs/logs');
+jest.mock('../../../../src/utils/logs/logs');
 
 beforeEach(() => {
   jest.clearAllMocks();

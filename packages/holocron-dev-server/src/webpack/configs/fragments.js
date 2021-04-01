@@ -67,7 +67,6 @@ export function createDllBundleConfigFragment({
   externals = createOneAppExternals(),
 } = {}) {
   return {
-    // name,
     entry: { [name]: entries },
     externals,
     output: {

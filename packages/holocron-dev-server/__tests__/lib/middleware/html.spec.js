@@ -12,12 +12,12 @@
  * under the License.
  */
 
-import createRenderingMiddleware from '../../../lib/middleware/html';
+import createRenderingMiddleware from '../../../src/middleware/html';
 
-import { renderDocument } from '../../../lib/utils';
+import { renderDocument } from '../../../src/utils';
 
-jest.mock('../../../lib/utils');
-jest.mock('../../../lib/utils/logs');
+jest.mock('../../../src/utils');
+jest.mock('../../../src/utils/logs');
 
 beforeAll(() => {
   renderDocument.mockImplementation(() => '<html />');

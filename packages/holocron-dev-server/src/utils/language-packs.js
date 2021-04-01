@@ -15,7 +15,7 @@
 import path from 'path';
 import jsonParse from 'json-parse-context';
 
-import { vol, ufs } from './virtual-file-system';
+import { volume, ufs } from './virtual-file-system';
 import { getModulesPath, getLocalesPathForModule } from './paths';
 import { logModuleLanguagePacksLoaded } from './logs';
 import { createLanguagePackWatcher } from './watcher';
@@ -104,7 +104,7 @@ export function writeModuleLanguagePacksToVolume({
     }),
     {}
   );
-  vol.fromJSON(locales, getModulesPath(moduleName));
+  volume.fromJSON(locales, getModulesPath(moduleName));
   return languagePacks.map(([locale]) => locale);
 }
 
@@ -115,15 +115,15 @@ export function addModuleLanguagePackToVolume({ filePath, moduleName, locale }) 
     moduleName, modulePath, locale: localeSymbol,
   });
   const bundlePath = getModulesPath([moduleName, localeSymbol, `${moduleName}.json`].join('/'));
-  vol.writeFileSync(bundlePath, JSON.stringify(langPack));
+  volume.writeFileSync(bundlePath, JSON.stringify(langPack));
 }
 
 export function removeModuleLanguagePackFromVolume({ moduleName, locale }) {
   const localeFilePath = getModulesPath(
     [moduleName, locale.replace(/(\..*)$/, '').toLowerCase(), `${moduleName}.json`].join('/')
   );
-  vol.unlinkSync(localeFilePath);
-  vol.rmdirSync(localeFilePath.replace(`/${moduleName}.json`, ''));
+  volume.unlinkSync(localeFilePath);
+  volume.rmdirSync(localeFilePath.replace(`/${moduleName}.json`, ''));
 }
 
 export function loadLanguagePacks({ modules = [] } = {}) {

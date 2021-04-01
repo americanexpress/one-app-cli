@@ -14,4 +14,4 @@
 
 // eslint-disable-next-line no-global-assign
 require = require('esm')(module, { mainFields: ['module', 'main'] });
-module.exports = require('./lib');
+module.exports = require('./src');

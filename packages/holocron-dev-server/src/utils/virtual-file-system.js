@@ -17,8 +17,8 @@ import path from 'path';
 import { Union } from 'unionfs';
 import { Volume, createFsFromVolume } from 'memfs';
 
-export const vol = new Volume();
-export const vfs = createFsFromVolume(vol);
+export const volume = new Volume();
+export const vfs = createFsFromVolume(volume);
 vfs.join = path.join.bind(path);
 
 export const ufs = new Union();

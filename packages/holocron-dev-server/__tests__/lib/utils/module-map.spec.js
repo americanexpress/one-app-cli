@@ -18,7 +18,7 @@ import {
   createLocalModuleMap,
   createUnifiedModuleMap,
   createModuleMap,
-} from '../../../lib/utils';
+} from '../../../src/utils';
 
 jest.mock('cross-fetch');
 const fetchMockFn = jest.spyOn(crossFetch, 'fetch');

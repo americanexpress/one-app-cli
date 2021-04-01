@@ -12,15 +12,15 @@
  * under the License.
  */
 
-import holocronDevServer, { onLaunch } from '../../lib/server';
-import { openBrowser } from '../../lib/utils';
+import holocronDevServer, { onLaunch } from '../../src/server';
+import { openBrowser } from '../../src/utils';
 import {
   loadWebpackMiddleware,
   createRenderingMiddleware,
   createModulesProxyRelayMiddleware,
   createMocksMiddleware,
   requestAcceptedMiddleware,
-} from '../../lib/middleware';
+} from '../../src/middleware';
 import {
   setLogLevel,
   logHotReloadReady,
@@ -28,11 +28,11 @@ import {
   logExternalsBundleAnalyzerUrl,
   logModuleBundlerAnalyzerUrl,
   logServerStart,
-} from '../../lib/utils/logs';
-import { errorReportingUrlFragment } from '../../lib/constants';
+} from '../../src/utils/logs';
+import { errorReportingUrlFragment } from '../../src/constants';
 
-jest.mock('../../lib/utils/logs');
-jest.mock('../../lib/utils', () => ({
+jest.mock('../../src/utils/logs');
+jest.mock('../../src/utils', () => ({
   openBrowser: jest.fn(),
   loadLanguagePacks: jest.fn(),
   getStaticPath: jest.fn(),
@@ -44,7 +44,7 @@ jest.mock('../../lib/utils', () => ({
     remoteModuleMap: 'https://one-app-statics.surge.sh/module-map.json',
   }),
 }));
-jest.mock('../../lib/middleware', () => ({
+jest.mock('../../src/middleware', () => ({
   loadWebpackMiddleware: jest.fn(() => ['webpackDevMiddleware', 'webpackHotMiddleware']),
   createRenderingMiddleware: jest.fn(() => 'createRenderingMiddleware'),
   createModulesProxyRelayMiddleware: jest.fn(() => 'createModulesProxyRelayMiddleware'),

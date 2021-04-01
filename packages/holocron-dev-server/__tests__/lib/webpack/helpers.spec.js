@@ -15,7 +15,7 @@
 import {
   createOneAppExternals,
   createHolocronModuleEntries,
-} from '../../../lib/webpack';
+} from '../../../src/webpack';
 
 jest.mock('webpack', () => {
   const mockWebpack = jest.fn();

@@ -15,13 +15,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 
-import Document from '../../../lib/components/Document';
-import { getPublicVendorsUrl, getPublicModulesUrl } from '../../../lib/utils';
+import Document from '../../../src/components/Document';
+import { getPublicVendorsUrl, getPublicModulesUrl } from '../../../src/utils';
 
 describe('Document', () => {
   test('renders the document without props', () => {
     const html = ReactDOM.renderToStaticMarkup(
-      // eslint-disable-next-line react/react-in-jsx-scope
       <Document />
     );
     expect(html).toMatchSnapshot();

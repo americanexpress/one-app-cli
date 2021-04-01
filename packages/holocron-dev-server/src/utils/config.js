@@ -110,7 +110,6 @@ export function createModulesConfig(context) {
         ...extractHmrOptions(hmr),
       };
       const { moduleName: name } = moduleConfig;
-      // console.log(name);
       return {
         ...moduleConfig,
         name,

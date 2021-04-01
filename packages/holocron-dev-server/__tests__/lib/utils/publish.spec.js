@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { clearPublisher, setPublisher, publish } from '../../../lib/utils/publish';
+import { clearPublisher, setPublisher, publish } from '../../../src/utils/publish';
 
 beforeEach(() => {
   jest.clearAllMocks();

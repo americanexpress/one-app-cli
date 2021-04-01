@@ -32,11 +32,11 @@
   },
   "files": [
     "bin/",
-    "lib/",
+    "src/",
     "index.js"
   ],
   "main": "index.js",
-  "module": "lib/index.js",
+  "module": "src/index.js",
   "dependencies": {
     "@americanexpress/fetch-enhancers": "^1.0.3",
     "@americanexpress/one-app-ducks": "^4.1.1",

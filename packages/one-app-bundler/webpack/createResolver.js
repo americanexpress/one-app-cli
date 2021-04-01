@@ -18,9 +18,9 @@ const {
   ResolverFactory,
 } = require('enhanced-resolve');
 
-// This enhanced resolver ensures that the code for a lib that is exposed is the
+// This enhanced resolver ensures that the code for a src that is exposed is the
 // same code that is used within the bundle. This bug would happen if an exposed
-// lib had a module or browser field in addition to the main field in its
+// src had a module or browser field in addition to the main field in its
 // package.json.
 
 module.exports = function createResolver({ mainFields, resolveToContext = false }) {

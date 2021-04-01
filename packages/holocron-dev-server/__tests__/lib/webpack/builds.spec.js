@@ -17,7 +17,7 @@ import {
   createExternalsDllWebpackConfig,
   buildModuleExternalsDllBundle,
   createHotHolocronCompiler,
-} from '../../../lib/webpack';
+} from '../../../src/webpack';
 
 jest.mock('webpack', () => {
   const tap = jest.fn();
@@ -46,7 +46,7 @@ jest.mock('webpack', () => {
   return mockWebpack;
 });
 
-jest.mock('../../../lib/webpack/configs', () => ({
+jest.mock('../../../src/webpack/configs', () => ({
   createExternalsDllWebpackConfig: jest.fn(() => ({})),
   createHolocronModuleWebpackConfig: jest.fn(() => ({})),
 }));

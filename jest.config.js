@@ -34,7 +34,6 @@ module.exports = {
     },
   },
   testPathIgnorePatterns: [
-    'packages/holocron-dev-server/_mocks_',
     'packages/generator-one-app-module/generators/app/templates',
   ],
 };

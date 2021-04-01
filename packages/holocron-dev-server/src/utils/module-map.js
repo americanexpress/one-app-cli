@@ -24,11 +24,11 @@ import {
   errorOnRemoteModuleMapFetching,
 } from './logs';
 import { bundleType as defaultBundleType } from '../constants';
-import { vol } from './virtual-file-system';
+import { volume } from './virtual-file-system';
 
 export async function loadRemoteModuleMap(remoteModuleMapUrl) {
   const fetcher = createTimeoutFetch(6e3)(fetch);
-  if (typeof remoteModuleMapUrl === 'string') {
+  if (remoteModuleMapUrl) {
     try {
       const response = await fetcher(remoteModuleMapUrl);
       if (response.ok) {
@@ -98,7 +98,7 @@ export async function createModuleMap({
   logRemoteModulesLoaded(remoteModuleNames, localModuleNames);
 
   // add it to vfs to be be served by dev middleware
-  vol.fromJSON(
+  volume.fromJSON(
     {
       'module-map.json': JSON.stringify(moduleMap, null, 2),
       'local-module-map.json': JSON.stringify(localModuleMap, null, 2),

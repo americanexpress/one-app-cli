@@ -16,7 +16,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { registerModule } from 'holocron';
 
-import RegisterModule from '../../../lib/components/RegisterModule';
+import RegisterModule from '../../../src/components/RegisterModule';
 
 jest.mock('holocron', () => ({
   registerModule: jest.fn((name, module) => module),

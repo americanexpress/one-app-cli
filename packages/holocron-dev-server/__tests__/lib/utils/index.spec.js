@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import * as utils from '../../../lib/utils';
+import * as utils from '../../../src/utils';
 
 test('exports utils API functions', () => {
   expect(Object.keys(utils)).toEqual([
@@ -63,7 +63,7 @@ test('exports utils API functions', () => {
     'clearPublisher',
     'setPublisher',
     'publish',
-    'vol',
+    'volume',
     'vfs',
     'ufs',
     'watchFiles',

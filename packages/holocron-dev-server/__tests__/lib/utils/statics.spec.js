@@ -17,11 +17,11 @@ import {
   addStaticsDirToGitIgnore,
   loadOneAppStaticsFromDocker,
   loadStatics,
-} from '../../../lib/utils/statics';
+} from '../../../src/utils/statics';
 
-import { ufs } from '../../../lib/utils/virtual-file-system';
+import { ufs } from '../../../src/utils/virtual-file-system';
 
-jest.mock('../../../lib/utils/virtual-file-system');
+jest.mock('../../../src/utils/virtual-file-system');
 jest.mock('child_process', () => ({
   execSync: jest.fn(() => 'en-US'),
   spawnSync: jest.fn(() => ''),

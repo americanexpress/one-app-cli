@@ -14,12 +14,12 @@
 
 import fetch from 'cross-fetch';
 
-import createModulesProxyRelayMiddleware from '../../../lib/middleware/proxy-relay';
-import { vol } from '../../../lib/utils/virtual-file-system';
-import { error } from '../../../lib/utils/logs';
+import createModulesProxyRelayMiddleware from '../../../src/middleware/proxy-relay';
+import { volume } from '../../../src/utils/virtual-file-system';
+import { error } from '../../../src/utils/logs';
 
 jest.mock('cross-fetch');
-jest.mock('../../../lib/utils/logs');
+jest.mock('../../../src/utils/logs');
 
 beforeAll(() => {
   fetch.mockImplementation(() => Promise.resolve({
@@ -106,7 +106,7 @@ describe('createModulesProxyRelayMiddleware', () => {
     const next = jest.fn();
     await middleware(req, null, next);
     expect(next).toHaveBeenCalledTimes(1);
-    expect(vol.toJSON()).toEqual({
+    expect(volume.toJSON()).toEqual({
       [`${process.cwd()}/static/modules/child-module/child-module.browser.js`]: 'Holocron.registerModule("my-module");',
     });
   });
@@ -125,7 +125,7 @@ describe('createModulesProxyRelayMiddleware', () => {
     await middleware(req, null, next);
     expect(fetch).toHaveBeenCalled();
     expect(next).toHaveBeenCalledTimes(1);
-    expect(vol.toJSON()).toEqual({
+    expect(volume.toJSON()).toEqual({
       [`${process.cwd()}/static/modules/child-module/child-module.browser.js`]: 'Holocron.registerModule("my-module");',
       [`${process.cwd()}/static/modules/child-module/en-us/child-module.json`]: 'lang pack',
     });
@@ -161,7 +161,7 @@ describe('createModulesProxyRelayMiddleware', () => {
     const next = jest.fn();
     await middleware(req, null, next);
     expect(next).toHaveBeenCalledTimes(1);
-    expect(vol.toJSON()).toEqual({
+    expect(volume.toJSON()).toEqual({
       [`${process.cwd()}/static/modules/child-module/child-module.browser.js`]: 'Holocron.registerModule("my-module");',
       [`${process.cwd()}/static/modules/child-module/en-us/child-module.json`]: 'lang pack',
       [`${process.cwd()}/static/modules/child-module/en-ca/child-module.json`]: '',

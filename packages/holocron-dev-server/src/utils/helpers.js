@@ -12,7 +12,8 @@
  * under the License.
  */
 
-// eslint-disable-next-line import/prefer-default-export
+import open from 'open';
+
 export function isDevelopment() {
   return process.env.NODE_ENV !== 'production';
 }
@@ -34,8 +35,5 @@ export function getModuleInfoFromLocalePath(filePath) {
 }
 
 export function openBrowser(Url) {
-  // eslint-disable-next-line global-require
-  const open = require('open');
-
   return open(Url);
 }

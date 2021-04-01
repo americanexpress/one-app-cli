@@ -16,13 +16,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { registerModule } from 'holocron';
 
-import useHotMiddlewareSubscriber from '../../../lib/components/hooks/useHotMiddlewareSubscriber';
-import HolocronHmrWrapper from '../../../lib/components/HolocronHmrWrapper';
+import useHotMiddlewareSubscriber from '../../../src/components/hooks/useHotMiddlewareSubscriber';
+import HolocronHmrWrapper from '../../../src/components/HolocronHmrWrapper';
 
 jest.mock('holocron', () => ({
   registerModule: jest.fn(),
 }));
-jest.mock('../../../lib/components/hooks/useHotMiddlewareSubscriber', () => jest.fn());
+jest.mock('../../../src/components/hooks/useHotMiddlewareSubscriber', () => jest.fn());
 
 beforeEach(() => {
   jest.clearAllMocks();

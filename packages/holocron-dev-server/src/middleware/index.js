@@ -14,6 +14,6 @@
 
 export { default as createRenderingMiddleware } from './html';
 export { default as requestAcceptedMiddleware } from './request-accepted';
-export { default as createMocksMiddleware } from './mocks';
+export { default as createMocksMiddleware } from './ParrotScenarios';
 export { default as createModulesProxyRelayMiddleware } from './proxy-relay';
 export { default as loadWebpackMiddleware } from './webpack';

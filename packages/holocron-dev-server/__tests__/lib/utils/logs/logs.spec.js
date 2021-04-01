@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { libraryName } from '../../../../lib/constants';
+import { libraryName } from '../../../../src/constants';
 import {
   log,
   warn,
@@ -21,7 +21,7 @@ import {
   getLogLevel,
   setLogLevel,
   setDebugMode,
-} from '../../../../lib/utils/logs';
+} from '../../../../src/utils/logs';
 
 describe('log', () => {
   beforeEach(() => {

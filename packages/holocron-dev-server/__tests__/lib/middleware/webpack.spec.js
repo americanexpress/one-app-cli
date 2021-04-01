@@ -15,14 +15,14 @@
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { createHotHolocronCompiler, buildModuleExternalsDllBundle } from '../../../lib/webpack';
-import { setPublisher } from '../../../lib/utils';
-import loadWebpackMiddleware from '../../../lib/middleware/webpack';
+import { createHotHolocronCompiler, buildModuleExternalsDllBundle } from '../../../src/webpack';
+import { setPublisher } from '../../../src/utils';
+import loadWebpackMiddleware from '../../../src/middleware/webpack';
 
 jest.mock('webpack-dev-middleware');
 jest.mock('webpack-hot-middleware');
-jest.mock('../../../lib/utils');
-jest.mock('../../../lib/webpack');
+jest.mock('../../../src/utils');
+jest.mock('../../../src/webpack');
 
 const publish = jest.fn();
 const waitUntilValid = jest.fn((callback) => callback());

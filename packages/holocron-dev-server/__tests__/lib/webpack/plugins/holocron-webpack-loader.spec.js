@@ -14,8 +14,8 @@
 
 import { getOptions } from 'loader-utils';
 
-import HolocronWebpackLoader from '../../../../lib/webpack/plugins/holocron-webpack-loader';
-import { packageName } from '../../../../lib/constants';
+import HolocronWebpackLoader from '../../../../src/webpack/plugins/holocron-webpack-loader';
+import { packageName } from '../../../../src/constants';
 
 jest.mock('loader-utils', () => ({
   getOptions: jest.fn(() => ({

@@ -19,27 +19,27 @@ import {
   writeModuleLanguagePacksToVolume,
   addModuleLanguagePackToVolume,
   removeModuleLanguagePackFromVolume,
-} from '../../../lib/utils/language-packs';
+} from '../../../src/utils/language-packs';
 
-import { createLanguagePackWatcher } from '../../../lib/utils/watcher';
-import { vol, ufs } from '../../../lib/utils/virtual-file-system';
+import { createLanguagePackWatcher } from '../../../src/utils/watcher';
+import { volume, ufs } from '../../../src/utils/virtual-file-system';
 
-jest.mock('../../../lib/utils/watcher');
-jest.mock('../../../lib/utils/virtual-file-system', () => ({
+jest.mock('../../../src/utils/watcher');
+jest.mock('../../../src/utils/virtual-file-system', () => ({
   ufs: {
     statSync: jest.fn(() => ({ isDirectory: jest.fn(), isFile: jest.fn() })),
     existsSync: jest.fn(() => false),
     rmdirSync: jest.fn(() => 'test'),
     writeFileSync: jest.fn(() => 'test'),
   },
-  vol: {
+  volume: {
     fromJSON: jest.fn(),
     unlinkSync: jest.fn().mockImplementationOnce(() => 'test'),
     rmdirSync: jest.fn(() => 'test'),
     writeFileSync: jest.fn(() => 'test'),
   },
 }));
-jest.mock('../../../lib/utils/logs/messages', () => ({
+jest.mock('../../../src/utils/logs/messages', () => ({
   logWebpackStatsWhenDone: jest.fn(),
   logModuleLanguagePacksLoaded: jest.fn(),
 }));
@@ -153,7 +153,7 @@ describe('addModuleLanguagePackToVolume', () => {
         locale: 'en-US',
       });
     }).not.toThrow();
-    expect(vol.writeFileSync).toHaveBeenCalledTimes(1);
+    expect(volume.writeFileSync).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -162,8 +162,8 @@ describe('remove module Language Pack', () => {
     moduleName: 'sample-module',
     locale: 'en-US',
   });
-  expect(vol.unlinkSync).toHaveBeenCalledTimes(1);
-  expect(vol.rmdirSync).toHaveBeenCalledTimes(1);
+  expect(volume.unlinkSync).toHaveBeenCalledTimes(1);
+  expect(volume.rmdirSync).toHaveBeenCalledTimes(1);
 });
 
 describe('loadLanguagePacks', () => {

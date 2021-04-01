@@ -18,7 +18,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import {
   createExternalsDllWebpackConfig,
   createHolocronModuleWebpackConfig,
-} from '../../../../lib/webpack/configs';
+} from '../../../../src/webpack/configs';
 
 const { NODE_ENV } = process.env;
 beforeEach(() => {

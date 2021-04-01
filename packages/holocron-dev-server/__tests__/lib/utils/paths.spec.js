@@ -13,7 +13,7 @@
  */
 
 import path from 'path';
-import { modulesBundleName } from '../../../lib/constants';
+import { modulesBundleName } from '../../../src/constants';
 
 import {
   STATIC_DIR,
@@ -38,7 +38,7 @@ import {
   getPublicVendorsUrl,
   createModuleScriptUrl,
   getReportFilename,
-} from '../../../lib/utils/paths';
+} from '../../../src/utils/paths';
 
 const cwd = process.cwd();
 

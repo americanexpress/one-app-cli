@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import * as nodeAPI from '../../lib';
+import * as nodeAPI from '../../src';
 
 test('exports all node API functions', () => {
   expect(Object.keys(nodeAPI)).toMatchSnapshot();

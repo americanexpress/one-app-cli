@@ -32,8 +32,7 @@ import {
   dodgerblue,
   deeppink,
   palegreen,
-  red,
-  newLine,
+  newLine, blueviolet,
 } from './logs';
 
 export function printWebpack(message) {
@@ -53,7 +52,7 @@ export function printLocale(message) {
 }
 
 export function printModuleMap(message) {
-  return `${red('module-map')} - ${message}`;
+  return `${blueviolet('module-map')} - ${message}`;
 }
 
 export function printStatics(message) {

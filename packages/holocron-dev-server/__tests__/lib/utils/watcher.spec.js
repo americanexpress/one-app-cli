@@ -18,10 +18,10 @@ import {
   watchFiles,
   createLanguagePackWatchEventHandler,
   createLanguagePackWatcher,
-} from '../../../lib/utils';
+} from '../../../src/utils';
 
 jest.mock('chokidar');
-jest.mock('../../../lib/utils/logs/messages', () => ({
+jest.mock('../../../src/utils/logs/messages', () => ({
   logWebpackStatsWhenDone: jest.fn(),
   logModuleLanguagePacksLoaded: jest.fn(),
   logLocaleAction: jest.fn(),

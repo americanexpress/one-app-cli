@@ -20,9 +20,9 @@ import {
   createInitialState,
   getEntryScriptsForExternals,
   getWebpackScriptsForLocalModules,
-} from '../../../lib/utils/rendering';
-import { getPublicVendorsUrl } from '../../../lib/utils/paths';
-import { ufs } from '../../../lib/utils/virtual-file-system';
+} from '../../../src/utils/rendering';
+import { getPublicVendorsUrl } from '../../../src/utils/paths';
+import { ufs } from '../../../src/utils/virtual-file-system';
 
 jest.mock('transit-immutable-js', () => ({
   toJSON: jest.fn((obj) => obj),

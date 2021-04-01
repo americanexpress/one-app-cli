@@ -173,7 +173,7 @@ under `bundler.purgecss.paths`. The example below illustrates how we would add
   "one-amex": {
     "bundler": {
       "purgecss": {
-        "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"]
+        "paths": ["node_modules/some-src/src/**/*.{js,jsx}"]
       }
     }
   }
@@ -188,7 +188,7 @@ before enabling any of the following:
   "one-amex": {
     "bundler": {
       "purgecss": {
-        "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"],
+        "paths": ["node_modules/some-src/src/**/*.{js,jsx}"],
         "extractors": [{
           "extractor": "purgeJs",
           "extensions": [

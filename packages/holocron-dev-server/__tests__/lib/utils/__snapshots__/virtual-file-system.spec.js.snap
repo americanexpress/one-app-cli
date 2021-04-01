@@ -2,7 +2,7 @@
 
 exports[`exports virtual file system interfaces 1`] = `
 Array [
-  "vol",
+  "volume",
   "vfs",
   "ufs",
 ]

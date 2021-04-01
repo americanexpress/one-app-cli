@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import requestAcceptedMiddleware from '../../../lib/middleware/request-accepted';
+import requestAcceptedMiddleware from '../../../src/middleware/request-accepted';
 
 describe('requestAcceptedMiddleware', () => {
   const res = {};

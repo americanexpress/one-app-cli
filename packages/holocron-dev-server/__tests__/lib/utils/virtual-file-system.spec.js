@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import * as vfs from '../../../lib/utils/virtual-file-system';
+import * as vfs from '../../../src/utils/virtual-file-system';
 
 test('exports virtual file system interfaces', () => {
   expect(Object.keys(vfs)).toMatchSnapshot();

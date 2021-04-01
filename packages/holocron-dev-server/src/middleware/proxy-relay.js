@@ -17,7 +17,7 @@ import { createTimeoutFetch } from '@americanexpress/fetch-enhancers';
 import ProxyAgent from 'proxy-agent';
 
 import { logProxyRequestMatch, logRemoteHasBeenLoadedCached, error } from '../utils/logs';
-import { getContextPath, vol } from '../utils';
+import { getContextPath, volume } from '../utils';
 
 export function fetchRemoteRequest(remoteUrl) {
   const fetcher = createTimeoutFetch(6e3)(fetch);
@@ -48,12 +48,12 @@ export default function createModulesProxyRelayMiddleware({
 
     if (remoteModuleMatch) {
       logProxyRequestMatch(req);
-      if (!vol.existsSync(localFilePath)) {
+      if (!volume.existsSync(localFilePath)) {
         const [localBasePath, remoteBasePath] = remoteModuleMatch;
         const remoteUrl = req.path.replace(localBasePath, remoteBasePath);
         const response = await fetchRemoteRequest(remoteUrl) || { text: () => '' };
         const text = await response.text();
-        vol.fromJSON({
+        volume.fromJSON({
           [localFilePath]: text,
         });
         logRemoteHasBeenLoadedCached(remoteUrl);

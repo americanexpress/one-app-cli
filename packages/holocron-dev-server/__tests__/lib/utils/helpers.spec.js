@@ -17,7 +17,7 @@ import {
   getLocalRootModule,
   getModuleFromFilePath,
   openBrowser,
-} from '../../../lib/utils/helpers';
+} from '../../../src/utils/helpers';
 
 jest.mock('open');
 

@@ -13,10 +13,10 @@
  */
 
 import { NormalModule } from 'webpack';
-import { getModuleFromFilePath } from '../../../../lib/utils';
+import { getModuleFromFilePath } from '../../../../src/utils';
 
-import HolocronWebpackPlugin from '../../../../lib/webpack/plugins/holocron-webpack-plugin';
-import { getWebpackVersion } from '../../../../lib/webpack';
+import HolocronWebpackPlugin from '../../../../src/webpack/plugins/holocron-webpack-plugin';
+import { getWebpackVersion } from '../../../../src/webpack';
 
 jest.mock('webpack', () => ({
   NormalModule: {
@@ -27,12 +27,12 @@ jest.mock('webpack', () => ({
     })),
   },
 }));
-jest.mock('../../../../lib/webpack/helpers', () => ({
+jest.mock('../../../../src/webpack/helpers', () => ({
   getWebpackVersion: jest.fn(() => 5),
 }));
 
-jest.mock('../../../../lib/utils/helpers', () => {
-  const originalModule = jest.requireActual('../../../../lib/utils/helpers');
+jest.mock('../../../../src/utils/helpers', () => {
+  const originalModule = jest.requireActual('../../../../src/utils/helpers');
 
   return {
     ...originalModule,

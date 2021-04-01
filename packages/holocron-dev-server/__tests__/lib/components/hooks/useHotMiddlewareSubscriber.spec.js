@@ -19,7 +19,7 @@ import { subscribe } from 'webpack-hot-middleware/client';
 
 import useHotMiddlewareSubscriber, {
   createSubscriberHandle,
-} from '../../../../lib/components/hooks/useHotMiddlewareSubscriber';
+} from '../../../../src/components/hooks/useHotMiddlewareSubscriber';
 
 jest.mock('react', () => ({
   useEffect: jest.fn(),

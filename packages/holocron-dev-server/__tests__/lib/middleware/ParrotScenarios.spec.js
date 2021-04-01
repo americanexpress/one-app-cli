@@ -20,7 +20,7 @@ import createMocksMiddleware, {
   loadScenarios,
   createMockRouter,
   createWatchEventHandler,
-} from '../../../src/middleware/mocks';
+} from '../../../src/middleware/ParrotScenarios';
 import {
   publish, watchFiles, getScenarioPathForModule, getMockDirectoryForModule,
 } from '../../../src/utils';

@@ -20,7 +20,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import {
   getModulesPath,
   getPublicModulesUrl,
-} from '../../../../lib/utils';
+} from '../../../../src/utils';
 import {
   createBrowserConfigFragment,
   createDllReferenceConfigFragment,
@@ -30,11 +30,11 @@ import {
   createEnvironmentDefinitionsConfigFragment,
   createResolverConfigFragment,
   createWatchOptionsConfigFragment,
-} from '../../../../lib/webpack/configs';
-import { getWebpackVersion } from '../../../../lib/webpack';
+} from '../../../../src/webpack/configs';
+import { getWebpackVersion } from '../../../../src/webpack';
 
-jest.mock('../../../../lib/webpack/helpers', () => {
-  const originalModule = jest.requireActual('../../../../lib/webpack/helpers');
+jest.mock('../../../../src/webpack/helpers', () => {
+  const originalModule = jest.requireActual('../../../../src/webpack/helpers');
 
   return {
     ...originalModule,
