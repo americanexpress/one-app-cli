@@ -20,37 +20,73 @@ import { getModulesPath, getLocalesPathForModule } from './paths';
 import { logModuleLanguagePacksLoaded } from './logs';
 import { createLanguagePackWatcher } from './watcher';
 
-export const copyFileName = 'copy.json';
-export const linksFileName = 'integration.json';
-export const linksPathName = `links/${linksFileName}`;
 export const localePathName = 'locale';
+export const languagePackFileNames = ['copy', 'integration'];
 
-export function extractLanguageDataFromLocale(languageDataPath) {
-  const fileStats = ufs.statSync(languageDataPath);
-  if (fileStats.isDirectory()) {
-    const copy = extractLanguageDataFromLocale(`${languageDataPath}/${copyFileName}`);
-    const links = extractLanguageDataFromLocale(`${languageDataPath}/${linksPathName}`) || {};
-    return {
-      ...copy,
-      links,
-    };
+export function readJsonFile(filePath) {
+  const json = ufs.readFileSync(filePath).toString();
+  return jsonParse(json);
+}
+
+export function loadModuleLanguagePack({
+  moduleName, modulePath, localePath = localePathName, locale,
+}) {
+  let languagePackPath = path.join(modulePath, localePath, locale);
+
+  if (!ufs.existsSync(languagePackPath)) {
+    languagePackPath = path.join(modulePath, localePath, `${locale}.json`);
   }
-  if (fileStats.isFile()) {
-    const json = ufs.readFileSync(languageDataPath).toString();
-    return jsonParse(json);
+
+  if (ufs.existsSync(languagePackPath)) {
+    const fileStats = ufs.statSync(languagePackPath);
+
+    if (fileStats.isDirectory()) {
+      const languagePack = {};
+      const links = {};
+      const scan = [
+        ...languagePackFileNames,
+        locale,
+        moduleName,
+      ];
+      scan
+        .map((fileName) => `${fileName}.json`)
+        .concat('links')
+        .map((fileName) => path.join(languagePackPath, fileName))
+        .filter((filePath) => ufs.existsSync(filePath))
+        .forEach((filePath) => {
+          if (filePath.endsWith('links')) {
+            scan
+              .map((fileName) => path.join(filePath, `${fileName}.json`))
+              .filter((linksFilePath) => ufs.existsSync(linksFilePath))
+              .forEach((linksFilePath) => Object.assign(links, readJsonFile(linksFilePath)));
+          } else {
+            Object.assign(languagePack, readJsonFile(filePath));
+          }
+        });
+      languagePack.links = links;
+      return languagePack;
+    }
+    if (fileStats.isFile()) {
+      return readJsonFile(languagePackPath);
+    }
   }
+
   return null;
 }
 
-export function loadModuleLanguagePacks({ modulePath, localePath = localePathName }) {
+export function loadModuleLanguagePacks({ moduleName, modulePath, localePath = localePathName }) {
   const languagePacksPath = path.join(modulePath, localePath);
   if (ufs.existsSync(languagePacksPath)) {
     return ufs
       .readdirSync(languagePacksPath)
+      .map((locale) => locale.replace(/(\..*)$/, '').toLowerCase())
       .map((locale) => [
-        locale.replace(/(\..*)$/, '').toLowerCase(),
-        extractLanguageDataFromLocale(path.join(languagePacksPath, locale)),
-      ]);
+        locale,
+        loadModuleLanguagePack({
+          moduleName, modulePath, localePath, locale,
+        }),
+      ])
+      .filter(([, languagePack]) => !!languagePack);
   }
   return [];
 }
@@ -60,7 +96,7 @@ export function writeModuleLanguagePacksToVolume({
   moduleName,
   localePath = localePathName,
 }) {
-  const languagePacks = loadModuleLanguagePacks({ modulePath, localePath });
+  const languagePacks = loadModuleLanguagePacks({ moduleName, modulePath, localePath });
   const locales = languagePacks.reduce(
     (map, [locale, langPack]) => ({
       ...map,
@@ -74,7 +110,10 @@ export function writeModuleLanguagePacksToVolume({
 
 export function addModuleLanguagePackToVolume({ filePath, moduleName, locale }) {
   const localeSymbol = locale.replace(/(\..*)$/, '').toLowerCase();
-  const langPack = extractLanguageDataFromLocale(filePath);
+  const modulePath = filePath.split('/').reduce((pathName, next) => (pathName.endsWith(moduleName) ? pathName : [pathName, next].join('/')), '');
+  const langPack = loadModuleLanguagePack({
+    moduleName, modulePath, locale: localeSymbol,
+  });
   const bundlePath = getModulesPath([moduleName, localeSymbol, `${moduleName}.json`].join('/'));
   vol.writeFileSync(bundlePath, JSON.stringify(langPack));
 }

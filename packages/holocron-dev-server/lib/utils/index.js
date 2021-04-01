@@ -19,7 +19,7 @@ export * from './virtual-file-system';
 export * from './watcher';
 
 export {
-  extractLanguageDataFromLocale,
+  loadModuleLanguagePack,
   loadModuleLanguagePacks,
   writeModuleLanguagePacksToVolume,
   addModuleLanguagePackToVolume,
