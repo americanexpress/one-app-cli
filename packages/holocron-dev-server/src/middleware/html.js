@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { renderDocument } from '../utils';
+import { renderDocument } from '../utils/rendering';
 import { logRenderedHolocronModules } from '../utils/logs';
 
 export default function createRenderingMiddleware({

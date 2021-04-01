@@ -16,7 +16,7 @@ import { NormalModule } from 'webpack';
 import { getModuleFromFilePath } from '../../../../src/utils';
 
 import HolocronWebpackPlugin from '../../../../src/webpack/plugins/holocron-webpack-plugin';
-import { getWebpackVersion } from '../../../../src/webpack';
+import { getWebpackVersion } from '../../../../src/webpack/helpers';
 
 jest.mock('webpack', () => ({
   NormalModule: {

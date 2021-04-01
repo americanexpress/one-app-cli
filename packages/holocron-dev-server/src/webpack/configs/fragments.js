@@ -32,7 +32,7 @@ import {
   createModuleScriptUrl,
   getReportFilename,
 } from '../../utils';
-import { HolocronModulePlugin } from '../plugins';
+import HolocronModulePlugin from '../plugins/holocron-webpack-plugin';
 import {
   modulesLibraryVarName,
   externalsLibraryVarName,

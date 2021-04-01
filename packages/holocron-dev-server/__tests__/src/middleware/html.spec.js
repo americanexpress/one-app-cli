@@ -14,9 +14,9 @@
 
 import createRenderingMiddleware from '../../../src/middleware/html';
 
-import { renderDocument } from '../../../src/utils';
+import { renderDocument } from '../../../src/utils/rendering';
 
-jest.mock('../../../src/utils');
+jest.mock('../../../src/utils/rendering');
 jest.mock('../../../src/utils/logs');
 
 beforeAll(() => {

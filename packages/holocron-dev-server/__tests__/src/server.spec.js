@@ -13,14 +13,14 @@
  */
 
 import holocronDevServer, { onLaunch } from '../../src/server';
-import { openBrowser } from '../../src/utils';
-import {
-  loadWebpackMiddleware,
-  createRenderingMiddleware,
-  createModulesProxyRelayMiddleware,
-  createMocksMiddleware,
-  requestAcceptedMiddleware,
-} from '../../src/middleware';
+
+import createRenderingMiddleware from '../../src/middleware/html';
+import requestAcceptedMiddleware from '../../src/middleware/request-accepted';
+import createMocksMiddleware from '../../src/middleware/parrotScenarios';
+import createModulesProxyRelayMiddleware from '../../src/middleware/proxy-relay';
+import loadWebpackMiddleware from '../../src/middleware/webpack';
+
+import { openBrowser } from '../../src/utils/helpers';
 import {
   setLogLevel,
   logHotReloadReady,
@@ -32,25 +32,21 @@ import {
 import { errorReportingUrlFragment } from '../../src/constants';
 
 jest.mock('../../src/utils/logs');
-jest.mock('../../src/utils', () => ({
-  openBrowser: jest.fn(),
-  loadLanguagePacks: jest.fn(),
-  getStaticPath: jest.fn(),
-  getPublicUrl: jest.fn(),
-  loadStatics: jest.fn(),
+jest.mock('../../src/utils/helpers');
+jest.mock('../../src/utils/statics');
+jest.mock('../../src/utils/language-packs');
+jest.mock('../../src/utils/module-map', () => ({
   createModuleMap: async () => ({
     moduleMap: 'module-map.json',
     localModuleMap: '../sample-module/module-map.json',
     remoteModuleMap: 'https://one-app-statics.surge.sh/module-map.json',
   }),
 }));
-jest.mock('../../src/middleware', () => ({
-  loadWebpackMiddleware: jest.fn(() => ['webpackDevMiddleware', 'webpackHotMiddleware']),
-  createRenderingMiddleware: jest.fn(() => 'createRenderingMiddleware'),
-  createModulesProxyRelayMiddleware: jest.fn(() => 'createModulesProxyRelayMiddleware'),
-  createMocksMiddleware: jest.fn(() => 'createMocksMiddleware'),
-  requestAcceptedMiddleware: 'requestAcceptedMiddleware',
-}));
+jest.mock('../../src/middleware/html', () => jest.fn(() => ['createRenderingMiddleware']));
+jest.mock('../../src/middleware/request-accepted', () => jest.fn(() => ['requestAcceptedMiddleware']));
+jest.mock('../../src/middleware/parrotScenarios', () => jest.fn(() => ['createMocksMiddleware']));
+jest.mock('../../src/middleware/proxy-relay', () => jest.fn(() => ['createModulesProxyRelayMiddleware']));
+jest.mock('../../src/middleware/webpack', () => jest.fn(() => ['webpackDevMiddleware', 'webpackHotMiddleware']));
 
 jest.mock('express', () => {
   const app = {

@@ -13,11 +13,12 @@
  */
 
 import webpack from 'webpack';
+
 import {
-  createExternalsDllWebpackConfig,
   buildModuleExternalsDllBundle,
   createHotHolocronCompiler,
-} from '../../../src/webpack';
+} from '../../../src/webpack/builds';
+import { createExternalsDllWebpackConfig } from '../../../src/webpack/configs/bundles';
 
 jest.mock('webpack', () => {
   const tap = jest.fn();
@@ -46,7 +47,7 @@ jest.mock('webpack', () => {
   return mockWebpack;
 });
 
-jest.mock('../../../src/webpack/configs', () => ({
+jest.mock('../../../src/webpack/configs/bundles', () => ({
   createExternalsDllWebpackConfig: jest.fn(() => ({})),
   createHolocronModuleWebpackConfig: jest.fn(() => ({})),
 }));

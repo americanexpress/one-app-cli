@@ -15,8 +15,8 @@
 import {
   fileLoader, cssLoader, jsxLoader, createJavaScriptSourceLoadersConfigFragment,
   createEsBuildConfigFragment,
-} from '../../../../src/webpack/configs';
-import { getWebpackVersion } from '../../../../src/webpack';
+} from '../../../../src/webpack/configs/loaders';
+import { getWebpackVersion } from '../../../../src/webpack/helpers';
 
 jest.mock('../../../../src/webpack/helpers', () => {
   const originalModule = jest.requireActual('../../../../src/webpack/helpers');

@@ -17,7 +17,8 @@ import { createTimeoutFetch } from '@americanexpress/fetch-enhancers';
 import ProxyAgent from 'proxy-agent';
 
 import { logProxyRequestMatch, logRemoteHasBeenLoadedCached, error } from '../utils/logs';
-import { getContextPath, volume } from '../utils';
+import { getContextPath } from '../utils/paths';
+import { volume } from '../utils/virtual-file-system';
 
 export function fetchRemoteRequest(remoteUrl) {
   const fetcher = createTimeoutFetch(6e3)(fetch);

@@ -23,14 +23,11 @@ import {
   warnOnMockWatchError,
   logScenariosRegistered,
 } from '../utils/logs';
-import {
-  publish,
-  getModuleFromFilePath,
-  getScenarioPathForModule,
-  getMockDirectoryForModule,
-  ufs,
-  watchFiles,
-} from '../utils';
+import { publish } from '../utils/publish';
+import { ufs } from '../utils/virtual-file-system';
+import { watchFiles } from '../utils/watcher';
+import { getModuleFromFilePath } from '../utils/helpers';
+import { getScenarioPathForModule, getMockDirectoryForModule } from '../utils/paths';
 
 export function loadScenarios(scenarioPaths = [], mockCache = []) {
   new Set([].concat(scenarioPaths, mockCache)).forEach((mockPath) => {

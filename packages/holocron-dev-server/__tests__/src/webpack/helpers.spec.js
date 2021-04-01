@@ -15,13 +15,14 @@
 import {
   createOneAppExternals,
   createHolocronModuleEntries,
-} from '../../../src/webpack';
+} from '../../../src/webpack/helpers';
 
 jest.mock('webpack', () => {
   const mockWebpack = jest.fn();
   mockWebpack.version = '';
   return mockWebpack;
 });
+
 describe('createOneAppExternals', () => {
   test('returns the set of externals used by One App', () => {
     const externals = createOneAppExternals();

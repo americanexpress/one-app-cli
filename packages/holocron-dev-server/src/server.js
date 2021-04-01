@@ -14,21 +14,17 @@
 
 import express from 'express';
 
-import {
-  loadWebpackMiddleware,
-  createRenderingMiddleware,
-  createModulesProxyRelayMiddleware,
-  createMocksMiddleware,
-  requestAcceptedMiddleware,
-} from './middleware';
-import {
-  createModuleMap,
-  getPublicUrl,
-  getStaticPath,
-  loadStatics,
-  loadLanguagePacks,
-  openBrowser,
-} from './utils';
+import createRenderingMiddleware from './middleware/html';
+import requestAcceptedMiddleware from './middleware/request-accepted';
+import createMocksMiddleware from './middleware/parrotScenarios';
+import createModulesProxyRelayMiddleware from './middleware/proxy-relay';
+import loadWebpackMiddleware from './middleware/webpack';
+
+import { createModuleMap } from './utils/module-map';
+import { getPublicUrl, getStaticPath } from './utils/paths';
+import { openBrowser } from './utils/helpers';
+import { loadLanguagePacks } from './utils/language-packs';
+import { loadStatics } from './utils/statics';
 import {
   setLogLevel,
   logHotReloadReady,

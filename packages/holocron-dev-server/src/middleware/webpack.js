@@ -15,8 +15,9 @@
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { buildModuleExternalsDllBundle, createHotHolocronCompiler } from '../webpack';
-import { vfs, setPublisher } from '../utils';
+import { buildModuleExternalsDllBundle, createHotHolocronCompiler } from '../webpack/builds';
+import { vfs } from '../utils/virtual-file-system';
+import { setPublisher } from '../utils/publish';
 
 export default async function loadWebpackMiddleware({
   modules = [],
