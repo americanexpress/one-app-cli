@@ -50,7 +50,6 @@ describe('Document', () => {
       },
     };
     const html = ReactDOM.renderToStaticMarkup(
-      // eslint-disable-next-line react/react-in-jsx-scope
       <Document {...props} />
     );
     expect(html).toMatchSnapshot();
