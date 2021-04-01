@@ -23,7 +23,9 @@ made for [One App][One APP] Holocron modules designed for enabling fast refresh 
 while creating web experiences.
 
 If you are looking for a **production-like environment**
-to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-runner] would be the right tool of choice.
+to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-runner] would be the right tool of choice, this is 
+                                                                                                                      because `holocron-dev-server` only provides a faster developer experience
+                                                                                                                      on the client side only, without the actual One App server.
 
 ## 📖 Table of Contents
 
