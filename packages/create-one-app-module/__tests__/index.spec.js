@@ -16,8 +16,6 @@
 
 const { createModule } = require('../createModule');
 
-const validateNpmName = require('../helpers/validatePackageName');
-
 jest.mock('update-check', () => jest.fn());
 
 jest.mock('../createModule', () => ({
@@ -45,21 +43,6 @@ describe('create one app module', () => {
     process.exit = originalProcessExit;
   });
 
-  it('exits if nothing given', async () => {
-    jest.mock('prompts', () => jest.fn(() => Promise.resolve({
-      path: '',
-    })));
-    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
-    process.argv = [
-      '',
-      '',
-      '',
-    ];
-    await require('..');
-    expect(mockExit).toHaveBeenCalled();
-    mockExit.mockRestore();
-  });
-
   it('name passed to command', async () => {
     jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
     jest.mock('prompts', () => jest.fn(() => Promise.resolve({
@@ -81,6 +64,20 @@ describe('create one app module', () => {
     ];
     await require('..');
     expect(createModule).toHaveBeenCalled();
+  });
+  it('exits if nothing given', async () => {
+    jest.mock('prompts', () => jest.fn(() => Promise.resolve({
+      path: '',
+    })));
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation();
+    process.argv = [
+      '',
+      '',
+      '',
+    ];
+    await require('..');
+    expect(mockExit).toHaveBeenCalled();
+    mockExit.mockRestore();
   });
   it('exits if example flag given without a value', async () => {
     jest.mock('../helpers/validatePackageName', () => jest.fn(() => ({ valid: true })));
