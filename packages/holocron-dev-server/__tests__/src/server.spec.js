@@ -16,7 +16,7 @@ import holocronDevServer, { onLaunch } from '../../src/server';
 
 import createRenderingMiddleware from '../../src/middleware/html';
 import requestAcceptedMiddleware from '../../src/middleware/request-accepted';
-import createMocksMiddleware from '../../src/middleware/parrotScenarios';
+import createMocksMiddleware from '../../src/middleware/parrot-scenarios';
 import createModulesProxyRelayMiddleware from '../../src/middleware/proxy-relay';
 import loadWebpackMiddleware from '../../src/middleware/webpack';
 
@@ -44,7 +44,7 @@ jest.mock('../../src/utils/module-map', () => ({
 }));
 jest.mock('../../src/middleware/html', () => jest.fn(() => ['createRenderingMiddleware']));
 jest.mock('../../src/middleware/request-accepted', () => jest.fn(() => ['requestAcceptedMiddleware']));
-jest.mock('../../src/middleware/parrotScenarios', () => jest.fn(() => ['createMocksMiddleware']));
+jest.mock('../../src/middleware/parrot-scenarios', () => jest.fn(() => ['createMocksMiddleware']));
 jest.mock('../../src/middleware/proxy-relay', () => jest.fn(() => ['createModulesProxyRelayMiddleware']));
 jest.mock('../../src/middleware/webpack', () => jest.fn(() => ['webpackDevMiddleware', 'webpackHotMiddleware']));
 

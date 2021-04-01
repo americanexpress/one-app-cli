@@ -32,16 +32,16 @@ describe('HolocronWebpackLoader', () => {
   const expectedModifiedSource = `
 /* Holocron Module */
 import Module from "./components/Module";
-import wrapper from '${packageName}/lib/components/HolocronHmrWrapper.jsx';
+import wrapper from '${packageName}/src/components/HolocronHmrWrapper.jsx';
 Module.moduleName = "root-module";
 const HolocronModule = wrapper(Module);
 export default HolocronModule;`.trim();
 
-  const externalLibName = 'an-external-library';
+  const externalLibName = 'an-external-srcrary';
   const expectedModifiedSourceWithExternals = `
 ${expectedModifiedSource}
 window.__holocron_externals__ = {
-'an-external-library': { module: require('an-external-library') },
+'an-external-srcrary': { module: require('an-external-srcrary') },
 };
 if ('appConfig' in HolocronModule === false) HolocronModule.appConfig = {};
 HolocronModule.appConfig.providedExternals = window.__holocron_externals__;

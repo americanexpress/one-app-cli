@@ -16,7 +16,7 @@ import express from 'express';
 
 import createRenderingMiddleware from './middleware/html';
 import requestAcceptedMiddleware from './middleware/request-accepted';
-import createMocksMiddleware from './middleware/parrotScenarios';
+import createMocksMiddleware from './middleware/parrot-scenarios';
 import createModulesProxyRelayMiddleware from './middleware/proxy-relay';
 import loadWebpackMiddleware from './middleware/webpack';
 

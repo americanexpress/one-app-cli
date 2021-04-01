@@ -45,7 +45,7 @@ export function injectHolocronModuleWrapper({
 }) {
   const wrapperFileName = hot ? 'HolocronHmrWrapper' : 'RegisterModule';
   const sourceToInject = [
-    `import wrapper from '${packageName}/lib/components/${wrapperFileName}.jsx';`,
+    `import wrapper from '${packageName}/src/components/${wrapperFileName}.jsx';`,
     `${varName}.moduleName = "${moduleName}";`,
     `const ${moduleVariableName} = wrapper(${varName});`,
     `export default ${moduleVariableName};`,
