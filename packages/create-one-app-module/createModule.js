@@ -27,7 +27,7 @@ const {
   hasExample,
   hasRepository,
 } = require('./helpers/getExamples');
-const { makeDirectory } = require('./helpers/makeDirectory');
+const makeDirectory = require('./helpers/makeDirectory');
 const { tryGitInit } = require('./helpers/git');
 const { install, installDevDependencies } = require('./helpers/install');
 const isDirectoryEmpty = require('./helpers/isDirectoryEmpty');

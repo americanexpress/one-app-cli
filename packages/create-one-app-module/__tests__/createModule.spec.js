@@ -26,9 +26,7 @@ const {
 jest.mock('child_process');
 jest.mock('cross-spawn', () => jest.fn());
 
-jest.mock('../helpers/makeDirectory', () => ({
-  makeDirectory: jest.fn(),
-}));
+jest.mock('../helpers/makeDirectory', () => jest.fn());
 
 jest.mock('../helpers/useYarn', () => jest.fn());
 
