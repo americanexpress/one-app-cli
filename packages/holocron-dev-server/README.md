@@ -3,7 +3,7 @@
 [One App]: https://github.com/americanexpress/one-app
 [one-app-bundler]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler
 [dll-plugin]: https://webpack.js.org/plugins/dll-plugin/
-[providedExternals & requiredExternals]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler#providedexternals--requiredexternals
+[providedExternals--requiredExternals]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler#providedexternals--requiredexternals
 [one-app-runner]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-runner
 [express]: https://github.com/expressjs/express
 [memfs]: https://github.com/streamich/memfs
@@ -24,9 +24,9 @@ made for [One App][One APP] Holocron modules designed for enabling fast refresh 
 while creating web experiences.
 
 If you are looking for a **production-like environment**
-to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-runner] would be the right tool of choice, this is 
-                                                                                                                      because `holocron-dev-server` only provides a faster developer experience
-                                                                                                                      on the client side only, without the actual One App server.
+to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-runner]
+would be the right tool of choice, this is because `holocron-dev-server` only
+provides a faster developer experience on the **client side only**, without the actual One App server.
 
 ## 📖 Table of Contents
 
@@ -44,11 +44,15 @@ to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-run
 - Hot reload language packs and watch for changes from the local modules
 - Combines the remote module if provided with the local module map
  remote module map with the universal map
-- [providedExternals & requiredExternals][providedExternals & requiredExternals] are pre-built with [esbuild-loader] as a [DLL][dll-plugin] bundle to speed up build times of the local modules
-- local Holocron modules bundles analyzed and reported using [webpack bundle analyzer][webpack bundle analyzer]
+- [providedExternals & requiredExternals][providedExternals--requiredExternals] are pre-built with [esbuild-loader] as a [DLL][dll-plugin] bundle to speed up build times of the local modules
+- Local Holocron modules bundles analyzed and reported using [webpack bundle analyzer][webpack bundle analyzer]
 
 ### Caveats
 - No support for custom `babel` config or auto-merge option (with zero-config)
+
+### Differences with One App
+- Only works client side
+- Does not server side render
 
 ## 🤹‍ Usage
 
@@ -100,6 +104,14 @@ to source what modules, externals and other configuration like
 The config uses [`one-amex.runner`][one-app-runner] (`modules`, `rootModuleName`, `moduleMapUrl`, `dockerImage`, `envVars`)
 and [`one-amex.bundler`][one-app-bundler] (`providedExternals`, `requiredExternals`)
 to set up the HMR environment for your Holocron module.
+
+#### Default Values
+
+In the case that certain configuration options are not present in the
+Holocron module config, there are default values that are used in its place.
+
+- the root module name (`rootModuleName`) will use the current module if it is not defined.
+- the docker image (`dockerImage`) will default to `oneamex/one-app-dev:latest` if not defined.
 
 #### **Parrot Scenarios**
 If a `mock/scenarios.js` exists in your module,

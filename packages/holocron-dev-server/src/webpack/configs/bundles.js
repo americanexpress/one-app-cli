@@ -58,7 +58,6 @@ export function createHolocronModuleWebpackConfig({
   externals: holocronModuleExternals = [],
   environmentVariables,
   globalDefinitions,
-  babelConfig,
   purgeCssOptions,
   terserOptions,
   sourceMap = 'source-map',
@@ -76,7 +75,6 @@ export function createHolocronModuleWebpackConfig({
     }),
     createJavaScriptSourceLoadersConfigFragment({
       minify,
-      babelConfig,
       terserOptions,
       purgeCssOptions,
       hot,

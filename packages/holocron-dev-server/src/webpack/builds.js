@@ -24,9 +24,9 @@ import {
   logExternalsBuilding,
 } from '../utils/logs';
 
-export function runWebpackCompiler(compiler) {
+export function buildWebpackConfig(config) {
   return new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
+    webpack(config).run((err, stats) => {
       if (err) {
         logError(err);
         reject(err);
@@ -35,10 +35,6 @@ export function runWebpackCompiler(compiler) {
       }
     });
   });
-}
-
-export function buildWebpackConfig(config) {
-  return runWebpackCompiler(webpack(config));
 }
 
 export function buildModuleExternalsDllBundle(config = {}) {
@@ -60,7 +56,6 @@ export function createHotHolocronCompiler({
   modules,
   externals,
   environmentVariables,
-  babelConfig,
   webpackConfigPath,
 }) {
   const holocronWebpackConfig = createHolocronModuleWebpackConfig({
@@ -68,7 +63,6 @@ export function createHotHolocronCompiler({
     modules,
     externals,
     environmentVariables,
-    babelConfig,
     webpackConfigPath,
   });
   const compiler = webpack(holocronWebpackConfig);

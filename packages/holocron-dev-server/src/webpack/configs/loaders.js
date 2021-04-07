@@ -189,7 +189,6 @@ export const jsxLoader = ({
 };
 
 export function createJavaScriptSourceLoadersConfigFragment({
-  babelConfig,
   terserOptions,
   purgeCssOptions,
   minify,
@@ -200,7 +199,7 @@ export function createJavaScriptSourceLoadersConfigFragment({
       rules: [
         fileLoader().rule,
         cssLoader({ purgeCssOptions, hot }).rule,
-        jsxLoader({ ...babelConfig, hot }).rule,
+        jsxLoader({ hot }).rule,
       ],
     },
   };
