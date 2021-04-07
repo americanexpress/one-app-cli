@@ -18,7 +18,7 @@ import { createHolocronModuleWebpackConfig, createExternalsDllWebpackConfig } fr
 import { modulesLibraryVarName } from './helpers';
 import { ufs } from '../utils';
 import {
-  error,
+  logError,
   logWebpackStatsWhenDone,
   logWhenWebpackInvalid,
   logExternalsBuilding,
@@ -28,7 +28,7 @@ export function runWebpackCompiler(compiler) {
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err) {
-        error(err);
+        logError(err);
         reject(err);
       } else {
         resolve(stats);

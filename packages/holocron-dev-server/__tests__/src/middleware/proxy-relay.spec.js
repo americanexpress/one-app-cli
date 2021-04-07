@@ -16,7 +16,7 @@ import fetch from 'cross-fetch';
 
 import createModulesProxyRelayMiddleware from '../../../src/middleware/proxy-relay';
 import { volume } from '../../../src/utils/virtual-file-system';
-import { error } from '../../../src/utils/logs';
+import { logError } from '../../../src/utils/logs';
 
 jest.mock('cross-fetch');
 jest.mock('../../../src/utils/logs');
@@ -166,6 +166,6 @@ describe('createModulesProxyRelayMiddleware', () => {
       [`${process.cwd()}/static/modules/child-module/en-us/child-module.json`]: 'lang pack',
       [`${process.cwd()}/static/modules/child-module/en-ca/child-module.json`]: '',
     });
-    expect(error).toHaveBeenCalledWith('error');
+    expect(logError).toHaveBeenCalledWith('error');
   });
 });

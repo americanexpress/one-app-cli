@@ -17,7 +17,7 @@ import express from 'express';
 import parrot from 'parrot-middleware';
 
 import {
-  error,
+  logError,
   logMockAction,
   logMockWatchReady,
   warnOnMockWatchError,
@@ -51,7 +51,7 @@ export function createMockRouter() {
       // use parrot middleware with loaded scenarios
       mockRouter.use(parrot(scenarios));
     } catch (e) {
-      error(e, e.stack);
+      logError(e, e.stack);
     }
   };
   mockRouter.reload = (scenarios) => {
@@ -96,7 +96,7 @@ export async function createHotParrotMiddleware({
       mockRouter.reload(definitions);
       logScenariosRegistered({ serverAddress, scenarios: definitions });
     } catch (e) {
-      error(e.stack);
+      logError(e.stack);
     }
   };
 

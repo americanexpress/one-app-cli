@@ -16,7 +16,7 @@ import fetch from 'cross-fetch';
 import { createTimeoutFetch } from '@americanexpress/fetch-enhancers';
 import ProxyAgent from 'proxy-agent';
 
-import { logProxyRequestMatch, logRemoteHasBeenLoadedCached, error } from '../utils/logs';
+import { logProxyRequestMatch, logRemoteHasBeenLoadedCached, logError } from '../utils/logs';
 import { getContextPath } from '../utils/paths';
 import { volume } from '../utils/virtual-file-system';
 
@@ -25,7 +25,7 @@ export function fetchRemoteRequest(remoteUrl) {
   return fetcher(remoteUrl, {
     headers: { connection: 'keep-alive' },
     agent: new ProxyAgent(),
-  }).catch((e) => error(e));
+  }).catch((e) => logError(e));
 }
 
 export default function createModulesProxyRelayMiddleware({

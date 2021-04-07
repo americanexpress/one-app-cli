@@ -49,7 +49,7 @@ import {
   logOneAppVersion,
 } from '../../../../src/utils/logs/messages';
 import {
-  info, log, warn, error, yellow, orange,
+  info, log, warn, logError, yellow, orange,
 } from '../../../../src/utils/logs/logs';
 
 jest.mock('../../../../src/utils/logs/logs');
@@ -124,7 +124,7 @@ describe('messages', () => {
       };
       logWebpackStatsWhenDone(stats);
       expect(log).toHaveBeenCalledTimes(1);
-      expect(error).toHaveBeenCalledTimes(1);
+      expect(logError).toHaveBeenCalledTimes(1);
       expect(warn).toHaveBeenCalledTimes(1);
     });
   });
@@ -299,7 +299,7 @@ describe('messages', () => {
   describe('errorOnRemoteModuleMapResponse', () => {
     test('errorOnRemoteModuleMapResponse', () => {
       expect(errorOnRemoteModuleMapResponse()).toBeUndefined();
-      expect(error).toHaveBeenCalledTimes(1);
+      expect(logError).toHaveBeenCalledTimes(1);
     });
   });
 

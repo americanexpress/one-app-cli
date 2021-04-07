@@ -16,7 +16,7 @@ import { libraryName } from '../../../../src/constants';
 import {
   log,
   warn,
-  error,
+  logError,
   info,
   getLogLevel,
   setLogLevel,
@@ -44,8 +44,8 @@ describe('log', () => {
     expect(console.warn).toHaveBeenCalled();
   });
 
-  test('error calls console.error', () => {
-    expect(() => error()).not.toThrow();
+  test('logError calls console.logError', () => {
+    expect(() => logError()).not.toThrow();
     expect(console.error).toHaveBeenCalled();
   });
 

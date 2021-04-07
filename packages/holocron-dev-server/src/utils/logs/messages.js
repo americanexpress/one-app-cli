@@ -22,7 +22,7 @@ import {
 
 import {
   info,
-  error,
+  logError,
   warn,
   log,
   yellow,
@@ -63,7 +63,7 @@ export function printStatics(message) {
 
 export function logWebpackStatsWhenDone(stats) {
   const { errors, warnings } = stats.compilation;
-  errors.forEach((message) => error(message));
+  errors.forEach((message) => logError(message));
   warnings.forEach((message) => warn(message));
   log(printWebpack(`webpack built in ${orange(`${stats.endTime - stats.startTime}`)} ms`));
 }
@@ -244,11 +244,11 @@ export function logLocalModulesLoaded(modules) {
 }
 
 export function errorOnRemoteModuleMapResponse() {
-  error(printModuleMap('fetching the remote module map has failed'));
+  logError(printModuleMap('fetching the remote module map has failed'));
 }
 
 export function errorOnRemoteModuleMapFetching(e) {
-  error(printModuleMap(e));
+  logError(printModuleMap(e));
 }
 
 // Statics

@@ -18,7 +18,7 @@ import { execSync, spawnSync } from 'child_process';
 import { ufs } from './virtual-file-system';
 import { getOneAppPath, getStaticPath, getTempPath } from './paths';
 import {
-  error,
+  logError,
   logGitIgnoreAddition,
   logPullingDockerImage,
   logOneAppVersion,
@@ -62,7 +62,7 @@ export function loadOneAppStaticsFromDocker({
     });
     spawnSync('rm', ['-R', tempDir], { stdio: 'inherit' });
   } catch (e) {
-    error(e);
+    logError(e);
   }
 }
 

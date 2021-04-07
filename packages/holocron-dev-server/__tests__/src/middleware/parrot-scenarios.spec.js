@@ -24,7 +24,7 @@ import createMocksMiddleware, {
 import {
   publish, watchFiles, getScenarioPathForModule, getMockDirectoryForModule,
 } from '../../../src/utils';
-import { error, logMockAction, logScenariosRegistered } from '../../../src/utils/logs';
+import { logError, logMockAction, logScenariosRegistered } from '../../../src/utils/logs';
 
 jest.mock('parrot-middleware');
 jest.mock('../../../src/utils/logs');
@@ -129,7 +129,7 @@ describe('createMockRouter', () => {
     });
     expect(() => router.loadScenarios(scenarios)).not.toThrow();
     expect(parrot).toHaveBeenCalledWith(scenarios);
-    expect(error).toHaveBeenCalled();
+    expect(logError).toHaveBeenCalled();
   });
 });
 
@@ -183,6 +183,6 @@ describe('createMocksMiddleware', () => {
     });
     await expect(createMocksMiddleware({ modules, serverAddress })).resolves.toBeDefined();
     expect(on).toHaveBeenCalledTimes(4);
-    expect(error).toHaveBeenCalledTimes(1);
+    expect(logError).toHaveBeenCalledTimes(1);
   });
 });

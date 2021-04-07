@@ -59,5 +59,5 @@ export const warn = (message, ...args) => logLevel > 1
     `\n${orange.bold(printLibName())} ${yellow('(Warning)')} ${orange(message)}\n`,
     ...args
   );
-export const error = (message, ...args) => logLevel > 0
+export const logError = (message, ...args) => logLevel > 0
   && console.error(`\n${red.bold(printLibName())} ${orange('(Error)')} ${red(message)}\n`, ...args);
