@@ -70,17 +70,6 @@ describe('createBrowserConfigFragment', () => {
       target: 'web',
     });
   });
-  test('that no source map is present in production', () => {
-    process.env.NODE_ENV = 'production';
-    const fragment = createBrowserConfigFragment({
-      sourceMap: '',
-    });
-    expect(fragment).toEqual({
-      devtool: false,
-      mode: 'production',
-      target: 'web',
-    });
-  });
 });
 describe('createDllBundleConfigFragment', () => {
   test('returns development config fragment for main externals build', () => {

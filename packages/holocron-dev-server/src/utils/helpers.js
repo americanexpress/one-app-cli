@@ -30,7 +30,7 @@ export function getModuleInfoFromLocalePath(filePath) {
   const [modulePath, fileBasePath = ''] = filePath.split('/locale/');
   const [moduleName] = modulePath.split('/').reverse();
   const [languagePack] = fileBasePath.split('/');
-  const locale = languagePack.toLowerCase().replace('.json', '');
+  const locale = languagePack.replace('.json', '');
   return [moduleName, modulePath, languagePack, locale];
 }
 

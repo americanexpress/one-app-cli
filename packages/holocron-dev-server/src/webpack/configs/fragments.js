@@ -44,7 +44,7 @@ import {
 export function createBrowserConfigFragment({ isDev = isDevelopment(), sourceMap } = {}) {
   return {
     target: 'web',
-    mode: isDev ? 'development' : 'production',
+    mode: isDev && 'development',
     devtool: sourceMap || (isDev && 'eval-cheap-source-map'),
   };
 }
