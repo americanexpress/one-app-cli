@@ -142,6 +142,6 @@ describe('createModuleScriptUrl', () => {
 
 describe('getReportFilename', () => {
   test('gets the report filename', () => {
-    expect(getReportFilename()).toEqual(`${modulesBundleName}-report.html`);
+    expect(getReportFilename()).toEqual(`development-environment-${modulesBundleName}-report.html`);
   });
 });

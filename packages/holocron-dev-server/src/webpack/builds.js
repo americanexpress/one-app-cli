@@ -42,13 +42,12 @@ export function buildWebpackConfig(config) {
 }
 
 export function buildModuleExternalsDllBundle(config = {}) {
-  const { externals: externalsToPackageDll = [], name } = config;
+  const { externals: externalsToPackageDll = [] } = config;
 
   if (!(externalsToPackageDll.length > 0)) return Promise.resolve();
 
   return buildWebpackConfig(
     createExternalsDllWebpackConfig({
-      name,
       entries: externalsToPackageDll,
     })
   ).then((stats) => {

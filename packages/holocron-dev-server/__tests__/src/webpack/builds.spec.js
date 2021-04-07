@@ -67,7 +67,7 @@ describe('buildModuleExternalsDllBundle', () => {
     expect(webpack).not.toHaveBeenCalled();
   });
 
-  test('externals Dll are not built when none extist', async () => {
+  test('externals Dll are not built when none exists', async () => {
     expect.assertions(2);
     const externals = [];
     await buildModuleExternalsDllBundle({ externals });

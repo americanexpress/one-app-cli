@@ -23,7 +23,6 @@ export default async function loadWebpackMiddleware({
   modules = [],
   externals = [],
   environmentVariables = {},
-  babelConfig,
   webpackConfigPath = null,
 } = {}) {
   if (externals.length > 0) {
@@ -35,7 +34,6 @@ export default async function loadWebpackMiddleware({
     externals,
     environmentVariables,
     webpackConfigPath,
-    babelConfig,
   });
   const devMiddleware = webpackDevMiddleware(compiler, {
     // TODO: removing all logs - still writes to stderr

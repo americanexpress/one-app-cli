@@ -70,7 +70,7 @@ describe('createExternalsDllWebpackConfig', () => {
         generateStatsFile: false,
         logLevel: 'silent',
         analyzerMode: 'static',
-        reportFilename: './holocron-externals-report.html',
+        reportFilename: './development-environment-holocron-externals-report.html',
       }),
     ]);
   });
@@ -90,7 +90,7 @@ describe('createExternalsDllWebpackConfig', () => {
         generateStatsFile: false,
         logLevel: 'silent',
         analyzerMode: 'static',
-        reportFilename: './holocron-externals-report.html',
+        reportFilename: './development-environment-holocron-externals-report.html',
       }),
     ]);
   });
@@ -114,7 +114,7 @@ describe('createExternalsDllWebpackConfig', () => {
         generateStatsFile: false,
         logLevel: 'silent',
         analyzerMode: 'static',
-        reportFilename: './holocron-externals-report.html',
+        reportFilename: './development-environment-holocron-externals-report.html',
       }),
     ]);
   });

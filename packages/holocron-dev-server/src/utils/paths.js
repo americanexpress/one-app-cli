@@ -100,5 +100,5 @@ export function createModuleScriptUrl(moduleName, bundleType, version) {
 // file names
 
 export function getReportFilename(name = modulesBundleName) {
-  return `${name}-report.html`;
+  return `development-environment-${name}-report.html`;
 }

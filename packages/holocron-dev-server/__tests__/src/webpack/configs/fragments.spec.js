@@ -195,7 +195,7 @@ describe('createBundleAnalyzerConfigFragment', () => {
             generateStatsFile: false,
             logLevel: 'silent',
             analyzerMode: 'static',
-            reportFilename: './holocron-modules-report.html',
+            reportFilename: './development-environment-holocron-modules-report.html',
           }),
         ],
       }
