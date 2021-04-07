@@ -31,7 +31,7 @@ export function getModuleInfoFromLocalePath(filePath) {
   const [moduleName] = modulePath.split('/').reverse();
   const [languagePack] = fileBasePath.split('/');
   const locale = languagePack.replace('.json', '');
-  return [moduleName, modulePath, languagePack, locale];
+  return [moduleName, modulePath, locale, languagePack];
 }
 
 export function openBrowser(Url) {
