@@ -123,6 +123,8 @@ to the port used by the holocron development server.
 The same applies if `locale/*` folder exists in your Holocron module.
 When a given locale gets modified, the holocron dev server will notify the client
 and will load the language pack into state.
+Please note that if default fallback for loading the language pack is `en-US`, 
+if any issue occurs while trying to load it.
 
 ## 🎛️ API
 
