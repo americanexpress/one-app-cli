@@ -96,6 +96,7 @@ describe('createExternalsDllWebpackConfig', () => {
   });
 
   test('returns the optimization webpack config for development', () => {
+    process.env.NODE_ENV = 'development';
     const config = createExternalsDllWebpackConfig({
       isDev: true,
       dllName: 'vendors',

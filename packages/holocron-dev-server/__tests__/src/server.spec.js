@@ -32,7 +32,13 @@ import {
 import { errorReportingUrlFragment } from '../../src/constants';
 
 jest.mock('../../src/utils/logs');
-jest.mock('../../src/utils/helpers');
+jest.mock('../../src/utils/helpers', () => {
+  const originalModule = jest.requireActual('../../src/utils/helpers');
+  return {
+    ...originalModule,
+    openBrowser: jest.fn(),
+  };
+});
 jest.mock('../../src/utils/statics');
 jest.mock('../../src/utils/language-packs');
 jest.mock('../../src/utils/module-map', () => ({
@@ -61,8 +67,14 @@ jest.mock('express', () => {
   mockedExpress.static = jest.fn(() => 'MOCK_EXPRESS_STATIC');
   return mockedExpress;
 });
+const { NODE_ENV } = process.env;
+beforeEach(() => {
+  jest.clearAllMocks();
+  process.env.NODE_ENV = NODE_ENV;
+});
 
 describe('onLaunch', () => {
+  process.env.NODE_ENV = 'development';
   test('returns a callback that logs when the server is up', () => {
     expect(onLaunch({})).toBeInstanceOf(Function);
     expect(() => onLaunch({})('error')).toThrow('error');
@@ -92,6 +104,7 @@ describe('onLaunch', () => {
 
 describe('holocronDevServer', () => {
   it('dev server returns express app with a start method for listening on default port', async () => {
+    process.env.NODE_ENV = 'development';
     const config = {
       rootModuleName: 'root-module',
       remoteModuleMap: 'https://one-app-statics.surge.sh/module-map.json',
@@ -113,5 +126,17 @@ describe('holocronDevServer', () => {
     expect(app.listen).not.toHaveBeenCalled();
     expect(() => app.start()).not.toThrow();
     expect(app.listen).toHaveBeenCalled();
+  });
+  it('should stop node process and log message if NODE=production', async () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation((number) => number);
+    process.env.NODE_ENV = 'production';
+    const config = {
+      rootModuleName: 'root-module',
+      remoteModuleMap: 'https://one-app-statics.surge.sh/module-map.json',
+      modules: ['root-module', 'child-module'],
+      externals: [],
+    };
+    await holocronDevServer(config);
+    expect(mockExit).toHaveBeenCalledWith(1);
   });
 });

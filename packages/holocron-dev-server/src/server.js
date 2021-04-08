@@ -22,7 +22,7 @@ import loadWebpackMiddleware from './middleware/webpack';
 
 import { createModuleMap } from './utils/module-map';
 import { getPublicUrl, getStaticPath } from './utils/paths';
-import { openBrowser } from './utils/helpers';
+import { isDevelopment, openBrowser } from './utils/helpers';
 import { loadLanguagePacks } from './utils/language-packs';
 import { loadStatics } from './utils/statics';
 import {
@@ -31,7 +31,7 @@ import {
   logServerUrl,
   logExternalsBundleAnalyzerUrl,
   logModuleBundlerAnalyzerUrl,
-  logServerStart,
+  logServerStart, logError,
 } from './utils/logs';
 import { errorReportingUrlFragment } from './constants';
 
@@ -65,6 +65,12 @@ export default async function holocronDevServer({
   dockerImage,
   webpackConfigPath,
 }) {
+  if (!isDevelopment()) {
+    logError('Please ensure you are running this in development environment. Check that NODE_ENV="development"');
+    // Since this is a CLI tool and only enabled for production build
+    // eslint-disable-next-line unicorn/no-process-exit
+    process.exit(1);
+  }
   setLogLevel(logLevel);
 
   logServerStart({ rootModuleName });

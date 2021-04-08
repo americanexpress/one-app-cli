@@ -15,7 +15,7 @@
 import { validate } from 'webpack';
 import merge from 'webpack-merge';
 
-import { getContextPath, isDevelopment } from '../../utils';
+import { getContextPath } from '../../utils';
 import { externalsBundleName, modulesBundleName } from '../../constants';
 import {
   createBrowserConfigFragment,
@@ -32,7 +32,6 @@ import {
 } from './loaders';
 
 export function createExternalsDllWebpackConfig({
-  isDev = isDevelopment(),
   entries,
   externals,
   minify,
@@ -41,7 +40,7 @@ export function createExternalsDllWebpackConfig({
   name = externalsBundleName,
 } = {}) {
   return merge(
-    createBrowserConfigFragment({ isDev, sourceMap }),
+    createBrowserConfigFragment({ sourceMap }),
     createEsBuildConfigFragment({ minify, target }),
     createDllBundleConfigFragment({
       name,
@@ -53,7 +52,6 @@ export function createExternalsDllWebpackConfig({
 }
 
 export function createHolocronModuleWebpackConfig({
-  isDev = isDevelopment(),
   modules: holocronModules = [],
   externals: holocronModuleExternals = [],
   environmentVariables,
@@ -67,7 +65,7 @@ export function createHolocronModuleWebpackConfig({
   webpackConfigPath,
 }) {
   let config = merge(
-    createBrowserConfigFragment({ isDev, sourceMap }),
+    createBrowserConfigFragment({ sourceMap }),
     createResolverConfigFragment({ modules: holocronModules }),
     createHolocronModulesConfigFragment({
       modules: holocronModules,
@@ -82,7 +80,6 @@ export function createHolocronModuleWebpackConfig({
       hot,
     }),
     createEnvironmentDefinitionsConfigFragment({
-      isDev,
       environmentVariables,
       globalDefinitions,
     }),
