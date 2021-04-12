@@ -23,9 +23,13 @@
 made for [One App][One APP] Holocron modules designed for enabling fast refresh and reloading of assets
 while creating web experiences.
 
+⚠️ `holocron-dev-server` is a client-side only development server and **does not** run Holocron modules
+as One App would normally. Holocron modules are not loaded into memory on the server, nor does it
+server side render (only client side). There are other key differences, and as such, `holocron-dev-server`
+does not behave the same as One App server.
 If you are looking for a **production-like environment**
 to run One App Holocron modules, [`@americanexpress/one-app-runner`][one-app-runner]
-would be the right tool of choice, this is because `holocron-dev-server` only
+would be the right tool of choice. This is because `holocron-dev-server` only
 provides a faster developer experience on the **client side only**, without the actual One App server.
 
 ## 📖 Table of Contents
@@ -123,7 +127,7 @@ to the port used by the holocron development server.
 The same applies if `locale/*` folder exists in your Holocron module.
 When a given locale gets modified, the holocron dev server will notify the client
 and will load the language pack into state.
-Please note that if default fallback for loading the language pack is `en-US`, 
+Please note that if default fallback for loading the language pack is `en-US`,
 if any issue occurs while trying to load it.
 
 ## 🎛️ API
