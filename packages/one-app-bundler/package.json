@@ -87,7 +87,7 @@
     "holocron": "*",
     "holocron-module-route": "*",
     "immutable": "*",
-    "react": "^16.7.0",
+    "react": "^17.0.2",
     "react-dom": "^16.7.0",
     "react-helmet": "*",
     "react-immutable-proptypes": "*",
