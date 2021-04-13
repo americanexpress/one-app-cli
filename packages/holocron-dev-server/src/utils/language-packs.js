@@ -76,19 +76,18 @@ export function loadModuleLanguagePack({
 
 export function loadModuleLanguagePacks({ moduleName, modulePath, localePath = localePathName }) {
   const languagePacksPath = path.join(modulePath, localePath);
-  if (ufs.existsSync(languagePacksPath)) {
-    return ufs
-      .readdirSync(languagePacksPath)
-      .map((locale) => locale.replace(/(\..*)$/, '').toLowerCase())
-      .map((locale) => [
-        locale,
-        loadModuleLanguagePack({
-          moduleName, modulePath, localePath, locale,
-        }),
-      ])
-      .filter(([, languagePack]) => !!languagePack);
-  }
-  return [];
+  if (!ufs.existsSync(languagePacksPath)) return [];
+
+  return ufs
+    .readdirSync(languagePacksPath)
+    .map((locale) => locale.replace(/(\..*)$/, '').toLowerCase())
+    .map((locale) => [
+      locale,
+      loadModuleLanguagePack({
+        moduleName, modulePath, localePath, locale,
+      }),
+    ])
+    .filter(([, languagePack]) => !!languagePack);
 }
 
 export function writeModuleLanguagePacksToVolume({
