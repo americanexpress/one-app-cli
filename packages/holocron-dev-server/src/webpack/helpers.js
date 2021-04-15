@@ -44,6 +44,7 @@ export function createExternalEntry([packageName, varName]) {
 }
 
 export function createOneAppExternals(additionalExternals = []) {
+  // TODO: pull this from one-app-bundler when merging
   return [
     ['@americanexpress/one-app-ducks', 'OneAppDucks'],
     ['@americanexpress/one-app-router', 'OneAppRouter'],
