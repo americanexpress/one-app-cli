@@ -176,7 +176,6 @@ describe('loadLanguagePacks', () => {
     const modulePath = `path/to/${moduleName}`;
     const modules = [{ moduleName, modulePath }];
     const watcher = {};
-    // existsSync.mockImplementationOnce(() => true);
     createLanguagePackWatcher.mockImplementationOnce(() => Promise.resolve(watcher));
     await expect(loadLanguagePacks({ modules })).resolves.toBe(watcher);
     expect(createLanguagePackWatcher).toHaveBeenCalledTimes(1);

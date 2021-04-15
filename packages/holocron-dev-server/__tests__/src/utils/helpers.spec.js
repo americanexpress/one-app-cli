@@ -24,7 +24,7 @@ jest.mock('open');
 describe('isDevelopment', () => {
   const { NODE_ENV } = process.env;
 
-  beforeEach(() => {
+  afterEach(() => {
     process.env.NODE_ENV = NODE_ENV;
   });
 

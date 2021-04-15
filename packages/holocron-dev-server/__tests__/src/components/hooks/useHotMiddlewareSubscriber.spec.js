@@ -108,7 +108,7 @@ describe('createSubscriberHandle', () => {
     const dispatch = jest.fn(() => promise);
     test('subscriber handle logs locale updates if targeting the given module', () => {
       const moduleName = 'holocron-module';
-      const locale = 'en-us';
+      const locale = 'en-US';
       const handle = createSubscriberHandle({ moduleName }, dispatch);
       expect(handle).toBeInstanceOf(Function);
       const payload = {
