@@ -66,38 +66,38 @@ beforeAll(() => {
 
 describe('printers', () => {
   const message = 'msg';
-  describe('printWebpack', () => {
+  describe('print webpack messages', () => {
     test('printWebpack', () => {
       expect(printWebpack(message)).toEqual(expect.any(String));
     });
   });
 
-  describe('printProxy', () => {
+  describe('print proxy request messages', () => {
     test('printProxy', () => {
       expect(printProxy(message)).toEqual(expect.any(String));
     });
   });
 
   describe('printMock', () => {
-    test('printMock', () => {
+    test('print mock interactions message', () => {
       expect(printMock(message)).toEqual(expect.any(String));
     });
   });
 
   describe('printLocale', () => {
-    test('printLocale', () => {
+    test('print locale interactions messages', () => {
       expect(printLocale(message)).toEqual(expect.any(String));
     });
   });
 
   describe('printModuleMap', () => {
-    test('printModuleMap', () => {
+    test('print module map interactions', () => {
       expect(printModuleMap(message)).toEqual(expect.any(String));
     });
   });
 
   describe('printStatics', () => {
-    test('printStatics', () => {
+    test('print statics interactions', () => {
       expect(printStatics(message)).toEqual(expect.any(String));
     });
   });
@@ -113,7 +113,7 @@ describe('messages', () => {
   const externals = ['react-external-pkg'];
   const modules = [{ name: moduleName }];
   describe('logWebpackStatsWhenDone', () => {
-    test('logWebpackStatsWhenDone', () => {
+    test('log webpack statistics when done', () => {
       const stats = {
         startTime: 3124235,
         endTime: 3124235,
@@ -130,35 +130,35 @@ describe('messages', () => {
   });
 
   describe('logWhenWebpackInvalid', () => {
-    test('logWhenWebpackInvalid', () => {
+    test('log when webpack is invalid', () => {
       logWhenWebpackInvalid();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logHotReloadReady', () => {
-    test('logHotReloadReady', () => {
+    test('log when hot reload is ready', () => {
       expect(logHotReloadReady()).toBeUndefined();
       expect(info).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logWebpackInit', () => {
-    test('logWebpackInit', () => {
+    test('log webpack when webpack is initialized', () => {
       expect(logWebpackInit()).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logExternalsBuilding', () => {
-    test('logExternalsBuilding', () => {
+    test('log when externals are being built', () => {
       expect(logExternalsBuilding(externals)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logServerStart', () => {
-    test('logServerStart', () => {
+    test('log when the server starts', () => {
       expect(logServerStart({ rootModuleName })).toBeUndefined();
       expect(info).toHaveBeenCalledTimes(1);
       expect(log).toHaveBeenCalledTimes(1);
@@ -166,25 +166,25 @@ describe('messages', () => {
   });
 
   describe('logServerUrl', () => {
-    test('logServerUrl', () => {
+    test('log when the server url is loaded ', () => {
       expect(logServerUrl(serverAddress, port)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('logExternalsBundleAnalyzerUrl', () => {
-    test('logExternalsBundleAnalyzerUrl', () => {
+    test('log the externals bundler analyzer url', () => {
       expect(logExternalsBundleAnalyzerUrl(serverAddress)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
-    test('logExternalsBundleAnalyzerUrl with externals', () => {
+    test('log the externals bundler analyzer ur with externals', () => {
       expect(logExternalsBundleAnalyzerUrl(serverAddress, externals)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logModuleBundlerAnalyzerUrl', () => {
-    test('logModuleBundlerAnalyzerUrl', () => {
+    test('log the module bundler analyzer url', () => {
       expect(logModuleBundlerAnalyzerUrl(serverAddress)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
@@ -198,21 +198,21 @@ describe('messages', () => {
   });
 
   describe('logProxyRequestMatch', () => {
-    test('logProxyRequestMatch', () => {
+    test('log when proxy requests match ', () => {
       expect(logProxyRequestMatch(request)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logRemoteHasBeenLoadedCached', () => {
-    test('logRemoteHasBeenLoadedCached', () => {
+    test('log when the remote has been loaded and cached', () => {
       expect(logRemoteHasBeenLoadedCached(remoteUrl)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logMockAction', () => {
-    test('logMockAction', () => {
+    test('log when mock scenarios are loaded', () => {
       expect(
         logMockAction({ moduleName, fileName: 'scenarios.js', action: 'add' })
       ).toBeUndefined();
@@ -221,21 +221,21 @@ describe('messages', () => {
   });
 
   describe('logMockWatchReady', () => {
-    test('logMockWatchReady', () => {
+    test('log when mock scenarios are being watched for changes ', () => {
       expect(logMockWatchReady()).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('warnOnMockWatchError', () => {
-    test('warnOnMockWatchError', () => {
+    test('log a warning when an error occurs while watching mock scenarios', () => {
       expect(warnOnMockWatchError()).toBeUndefined();
       expect(warn).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logScenariosRegistered', () => {
-    test('logScenariosRegistered', () => {
+    test('log when scenarios routes are registered', () => {
       expect(
         logScenariosRegistered({
           serverAddress,
@@ -249,14 +249,14 @@ describe('messages', () => {
   });
 
   describe('logLocaleAction', () => {
-    test('logLocaleAction', () => {
+    test('log when locale has any changes ', () => {
       expect(logLocaleAction({ action: 'change', locale: 'en-US', moduleName })).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logModuleLanguagePacksLoaded', () => {
-    test('logModuleLanguagePacksLoaded', () => {
+    test('log when language pack is loaded', () => {
       expect(
         logModuleLanguagePacksLoaded({ moduleName, languagePacks: ['en-US'] })
       ).toBeUndefined();
@@ -265,21 +265,21 @@ describe('messages', () => {
   });
 
   describe('logLocaleModuleNamesBeingWatched', () => {
-    test('logLocaleModuleNamesBeingWatched', () => {
+    test('log when modules are being watched', () => {
       expect(logLocaleModuleNamesBeingWatched([moduleName])).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('warnOnLocaleWatchError', () => {
-    test('warnOnLocaleWatchError', () => {
+    test('log when error occurs when loading locales', () => {
       expect(warnOnLocaleWatchError()).toBeUndefined();
       expect(warn).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logRemoteModulesLoaded', () => {
-    test('logRemoteModulesLoaded', () => {
+    test('log when remote modules are loaded', () => {
       expect(logRemoteModulesLoaded([], [])).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(0);
       expect(
@@ -290,48 +290,48 @@ describe('messages', () => {
   });
 
   describe('logLocalModulesLoaded', () => {
-    test('logLocalModulesLoaded', () => {
+    test('log when locale modules are loaded', () => {
       expect(logLocalModulesLoaded(['other-module'])).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('errorOnRemoteModuleMapResponse', () => {
-    test('errorOnRemoteModuleMapResponse', () => {
+    test('log when an error response is registered when loading module map', () => {
       expect(errorOnRemoteModuleMapResponse()).toBeUndefined();
       expect(logError).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('errorOnRemoteModuleMapFetching', () => {
-    test('errorOnRemoteModuleMapFetching', () => {
+    test('log when an error occurs when fetching module map', () => {
       expect(errorOnRemoteModuleMapFetching()).toBeUndefined();
     });
   });
 
   describe('logStaticStep', () => {
-    test('logStaticStep', () => {
+    test('log when statics are loaded ', () => {
       expect(logStaticStep()).toBeUndefined();
       expect(info).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logGitIgnoreAddition', () => {
-    test('logGitIgnoreAddition', () => {
+    test('log when files are added to git ignore', () => {
       expect(logGitIgnoreAddition()).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logPullingDockerImage', () => {
-    test('logPullingDockerImage', () => {
+    test('log when pulling docker image', () => {
       expect(logPullingDockerImage()).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('logOneAppVersion', () => {
-    test('logOneAppVersion', () => {
+    test('log One App version', () => {
       expect(logOneAppVersion('v5')).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
