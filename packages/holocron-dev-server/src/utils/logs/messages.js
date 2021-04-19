@@ -163,8 +163,8 @@ export function logMockWatchReady() {
   log(printMock('Watching "/mock/" directory for scenarios change'));
 }
 
-export function warnOnMockWatchError(e) {
-  warn(printMock(`Watch error: ${e}`));
+export function warnOnMockWatchError(error) {
+  warn(printMock(`Watch error: ${error}`));
 }
 
 export function logScenariosRegistered({ scenarios, serverAddress }) {
@@ -214,8 +214,8 @@ export function logLocaleModuleNamesBeingWatched(moduleNames) {
   );
 }
 
-export function warnOnLocaleWatchError(err) {
-  warn(printLocale(`Language pack watcher error: ${err}`));
+export function warnOnLocaleWatchError(error) {
+  warn(printLocale(`Language pack watcher error: ${error}`));
 }
 
 // Module Map
@@ -247,8 +247,8 @@ export function errorOnRemoteModuleMapResponse() {
   logError(printModuleMap('fetching the remote module map has failed'));
 }
 
-export function errorOnRemoteModuleMapFetching(e) {
-  logError(printModuleMap(e));
+export function errorOnRemoteModuleMapFetching(error) {
+  logError(printModuleMap(error));
 }
 
 // Statics
