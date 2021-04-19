@@ -13,11 +13,15 @@
  */
 
 import { execSync, spawnSync } from 'child_process';
+
+import { ufs } from '../../../src/utils/virtual-file-system';
 import {
   addStaticsDirToGitIgnore,
   loadOneAppStaticsFromDocker,
   loadStatics,
 } from '../../../src/utils/statics';
+import { libraryName } from '../../../src/constants';
+import { STATIC_DIR } from '../../../src/utils/paths';
 
 jest.mock('child_process', () => ({
   execSync: jest.fn(() => 'en-US'),
@@ -28,11 +32,13 @@ jest.mock('../../../src/utils/virtual-file-system', () => {
   const originalModule = jest.requireActual('../../../src/utils/virtual-file-system');
   return {
     ...originalModule,
-    existsSync: jest.fn(() => true),
-    mkdirSync: jest.fn(),
-    readdirSync: jest.fn(() => ['latest']),
-    readFileSync: jest.fn(() => 'script with removed eval'),
-    writeFileSync: jest.fn(() => 'sample-module/static/app/app.js'),
+    ufs: {
+      existsSync: jest.fn(() => true),
+      mkdirSync: jest.fn(),
+      readdirSync: jest.fn(() => ['latest']),
+      readFileSync: jest.fn(() => 'script with removed eval'),
+      writeFileSync: jest.fn(() => 'sample-module/static/app/app.js'),
+    },
   };
 });
 
@@ -43,20 +49,29 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
 });
 
 describe('addStaticsDirToGitIgnore', () => {
   it('adds static directory to .gitignore', () => {
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
+    expect(ufs.readFileSync).toHaveBeenCalled();
+    expect(execSync).toHaveBeenCalled();
   });
 
-  it('ignores adding static directory to .gitignore', () => {
+  it('ignores adding static directory to .gitignore if already exists', () => {
+    ufs.readFileSync.mockImplementationOnce(() => [`# added by ${libraryName}`, `${STATIC_DIR}/`].join('\n')
+    );
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
+    expect(ufs.readFileSync).toHaveBeenCalled();
+    expect(execSync).not.toHaveBeenCalled();
   });
 
   it('ignores adding static directory to .gitignore if gitignore is not present', () => {
+    ufs.existsSync.mockImplementationOnce(() => false);
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
+    expect(ufs.readFileSync).not.toHaveBeenCalled();
+    expect(execSync).not.toHaveBeenCalled();
   });
 });
 
@@ -66,16 +81,15 @@ describe('loadOneAppStaticsFromDocker', () => {
   });
 
   it('catches any errors when loading in One App statics', () => {
+    execSync.mockImplementationOnce(() => {
+      throw new Error('fail');
+    });
     expect(() => loadOneAppStaticsFromDocker()).not.toThrow();
     expect(console.error).toHaveBeenCalledTimes(1);
   });
 });
 
 describe('loadStatics', () => {
-  const config = {
-    dockerImage: 'oneamex/one-app-dev:latest',
-  };
-
   it('does nothing when One App statics already exists', async () => {
     expect(loadStatics()).toBeUndefined();
     expect(console.log).toHaveBeenCalledTimes(1);
@@ -86,6 +100,9 @@ describe('loadStatics', () => {
   });
 
   it("sets up One App statics and loads them from docker image when it doesn't exist", async () => {
+    const config = {
+      dockerImage: 'oneamex/one-app-dev:latest',
+    };
     ufs.existsSync.mockImplementationOnce(() => false).mockImplementationOnce(() => false);
     expect(loadStatics(config)).toBeUndefined();
     expect(console.log).toHaveBeenCalledTimes(3);
