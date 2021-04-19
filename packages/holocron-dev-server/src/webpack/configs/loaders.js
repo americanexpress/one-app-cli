@@ -138,7 +138,7 @@ export const jsxLoader = ({
   // plugins and presets are the babel config passed to the loader
   plugins = [],
   presets = [],
-  babelrc = false,
+  babelrc = true,
   // loader config
   test = jsxTest,
   hot = false,
@@ -196,11 +196,7 @@ export function createJavaScriptSourceLoadersConfigFragment({
 } = {}) {
   const fragment = {
     module: {
-      rules: [
-        fileLoader().rule,
-        cssLoader({ purgeCssOptions, hot }).rule,
-        jsxLoader({ hot }).rule,
-      ],
+      rules: [fileLoader().rule, cssLoader({ purgeCssOptions, hot }).rule, jsxLoader({ hot }).rule],
     },
   };
 
