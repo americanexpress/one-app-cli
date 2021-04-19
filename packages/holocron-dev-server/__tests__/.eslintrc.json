@@ -1,3 +1,6 @@
 {
-  "extends": "amex/test"
+  "extends": "amex/test",
+  "rules": {
+    "jest/no-large-snapshots": "warn"
+  }
 }

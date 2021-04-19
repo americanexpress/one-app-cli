@@ -13,19 +13,34 @@
  */
 
 import { execSync, spawnSync } from 'child_process';
+
+import { ufs } from '../../../src/utils/virtual-file-system';
 import {
   addStaticsDirToGitIgnore,
   loadOneAppStaticsFromDocker,
   loadStatics,
 } from '../../../src/utils/statics';
+import { libraryName } from '../../../src/constants';
+import { STATIC_DIR } from '../../../src/utils/paths';
 
-import { ufs } from '../../../src/utils/virtual-file-system';
-
-jest.mock('../../../src/utils/virtual-file-system');
 jest.mock('child_process', () => ({
   execSync: jest.fn(() => 'en-US'),
   spawnSync: jest.fn(() => ''),
 }));
+
+jest.mock('../../../src/utils/virtual-file-system', () => {
+  const originalModule = jest.requireActual('../../../src/utils/virtual-file-system');
+  return {
+    ...originalModule,
+    ufs: {
+      existsSync: jest.fn(() => true),
+      mkdirSync: jest.fn(),
+      readdirSync: jest.fn(() => ['latest']),
+      readFileSync: jest.fn(() => 'script with removed eval'),
+      writeFileSync: jest.fn(() => 'sample-module/static/app/app.js'),
+    },
+  };
+});
 
 beforeAll(() => {
   jest.spyOn(console, 'info').mockImplementation();
@@ -37,45 +52,37 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-const readFileSyncToString = jest.fn(() => 'node_modules');
-
-beforeAll(() => {
-  ufs.existsSync = jest.fn(() => true);
-  ufs.readdirSync = jest.fn(() => ['latest']);
-  ufs.readFileSync = jest.fn(() => 'script with removed eval');
-  ufs.writeFileSync = jest.fn(() => 'sample-module/static/app/app.js');
-});
-
 describe('addStaticsDirToGitIgnore', () => {
   it('adds static directory to .gitignore', () => {
-    ufs.readFileSync.mockImplementationOnce(() => ({ toString: readFileSyncToString }));
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
+    expect(ufs.readFileSync).toHaveBeenCalled();
+    expect(execSync).toHaveBeenCalled();
   });
 
-  it('ignores adding static directory to .gitignore', () => {
-    ufs.readFileSync.mockImplementationOnce(() => ({
-      toString: jest.fn(() => ({
-        includes: jest.fn(() => true),
-      })),
-    }));
+  it('ignores adding static directory to .gitignore if already exists', () => {
+    ufs.readFileSync.mockImplementationOnce(() => [`# added by ${libraryName}`, `${STATIC_DIR}/`].join('\n')
+    );
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
+    expect(ufs.readFileSync).toHaveBeenCalled();
+    expect(execSync).not.toHaveBeenCalled();
   });
 
   it('ignores adding static directory to .gitignore if gitignore is not present', () => {
     ufs.existsSync.mockImplementationOnce(() => false);
     expect(() => addStaticsDirToGitIgnore()).not.toThrow();
+    expect(ufs.readFileSync).not.toHaveBeenCalled();
+    expect(execSync).not.toHaveBeenCalled();
   });
 });
 
 describe('loadOneAppStaticsFromDocker', () => {
   it('adds One App statics from docker image', () => {
-    ufs.readFileSync.mockImplementationOnce(() => ({ toString: () => 'node_modules' }));
     expect(() => loadOneAppStaticsFromDocker()).not.toThrow();
   });
 
   it('catches any errors when loading in One App statics', () => {
     execSync.mockImplementationOnce(() => {
-      throw new Error('error');
+      throw new Error('fail');
     });
     expect(() => loadOneAppStaticsFromDocker()).not.toThrow();
     expect(console.error).toHaveBeenCalledTimes(1);
@@ -83,10 +90,6 @@ describe('loadOneAppStaticsFromDocker', () => {
 });
 
 describe('loadStatics', () => {
-  const config = {
-    dockerImage: 'oneamex/one-app-dev:latest',
-  };
-
   it('does nothing when One App statics already exists', async () => {
     expect(loadStatics()).toBeUndefined();
     expect(console.log).toHaveBeenCalledTimes(1);
@@ -97,6 +100,9 @@ describe('loadStatics', () => {
   });
 
   it("sets up One App statics and loads them from docker image when it doesn't exist", async () => {
+    const config = {
+      dockerImage: 'oneamex/one-app-dev:latest',
+    };
     ufs.existsSync.mockImplementationOnce(() => false).mockImplementationOnce(() => false);
     expect(loadStatics(config)).toBeUndefined();
     expect(console.log).toHaveBeenCalledTimes(3);

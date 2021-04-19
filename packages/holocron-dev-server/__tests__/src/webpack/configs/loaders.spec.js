@@ -13,7 +13,10 @@
  */
 
 import {
-  fileLoader, cssLoader, jsxLoader, createJavaScriptSourceLoadersConfigFragment,
+  fileLoader,
+  cssLoader,
+  jsxLoader,
+  createJavaScriptSourceLoadersConfigFragment,
   createEsBuildConfigFragment,
 } from '../../../../src/webpack/configs/loaders';
 import { getWebpackVersion } from '../../../../src/webpack/helpers';
@@ -55,60 +58,64 @@ describe('cssLoader', () => {
 
 describe('jsxLoader', () => {
   test('returns loader config for JavaScript files', () => {
-    expect(jsxLoader().fragment.module.rules).toEqual([{
-      exclude: undefined,
-      include: undefined,
-      test: /\.jsx?$/i,
-      use: [
-        {
-          loader: require.resolve('babel-loader'),
-          options: {
-            babelrc: false,
-            cacheDirectory: true,
-            plugins: [],
-            presets: [
-              [
-                'amex',
-                {
-                  modern: true,
-                  'preset-env': {
-                    modules: false,
+    expect(jsxLoader().fragment.module.rules).toEqual([
+      {
+        exclude: undefined,
+        include: undefined,
+        test: /\.jsx?$/i,
+        use: [
+          {
+            loader: require.resolve('babel-loader'),
+            options: {
+              babelrc: true,
+              cacheDirectory: true,
+              plugins: [],
+              presets: [
+                [
+                  'amex',
+                  {
+                    modern: true,
+                    'preset-env': {
+                      modules: false,
+                    },
                   },
-                },
+                ],
               ],
-            ],
+            },
           },
-        },
-      ],
-    }]);
+        ],
+      },
+    ]);
   });
   test('returns loader config for JavaScript files with hot reloading enabled', () => {
-    expect(jsxLoader({ hot: true }).fragment.module.rules).toEqual([{
-      exclude: undefined,
-      include: undefined,
-      test: /\.jsx?$/i,
-      use: [
-        {
-          loader: require.resolve('babel-loader'),
-          options: {
-            babelrc: false,
-            cacheDirectory: true,
-            plugins: [require.resolve('react-refresh/babel')],
-            presets: [
-              [
-                'amex',
-                {
-                  modern: true,
-                  'preset-env': {
-                    modules: false,
+    expect(jsxLoader({ hot: true }).fragment.module.rules).toEqual([
+      {
+        exclude: undefined,
+        include: undefined,
+        test: /\.jsx?$/i,
+        use: [
+          {
+            loader: require.resolve('babel-loader'),
+            options: {
+              babelrc: true,
+              cacheDirectory: true,
+              plugins: [require.resolve('react-refresh/babel')],
+              presets: [
+                [
+                  'amex',
+                  {
+                    modern: true,
+                    'preset-env': {
+                      modules: false,
+                    },
                   },
-                },
+                ],
               ],
-            ],
+            },
           },
-        },
-      ],
-    }]);
+        ],
+      },
+    ]);
   });
 });
 
@@ -174,7 +181,7 @@ describe('createJavaScriptSourceLoadersConfigFragment', () => {
               {
                 loader: require.resolve('babel-loader'),
                 options: {
-                  babelrc: false,
+                  babelrc: true,
                   cacheDirectory: true,
                   plugins: [],
                   presets: [
@@ -197,9 +204,9 @@ describe('createJavaScriptSourceLoadersConfigFragment', () => {
     });
   });
   test('returns config for javascript script loader if hot reloading and minifying', () => {
-    expect(createJavaScriptSourceLoadersConfigFragment({ hot: true, minify: true })
-      .optimization.minimize)
-      .toEqual(true);
+    expect(
+      createJavaScriptSourceLoadersConfigFragment({ hot: true, minify: true }).optimization.minimize
+    ).toEqual(true);
   });
 });
 describe('createEsBuildConfigFragment', () => {
@@ -220,8 +227,6 @@ describe('createEsBuildConfigFragment', () => {
     });
   });
   test('returns config for es build when minifying is enabled', () => {
-    expect(createEsBuildConfigFragment({ minify: true })
-      .optimization.minimize)
-      .toEqual(true);
+    expect(createEsBuildConfigFragment({ minify: true }).optimization.minimize).toEqual(true);
   });
 });

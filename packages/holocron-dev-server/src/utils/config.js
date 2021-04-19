@@ -53,8 +53,8 @@ export function extractRunnerOptions({
   envVars,
 } = {}) {
   return {
-    modules: modules.map(
-      (relativeModulePath) => path.resolve(getContextPath(), relativeModulePath)),
+    modules: modules.map((relativeModulePath) => path.resolve(getContextPath(), relativeModulePath)
+    ),
     remoteModuleMapUrl: moduleMapUrl,
     environmentVariables: envVars,
     rootModuleName,
@@ -121,7 +121,8 @@ export function createModulesConfig(context) {
         // add the local url path for the module
         src: getPublicModulesUrl(createModuleScriptUrl(name)),
       };
-    }))
+    })
+    )
     .then((modules) => {
       const externals = [
         ...new Set(
@@ -193,13 +194,13 @@ export function createConfigurationContext({
 
 export async function createConfig() {
   const entryConfig = await getPackageJsonConfig();
-  const ctx = createConfigurationContext(entryConfig);
-  const { modules, externals } = await createModulesConfig(ctx);
+  const context = createConfigurationContext(entryConfig);
+  const { modules, externals } = await createModulesConfig(context);
 
-  const serverAddress = `http://localhost:${ctx.port}/`;
+  const serverAddress = `http://localhost:${context.port}/`;
 
   return {
-    ...ctx,
+    ...context,
     modules,
     externals,
     serverAddress,

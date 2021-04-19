@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -22,7 +22,9 @@ export const globalExternalsName = '__holocron_externals__';
 export const globalModulesName = '__holocron_modules__';
 
 export function createExternalsMap(externals) {
-  const externalsMap = externals.map((externalName) => `'${externalName}': { module: require('${externalName}') },`).join('\n');
+  const externalsMap = externals
+    .map((externalName) => `'${externalName}': { module: require('${externalName}') },`)
+    .join('\n');
   return `{\n${externalsMap}\n}`;
 }
 
@@ -37,11 +39,7 @@ export function createAppConfigForExternalsSource(externals) {
 }
 
 export function injectHolocronModuleWrapper({
-  hot,
-  varName,
-  moduleName,
-  rootModule,
-  externals,
+  hot, varName, moduleName, rootModule, externals,
 }) {
   const wrapperFileName = hot ? 'HolocronHmrWrapper' : 'RegisterModule';
   const sourceToInject = [

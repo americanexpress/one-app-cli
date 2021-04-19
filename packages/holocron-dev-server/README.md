@@ -1,9 +1,9 @@
 [one-app-dev]: https://hub.docker.com/r/oneamex/one-app-dev
 [parrot]: https://github.com/americanexpress/parrot
-[One App]: https://github.com/americanexpress/one-app
+[one app]: https://github.com/americanexpress/one-app
 [one-app-bundler]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler
 [dll-plugin]: https://webpack.js.org/plugins/dll-plugin/
-[providedExternals--requiredExternals]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler#providedexternals--requiredexternals
+[providedexternals--requiredexternals]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-bundler#providedexternals--requiredexternals
 [one-app-runner]: https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-runner
 [express]: https://github.com/expressjs/express
 [memfs]: https://github.com/streamich/memfs
@@ -15,12 +15,15 @@
 [react-refresh]: https://github.com/facebook/react/tree/master/packages/react-refresh
 [react-refresh-troubleshooting]: https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/TROUBLESHOOTING.md
 [docker]: https://www.docker.com/
-[React Dev tools extension]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
+[react dev tools extension]: https://reactjs.org/blog/2019/08/15/new-react-devtools.html
 [esbuild-loader]: https://github.com/privatenumber/esbuild-loader
+[devtool]: https://webpack.js.org/configuration/devtool/
+[unionfs]: https://github.com/streamich/unionfs
+
 # @americanexpress/holocron-dev-server
 
 `@americanexpress/holocron-dev-server` is an **experimental** development server
-made for [One App][One APP] Holocron modules designed for enabling fast refresh and reloading of assets
+made for [One App][one app] Holocron modules designed for enabling fast refresh and reloading of assets
 while creating web experiences.
 
 ⚠️ `holocron-dev-server` is a client-side only development server and **does not** run Holocron modules
@@ -34,10 +37,10 @@ provides a faster developer experience on the **client side only**, without the 
 
 ## 📖 Table of Contents
 
-* [Features](#-features)
-* [Usage](#-usage)
-* [API](#%EF%B8%8F-api)
-* [Troubleshooting](#-troubleshooting)
+- [Features](#-features)
+- [Usage](#-usage)
+- [API](#%EF%B8%8F-api)
+- [Troubleshooting](#-troubleshooting)
 
 ## ✨ Features
 
@@ -47,22 +50,27 @@ provides a faster developer experience on the **client side only**, without the 
 - Hot reload [parrot][parrot] scenarios and watch for changes
 - Hot reload language packs and watch for changes from the local modules
 - Combines the remote module if provided with the local module map
- remote module map with the universal map
-- [providedExternals & requiredExternals][providedExternals--requiredExternals] are pre-built with [esbuild-loader] as a [DLL][dll-plugin] bundle to speed up build times of the local modules
-- Local Holocron modules bundles analyzed and reported using [webpack bundle analyzer][webpack bundle analyzer]
-
-### Caveats
-- No support for custom `babel` config or auto-merge option (with zero-config)
+  remote module map with the universal map
+- [providedExternals & requiredExternals][providedexternals--requiredexternals] are pre-built with [esbuild-loader] as a [DLL][dll-plugin] bundle to speed up build times of the local modules
+- Local Holocron modules bundles/externals analyzed and reported using [webpack bundle analyzer][webpack bundle analyzer]
 
 ### Differences with One App
+
 - Only works client side
 - Does not server side render
+
+#### Server Spec
+
+- [`express`][express] server listening for requests: handling request types for navigation, static assets and [parrot] scenarios, on the same port
+- [`webpack`][webpack], [`webpack-dev-middleware`][webpack-dev-middleware] and [`webpack-hot-middleware`](webpack-hot-middleware) load a configuration for fast refresh, added with [`react-refresh`][react-refresh] via `babel` and [`@pmmmwh/react-refresh-webpack-plugin react-refresh`][react-refresh-webpack-plugin] via [webpack]
+- virtual [`memfs`][memfs] is synced with [unionfs] to the filesystem, it connects with [webpack] dev serving local and remote static assets quickly from memory
 
 ## 🤹‍ Usage
 
 > **Prerequisites**
+>
 > - [Docker][docker] is required to load One App statics from development environment.
-> - [React Dev tools browser extension][React Dev tools extension] is needed in your browser for fast refresh to work
+> - [React Dev tools browser extension][react dev tools extension] is needed in your browser for fast refresh to work
 
 ### Installation
 
@@ -118,12 +126,14 @@ Holocron module config, there are default values that are used in its place.
 - the docker image (`dockerImage`) will default to `oneamex/one-app-dev:latest` if not defined.
 
 #### **Parrot Scenarios**
+
 If a `mock/scenarios.js` exists in your module,
 the `parrot` scenarios will be watched for changes and updated,
 please note that the parrot browser extension will need to be changed to refer
 to the port used by the holocron development server.
 
 #### **Language Packs**
+
 The same applies if `locale/*` folder exists in your Holocron module.
 When a given locale gets modified, the holocron dev server will notify the client
 and will load the language pack into state.
@@ -137,6 +147,7 @@ if any issue occurs while trying to load it.
 ### `holocron-dev-server`
 
 Command line tool usage.
+
 #### Usage
 
 ```bash
@@ -144,17 +155,20 @@ npx -p @americanexpress/holocron-dev-server -- holocron-dev-server
 ```
 
 #### Configuration
+
 ##### **`hmr` Options**
 
 Use the `one-amex.hmr` config for
 more advanced configurations. The experimental `hmr` config is
 subject to change. The options supported are:
 
-| name | type | required | value |
-|---|---|---|---|
-| `logLevel` | `String` | `false` | `info` or `4`, `log` or `3`, `warn` or `2`, `error` or `1`, `0` for silent |
-| `port` | `Number` | `false` |the port that the holocron dev server binds to |
-| `openWhenReady` | `Boolean` | `false` | Set to `true` to enable opening your default browser when ready |
+| name            | type                | required | default        | value                                                                                       |
+| --------------- | ------------------- | -------- | -------------- | ------------------------------------------------------------------------------------------- |
+| `logLevel`      | `String`            | `false`  | `4`            | `info` or `4`, `log` or `3`, `warn` or `2`, `error` or `1`, `0` for silent                  |
+| `sourceMap`     | `[Boolean, String]` | `false`  | `"source-map"` | value passed to [webpack]'s [devtool] configuration (eg `inline-cheap-source-map`, `false`) |
+| `clientConfig`  | `Object`            | `false`  | `{}`           | the One App configuration in the store (`store.get('config')`)                              |
+| `port`          | `Number`            | `false`  | `4000`         | the port that `holocron-dev-server` binds to                                                |
+| `openWhenReady` | `Boolean`           | `false`  | `false`        | Set to `true` to enable opening your default browser when ready                             |
 
 ```json
 {
@@ -163,17 +177,14 @@ subject to change. The options supported are:
       "logLevel": "info",
       "port": 4000,
       "openWhenReady": false,
+      "sourceMap": "inline-cheap-source-map",
+      "clientConfig": {
+        "myClientSideConfig": "https://url"
+      }
     }
   }
 }
 ```
-
-#### Server Spec
-
-- [`express`][express] server listening for requests: handling request types for navigation, static assets and [parrot] scenarios
-- [`webpack`][webpack], [`webpack-dev-middleware`][webpack-dev-middleware] and [`webpack-dev-middleware`](webpack-dev-middleware) load a configuration for fast refresh, added with [`react-refresh`][react-refresh] via `babel` and [`@pmmmwh/react-refresh-webpack-plugin react-refresh`][react-refresh-webpack-plugin] via [webpack]
-- [`webpack-bundle-analyzer`][webpack bundle analyzer] is available for the local Holocron modules that are being watched + bundled and the externals, if any (separately)
-- [`memfs`][memfs] used in parity with [webpack] to serve local and remote static assets from memory
 
 ## Troubleshooting
 

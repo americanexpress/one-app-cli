@@ -28,7 +28,7 @@ import { volume } from './virtual-file-system';
 
 export async function loadRemoteModuleMap(remoteModuleMapUrl) {
   const fetcher = createTimeoutFetch(6e3)(fetch);
-  if (remoteModuleMapUrl) {
+  if (typeof remoteModuleMapUrl === 'string') {
     try {
       const response = await fetcher(remoteModuleMapUrl);
       if (response.ok) {

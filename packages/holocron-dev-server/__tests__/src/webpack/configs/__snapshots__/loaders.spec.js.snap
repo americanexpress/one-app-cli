@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
-// eslint-disable-next-line jest/no-large-snapshots
+
 exports[`cssLoader returns loader config for CSS files 1`] = `
 Object {
   "fragment": Object {
@@ -86,7 +86,7 @@ Object {
   },
 }
 `;
-// eslint-disable-next-line jest/no-large-snapshots
+
 exports[`cssLoader returns loader config for CSS files with postcss disabled 1`] = `
 Object {
   "fragment": Object {
@@ -103,7 +103,7 @@ Object {
             Object {
               "loader": "css-loader",
               "options": Object {
-                "importLoaders": 1,
+                "importLoaders": 2,
                 "modules": Object {
                   "localIdentName": "[name]__[local]___[contenthash:base64:5]",
                 },
@@ -111,6 +111,22 @@ Object {
             },
             Object {
               "loader": "sass-loader",
+            },
+            Object {
+              "loader": "postcss-loader",
+              "options": Object {
+                "postcssOptions": Object {
+                  "plugins": Object {
+                    "cssnano": Object {},
+                    "postcss-browser-reporter": Object {},
+                    "postcss-preset-env": Object {
+                      "browsers": "last 2 versions",
+                    },
+                  },
+                  "syntax": "postcss-scss",
+                },
+                "sourceMap": undefined,
+              },
             },
           ],
         },
@@ -128,7 +144,7 @@ Object {
       Object {
         "loader": "css-loader",
         "options": Object {
-          "importLoaders": 1,
+          "importLoaders": 2,
           "modules": Object {
             "localIdentName": "[name]__[local]___[contenthash:base64:5]",
           },
@@ -137,11 +153,27 @@ Object {
       Object {
         "loader": "sass-loader",
       },
+      Object {
+        "loader": "postcss-loader",
+        "options": Object {
+          "postcssOptions": Object {
+            "plugins": Object {
+              "cssnano": Object {},
+              "postcss-browser-reporter": Object {},
+              "postcss-preset-env": Object {
+                "browsers": "last 2 versions",
+              },
+            },
+            "syntax": "postcss-scss",
+          },
+          "sourceMap": undefined,
+        },
+      },
     ],
   },
 }
 `;
-// eslint-disable-next-line jest/no-large-snapshots
+
 exports[`cssLoader returns loader config for CSS files with with inline and hot reloading disabled 1`] = `
 Object {
   "fragment": Object {
@@ -222,7 +254,7 @@ Object {
   },
 }
 `;
-// eslint-disable-next-line jest/no-large-snapshots
+
 exports[`cssLoader returns loader config for CSS files with with inline disabled 1`] = `
 Object {
   "fragment": Object {
