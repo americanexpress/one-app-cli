@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -16,9 +16,7 @@ import path from 'path';
 import { execSync, spawnSync } from 'child_process';
 
 import { ufs } from './virtual-file-system';
-import {
-  getOneAppPath, getStaticPath, getTempPath, STATIC_DIR,
-} from './paths';
+import { getOneAppPath, getStaticPath, getTempPath, STATIC_DIR } from './paths';
 import {
   logError,
   logGitIgnoreAddition,

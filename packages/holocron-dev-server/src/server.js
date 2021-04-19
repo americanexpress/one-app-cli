@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -31,13 +31,12 @@ import {
   logServerUrl,
   logExternalsBundleAnalyzerUrl,
   logModuleBundlerAnalyzerUrl,
-  logServerStart, logError,
+  logServerStart,
+  logError,
 } from './utils/logs';
 import { errorReportingUrlFragment } from './constants';
 
-export function onLaunch({
-  openWhenReady, externals = [], serverAddress, port,
-}) {
+export function onLaunch({ openWhenReady, externals = [], serverAddress, port }) {
   return (error) => {
     if (error) throw error;
     logServerUrl(serverAddress, port);
@@ -66,7 +65,9 @@ export default async function holocronDevServer({
   webpackConfigPath,
 }) {
   if (!isDevelopment()) {
-    logError('Please ensure you are running this in development environment. Check that NODE_ENV="development"');
+    logError(
+      'Please ensure you are running this in development environment. Check that NODE_ENV="development"'
+    );
     // Since this is a CLI tool and only enabled for production build
     // eslint-disable-next-line unicorn/no-process-exit
     process.exit(1);
@@ -119,9 +120,16 @@ export default async function holocronDevServer({
     .use(mockMiddleware)
     .get('*', renderMiddleware);
 
-  app.start = () => app.listen(port, onLaunch({
-    port, serverAddress, openWhenReady, externals,
-  }));
+  app.start = () =>
+    app.listen(
+      port,
+      onLaunch({
+        port,
+        serverAddress,
+        openWhenReady,
+        externals,
+      })
+    );
 
   return app;
 }

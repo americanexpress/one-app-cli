@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 American Express Travel Related Services Company, Inc.
+ * Copyright 2021 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -76,9 +76,7 @@ export function createWatchEventHandler(context, operation) {
   };
 }
 
-export async function createHotParrotMiddleware({
-  modules, mocks, scenarios, serverAddress,
-}) {
+export async function createHotParrotMiddleware({ modules, mocks, scenarios, serverAddress }) {
   const mockRouter = createMockRouter();
 
   const watcher = await watchFiles(mocks, { awaitWriteFinish: true });
@@ -137,7 +135,10 @@ export default function createMocksMiddleware({ modules = [], serverAddress } = 
   const [mocks, scenarios] = getMocksFromModules(modules);
   if (scenarios.length > 0) {
     return createHotParrotMiddleware({
-      modules, mocks, scenarios, serverAddress,
+      modules,
+      mocks,
+      scenarios,
+      serverAddress,
     });
   }
   return Promise.resolve((_, __, next) => next());
