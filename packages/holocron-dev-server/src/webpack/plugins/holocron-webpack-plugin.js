@@ -28,7 +28,7 @@ export default class HolocronModulePlugin {
     this.options = options;
   }
 
-  loaderHook(ctx, module) {
+  loaderHook(context, module) {
     const filePath = module.userRequest;
     const { modules, externals, hot } = this.options;
     if (moduleEntryRegExp.test(filePath)) {
