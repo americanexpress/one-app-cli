@@ -53,8 +53,7 @@ export function extractRunnerOptions({
   envVars,
 } = {}) {
   return {
-    modules: modules.map((relativeModulePath) =>
-      path.resolve(getContextPath(), relativeModulePath)
+    modules: modules.map((relativeModulePath) => path.resolve(getContextPath(), relativeModulePath)
     ),
     remoteModuleMapUrl: moduleMapUrl,
     environmentVariables: envVars,
@@ -100,26 +99,29 @@ export function extractHmrOptions({
 
 export function createModulesConfig(context) {
   return Promise.all(context.modules.map(getPackageJsonConfig))
-    .then((modules) =>
-      modules.map(({ bundler, runner, hmr, ...moduleConfig }) => {
-        const { externals, providedExternals, requiredExternals, environmentVariables } = {
-          ...extractBundlerOptions(bundler),
-          ...extractRunnerOptions(runner),
-          ...extractHmrOptions(hmr),
-        };
-        const { moduleName: name } = moduleConfig;
-        return {
-          ...moduleConfig,
-          name,
-          externals,
-          providedExternals,
-          requiredExternals,
-          environmentVariables,
-          rootModule: name === context.rootModuleName,
-          // add the local url path for the module
-          src: getPublicModulesUrl(createModuleScriptUrl(name)),
-        };
-      })
+    .then((modules) => modules.map(({
+      bundler, runner, hmr, ...moduleConfig
+    }) => {
+      const {
+        externals, providedExternals, requiredExternals, environmentVariables,
+      } = {
+        ...extractBundlerOptions(bundler),
+        ...extractRunnerOptions(runner),
+        ...extractHmrOptions(hmr),
+      };
+      const { moduleName: name } = moduleConfig;
+      return {
+        ...moduleConfig,
+        name,
+        externals,
+        providedExternals,
+        requiredExternals,
+        environmentVariables,
+        rootModule: name === context.rootModuleName,
+        // add the local url path for the module
+        src: getPublicModulesUrl(createModuleScriptUrl(name)),
+      };
+    })
     )
     .then((modules) => {
       const externals = [

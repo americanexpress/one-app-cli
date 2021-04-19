@@ -19,4 +19,4 @@ module.exports = (async function hmr() {
   const config = await createConfig();
   const app = await holocronDevServer(config);
   app.start();
-})();
+}());

@@ -76,7 +76,9 @@ export function createWatchEventHandler(context, operation) {
   };
 }
 
-export async function createHotParrotMiddleware({ modules, mocks, scenarios, serverAddress }) {
+export async function createHotParrotMiddleware({
+  modules, mocks, scenarios, serverAddress,
+}) {
   const mockRouter = createMockRouter();
 
   const watcher = await watchFiles(mocks, { awaitWriteFinish: true });

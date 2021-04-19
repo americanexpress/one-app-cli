@@ -33,12 +33,12 @@ export function createExternalEntry([packageName, varName]) {
   return {
     [packageName]: {
       commonjs2: packageName,
-      ...(varName
+      ...varName
         ? {
-            var: varName,
-            root: varName,
-          }
-        : {}),
+          var: varName,
+          root: varName,
+        }
+        : {},
     },
   };
 }
@@ -67,9 +67,9 @@ export function createOneAppExternals(additionalExternals = []) {
 
 const createHotModuleEntry = ({ moduleName, modulePath }, hot) => ({
   [moduleName]: [
-    ...(hot
+    ...hot
       ? [require.resolve('webpack-hot-middleware/client'), require.resolve('react-refresh/runtime')]
-      : []),
+      : [],
     `${modulePath}/src/index.js`,
   ],
 });

@@ -36,7 +36,9 @@ export function getLogLevel() {
   return logLevel;
 }
 
-export const { red, green, blue, yellow } = chalk;
+export const {
+  red, green, blue, yellow,
+} = chalk;
 export const pink = chalk.keyword('pink');
 export const bisque = chalk.keyword('bisque');
 export const deeppink = chalk.keyword('deeppink');
@@ -50,16 +52,12 @@ export const cyan = chalk.keyword('cyan');
 
 export const newLine = (message) => `  ${message}`;
 export const printLibName = () => newLine(`${green.bold(`[${libraryName}]`)} ::`);
-export const info = (message, ...args) =>
-  logLevel > 3 && console.info(`\n${printLibName()} ${green(message)}`, ...args);
-export const log = (message, ...args) =>
-  logLevel > 2 && console.log(`${printLibName()} ${message}`, ...args);
-export const warn = (message, ...args) =>
-  logLevel > 1 &&
-  console.warn(
+export const info = (message, ...args) => logLevel > 3 && console.info(`\n${printLibName()} ${green(message)}`, ...args);
+export const log = (message, ...args) => logLevel > 2 && console.log(`${printLibName()} ${message}`, ...args);
+export const warn = (message, ...args) => logLevel > 1
+  && console.warn(
     `\n${orange.bold(printLibName())} ${yellow('(Warning)')} ${orange(message)}\n`,
     ...args
   );
-export const logError = (message, ...args) =>
-  logLevel > 0 &&
-  console.error(`\n${red.bold(printLibName())} ${orange('(Error)')} ${red(message)}\n`, ...args);
+export const logError = (message, ...args) => logLevel > 0
+  && console.error(`\n${red.bold(printLibName())} ${orange('(Error)')} ${red(message)}\n`, ...args);

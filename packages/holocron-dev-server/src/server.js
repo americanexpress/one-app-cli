@@ -36,7 +36,9 @@ import {
 } from './utils/logs';
 import { errorReportingUrlFragment } from './constants';
 
-export function onLaunch({ openWhenReady, externals = [], serverAddress, port }) {
+export function onLaunch({
+  openWhenReady, externals = [], serverAddress, port,
+}) {
   return (error) => {
     if (error) throw error;
     logServerUrl(serverAddress, port);
@@ -120,16 +122,15 @@ export default async function holocronDevServer({
     .use(mockMiddleware)
     .get('*', renderMiddleware);
 
-  app.start = () =>
-    app.listen(
+  app.start = () => app.listen(
+    port,
+    onLaunch({
       port,
-      onLaunch({
-        port,
-        serverAddress,
-        openWhenReady,
-        externals,
-      })
-    );
+      serverAddress,
+      openWhenReady,
+      externals,
+    })
+  );
 
   return app;
 }

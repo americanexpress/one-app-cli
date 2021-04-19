@@ -16,7 +16,9 @@ import path from 'path';
 import { execSync, spawnSync } from 'child_process';
 
 import { ufs } from './virtual-file-system';
-import { getOneAppPath, getStaticPath, getTempPath, STATIC_DIR } from './paths';
+import {
+  getOneAppPath, getStaticPath, getTempPath, STATIC_DIR,
+} from './paths';
 import {
   logError,
   logGitIgnoreAddition,
