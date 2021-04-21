@@ -15,3 +15,5 @@ bundle.integrity.manifest.json
 
 # intelliJ
 .idea/
+# yarn 
+yarn-error.log
