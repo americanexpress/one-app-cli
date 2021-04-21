@@ -50,7 +50,7 @@
     "chalk": "^2.4.2",
     "core-js-compat": "^3.4.2",
     "css-loader": "3.4.2",
-    "enhanced-resolve": "^4.1.0",
+    "enhanced-resolve": "^5.8.0",
     "eslint-loader": "^2.1.1",
     "expose-loader": "^0.7.5",
     "fibers": "^4.0.1",
