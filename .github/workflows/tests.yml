@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Node Install
+        with:
+          node-version: ${{ matrix.node }}
+        uses: actions/setup-node@v2
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
@@ -26,20 +30,12 @@ jobs:
           key: yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             yarn-
-      - name: Node Install
-        with:
-          node-version: ${{ matrix.node }}
-        uses: actions/setup-node@v2
-      - name: Check Yarn dedupe
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: |
-          yarn dedupe --check
       - name: Check or update Yarn cache
         env:
           NODE_ENV: development
           YARN_NODE_LINKER: pnp # use pnp linker for better linking performance: it's meant to update yarn cache only
         run: |
-          yarn install --immutable --immutable-cache --check-cache
+          yarn install --immutable
       - name: Unit Tests
         run: yarn test:unit
       - name: Git History Test
