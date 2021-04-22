@@ -109,17 +109,17 @@ export function createModulesConfig(context) {
         ...extractRunnerOptions(runner),
         ...extractHmrOptions(hmr),
       };
-      const { moduleName: name } = moduleConfig;
+      const { moduleName } = moduleConfig;
       return {
         ...moduleConfig,
-        name,
+        moduleName,
         externals,
         providedExternals,
         requiredExternals,
         environmentVariables,
-        rootModule: name === context.rootModuleName,
+        rootModule: moduleName === context.rootModuleName,
         // add the local url path for the module
-        src: getPublicModulesUrl(createModuleScriptUrl(name)),
+        src: getPublicModulesUrl(createModuleScriptUrl(moduleName)),
       };
     })
     )
