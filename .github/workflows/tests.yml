@@ -16,21 +16,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - uses: actions/cache@v2
+        id: yarn-cache
         with:
-          fetch-depth: 0
-          persist-credentials: false
-          ref: ${{ github.event.pull_request.head.sha }}
-      - run: |
-          git remote set-branches --add origin main
-          git fetch
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            yarn-
       - name: Node Install
         with:
           node-version: ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
       - name: Installing Packages
         env:
           NODE_ENV: development
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable --immutable-cache --check-cache
       - name: Unit Tests
         run: yarn test:unit
       - name: Git History Test
