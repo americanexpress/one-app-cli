@@ -12,18 +12,16 @@
  * under the License.
  */
 
-import TerserPlugin from 'terser-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
 
 import {
-  modulesLibraryVarName,
-  getWebpackVersion,
   assetModuleFilename,
-  nodeModulesPattern,
-  jsxTest,
-  fileTest,
   cssTest,
+  fileTest,
+  getWebpackVersion,
+  jsxTest,
+  modulesLibraryVarName,
+  nodeModulesPattern,
 } from '../helpers';
 
 export const fileLoader = ({ test = fileTest } = {}) => {
@@ -186,9 +184,7 @@ export const jsxLoader = ({
 };
 
 export function createJavaScriptSourceLoadersConfigFragment({
-  terserOptions,
   purgeCssOptions,
-  minify,
   hot,
 } = {}) {
   const fragment = {
@@ -209,28 +205,15 @@ export function createJavaScriptSourceLoadersConfigFragment({
     ];
   }
 
-  if (minify) {
-    fragment.optimization = {
-      minimize: true,
-      minimizer: [
-        new TerserPlugin({
-          test: jsxTest,
-          terserOptions,
-        }),
-      ],
-    };
-  }
-
   return fragment;
 }
 
 export function createEsBuildConfigFragment({
-  minify = false,
   target = 'es2015',
   loader = 'jsx',
   test = jsxTest,
 } = {}) {
-  const fragment = {
+  return {
     module: {
       rules: [
         {
@@ -244,21 +227,4 @@ export function createEsBuildConfigFragment({
       ],
     },
   };
-
-  if (minify) {
-    fragment.optimization = {
-      minimize: true,
-      minimizer: [
-        new ESBuildMinifyPlugin({
-          target,
-          minifyWhitespace: false,
-          minifyIdentifiers: false,
-          minifySyntax: false,
-          exclude: [/.*\.min\.js$/],
-        }),
-      ],
-    };
-  }
-
-  return fragment;
 }

@@ -203,11 +203,6 @@ describe('createJavaScriptSourceLoadersConfigFragment', () => {
       },
     });
   });
-  test('returns config for javascript script loader if hot reloading and minifying', () => {
-    expect(
-      createJavaScriptSourceLoadersConfigFragment({ hot: true, minify: true }).optimization.minimize
-    ).toEqual(true);
-  });
 });
 describe('createEsBuildConfigFragment', () => {
   test('returns config for es build', () => {
@@ -225,8 +220,5 @@ describe('createEsBuildConfigFragment', () => {
         ],
       },
     });
-  });
-  test('returns config for es build when minifying is enabled', () => {
-    expect(createEsBuildConfigFragment({ minify: true }).optimization.minimize).toEqual(true);
   });
 });

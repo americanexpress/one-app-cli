@@ -20,7 +20,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import {
   getModulesPath,
   getPublicModulesUrl,
-} from '../../../../src/utils';
+} from '../../../../src/utils/paths';
 import {
   createBrowserConfigFragment,
   createDllReferenceConfigFragment,

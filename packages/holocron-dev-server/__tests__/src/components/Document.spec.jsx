@@ -16,7 +16,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 
 import Document from '../../../src/components/Document';
-import { getPublicVendorsUrl, getPublicModulesUrl } from '../../../src/utils';
+import { getPublicVendorsUrl, getPublicModulesUrl } from '../../../src/utils/paths';
 
 describe('Document', () => {
   test('renders the document without props', () => {

@@ -24,14 +24,13 @@ import {
 
 import { modulesBundleName, externalsBundleName } from '../../constants';
 import {
-  isDevelopment,
   getContextPath,
   getModulesPath,
   getVendorsPath,
   getPublicModulesUrl,
   createModuleScriptUrl,
   getReportFilename,
-} from '../../utils';
+} from '../../utils/paths';
 import HolocronModulePlugin from '../plugins/holocron-webpack-plugin';
 import {
   modulesLibraryVarName,
@@ -40,6 +39,7 @@ import {
   createOneAppExternals,
   createHolocronModuleEntries,
 } from '../helpers';
+import { isDevelopment } from '../../utils/helpers';
 
 export function createBrowserConfigFragment({ isDev = isDevelopment(), sourceMap } = {}) {
   return {

@@ -15,7 +15,7 @@
 import { validate } from 'webpack';
 import merge from 'webpack-merge';
 
-import { getContextPath } from '../../utils';
+import { getContextPath } from '../../utils/paths';
 import { externalsBundleName, modulesBundleName } from '../../constants';
 import {
   createBrowserConfigFragment,
@@ -57,9 +57,7 @@ export function createHolocronModuleWebpackConfig({
   environmentVariables,
   globalDefinitions,
   purgeCssOptions,
-  terserOptions,
   sourceMap = 'source-map',
-  minify = false,
   hot = true,
   webpackConfigPath,
 }) {
@@ -72,8 +70,6 @@ export function createHolocronModuleWebpackConfig({
       hot,
     }),
     createJavaScriptSourceLoadersConfigFragment({
-      minify,
-      terserOptions,
       purgeCssOptions,
       hot,
     }),

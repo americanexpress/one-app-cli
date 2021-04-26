@@ -13,7 +13,7 @@
  */
 
 import path from 'path';
-import { getModuleFromFilePath } from '../../utils';
+import { getModuleFromFilePath } from '../../utils/helpers';
 
 import { getWebpackVersion } from '../helpers';
 

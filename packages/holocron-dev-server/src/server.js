@@ -85,7 +85,7 @@ export default async function holocronDevServer({
     modules,
     remoteModuleMapUrl,
   });
-
+  // TODO: look are re-using one-app-dev-cdn and one-add-dev-proxy
   const proxyRelayMiddleware = createModulesProxyRelayMiddleware({
     moduleMap,
     localModuleMap,
@@ -105,9 +105,9 @@ export default async function holocronDevServer({
   });
 
   const renderMiddleware = createRenderingMiddleware({
-    modules,
-    moduleMap,
     rootModuleName,
+    moduleMap,
+    modules,
     clientConfig,
   });
 

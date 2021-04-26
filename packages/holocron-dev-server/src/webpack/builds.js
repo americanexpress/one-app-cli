@@ -16,7 +16,7 @@ import webpack from 'webpack';
 
 import { createHolocronModuleWebpackConfig, createExternalsDllWebpackConfig } from './configs/bundles';
 import { modulesLibraryVarName } from './helpers';
-import { ufs } from '../utils';
+import { ufs } from '../utils/virtual-file-system';
 import {
   logError,
   logWebpackStatsWhenDone,

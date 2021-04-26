@@ -22,8 +22,10 @@ import createMocksMiddleware, {
   createWatchEventHandler,
 } from '../../../src/middleware/parrot-scenarios';
 import {
-  publish, watchFiles, getScenarioPathForModule, getMockDirectoryForModule,
-} from '../../../src/utils';
+  getScenarioPathForModule, getMockDirectoryForModule,
+} from '../../../src/utils/paths';
+import { publish } from '../../../src/utils/publish';
+import { watchFiles } from '../../../src/utils/watcher';
 import { logError, logMockAction, logScenariosRegistered } from '../../../src/utils/logs';
 
 jest.mock('parrot-middleware');

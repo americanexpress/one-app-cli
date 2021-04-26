@@ -14,7 +14,7 @@
 
 import readPkgUp from 'read-pkg-up';
 import { createConfig } from '../../../src';
-import { getContextPath } from '../../../src/utils';
+import { getContextPath } from '../../../src/utils/paths';
 import { createConfigurationContext } from '../../../src/utils/config';
 
 jest.mock('read-pkg-up');

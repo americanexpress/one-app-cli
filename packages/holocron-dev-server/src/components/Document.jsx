@@ -15,7 +15,7 @@
 import React from 'react';
 
 import { bundleType as defaultBundleType } from '../constants';
-import { getPublicAppUrl } from '../utils';
+import { getPublicAppUrl } from '../utils/paths';
 
 /* eslint-disable react/prop-types */
 export default function Document({
