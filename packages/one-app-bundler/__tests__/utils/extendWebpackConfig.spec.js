@@ -11,10 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
+const webpack = require('webpack');
+const HolocronModuleRegisterPlugin = require('holocron-module-register-webpack-plugin');
 
 const extendWebpackConfig = require('../../utils/extendWebpackConfig');
 const getConfigOptions = require('../../utils/getConfigOptions');
 const getCliOptions = require('../../utils/getCliOptions');
+
+const mockOverridingHolocronModuleRegisterPlugin = () => new HolocronModuleRegisterPlugin('my-new-holocron-module');
+const mockOverridingWebpackDefinePlugin = () => new webpack.DefinePlugin({ 'global.BROWSER': JSON.stringify(true) });
 
 jest.mock('read-pkg-up', () => ({
   sync: jest.fn(() => ({ pkg: { name: 'test-module', version: '1.0.0' } })),
@@ -34,6 +39,7 @@ jest.mock('/path/webpack.client.config.js', () => ({
       { test: /\.js$/, use: 'my-super-cool-client-loader' },
     ],
   },
+  plugins: [mockOverridingHolocronModuleRegisterPlugin()],
 }), { virtual: true });
 
 jest.mock('/path/webpack.server.config.js', () => ({
@@ -42,6 +48,7 @@ jest.mock('/path/webpack.server.config.js', () => ({
       { test: /\.js$/, use: 'my-super-cool-server-loader' },
     ],
   },
+  plugins: [mockOverridingWebpackDefinePlugin()],
 }), { virtual: true });
 
 jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({})));
@@ -72,6 +79,7 @@ describe('extendWebpackConfig', () => {
           },
         ],
       },
+      plugins: [new HolocronModuleRegisterPlugin('default-holocron-module')],
     };
   });
 
@@ -88,19 +96,68 @@ describe('extendWebpackConfig', () => {
   it('should apply a client webpack config', () => {
     getConfigOptions.mockReturnValueOnce({ webpackClientConfigPath: 'webpack.client.config.js' });
     const result = extendWebpackConfig(originalWebpackConfig, 'client');
+    const { plugins } = result;
     const { rules } = result.module;
     const lastRule = rules[rules.length - 1];
     expect(rules.length).toBe(originalWebpackConfig.module.rules.length + 1);
     expect(lastRule.use).toBe('my-super-cool-client-loader');
+    expect(plugins.length).toBe(1);
+    expect(plugins[0].moduleName).toBe('my-new-holocron-module');
   });
 
   it('should apply a server webpack config', () => {
+    const serverWebpackConfig = {
+      ...originalWebpackConfig,
+      plugins: [],
+    };
     getConfigOptions.mockReturnValueOnce({ webpackServerConfigPath: 'webpack.server.config.js' });
-    const result = extendWebpackConfig(originalWebpackConfig, 'server');
+    const result = extendWebpackConfig(serverWebpackConfig, 'server');
+    const { plugins } = result;
     const { rules } = result.module;
     const lastRule = rules[rules.length - 1];
-    expect(rules.length).toBe(originalWebpackConfig.module.rules.length + 1);
+    expect(rules.length).toBe(serverWebpackConfig.module.rules.length + 1);
     expect(lastRule.use).toBe('my-super-cool-server-loader');
+    expect(plugins.length).toBe(1);
+    expect(plugins[0].definitions).toEqual({
+      'global.BROWSER': 'true',
+    });
+  });
+
+  describe('merging plugins', () => {
+    it('should add a plugin if there is none in the original webpack configuration', () => {
+      const originalConfigWithNoPlugins = {
+        ...originalWebpackConfig,
+        plugins: [],
+      };
+      getConfigOptions.mockReturnValueOnce({ webpackClientConfigPath: 'webpack.client.config.js' });
+      const result = extendWebpackConfig(originalConfigWithNoPlugins, 'client');
+      const { plugins } = result;
+      expect(plugins.length).toBe(1);
+      expect(plugins[0].moduleName).toBe('my-new-holocron-module');
+    });
+
+    it('should add a new plugin if the original webpack configuration does not have it', () => {
+      const originalConfigWithNoPlugins = {
+        ...originalWebpackConfig,
+        plugins: [mockOverridingWebpackDefinePlugin()],
+      };
+      getConfigOptions.mockReturnValueOnce({ webpackClientConfigPath: 'webpack.client.config.js' });
+      const result = extendWebpackConfig(originalConfigWithNoPlugins, 'client');
+      const { plugins } = result;
+      expect(plugins.length).toBe(2);
+      expect(plugins[0].moduleName).toBe('my-new-holocron-module');
+      expect(plugins[1].definitions).toEqual({
+        'global.BROWSER': 'true',
+      });
+    });
+
+    it('should replace an existing plugin if the same name is in the original webpack configuration', () => {
+      getConfigOptions.mockReturnValueOnce({ webpackClientConfigPath: 'webpack.client.config.js' });
+      const result = extendWebpackConfig(originalWebpackConfig, 'client');
+      const { plugins } = result;
+      expect(plugins.length).toBe(1);
+      expect(plugins[0].moduleName).toBe('my-new-holocron-module');
+    });
   });
 
   it('should bundle requiredExternals designated by providedExternals', () => {
