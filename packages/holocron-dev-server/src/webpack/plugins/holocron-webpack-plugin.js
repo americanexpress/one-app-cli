@@ -60,8 +60,8 @@ export default class HolocronModulePlugin {
           break;
         }
         case 5: {
-          // eslint-disable-next-line global-require
-          const { NormalModule } = require('webpack');
+          const { webpack } = compiler;
+          const { NormalModule } = webpack;
           NormalModule.getCompilationHooks(compilation).loader.tap(
             this.constructor.name,
             this.loaderHook.bind(this)

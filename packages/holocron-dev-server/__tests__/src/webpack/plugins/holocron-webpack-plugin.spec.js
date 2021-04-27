@@ -12,21 +12,11 @@
  * under the License.
  */
 
-import { NormalModule } from 'webpack';
 import { getModuleFromFilePath } from '../../../../src/utils/helpers';
 
 import HolocronWebpackPlugin from '../../../../src/webpack/plugins/holocron-webpack-plugin';
 import { getWebpackVersion } from '../../../../src/webpack/helpers';
 
-jest.mock('webpack', () => ({
-  NormalModule: {
-    getCompilationHooks: jest.fn(() => ({
-      loader: {
-        tap: jest.fn(),
-      },
-    })),
-  },
-}));
 jest.mock('../../../../src/webpack/helpers', () => ({
   getWebpackVersion: jest.fn(() => 5),
 }));
@@ -57,12 +47,21 @@ describe('HolocronWebpackPlugin', () => {
           tap,
         },
       },
+      webpack: {
+        NormalModule: {
+          getCompilationHooks: jest.fn(() => ({
+            loader: {
+              tap: jest.fn(),
+            },
+          })),
+        },
+      },
     };
     expect(instance.apply(compiler)).toBe(undefined);
     const [[, hookHandle]] = tap.mock.calls;
     const compilation = {};
     expect(() => hookHandle(compilation)).not.toThrow();
-    expect(NormalModule.getCompilationHooks).toHaveBeenCalledWith(compilation);
+    expect(compiler.webpack.NormalModule.getCompilationHooks).toHaveBeenCalledWith(compilation);
   });
   test('plugin is applied to compilation for webpack v4 hook', () => {
     getWebpackVersion.mockImplementationOnce(() => 4);
@@ -74,6 +73,15 @@ describe('HolocronWebpackPlugin', () => {
           tap,
         },
       },
+      webpack: {
+        NormalModule: {
+          getCompilationHooks: jest.fn(() => ({
+            loader: {
+              tap: jest.fn(),
+            },
+          })),
+        },
+      },
     };
     expect(instance.apply(compiler)).toBe(undefined);
     const [[, hookHandle]] = tap.mock.calls;
@@ -82,11 +90,20 @@ describe('HolocronWebpackPlugin', () => {
         normalModuleLoader: {
           tap,
         },
+        webpack: {
+          NormalModule: {
+            getCompilationHooks: jest.fn(() => ({
+              loader: {
+                tap: jest.fn(),
+              },
+            })),
+          },
+        },
       },
     };
     expect(() => hookHandle(compilation)).not.toThrow();
     expect(tap).toHaveBeenCalledTimes(2);
-    expect(NormalModule.getCompilationHooks).not.toHaveBeenCalledWith(compilation);
+    expect(compiler.webpack.NormalModule.getCompilationHooks).not.toHaveBeenCalledWith(compilation);
   });
 
   test('plugin loader hook registers a loader before other loaders', () => {
