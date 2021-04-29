@@ -31,5 +31,6 @@
 ## **Checklist**
 #### Check boxes that apply:
 - [ ] My code follows the code style of this project.
-- [ ] My change requires a change to the documentation.
-- [ ] I have updated the documentation accordingly.
+- [ ] My change requires a change to the documentation and I have updated the documentation accordingly.
+- [ ] These changes should be applied to a maintenance branch.
+- [ ] I have added the Apache 2.0 license header to any new files created.
