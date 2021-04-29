@@ -164,7 +164,7 @@ subject to change. The options supported are:
 
 | name            | type                | required | default        | value                                                                                       |
 | --------------- | ------------------- | -------- | -------------- | ------------------------------------------------------------------------------------------- |
-| `logLevel`      | `String`            | `false`  | `4`            | `info` or `4`, `log` or `3`, `warn` or `2`, `error` or `1`, `0` for silent                  |
+| `logLevel`      | `Number or String`         | `false`  | `4` or `"info"`            | `"info"` or `4`, `"log"` or `3`, `"warn"` or `2`, `"error"` or `1`, `0` for silent                  |
 | `sourceMap`     | `[Boolean, String]` | `false`  | `"source-map"` | value passed to [webpack]'s [devtool] configuration (eg `inline-cheap-source-map`, `false`) |
 | `clientConfig`  | `Object`            | `false`  | `{}`           | the One App configuration in the store (`store.get('config')`)                              |
 | `port`          | `Number`            | `false`  | `4000`         | the port that `holocron-dev-server` binds to                                                |

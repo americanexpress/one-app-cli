@@ -15,11 +15,6 @@
 import { getModuleFromFilePath } from '../../../../src/utils/helpers';
 
 import HolocronWebpackPlugin from '../../../../src/webpack/plugins/holocron-webpack-plugin';
-import { getWebpackVersion } from '../../../../src/webpack/helpers';
-
-jest.mock('../../../../src/webpack/helpers', () => ({
-  getWebpackVersion: jest.fn(() => 5),
-}));
 
 jest.mock('../../../../src/utils/helpers', () => {
   const originalModule = jest.requireActual('../../../../src/utils/helpers');
@@ -39,7 +34,7 @@ describe('HolocronWebpackPlugin', () => {
   });
 
   test('plugin is applied to compilation and taps into loader webpack hook for version 5', () => {
-    const instance = new HolocronWebpackPlugin();
+    const holocronWebpackPlugin = new HolocronWebpackPlugin();
     const tap = jest.fn();
     const compiler = {
       hooks: {
@@ -55,17 +50,17 @@ describe('HolocronWebpackPlugin', () => {
             },
           })),
         },
+        version: 5,
       },
     };
-    expect(instance.apply(compiler)).toBe(undefined);
+    expect(holocronWebpackPlugin.apply(compiler)).toBe(undefined);
     const [[, hookHandle]] = tap.mock.calls;
     const compilation = {};
     expect(() => hookHandle(compilation)).not.toThrow();
     expect(compiler.webpack.NormalModule.getCompilationHooks).toHaveBeenCalledWith(compilation);
   });
   test('plugin is applied to compilation for webpack v4 hook', () => {
-    getWebpackVersion.mockImplementationOnce(() => 4);
-    const instance = new HolocronWebpackPlugin();
+    const holocronWebpackPlugin = new HolocronWebpackPlugin();
     const tap = jest.fn();
     const compiler = {
       hooks: {
@@ -83,7 +78,7 @@ describe('HolocronWebpackPlugin', () => {
         },
       },
     };
-    expect(instance.apply(compiler)).toBe(undefined);
+    expect(holocronWebpackPlugin.apply(compiler)).toBe(undefined);
     const [[, hookHandle]] = tap.mock.calls;
     const compilation = {
       hooks: {
@@ -120,8 +115,8 @@ describe('HolocronWebpackPlugin', () => {
       ],
     };
     module.loaders.push = jest.fn();
-    const instance = new HolocronWebpackPlugin(options);
-    expect(instance.loaderHook(null, module)).toBe(undefined);
+    const holocronWebpackPlugin = new HolocronWebpackPlugin(options);
+    expect(holocronWebpackPlugin.loaderHook(null, module)).toBe(undefined);
     expect(module.loaders.push).toHaveBeenCalledTimes(1);
   });
   test('plugin loader is not added if local modules are not present', () => {
@@ -139,8 +134,8 @@ describe('HolocronWebpackPlugin', () => {
       ],
     };
     module.loaders.push = jest.fn();
-    const instance = new HolocronWebpackPlugin(options);
-    expect(instance.loaderHook(null, module)).toBe(undefined);
+    const holocronWebpackPlugin = new HolocronWebpackPlugin(options);
+    expect(holocronWebpackPlugin.loaderHook(null, module)).toBe(undefined);
     expect(module.loaders.push).not.toHaveBeenCalled();
   });
 
@@ -158,8 +153,8 @@ describe('HolocronWebpackPlugin', () => {
       ],
     };
     module.loaders.push = jest.fn();
-    const instance = new HolocronWebpackPlugin(options);
-    expect(instance.loaderHook(null, module)).toBe(undefined);
+    const holocronWebpackPlugin = new HolocronWebpackPlugin(options);
+    expect(holocronWebpackPlugin.loaderHook(null, module)).toBe(undefined);
     expect(module.loaders.push).not.toHaveBeenCalled();
   });
 });

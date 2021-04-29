@@ -15,8 +15,6 @@
 import path from 'path';
 import { getModuleFromFilePath } from '../../utils/helpers';
 
-import { getWebpackVersion } from '../helpers';
-
 export const loaderPath = path.join(__dirname, 'holocron-webpack-loader.js');
 
 // TODO: better regexp to match module entry point,
@@ -50,24 +48,15 @@ export default class HolocronModulePlugin {
 
   apply(compiler) {
     compiler.hooks.compilation.tap(this.constructor.name, (compilation) => {
-      // eslint-disable-next-line default-case
-      switch (getWebpackVersion()) {
-        case 4: {
-          compilation.hooks.normalModuleLoader.tap(
-            this.constructor.name,
-            this.loaderHook.bind(this)
-          );
-          break;
-        }
-        case 5: {
-          const { webpack } = compiler;
-          const { NormalModule } = webpack;
-          NormalModule.getCompilationHooks(compilation).loader.tap(
-            this.constructor.name,
-            this.loaderHook.bind(this)
-          );
-          break;
-        }
+      if (typeof compiler.webpack !== 'undefined' && parseInt(compiler.webpack.version, 10) === 5) {
+        const { NormalModule } = compiler.webpack;
+        NormalModule.getCompilationHooks(compilation).loader.tap(
+          this.constructor.name,
+          this.loaderHook.bind(this));
+      } else {
+        compilation.hooks.normalModuleLoader.tap(
+          this.constructor.name,
+          this.loaderHook.bind(this));
       }
     });
   }
