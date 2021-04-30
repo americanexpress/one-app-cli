@@ -305,7 +305,8 @@ describe('messages', () => {
 
   describe('errorOnRemoteModuleMapFetching', () => {
     test('log when an error occurs when fetching module map', () => {
-      expect(errorOnRemoteModuleMapFetching()).toBeUndefined();
+      expect(errorOnRemoteModuleMapFetching('error')).toBeUndefined();
+      expect(logError).toHaveBeenCalledTimes(1);
     });
   });
 

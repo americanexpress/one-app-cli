@@ -39,10 +39,8 @@ export function loadModuleLanguagePack({
 
   if (ufs.existsSync(languagePackPath)) {
     const fileStats = ufs.statSync(languagePackPath);
-
     if (fileStats.isDirectory()) {
       const languagePack = {};
-      const links = {};
       const scan = [
         ...languagePackFileNames,
         locale,
@@ -50,20 +48,25 @@ export function loadModuleLanguagePack({
       ];
       scan
         .map((fileName) => `${fileName}.json`)
-        .concat('links')
         .map((fileName) => path.join(languagePackPath, fileName))
         .filter((filePath) => ufs.existsSync(filePath))
         .forEach((filePath) => {
-          if (filePath.endsWith('links')) {
-            scan
-              .map((fileName) => path.join(filePath, `${fileName}.json`))
-              .filter((linksFilePath) => ufs.existsSync(linksFilePath))
-              .forEach((linksFilePath) => Object.assign(links, readJsonFile(linksFilePath)));
-          } else {
-            Object.assign(languagePack, readJsonFile(filePath));
-          }
-        });
-      languagePack.links = links;
+          Object.assign(languagePack, readJsonFile(filePath));
+        }
+        );
+      const directories = ufs.readdirSync(languagePackPath, { withFileTypes: true })
+        .filter((files) => files.isDirectory()).map((files) => files.name);
+      if (directories.length > 0) {
+        directories.forEach((directoryName) => {
+          scan
+            .map((fileName) => path.join(languagePackPath, directoryName, `${fileName}.json`))
+            .filter((linksFilePath) => ufs.existsSync(linksFilePath))
+            .forEach((linksFilePath) => {
+              languagePack[directoryName] = readJsonFile(linksFilePath);
+            });
+        }
+        );
+      }
       return languagePack;
     }
     if (fileStats.isFile()) {

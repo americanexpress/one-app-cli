@@ -134,7 +134,7 @@ export function logModuleBundlerAnalyzerUrl(serverAddress) {
 export function logRenderedHolocronModules(modules) {
   log(
     `rendered HTML document using local modules: [ ${orange.bold(
-      modules.map(({ name }) => `"${name}"`).join(', ')
+      modules.map(({ moduleName }) => `"${moduleName}"`).join(', ')
     )} ]`
   );
 }

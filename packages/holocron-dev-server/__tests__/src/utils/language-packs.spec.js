@@ -80,10 +80,27 @@ describe('loadModuleLanguagePack', () => {
     expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toEqual({ title: 'this is the US localization' });
   });
 
-  test('returns language pack for a module locale from a directory with links folder', () => {
+  test('returns language pack for a module locale from a directory with  folder', () => {
+    isDirectory.mockImplementationOnce(() => true);
+    ufs.readdirSync = jest.fn(() => [
+      {
+        name: 'books',
+        isDirectory: () => true,
+      },
+      {
+        name: 'test',
+        isDirectory: () => false,
+      },
+    ]);
+    expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toEqual({
+      books: { title: 'this is the US localization' },
+      title: 'this is the US localization',
+    });
+  });
+  test('returns language pack for a module locale from a directory with without folder', () => {
+    ufs.readdirSync = jest.fn(() => []);
     isDirectory.mockImplementationOnce(() => true);
     expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toEqual({
-      links: { title: 'this is the US localization' },
       title: 'this is the US localization',
     });
   });
@@ -102,7 +119,17 @@ describe('loadModuleLanguagePacks', () => {
 describe('writeModuleLanguagePacksToVolume', () => {
   test('add LanguagePacks For Module', () => {
     ufs.existsSync = jest.fn(() => true);
-    ufs.readdirSync = jest.fn(() => ['en-US']);
+    ufs.readdirSync = jest.fn()
+      .mockImplementationOnce(() => ['en-US'])
+      .mockImplementationOnce(() => [{
+        name: 'en-US',
+        isDirectory: () => true,
+      }])
+      .mockImplementationOnce(() => ['en-US'])
+      .mockImplementationOnce(() => [{
+        name: 'en-US',
+        isDirectory: () => true,
+      }]);
     jest
       .spyOn(ufs, 'statSync')
       .mockImplementationOnce(() => ({
@@ -172,6 +199,12 @@ describe('loadLanguagePacks', () => {
   });
 
   test('resolves to watcher if language packs were found at "<modulePath>/locale"', async () => {
+    ufs.readdirSync = jest.fn()
+      .mockImplementationOnce(() => ['en-US'])
+      .mockImplementationOnce(() => [{
+        name: 'en-US',
+        isDirectory: () => true,
+      }]);
     const moduleName = 'my-module';
     const modulePath = `path/to/${moduleName}`;
     const modules = [{ moduleName, modulePath }];
