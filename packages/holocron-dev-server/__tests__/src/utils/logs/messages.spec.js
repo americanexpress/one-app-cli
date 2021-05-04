@@ -177,7 +177,7 @@ describe('messages', () => {
       expect(logExternalsBundleAnalyzerUrl(serverAddress)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
-    test('log the externals bundler analyzer ur with externals', () => {
+    test('log the externals bundler analyzer url with externals', () => {
       expect(logExternalsBundleAnalyzerUrl(serverAddress, externals)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
