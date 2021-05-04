@@ -43,16 +43,13 @@ describe('fileLoader', () => {
 
 describe('cssLoader', () => {
   test('returns loader config for CSS files', () => {
-    expect(cssLoader()).toMatchSnapshot();
-  });
-  test('returns loader config for CSS files with postcss disabled', () => {
-    expect(cssLoader({ postcss: false })).toMatchSnapshot();
+    expect(cssLoader().fragment.module.rules).toMatchSnapshot();
   });
   test('returns loader config for CSS files with with inline disabled', () => {
-    expect(cssLoader({ hot: false })).toMatchSnapshot();
+    expect(cssLoader({ hot: false }).fragment.module.rules).toMatchSnapshot();
   });
   test('returns loader config for CSS files with with inline and hot reloading disabled', () => {
-    expect(cssLoader({ hot: false, inline: false })).toMatchSnapshot();
+    expect(cssLoader({ hot: false, inline: false }).fragment.module.rules).toMatchSnapshot();
   });
 });
 
@@ -146,7 +143,7 @@ describe('createJavaScriptSourceLoadersConfigFragment', () => {
               {
                 loader: 'css-loader',
                 options: {
-                  importLoaders: 2,
+                  importLoaders: 1,
                   modules: {
                     localIdentName: '[name]__[local]___[contenthash:base64:5]',
                   },
@@ -154,22 +151,6 @@ describe('createJavaScriptSourceLoadersConfigFragment', () => {
               },
               {
                 loader: 'sass-loader',
-              },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  postcssOptions: {
-                    plugins: {
-                      cssnano: {},
-                      'postcss-browser-reporter': {},
-                      'postcss-preset-env': {
-                        browsers: 'last 2 versions',
-                      },
-                    },
-                    syntax: 'postcss-scss',
-                  },
-                  sourceMap: undefined,
-                },
               },
             ],
           },

@@ -60,9 +60,9 @@ export function loadModuleLanguagePack({
         directories.forEach((directoryName) => {
           scan
             .map((fileName) => path.join(languagePackPath, directoryName, `${fileName}.json`))
-            .filter((linksFilePath) => ufs.existsSync(linksFilePath))
-            .forEach((linksFilePath) => {
-              languagePack[directoryName] = readJsonFile(linksFilePath);
+            .filter((directoryFilePath) => ufs.existsSync(directoryFilePath))
+            .forEach((directoryFilePath) => {
+              languagePack[directoryName] = readJsonFile(directoryFilePath);
             });
         }
         );
