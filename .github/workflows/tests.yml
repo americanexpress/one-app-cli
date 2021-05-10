@@ -34,24 +34,6 @@ jobs:
       - name: Install project dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true' # Over here!
         run: yarn
-  test-coverage:
-    name: Test on Node.js Latest
-    needs: yarn-cache
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Node Install
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Unit Tests
         run: yarn test:unit
       - name: Git History Test
