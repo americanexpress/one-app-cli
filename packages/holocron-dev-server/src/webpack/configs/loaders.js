@@ -66,7 +66,6 @@ export const cssLoader = ({
   test = cssTest,
   exclude = nodeModulesPattern,
   include,
-  sourceMap,
   hot = true,
   modules = true,
   inline = true,
@@ -76,24 +75,6 @@ export const cssLoader = ({
       loader: 'sass-loader',
     },
   ];
-
-  loaders.push({
-    loader: 'postcss-loader',
-    options: {
-      sourceMap,
-      postcssOptions: {
-        syntax: 'postcss-scss',
-        plugins: {
-          'postcss-preset-env': {
-            browsers: 'last 2 versions',
-          },
-          cssnano: {},
-          'postcss-browser-reporter': {},
-        },
-      },
-    },
-  });
-
   loaders.unshift({
     loader: 'css-loader',
     options: {
