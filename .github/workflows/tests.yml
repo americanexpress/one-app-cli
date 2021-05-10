@@ -32,7 +32,7 @@ jobs:
          restore-keys: |
              ${{ runner.os }}-yarn-
       - name: Install project dependencies
-        run: yarn add --cached
+        run: yarn add --cached --immutable
       - name: Unit Tests
         run: yarn test:unit
       - name: Git History Test
