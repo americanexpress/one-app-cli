@@ -80,7 +80,7 @@ describe('loadModuleLanguagePack', () => {
     expect(loadModuleLanguagePack({ moduleName, modulePath, locale })).toEqual({ title: 'this is the US localization' });
   });
 
-  test('returns language pack for a module locale from a directory with  folder', () => {
+  test('returns language pack for a module locale from a directory with folder', () => {
     isDirectory.mockImplementationOnce(() => true);
     ufs.readdirSync = jest.fn(() => [
       {
