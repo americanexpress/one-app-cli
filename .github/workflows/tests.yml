@@ -7,35 +7,35 @@ on:
   pull_request:
 
 jobs:
-  tests:
+  yarn-cache:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '10.x', '12.x', '14.x' ]
+        node: [ '12.x', '14.x' ]
     name: Node ${{ matrix.node }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-          ref: ${{ github.event.pull_request.head.sha }}
-      - run: |
-          git remote set-branches --add origin main
-          git fetch
       - name: Node Install
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-        uses: actions/setup-node@v1
-      - name: Installing Packages
-        env:
-          NODE_ENV: development
-        run: yarn install --frozen-lockfile
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - name: Use Yarn cache
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+         restore-keys: |
+             ${{ runner.os }}-yarn-
+      - name: Install project dependencies
+        run: yarn install --check-cache
       - name: Unit Tests
         run: yarn test:unit
       - name: Git History Test
         run: yarn test:git-history
-      - name: Lockfile Lint Test
-        run: yarn test:lockfile
       - name: Lint
         run: yarn test:lint
