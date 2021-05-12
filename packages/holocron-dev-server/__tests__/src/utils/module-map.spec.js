@@ -112,15 +112,42 @@ describe('createLocalModuleMap', () => {
 
 describe('createUnifiedModuleMap', () => {
   test('combines the remote and local module map', () => {
-    const modules = {};
-    const localModuleMap = { modules };
-    const remoteModuleMap = { modules };
+    const localModuleMap = {
+      modules: {
+        'root-module': {
+          browser: {
+            url: 'https://example.com/modules/root-module/root-module.js',
+          },
+        },
+      },
+    };
+    const remoteModuleMap = {
+      modules: {
+        'child-module': {
+          browser: {
+            url: 'https://example.com/modules/child-module/child-module.js',
+          },
+        },
+      },
+    };
     const moduleMap = createUnifiedModuleMap({
       localModuleMap,
       remoteModuleMap,
     });
     expect(moduleMap).toEqual({
-      modules: {},
+      modules: {
+        'child-module': {
+          baseUrl: '/static/modules/child-module/',
+          browser: {
+            url: '/static/modules/child-module/child-module.js',
+          },
+        },
+        'root-module': {
+          browser: {
+            url: 'https://example.com/modules/root-module/root-module.js',
+          },
+        },
+      },
     });
   });
 });
