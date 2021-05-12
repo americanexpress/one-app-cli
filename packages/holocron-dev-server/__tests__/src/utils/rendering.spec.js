@@ -233,7 +233,7 @@ describe('getWebpackScriptsForLocalModules', () => {
         src: '/static/modules/runtime/runtime.js',
       },
       {
-        name,
+        name: 'root-module',
         src,
       },
       {
