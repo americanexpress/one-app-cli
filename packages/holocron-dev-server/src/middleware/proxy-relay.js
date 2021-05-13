@@ -44,8 +44,7 @@ export default function createModulesProxyRelayMiddleware({
   return async function proxyRelayMiddleware(req, res, next) {
     const localFilePath = getContextPath(req.path);
     const remoteModuleMatch = moduleMapDictionary
-      .find(([localBasePath]) => req.path.startsWith(localBasePath)
-      );
+      .find(([localBasePath]) => req.path.startsWith(localBasePath));
 
     if (remoteModuleMatch) {
       logProxyRequestMatch(req);
