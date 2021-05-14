@@ -32,7 +32,7 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
   "rules": {
-    "@americanexpress/one-app/no-app-config-on-client": "error",
+    "@americanexpress/one-app/no-app-config-on-client": "error"
   }
 }
 ```

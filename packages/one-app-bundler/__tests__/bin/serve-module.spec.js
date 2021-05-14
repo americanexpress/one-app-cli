@@ -116,7 +116,7 @@ describe('serve-module', () => {
     setPlatform('win32');
     require('../../bin/serve-module');
     expect(fs.symlinkSync).toHaveBeenCalledWith('/my-module-name/build/1.0.0', '/mocked/static/modules/my-module-name/1.0.0', 'junction');
-    process.platform = platform;
+    setPlatform(platform);
   });
 
   it('adds to the existing module map', () => {
