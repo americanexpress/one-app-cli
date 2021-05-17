@@ -39,7 +39,7 @@ jobs:
          restore-keys: |
              ${{ runner.os }}-yarn-
       - name: Install project dependencies
-        run: yarn install --check-cache
+        run: yarn install --frozen-lockfile
       - name: Unit Tests
         run: yarn test:unit
       - name: Git History Test
