@@ -1,3 +1,25 @@
+# @americanexpress/generator-one-app-module-v1.0.0-beta.1 (2021-05-17)
+
+
+### Bug Fixes
+
+* **deps:** update one-app-ducks to 4.3.1 ([#230](https://github.com/americanexpress/one-app-cli/issues/230)) ([c466a3e](https://github.com/americanexpress/one-app-cli/commit/c466a3ee1e526045570835ec2e1fe97e56bde926))
+* **generator:** react-intl in externals ([#83](https://github.com/americanexpress/one-app-cli/issues/83)) ([ee5a759](https://github.com/americanexpress/one-app-cli/commit/ee5a759058516f5da34c3969b67ec8d18a86807e))
+* **generator:** remove deprecated holocron api ([#65](https://github.com/americanexpress/one-app-cli/issues/65)) ([8d8564a](https://github.com/americanexpress/one-app-cli/commit/8d8564a78bedbd95fd998b3606aa63ad2a4f9049))
+
+
+### Features
+
+* **deps:** update generated module deps ([#153](https://github.com/americanexpress/one-app-cli/issues/153)) ([865bf24](https://github.com/americanexpress/one-app-cli/commit/865bf245de329dc6f4d08e79b75a90bea8c92996))
+* **deps:** update generator deps for react-intl and parrot-generator ([ac24226](https://github.com/americanexpress/one-app-cli/commit/ac24226ee1de6ac2f5b02c30050fc8a052c40f35))
+* **generator:** add app compatibility to generator ([5412b1f](https://github.com/americanexpress/one-app-cli/commit/5412b1f82360d38394c9d825227cb7fd68a0e6fd))
+* **generator:** add generator-one-app-module ([#13](https://github.com/americanexpress/one-app-cli/issues/13)) ([0fd994b](https://github.com/americanexpress/one-app-cli/commit/0fd994b57d2fd9487b31f109f95d13c7e64c14aa))
+* **generator:** add one-app-runner script ([#96](https://github.com/americanexpress/one-app-cli/issues/96)) ([e1d0e63](https://github.com/americanexpress/one-app-cli/commit/e1d0e6363a6c66b26094e6c51d9a3ad22e4dab70))
+* **generator:** adds .build-cache to gitignore ([d6f3235](https://github.com/americanexpress/one-app-cli/commit/d6f32358328f63b24c1c1fa83e634e72bdda0f6f))
+* **generator:** csp report-uri to ONE_CLIENT_CSP_REPORTING_URL ([#50](https://github.com/americanexpress/one-app-cli/issues/50)) ([9ae5dc9](https://github.com/americanexpress/one-app-cli/commit/9ae5dc9fb0d63dc666f7c386fec732e12249435d))
+* **generator:** update base-module template ([#25](https://github.com/americanexpress/one-app-cli/issues/25)) ([1a0af74](https://github.com/americanexpress/one-app-cli/commit/1a0af748f94790ceae7b2a87fc827be2d549cf6c))
+* **yarn2:** update to yarn 2 ([f583464](https://github.com/americanexpress/one-app-cli/commit/f5834648f059cfa5297164b2f3636f963f9a1a6e))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
