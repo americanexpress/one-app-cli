@@ -29,10 +29,6 @@ jobs:
         run: yarn install --check-cache
       - name: Unit Tests
         run: yarn test:unit
-      - name: Git History Test
-        run: yarn test:git-history
-      - name: Lint
-        run: yarn test:lint
       - name: Releasing Packages
         run: yarn release
         env:
