@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: [12.x]
       - name: Releasing Packages
-      - run: yarn release
+        run: yarn release
         env:
           GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
           GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
