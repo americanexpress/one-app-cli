@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "A micro-frontend dev server for Holocron Modules",
   "license": "Apache-2.0",
+  "scripts": {
+    "release": "semantic-release"
+  },
   "keywords": [
     "one-amex",
     "one-app",
@@ -26,9 +29,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "bin": {
-    "holocron-dev-server": "bin/holocron-dev-server.js"
-  },
+  "bin": "bin/holocron-dev-server.js",
   "files": [
     "bin/",
     "src/",

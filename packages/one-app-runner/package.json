@@ -3,6 +3,9 @@
   "version": "6.12.0",
   "description": "CLI for running One App locally",
   "license": "Apache-2.0",
+  "scripts": {
+    "release": "semantic-release"
+  },
   "contributors": [
     "Andres Escobar <Andres.Escobar@aexp.com> (https://github.com/anescobar1991)",
     "James Singleton <James.Singleton1@aexp.com> (https://github.com/JamesSingleton)",
@@ -14,8 +17,8 @@
     "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)"
   ],
   "bin": {
-    "one-app-runner": "./bin/one-app-runner.js",
     "create-runner-env": "./bin/create-runner-env.js",
+    "one-app-runner": "./bin/one-app-runner.js",
     "one-app-runner-test": "bin/one-app-runner-test.js"
   },
   "files": [

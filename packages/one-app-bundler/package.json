@@ -3,11 +3,14 @@
   "version": "6.12.0",
   "description": "A command line interface(CLI) tool for bundling One App and its modules.",
   "main": "index.js",
+  "scripts": {
+    "release": "semantic-release"
+  },
   "bin": {
-    "serve-module": "bin/serve-module.js",
-    "drop-module": "bin/drop-module.js",
+    "bundle-module": "bin/bundle-module.js",
     "bundle-one-app": "bin/bundle-one-app.js",
-    "bundle-module": "bin/bundle-module.js"
+    "drop-module": "bin/drop-module.js",
+    "serve-module": "bin/serve-module.js"
   },
   "repository": {
     "url": "https://github.com/americanexpress/one-app-cli.git",

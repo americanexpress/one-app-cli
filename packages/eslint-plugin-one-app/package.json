@@ -6,6 +6,9 @@
   "jest": {
     "preset": "amex-jest-preset"
   },
+  "scripts": {
+    "release": "semantic-release"
+  },
   "repository": {
     "url": "https://github.com/americanexpress/one-app-cli.git",
     "directory": "packages/eslint-plugin-one-app"
