@@ -1,3 +1,10 @@
+# [@americanexpress/one-app-locale-bundler-v6.13.0-beta.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-locale-bundler-v6.12.0...@americanexpress/one-app-locale-bundler-v6.13.0-beta.1) (2021-05-19)
+
+
+### Features
+
+* **yarn2:** update to yarn 2 ([f583464](https://github.com/americanexpress/one-app-cli/commit/f5834648f059cfa5297164b2f3636f963f9a1a6e))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
