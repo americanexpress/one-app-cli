@@ -4,7 +4,7 @@
   "description": "A command line interface(CLI) tool for bundling One App and its modules.",
   "main": "index.js",
   "scripts": {
-    "release": "semantic-release -d"
+    "release": "semantic-release"
   },
   "bin": {
     "bundle-module": "bin/bundle-module.js",
