@@ -1,3 +1,15 @@
+# [@americanexpress/generator-one-app-module-v6.13.0-beta.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/generator-one-app-module-v6.12.0...@americanexpress/generator-one-app-module-v6.13.0-beta.1) (2021-05-19)
+
+
+### Bug Fixes
+
+* **deps:** update one-app-ducks to 4.3.1 ([#230](https://github.com/americanexpress/one-app-cli/issues/230)) ([c466a3e](https://github.com/americanexpress/one-app-cli/commit/c466a3ee1e526045570835ec2e1fe97e56bde926))
+
+
+### Features
+
+* **yarn2:** update to yarn 2 ([f583464](https://github.com/americanexpress/one-app-cli/commit/f5834648f059cfa5297164b2f3636f963f9a1a6e))
+
 # @americanexpress/generator-one-app-module-v1.0.0-beta.1 (2021-05-17)
 
 
