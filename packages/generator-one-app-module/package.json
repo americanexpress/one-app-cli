@@ -4,7 +4,7 @@
   "description": "generator for One App Modules",
   "license": "Apache-2.0",
   "scripts": {
-    "release": "semantic-release"
+    "release": "semantic-release -d"
   },
   "contributors": [
     "Andres Escobar <Andres.Escobar@aexp.com> (https://github.com/anescobar1991)",
