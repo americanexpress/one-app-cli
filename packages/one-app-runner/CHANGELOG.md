@@ -1,3 +1,11 @@
+# [@americanexpress/one-app-runner-v6.13.0-beta.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner-v6.12.0...@americanexpress/one-app-runner-v6.13.0-beta.1) (2021-05-19)
+
+
+### Features
+
+* **uuuid:** update uuid from 3.x to 8.x ([#220](https://github.com/americanexpress/one-app-cli/issues/220)) ([34ca7d7](https://github.com/americanexpress/one-app-cli/commit/34ca7d7688e7e9655c2eb77576993e472b6823cb))
+* **yarn2:** update to yarn 2 ([f583464](https://github.com/americanexpress/one-app-cli/commit/f5834648f059cfa5297164b2f3636f963f9a1a6e))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
