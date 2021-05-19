@@ -1,3 +1,20 @@
+# @americanexpress/eslint-plugin-one-app-v1.0.0-beta.1 (2021-05-17)
+
+
+### Bug Fixes
+
+* **css-loader:** upgraded to latest css-loader api as of 3.4.2 ([74cad69](https://github.com/americanexpress/one-app-cli/commit/74cad69fcbe84eeba7a02b009821e6f7a2db62f2))
+* **externals:** resolver did not recognize complex browser fields ([#66](https://github.com/americanexpress/one-app-cli/issues/66)) ([d35d03c](https://github.com/americanexpress/one-app-cli/commit/d35d03c858a1361a1f214ff3f99b194d2aede521))
+
+
+### Features
+
+* **all:** initial oss release ([696609c](https://github.com/americanexpress/one-app-cli/commit/696609c702b128ba0339064173ac328ce8c00766))
+* **generator:** add generator-one-app-module ([#13](https://github.com/americanexpress/one-app-cli/issues/13)) ([0fd994b](https://github.com/americanexpress/one-app-cli/commit/0fd994b57d2fd9487b31f109f95d13c7e64c14aa))
+* **holocron-dev-server:** add holocron dev server ([bf5d231](https://github.com/americanexpress/one-app-cli/commit/bf5d231c2c50c8ca2db4152e13d13eee0c149589))
+* **lerna:** upgrade lerna to v3.19.0 ([#9](https://github.com/americanexpress/one-app-cli/issues/9)) ([6dacd0b](https://github.com/americanexpress/one-app-cli/commit/6dacd0b8848d1f1045aff36fde2f0d441d0d49a2))
+* **yarn2:** update to yarn 2 ([f583464](https://github.com/americanexpress/one-app-cli/commit/f5834648f059cfa5297164b2f3636f963f9a1a6e))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
