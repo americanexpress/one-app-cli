@@ -1,3 +1,13 @@
+# [@americanexpress/one-app-bundler-v6.13.0-beta.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler-v6.12.0...@americanexpress/one-app-bundler-v6.13.0-beta.1) (2021-05-19)
+
+
+### Features
+
+* **extendWebpackConfig:** added merge plugin feature ([#248](https://github.com/americanexpress/one-app-cli/issues/248)) ([3cdf5af](https://github.com/americanexpress/one-app-cli/commit/3cdf5af287cb444dfe1519b0a41914db9473ef72))
+* **holocron-dev-server:** add holocron dev server ([bf5d231](https://github.com/americanexpress/one-app-cli/commit/bf5d231c2c50c8ca2db4152e13d13eee0c149589))
+* **yarn2:** dedupe and update fibers ([2908d31](https://github.com/americanexpress/one-app-cli/commit/2908d310462f47e9a6c8f294d6ebf46beb61d8cc))
+* **yarn2:** update to yarn 2 ([f583464](https://github.com/americanexpress/one-app-cli/commit/f5834648f059cfa5297164b2f3636f963f9a1a6e))
+
 # Change Log
 
 All notable changes to this project will be documented in this file.
