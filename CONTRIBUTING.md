@@ -40,13 +40,7 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 
 ### Creating a `one-app-cli` new release
 
-1. Run `yarn lerna:version` locally from your release branch. This would push your release changes(changelog and tags) to the branch on github.
-2. Create a pull request from your branch to the `main` branch with your changes.
-3. Once the changes are approved ensure you merge the changes and provide the commit message for the merge as
-   `chore(release) : 1.9.7`
-   ensure you follow this convention otherwise the deployment will not be executed.
-4. Once this is merged to main a deployment would be initiated on the main branch and all packages that changed would be released to npm.
-
+We use [semantic-release-monorepo](https://github.com/pmowrer/semantic-release-monorepo) which does an automated release taking into account the commit message used.
 ## Submitting a new feature
 
 When submitting a new feature request or enhancement of an existing features please review the following:
