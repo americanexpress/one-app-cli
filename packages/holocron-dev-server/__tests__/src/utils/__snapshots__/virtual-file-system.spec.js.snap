@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exports virtual file system interfaces 1`] = `
+Array [
+  "volume",
+  "vfs",
+  "ufs",
+]
+`;

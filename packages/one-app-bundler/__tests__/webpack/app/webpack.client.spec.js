@@ -16,6 +16,14 @@
 const { validateWebpackConfig } = require('../../../test-utils');
 const configGenerator = require('../../../webpack/app/webpack.client');
 
+jest.mock('../../../webpack/loaders/common', () => {
+  const originalModule = jest.requireActual('../../../webpack/loaders/common');
+
+  return {
+    ...originalModule,
+    sassLoader: jest.fn(() => 'sassLoader'),
+  };
+});
 describe('webpack/app', () => {
   let originalNodeEnv;
 
