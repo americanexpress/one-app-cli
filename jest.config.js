@@ -14,11 +14,12 @@
 
 module.exports = {
   preset: 'amex-jest-preset',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   collectCoverageFrom: [
     'packages/**/*.{js,jsx}',
     '!**/node_modules/**',
     '!**/build/**',
-    '!packages/*/lib/**',
+    'packages/*/lib/**',
     '!packages/*/bin/**',
     '!packages/*/test-utils.js',
     '!packages/*/test-results/**',
@@ -26,10 +27,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 99.38,
-      branches: 99.53,
-      functions: 97.27,
-      lines: 99.78,
+      statements: 99.72,
+      branches: 99.80,
+      functions: 99.15,
+      lines: 99.9,
     },
   },
   testPathIgnorePatterns: [

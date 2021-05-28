@@ -2,6 +2,8 @@
 node_modules
 npm-debug.log
 packages/*/*.tgz
+packages/*/package-lock.json
+package-lock.json
 
 #lerna
 lerna-debug.log
@@ -13,3 +15,7 @@ bundle.integrity.manifest.json
 
 # intelliJ
 .idea/
+
+# yarn
+yarn-debug.log*
+yarn-error.log*

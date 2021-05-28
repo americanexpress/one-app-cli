@@ -7,11 +7,14 @@ export default MyComponent;
 MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
   providedExternals: {
     'ajv': { version: '6.12.6', module: require('ajv')},
-  'lodash': { version: '4.17.20', module: require('lodash')},
+  'lodash': { version: '4.17.21', module: require('lodash')},
   },
 });
 
+if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === 'undefined')){
 global.getTenantRootModule = () => MyComponent;
+global.rootModuleName = 'undefined';
+}
 "
 `;
 

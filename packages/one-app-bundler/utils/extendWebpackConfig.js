@@ -14,6 +14,7 @@
 
 const path = require('path');
 const merge = require('webpack-merge');
+const uniqBy = require('lodash/uniqBy');
 const getConfigOptions = require('./getConfigOptions');
 const getCliOptions = require('./getCliOptions');
 const createResolver = require('../webpack/createResolver');
@@ -37,6 +38,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     appCompatibility,
     requiredExternals,
     providedExternals,
+    moduleName,
   } = configOptions;
   const { watch } = cliOptions;
 
@@ -60,6 +62,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader',
             options: {
               providedExternals,
+              moduleName,
             },
           }],
         }],
@@ -117,7 +120,17 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     });
   }
 
-  return merge(webpackConfig, customWebpackConfig);
+  return merge({
+    customizeArray(defaultConfig, customConfig, key) {
+      if (key === 'plugins') {
+        const merged = [...customConfig, ...defaultConfig];
+        const unique = uniqBy(merged, (plugin) => plugin.constructor && plugin.constructor.name);
+        return unique;
+      }
+
+      return undefined;
+    },
+  })(webpackConfig, customWebpackConfig);
 }
 
 module.exports = extendWebpackConfig;

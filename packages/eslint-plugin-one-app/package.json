@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/eslint-plugin-one-app",
-  "version": "6.11.0",
+  "version": "6.12.0",
   "description": "This package has Eslint configurations used by one-app.",
   "main": "index.js",
   "jest": {
