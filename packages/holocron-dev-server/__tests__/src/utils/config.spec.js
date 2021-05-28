@@ -13,9 +13,8 @@
  */
 
 import readPkgUp from 'read-pkg-up';
-import { createConfig } from '../../../src';
 import { getContextPath } from '../../../src/utils/paths';
-import { createConfigurationContext } from '../../../src/utils/config';
+import { createConfig, createConfigurationContext } from '../../../src/utils/config';
 
 jest.mock('read-pkg-up');
 
@@ -145,6 +144,42 @@ describe('createConfig', () => {
       serverAddress: 'http://localhost:4000/',
     });
   });
+
+  it('creates a configuration when no "one-amex" key', async () => {
+    const simpleModuleMock = () => ({
+      packageJson: {
+        name: 'hmr',
+        version: '1.0.0',
+      },
+    });
+
+    readPkgUp.mockImplementationOnce(simpleModuleMock);
+    const config = await createConfig();
+    expect(config).toMatchObject({
+      clientConfig: {
+        errorReportingUrl: '/reports/error',
+      },
+      dockerImage: 'oneamex/one-app-dev:latest',
+      environmentVariables: undefined,
+      externals: [],
+      logLevel: 4,
+      moduleName: 'hmr',
+      modulePath: '/home',
+      moduleVersion: '1.0.0',
+      modules: [{
+        environmentVariables: undefined,
+        externals: [],
+        moduleName: 'hmr',
+        modulePath: '/home',
+        moduleVersion: '1.0.0',
+        providedExternals: undefined,
+        requiredExternals: undefined,
+        rootModule: true,
+        src: '/static/modules/hmr/hmr.js',
+      }],
+    });
+  });
+
   it('creates a configuration from various keys on "one-amex" field, if module is not present', async () => {
     const rootMock = () => ({
       packageJson: {
