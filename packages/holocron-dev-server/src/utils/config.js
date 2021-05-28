@@ -23,14 +23,14 @@ export const BUNDLER_CONFIG_KEY = 'bundler';
 export const RUNNER_CONFIG_KEY = 'runner';
 export const HMR_CONFIG_KEY = 'hmr';
 
-export async function getPackageJsonConfig(modulePath = getContextPath()) {
+async function getPackageJsonConfig(modulePath = getContextPath()) {
   const {
     packageJson: {
       [ONE_AMEX_CONFIG_KEY]: {
         [BUNDLER_CONFIG_KEY]: bundler,
         [RUNNER_CONFIG_KEY]: runner,
         [HMR_CONFIG_KEY]: hmr,
-      },
+      } = {},
       name: moduleName,
       version: moduleVersion,
     },
