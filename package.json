@@ -38,7 +38,8 @@
     "lerna": "^3.20.2",
     "lockfile-lint": "^4.1.0",
     "mock-fs": "^4.7.0",
-    "prop-types": "*"
+    "prop-types": "*",
+    "regenerator-runtime": "^0.13.7"
   },
   "husky": {
     "hooks": {
