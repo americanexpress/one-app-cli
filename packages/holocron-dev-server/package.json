@@ -80,7 +80,7 @@
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
     "transit-immutable-js": "0.8.0",
-    "transit-js": "0.8.861",
+    "transit-js": "0.8.874",
     "unionfs": "^4.4.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.0",

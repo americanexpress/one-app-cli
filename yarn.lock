@@ -13603,10 +13603,10 @@ transit-immutable-js@0.8.0:
   resolved "https://registry.yarnpkg.com/transit-immutable-js/-/transit-immutable-js-0.8.0.tgz#3517519451fbdf3c187032da076757eb03d9848a"
   integrity sha512-ONMckwIaS/t06yfdgui91zbVzyu/8iM+q+apbevO1SCs1NfX1C8KAczeP/XcSue095UG5oC3UWSIySHIT7jTzA==
 
-transit-js@0.8.861:
-  version "0.8.861"
-  resolved "https://registry.yarnpkg.com/transit-js/-/transit-js-0.8.861.tgz#829e516b80349a41fff5d59f5e6993b5473f72c9"
-  integrity sha512-4O9OrYPZw6C0M5gMTvaeOp+xYz6EF79JsyxIvqXHlt+pisSrioJWFOE80N8aCPoJLcNaXF442RZrVtdmd4wkDQ==
+transit-js@0.8.874:
+  version "0.8.874"
+  resolved "https://registry.yarnpkg.com/transit-js/-/transit-js-0.8.874.tgz#37b27d6632bd796567c359220297c862e3988bbb"
+  integrity sha512-IDJJGKRzUbJHmN0P15HBBa05nbKor3r2MmG6aSt0UxXIlJZZKcddTk67/U7WyAeW9Hv/VYI02IqLzolsC4sbPA==
 
 trim-newlines@^1.0.0:
   version "1.0.0"
