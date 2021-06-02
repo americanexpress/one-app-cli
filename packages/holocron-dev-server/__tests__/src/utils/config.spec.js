@@ -66,6 +66,7 @@ describe('createConfig', () => {
       remoteModuleMapUrl: undefined,
       environmentVariables: undefined,
       openWhenReady: false,
+      offline: false,
       clientConfig: { errorReportingUrl: '/reports/error' },
       sourceMap: undefined,
       webpackConfigPath: undefined,

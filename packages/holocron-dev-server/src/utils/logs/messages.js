@@ -265,6 +265,9 @@ export function logPullingDockerImage() {
   log(printStatics('Pulling Docker image to extract One App statics'));
 }
 
+export function logOfflineMode() {
+  log(printStatics('Working offline mode, no Docker image was pulled'));
+}
 export function logOneAppVersion(appVersion) {
   log(printStatics('Using One App version v%s'), appVersion);
 }

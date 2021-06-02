@@ -88,6 +88,11 @@ describe('loadOneAppStaticsFromDocker', () => {
     expect(() => loadOneAppStaticsFromDocker()).not.toThrow();
     expect(console.error).toHaveBeenCalledTimes(1);
   });
+  it('loads statics in offline mode', () => {
+    const offline = true;
+    expect(() => loadOneAppStaticsFromDocker({ offline })).not.toThrow();
+    expect(console.log).toHaveBeenCalledTimes(2);
+  });
 });
 
 describe('loadStatics', () => {

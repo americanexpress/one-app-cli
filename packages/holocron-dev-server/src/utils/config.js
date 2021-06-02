@@ -51,6 +51,7 @@ export function extractRunnerOptions({
   moduleMapUrl,
   dockerImage,
   envVars,
+  offline,
 } = {}) {
   return {
     modules: modules.map((relativeModulePath) => path.resolve(getContextPath(), relativeModulePath)
@@ -59,6 +60,7 @@ export function extractRunnerOptions({
     environmentVariables: envVars,
     rootModuleName,
     dockerImage,
+    offline,
   };
 }
 
@@ -161,6 +163,7 @@ export function createConfigurationContext({
     webpackConfigPath,
     performanceBudget,
     purgecss,
+    offline = false,
   } = {
     ...extractBundlerOptions(bundler),
     ...extractRunnerOptions(runner),
@@ -189,6 +192,7 @@ export function createConfigurationContext({
     webpackConfigPath,
     performanceBudget,
     purgecss,
+    offline,
   };
 }
 

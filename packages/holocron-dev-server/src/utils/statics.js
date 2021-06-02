@@ -25,6 +25,7 @@ import {
   logPullingDockerImage,
   logOneAppVersion,
   logStaticStep,
+  logOfflineMode,
 } from './logs';
 import { libraryName, oneAppDockerImageName } from '../constants';
 
@@ -44,13 +45,19 @@ export function loadOneAppStaticsFromDocker({
   tempDir = getTempPath(),
   appDir = getOneAppPath(),
   dockerImage = oneAppDockerImageName,
+  offline,
 } = {}) {
   try {
-    logPullingDockerImage();
-
     // TODO: spinner while loading, use spawn
     // TODO: replace stdout with meaningful feedback instead of docker output
-    execFileSync('docker', ['pull', dockerImage], { stdio: 'inherit' });
+
+    if (offline) {
+      logOfflineMode();
+    } else {
+      logPullingDockerImage();
+      execFileSync('docker', ['pull', dockerImage], { stdio: 'inherit' });
+    }
+
     const imageId = execFileSync('docker', ['create', dockerImage]).toString().trim();
     execFileSync('docker', ['cp', `${imageId}:opt/one-app/build/`, tempDir], {
       stdio: 'inherit',
@@ -73,9 +80,9 @@ export function loadStatics(config = {}) {
   const outputDir = getStaticPath();
   if (!ufs.existsSync(outputDir)) ufs.mkdirSync(outputDir);
   if (!ufs.existsSync(getOneAppPath())) {
-    const { dockerImage } = config;
+    const { dockerImage, offline } = config;
     loadOneAppStaticsFromDocker({
-      dockerImage,
+      dockerImage, offline,
     });
   }
   addStaticsDirToGitIgnore();
