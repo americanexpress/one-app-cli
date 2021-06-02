@@ -65,6 +65,7 @@ export default async function holocronDevServer({
   remoteModuleMapUrl,
   dockerImage,
   webpackConfigPath,
+  offline,
 }) {
   if (!isDevelopment()) {
     logError(
@@ -78,7 +79,7 @@ export default async function holocronDevServer({
 
   logServerStart({ rootModuleName });
 
-  await loadStatics({ dockerImage });
+  await loadStatics({ dockerImage, offline });
   await loadLanguagePacks({ modules });
 
   const { moduleMap, localModuleMap, remoteModuleMap } = await createModuleMap({
