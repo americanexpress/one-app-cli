@@ -13,7 +13,7 @@
  */
 
 import path from 'path';
-import { execSync, spawnSync } from 'child_process';
+import { execSync, execFileSync, spawnSync } from 'child_process';
 
 import { ufs } from './virtual-file-system';
 import {
@@ -50,8 +50,9 @@ export function loadOneAppStaticsFromDocker({
 
     // TODO: spinner while loading, use spawn
     // TODO: replace stdout with meaningful feedback instead of docker output
-    execSync('docker pull', [dockerImage], { stdio: 'inherit' });
-    execSync('docker cp $(docker create', [dockerImage], `):opt/one-app/build/ ${tempDir}`, {
+    execFileSync('docker', ['pull', dockerImage], { stdio: 'inherit' });
+    const imageId = execFileSync('docker', ['create', dockerImage]).toString().trim();
+    execFileSync('docker', ['cp', `${imageId}:opt/one-app/build/`, tempDir], {
       stdio: 'inherit',
     });
 
