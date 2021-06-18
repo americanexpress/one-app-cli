@@ -10,6 +10,7 @@ updates:
       - "npm"
       - "dependencies"
       - "dependabot"
+    target-branch: "dependabot-changes" 
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -20,3 +21,4 @@ updates:
     labels:
       - "github-actions"
       - "dependabot"
+    target-branch: "dependabot-changes"    
