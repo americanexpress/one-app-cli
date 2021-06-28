@@ -9,7 +9,7 @@
     "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)"
   ],
   "bin": {
-    "create-holocron-module": "bin/create-holocron-module.js"
+    "create-holocron-module": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,5 +24,10 @@
     "url": "https://github.com/americanexpress/one-app-cli/issues"
   },
   "author": "One App",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "commander": "^7.2.0",
+    "fs-extra": "^10.0.0",
+    "prompts": "^2.4.1"
+  }
 }
