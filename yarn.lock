@@ -11,9 +11,15 @@
     tough-cookie "^4.0.0"
 
 "@americanexpress/one-app-ducks@*", "@americanexpress/one-app-ducks@^4.1.1":
+<<<<<<< HEAD
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.2.tgz#fa4c3ee036d9de676ff0d72ed90e5ec1e805c9dc"
   integrity sha512-6BNeTlIuuAkoLSp7XfTEA7QK/FXaCWtOzm7buMUq6s97r1dsy6i1D2PeUyOV9xt43/TdLo6ea3CXRM493wEWPw==
+=======
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.3.tgz#ea3cf01157a2acaa447ad2959fa0016cc59aa7fd"
+  integrity sha512-i24cltQ/76NjVEddR0s+sJCG9+lyxjRBD92n6XLwXGcCpNPDT6D/4JSFhhtoe2N/3o5S3PEqKnlVy2Mzchvctg==
+>>>>>>> ce552d3 (chore(deps): bump @americanexpress/one-app-ducks from 4.3.1 to 4.3.3 (#351))
   dependencies:
     holocron "^1.0.0"
     immutable "^4.0.0-rc.12"
