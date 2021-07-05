@@ -72,7 +72,7 @@
     "react-dom": "16.14.0",
     "react-helmet": "^6.1.0",
     "react-redux": "^7.2.1",
-    "react-refresh": "^0.9.0",
+    "react-refresh": "^0.10.0",
     "read-pkg-up": "^7.0.1",
     "redux": "^4.0.5",
     "reselect": "^4.0.0",
