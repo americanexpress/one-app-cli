@@ -82,7 +82,7 @@
     "transit-immutable-js": "0.8.0",
     "transit-js": "0.8.861",
     "unionfs": "^4.4.0",
-    "webpack": "^4.46.0",
+    "webpack": "^5.42.0",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-dev-middleware": "^4.1.0",
     "webpack-hot-middleware": "^2.25.0",
