@@ -13,21 +13,24 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
 const localeBundler = require('@americanexpress/one-app-locale-bundler');
 
 const clientConfig = require('../webpack/module/webpack.client');
 const serverConfig = require('../webpack/module/webpack.server');
-const getWebpackCallback = require('./webpackCallback');
+const buildWebpack = require('../utils/buildWebpack');
+const time = require('../utils/time');
 const { watch } = require('../utils/getCliOptions')();
 
-const modernClientConfig = clientConfig('modern');
-const legacyClientConfig = clientConfig('legacy');
+time(() => localeBundler(watch), 'Language Packs Build');
+time(() => {
+  const configs = [
+    ['node', serverConfig],
+    ['browser', clientConfig('modern')],
+    ['legacyBrowser', clientConfig('legacy')],
+  ].map(([name, config]) => ({
+    ...config,
+    name,
+  }));
 
-fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
-localeBundler(watch);
-webpack(serverConfig, getWebpackCallback('node', true));
-webpack(modernClientConfig, getWebpackCallback('browser', true));
-webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+  return buildWebpack(configs, { watch, isModuleBuild: true });
+}, 'Module Bundle Build');

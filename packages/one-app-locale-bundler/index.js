@@ -23,10 +23,10 @@ function runLocaleBundler(modulePath) {
     });
 }
 
-module.exports = function localeBundler(watch) {
+module.exports = async function localeBundler(watch) {
   const modulePath = process.cwd();
 
-  runLocaleBundler(modulePath);
+  await runLocaleBundler(modulePath);
 
   if (watch) {
     const inputPath = path.join(modulePath, 'locale');

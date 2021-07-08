@@ -13,17 +13,25 @@
  * under the License.
  */
 
-const { promisify } = require('util');
-const webpack = promisify(require('webpack'));
 const chalk = require('chalk');
 
-const config = require('../webpack/app/webpack.client');
-const getWebpackCallback = require('./webpackCallback');
 const postProcessOneAppBundle = require('./postProcessOneAppBundle');
+const createClientConfig = require('../webpack/app/webpack.client');
+const buildWebpack = require('../utils/buildWebpack');
+const time = require('../utils/time');
 
-Promise.all([
-  webpack(config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)),
-  webpack(config('legacy')).then((stats) => getWebpackCallback('legacyBrowser', false)(undefined, stats)),
-]).then(postProcessOneAppBundle).catch((err) => {
-  console.log(chalk.red(err), chalk.red(err.stack));
-});
+time(() => {
+  const configs = [
+    ['browser', createClientConfig('modern')],
+    ['legacyBrowser', createClientConfig('legacy')],
+  ].map(([name, config]) => ({
+    ...config,
+    name,
+  }));
+
+  return buildWebpack(configs, { isModuleBuild: false })
+    .then(postProcessOneAppBundle)
+    .catch((err) => {
+      console.error(chalk.red(err), chalk.red(err.stack));
+    });
+}, 'One App Client Bundle Build');
