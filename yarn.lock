@@ -11,9 +11,9 @@
     tough-cookie "^4.0.0"
 
 "@americanexpress/one-app-ducks@*", "@americanexpress/one-app-ducks@^4.1.1":
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.1.tgz#9c12faeddb687aaf02f2ec9a92d4311b3a7f87f0"
-  integrity sha512-DSa1DdJsrB0pCuduwqU6pPaTntT5z6w41sbj4qk9WhjitFMFJmnhcQPOdLtt5HBi2L29ZMYDGEP/G8E2iDIFYg==
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.2.tgz#fa4c3ee036d9de676ff0d72ed90e5ec1e805c9dc"
+  integrity sha512-6BNeTlIuuAkoLSp7XfTEA7QK/FXaCWtOzm7buMUq6s97r1dsy6i1D2PeUyOV9xt43/TdLo6ea3CXRM493wEWPw==
   dependencies:
     holocron "^1.0.0"
     immutable "^4.0.0-rc.12"
@@ -4697,15 +4697,10 @@ core-js@^2.4.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
-core-js@^3.0.1, core-js@^3.2.1:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.11.0.tgz#05dac6aa70c0a4ad842261f8957b961d36eb8926"
-  integrity sha512-bd79DPpx+1Ilh9+30aT5O1sgpQd4Ttg8oqkqi51ZzhedMM1omD2e6IOF48Z/DzDCZ2svp49tN/3vneTK6ZBkXw==
-
-core-js@^3.8.3:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.9.1.tgz#cec8de593db8eb2a85ffb0dbdeb312cb6e5460ae"
-  integrity sha512-gSjRvzkxQc1zjM/5paAmL4idJBFzuJoo+jDjF1tStYFMV2ERfD02HhahhCGXUyHxQRG4yFKVSdO6g62eoRMcDg==
+core-js@^3.0.1, core-js@^3.2.1, core-js@^3.8.3:
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.12.1.tgz#6b5af4ff55616c08a44d386f1f510917ff204112"
+  integrity sha512-Ne9DKPHTObRuB09Dru5AjwKjY4cJHVGu+y5f7coGn1E9Grkc3p2iBwE9AI/nJzsE29mQF7oq+mhYYRqOMFN1Bw==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
