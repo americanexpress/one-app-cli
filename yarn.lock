@@ -3,9 +3,9 @@
 
 
 "@americanexpress/fetch-enhancers@^1.0.3":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@americanexpress/fetch-enhancers/-/fetch-enhancers-1.0.5.tgz#f1b5bf3c3f0d1d46b0e231ee838942b11cdcdf00"
-  integrity sha512-9w3fK1wK+4JVbVHIBEl6O0owpz0NLUcZicGtS2f+F6lHpeR8Ct8TJp1iDdk1rGcwTyafbH9vHQORGkb/sxwjPQ==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@americanexpress/fetch-enhancers/-/fetch-enhancers-1.1.1.tgz#4a0f298c99f393db5b9a4c2b029c95543b951811"
+  integrity sha512-4y4m9ZGls8cdcTobG3JAMAFw7UeXGr7osy8f38WGV+0UH6UZT2k5BVZdE3ABmAsWYo0QHppT93N/QwfXkktTyQ==
   dependencies:
     abort-controller "^3.0.0"
     tough-cookie "^4.0.0"
@@ -5449,10 +5449,10 @@ dot-prop@^5.1.0, dot-prop@^5.2.0:
   dependencies:
     is-obj "^2.0.0"
 
-dotenv@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
-  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 download-stats@^0.3.4:
   version "0.3.4"
