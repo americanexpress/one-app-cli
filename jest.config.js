@@ -24,6 +24,7 @@ module.exports = {
     '!packages/*/test-utils.js',
     '!packages/*/test-results/**',
     '!packages/generator-one-app-module/generators/app/templates/**',
+    '!packages/holocron-module-template/template/**',
   ],
   coverageThreshold: {
     global: {
@@ -35,5 +36,6 @@ module.exports = {
   },
   testPathIgnorePatterns: [
     'packages/generator-one-app-module/generators/app/templates',
+    'packages/holocron-module-template/template',
   ],
 };

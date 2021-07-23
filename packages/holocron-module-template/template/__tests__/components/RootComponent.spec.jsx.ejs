@@ -1,0 +1,22 @@
+import React from 'react';
+import { shallow } from 'enzyme';
+<% if(isRootModule) { -%>
+import { Route } from '@americanexpress/one-app-router';
+import childRoutes from '../../src/childRoutes';
+<% } -%>
+import <%= camelCaseModuleName %> from '../../src/components/<%= camelCaseModuleName %>';
+
+describe('<%= camelCaseModuleName %> should render as expected', () => {
+<% if(isRootModule) { -%>
+  describe('childRoutes', () => {
+    it('should return an array of Routes', () => {
+      expect(childRoutes()).toEqual(expect.any(Array));
+      childRoutes().forEach((route) => expect(route.type).toEqual(Route));
+    });
+  });
+<% } -%>
+  it('module should render correct JSX', () => {
+    const renderedModule = shallow(<<%= camelCaseModuleName %> />);
+    expect(renderedModule.find('div')).toMatchSnapshot();
+  });
+});

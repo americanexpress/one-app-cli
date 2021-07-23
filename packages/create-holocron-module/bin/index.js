@@ -15,37 +15,33 @@
  */
 
 const { Command } = require('commander');
-const createHolocronModule = require('../src/create-holocron-module');
 const packageJson = require('../package.json');
-const getModuleOpts = require('../src/prompt-user');
+const generateFromTemplate = require('../src/generate-from-template');
 
-let moduleName;
+let templateName;
 
 const program = new Command();
 program
   .version(packageJson.version)
   .description(packageJson.description)
-  .arguments('[moduleName]')
+  .arguments('[templateName]')
   .action((name) => {
-    moduleName = name;
+    templateName = name;
   })
   .allowUnknownOption()
-  .option('-t, --template <template-path>', 'Path to Holocron module template')
-  .option('-r, --rootModule', 'Root Module')
   .parse();
 
 const run = async () => {
   const programOpts = program.opts();
-  const moduleOpts = await getModuleOpts({ moduleName, ...programOpts });
-  await createHolocronModule({
-    moduleName,
+  await generateFromTemplate({
+    templateName,
     ...programOpts,
-    ...moduleOpts,
   });
 };
 
 run().catch((err) => {
   // eslint-disable-next-line no-console
   console.error('Failed to create module:', err.message);
+  console.error(err);
   process.exit(1);
 });

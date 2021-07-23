@@ -1,0 +1,21 @@
+{
+  "name": "@americanexpress/holocron-module-template",
+  "version": "0.0.1",
+  "description": "The standard template for generating a holocron module",
+  "contributors": [
+    "Jimmy King  <Jimmy.King@aexp.com> (https://github.com/10xLaCroixDrinker)",
+    "Jonathan Adshead <Jonathan.Adshead@aexp.com> (https://github.com/JAdshead)",
+    "Michael Rochester <Michael.Rochester@aexp.com> (https://github.com/code-forger)"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "holocron",
+    "module",
+    "one-app"
+  ],
+  "author": "One App",
+  "license": "Apache-2.0"
+}

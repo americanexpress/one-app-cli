@@ -1,0 +1,28 @@
+import React from 'react';
+<% if(isRootModule) { -%>
+import childRoutes from '../childRoutes';
+<% } -%>
+
+const <%= camelCaseModuleName %> = () => (
+  <div>
+    <h1>Welcome to One App!</h1>
+  </div>
+);
+
+<% if(isRootModule) { -%>
+// Read about childRoutes:
+// https://github.com/americanexpress/one-app/blob/main/docs/api/modules/Routing.md#childroutes
+<%= camelCaseModuleName %>.childRoutes = childRoutes;
+<% } -%>
+
+<% if(isRootModule) { -%>
+// Read about appConfig:
+// https://github.com/americanexpress/one-app/blob/main/docs/api/modules/App-Configuration.md
+/* istanbul ignore next */
+if (!global.BROWSER) {
+  // eslint-disable-next-line global-require
+  <%= camelCaseModuleName %>.appConfig = require('../appConfig').default;
+}
+<% } -%>
+
+export default <%= camelCaseModuleName %>;
