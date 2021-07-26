@@ -20,7 +20,7 @@ const generateFromTemplate = async ({ templateName }) => {
   log.stepBanner(2);
   const baseData = await getBaseOptions();
   const {
-    templateData,
+    templateValues,
     dynamicFileNames = [],
     ignoredFileNames = [],
   } = await templatePackage.getTemplateOptions(baseData, prompts);
@@ -29,17 +29,19 @@ const generateFromTemplate = async ({ templateName }) => {
   // Generate Module
   log.stepBanner(3);
 
-  templateDirPaths.forEach((templateRootPath) => walkTemplate({
+  templateDirPaths.forEach((templateRootPath) => walkTemplate(
     templateRootPath,
-    ignoredFileNames,
-    dynamicFileNames,
-    templateData,
-    outputRootPath: `./${templateData.moduleName}`,
-  }));
+    `./${templateValues.moduleName}`,
+    {
+      ignoredFileNames,
+      dynamicFileNames,
+      templateValues,
+    }
+  ));
 
   // Install and build the module
   log.stepBanner(4);
-  await installModule(`./${templateData.moduleName}`);
+  await installModule(`./${templateValues.moduleName}`);
 
   // Initialize git
   log.stepBanner(5);

@@ -15,16 +15,16 @@ const getDynamicFileNames = ({ camelCaseModuleName }) => ({
   'RootComponent.spec.js': `${camelCaseModuleName}.spec.js`,
 });
 
-const createAdditionalTemplateData = (templateData) => ({
-  camelCaseModuleName: kebabToCC(templateData.moduleName),
-  rootModuleName: templateData.rootModuleName || templateData.moduleName,
-  isRootModule: !templateData.rootModuleName,
+const createAdditionalTemplateData = (templateValues) => ({
+  camelCaseModuleName: kebabToCC(templateValues.moduleName),
+  rootModuleName: templateValues.rootModuleName || templateValues.moduleName,
+  isRootModule: !templateValues.rootModuleName,
 });
 
-const getIgnoredFileNames = (templateData) => {
+const getIgnoredFileNames = (templateValues) => {
   const ignoredFiles = [];
 
-  if (!templateData.isRootModule) {
+  if (!templateValues.isRootModule) {
     ignoredFiles.push('appConfig.js');
     ignoredFiles.push('appConfig.spec.js');
     ignoredFiles.push('csp.js');
@@ -35,7 +35,7 @@ const getIgnoredFileNames = (templateData) => {
 };
 
 const getTemplateOptions = async (baseData, prompts) => {
-  let templateData = {
+  let templateValues = {
     ...baseData,
     ...await prompts([
       {
@@ -59,15 +59,15 @@ const getTemplateOptions = async (baseData, prompts) => {
     ]),
   };
 
-  templateData = {
-    ...templateData,
-    ...createAdditionalTemplateData(templateData),
+  templateValues = {
+    ...templateValues,
+    ...createAdditionalTemplateData(templateValues),
   };
 
   return {
-    templateData,
-    dynamicFileNames: getDynamicFileNames(templateData),
-    ignoredFileNames: getIgnoredFileNames(templateData),
+    templateValues,
+    dynamicFileNames: getDynamicFileNames(templateValues),
+    ignoredFileNames: getIgnoredFileNames(templateValues),
   };
 };
 

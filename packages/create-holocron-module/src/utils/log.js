@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+const pack = require('../../package.json');
+
 const generatorBanner = () => {
   console.log(' \n'
     + '\n'
@@ -11,7 +14,7 @@ const generatorBanner = () => {
     + '\n'
     + '                https://github.com/americanexpress/one-app\n'
     + '\n'
-    + 'Welcome to One App Generator v<Verson>\n'
+    + `Welcome to One App Generator v${pack.version}\n`
     + 'Application files will be generated in folder: <location>\n'
     + '________________________________________________________________________________\n'
     + '\n'
@@ -48,7 +51,9 @@ ________________________________________________________________________________
 ];
 
 const stepBanner = (step) => {
-  console.log(stepBanners[step - 1]);
+  if (stepBanners[step - 1] !== undefined) {
+    console.log(stepBanners[step - 1]);
+  }
 };
 
 module.exports = {

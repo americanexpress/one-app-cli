@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getBaseOptions should call prompts with the correct set of base options 1`] = `
+Array [
+  Array [
+    Object {
+      "initial": "my-module",
+      "message": "Enter module name:",
+      "name": "moduleName",
+      "type": "text",
+    },
+  ],
+]
+`;
