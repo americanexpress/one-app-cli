@@ -13,8 +13,8 @@ const generateFromTemplate = async ({ templateName }) => {
   await installTemplate(templateName);
 
   // we will need to resolve the correct name to import from from given template package
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  const templatePackage = await import('@americanexpress/holocron-module-template');
+  // eslint-disable-next-line import/no-extraneous-dependencies,global-require
+  const templatePackage = require('@americanexpress/holocron-module-template');
 
   // Gather parameters
   log.stepBanner(2);

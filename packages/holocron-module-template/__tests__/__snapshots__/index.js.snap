@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Template public api getTemplateOptions templateOptions.dynamicFileNames should if present, should match the snapshot 1`] = `
+Object {
+  "RootComponent.jsx": "ModuleNameMock.jsx",
+  "RootComponent.spec.js": "ModuleNameMock.spec.js",
+  "RootComponent.spec.jsx": "ModuleNameMock.spec.jsx",
+}
+`;
+
+exports[`Template public api getTemplateOptions templateOptions.ignoredFileNames should if present, should match the snapshot 1`] = `
+Array [
+  ".eslintrc.json",
+  "appConfig.js",
+  "appConfig.spec.js",
+  "csp.js",
+  "childRoutes.jsx",
+]
+`;
+
+exports[`Template public api getTemplateOptions templateOptions.templateValues should call Prompts with the correct config 1`] = `
+Array [
+  Object {
+    "initial": "",
+    "message": "Enter module description:",
+    "name": "description",
+    "type": "text",
+  },
+  Object {
+    "initial": "",
+    "message": "Enter the name of your root module (leave blank for this module to be root):",
+    "name": "rootModuleName",
+    "type": "text",
+  },
+  Object {
+    "initial": "",
+    "message": "Enter the url for your dev environment module map:",
+    "name": "moduleMapUrl",
+    "type": "text",
+  },
+]
+`;
+
+exports[`Template public api getTemplateOptions templateOptions.templateValues should match the snapshot 1`] = `
+Object {
+  "camelCaseModuleName": "ModuleNameMock",
+  "initial": "",
+  "isRootModule": false,
+  "message": "Enter the url for your dev environment module map:",
+  "moduleName": "module-name-mock",
+  "name": "moduleMapUrl",
+  "rootModuleName": "rootModuleNameMock",
+  "type": "text",
+}
+`;
+
+exports[`Template public api getTemplateOptions templateOptions.templateValues should match the snapshot when the prompts are all black 1`] = `
+Object {
+  "camelCaseModuleName": "ModuleNameMock",
+  "initial": "",
+  "isRootModule": true,
+  "message": "Enter the url for your dev environment module map:",
+  "moduleName": "module-name-mock",
+  "name": "moduleMapUrl",
+  "rootModuleName": "module-name-mock",
+  "type": "text",
+}
+`;

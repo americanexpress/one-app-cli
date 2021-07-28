@@ -26,6 +26,8 @@ jest.mock('chokidar', () => {
 });
 jest.mock('../src/compileModuleLocales', () => jest.fn(() => Promise.resolve()));
 
+const flushPromises = () => new Promise(setImmediate);
+
 describe('index', () => {
   jest.spyOn(process, 'cwd').mockImplementation(() => 'module/path');
 
@@ -55,5 +57,22 @@ describe('index', () => {
     expect(chokidar.on.mock.calls[0][0]).toBe('all');
     chokidar.on.mock.calls[0][1]();
     expect(compileModuleLocales).toHaveBeenCalledTimes(2);
+  });
+
+  it('should throw an exception in a 0 length timeout if compileModuleLocales fails', async () => {
+    compileModuleLocales.mockImplementation(() => Promise.reject(new Error('rejectionReasonMock')));
+
+    jest.useFakeTimers();
+
+    index();
+
+    await flushPromises();
+
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(setTimeout).toHaveBeenNthCalledWith(1, expect.any(Function));
+
+    expect(() => jest.runAllTimers()).toThrow('rejectionReasonMock');
+
+    jest.useRealTimers();
   });
 });

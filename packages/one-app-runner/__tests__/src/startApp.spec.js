@@ -241,4 +241,32 @@ describe('startApp', () => {
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
+
+  describe('Process signals', () => {
+    beforeEach(() => {
+      jest.spyOn(process, 'on');
+    });
+
+    afterEach(() => {
+      process.on.mockRestore();
+    });
+
+    it('should register noop process signals to prevent the process being terminated', () => {
+      const mockSpawn = require('mock-spawn')();
+      childProcess.spawn.mockImplementationOnce(mockSpawn);
+      startApp({
+        moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', envVars: { NODE_EXTRA_CA_CERTS: '/envVar/location/cert.pem' },
+      });
+
+      expect(process.on).toHaveBeenCalledTimes(2);
+      expect(process.on).toHaveBeenNthCalledWith(1, 'SIGINT', expect.any(Function));
+      expect(process.on).toHaveBeenNthCalledWith(2, 'SIGTERM', expect.any(Function));
+
+      expect(process.on.mock.calls[0][1]).not.toThrow();
+      expect(process.on.mock.calls[0][1]()).toBe('noop - just need to pass signal to one app process so it can handle it');
+
+      expect(process.on.mock.calls[1][1]).not.toThrow();
+      expect(process.on.mock.calls[1][1]()).toBe('noop - just need to pass signal to one app process so it can handle it');
+    });
+  });
 });
