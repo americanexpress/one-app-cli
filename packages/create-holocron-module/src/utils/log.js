@@ -40,7 +40,7 @@ ________________________________________________________________________________
 `,
   `
 Step 4
-Install and build the module
+Silently install, build and test the module, this may take a minute
 ________________________________________________________________________________
 `,
   `

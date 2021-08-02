@@ -1,9 +1,10 @@
-const spawn = require('cross-spawn');
+const runCommand = require('./run-command');
 
-const runNpmInstall = (workingDirectory, additionalArgs = []) => new Promise((resolve, reject) => {
+const runNpmInstall = async (workingDirectory, additionalArgs = []) => {
   const command = 'npm';
   const args = [
     'install',
+    '--progress=false',
     '--no-audit',
     '--save',
     '--save-exact',
@@ -11,14 +12,7 @@ const runNpmInstall = (workingDirectory, additionalArgs = []) => new Promise((re
     'error',
   ].concat(additionalArgs);
 
-  const subProcess = spawn(command, args, { stdio: 'inherit', cwd: workingDirectory });
-  subProcess.on('close', (code) => {
-    if (code !== 0) {
-      reject(new Error(`Failed to execute: ${command} ${args.join(' ')}`));
-      return;
-    }
-    resolve();
-  });
-});
+  await runCommand(command, args, workingDirectory);
+};
 
 module.exports = runNpmInstall;

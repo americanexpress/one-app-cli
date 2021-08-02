@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initializeGitRepo should initialize a git repo with a passabe commit message on the main branch 1`] = `
+Array [
+  Array [
+    "git",
+    Array [
+      "init",
+    ],
+    "repoPathMock",
+  ],
+  Array [
+    "git",
+    Array [
+      "add",
+      ".",
+    ],
+    "repoPathMock",
+  ],
+  Array [
+    "git",
+    Array [
+      "commit",
+      "-mfeat(generation): initial commit",
+    ],
+    "repoPathMock",
+  ],
+  Array [
+    "git",
+    Array [
+      "branch",
+      "-m",
+      "main",
+    ],
+    "repoPathMock",
+  ],
+]
+`;

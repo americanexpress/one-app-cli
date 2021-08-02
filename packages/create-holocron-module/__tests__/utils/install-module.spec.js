@@ -10,6 +10,6 @@ describe('installModule', () => {
   it('should runNpmInstall with the correct parameters', () => {
     expect(installModule('workingDirectoryMock')).toBe('npmInstallResponseMock');
     expect(runNpmInstall).toHaveBeenCalledTimes(1);
-    expect(runNpmInstall).toHaveBeenNthCalledWith(1, 'workingDirectoryMock');
+    expect(runNpmInstall).toHaveBeenNthCalledWith(1, 'workingDirectoryMock', ['--prefer-offline']);
   });
 });
