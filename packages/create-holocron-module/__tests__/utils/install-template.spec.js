@@ -1,3 +1,4 @@
+const path = require('path');
 const runNpmInstall = require('../../src/utils/run-npm-install');
 const installTemplate = require('../../src/utils/install-template');
 
@@ -10,6 +11,6 @@ describe('installTemplate', () => {
   it('should runNpmInstall with the correct parameters', () => {
     expect(installTemplate('templateNameMock')).toBe('npmInstallResponseMock');
     expect(runNpmInstall).toHaveBeenCalledTimes(1);
-    expect(runNpmInstall).toHaveBeenNthCalledWith(1, '/Users/mrochest/tools/external/one-app-cli/packages/create-holocron-module/src/utils', ['templateNameMock']);
+    expect(runNpmInstall).toHaveBeenNthCalledWith(1, path.resolve(`${__dirname}/../../src/utils/`), ['templateNameMock']);
   });
 });
