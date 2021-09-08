@@ -52,7 +52,7 @@ describe('bundle-module', () => {
   it('should bundle the module for the server', () => {
     process.argv = [];
     require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
+    expect(webpack).toHaveBeenCalledTimes(2);
     expect(webpack).toHaveBeenCalledWith(serverConfig, 'cb(node, true)');
     expect(webpack.mock.calls[0][0]).not.toHaveProperty('watch');
     expect(webpack.mock.calls[0][0]).not.toHaveProperty('watchOptions');
@@ -61,19 +61,10 @@ describe('bundle-module', () => {
   it('should bundle the module for modern browsers', () => {
     process.argv = [];
     require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
+    expect(webpack).toHaveBeenCalledTimes(2);
     expect(webpack).toHaveBeenCalledWith(clientConfig('modern'), 'cb(browser, true)');
     expect(webpack.mock.calls[1][0]).not.toHaveProperty('watch');
     expect(webpack.mock.calls[1][0]).not.toHaveProperty('watchOptions');
-  });
-
-  it('should bundle the module for legacy browsers', () => {
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
-    expect(webpack.mock.calls[2][0]).not.toHaveProperty('watch');
-    expect(webpack.mock.calls[2][0]).not.toHaveProperty('watchOptions');
   });
 
   it('should use the locale bundler\'s watch mode', () => {

@@ -33,9 +33,7 @@ describe('webpack/module.client', () => {
 
   it('should provide the envName to babel', () => {
     const modernWebpackConfig = configGenerator('modern');
-    const legacyWebpackConfig = configGenerator('legacy');
     expect(modernWebpackConfig.module.rules[3].use[0].options.envName).toBe('modern');
-    expect(legacyWebpackConfig.module.rules[3].use[0].options.envName).toBe('legacy');
   });
 
   it('should warn for perf budget violations in development', () => {

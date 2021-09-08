@@ -49,10 +49,6 @@ describe('drop-module', () => {
               url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.browser.js',
               integrity: '234',
             },
-            legacyBrowser: {
-              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.legacy.browser.js',
-              integrity: '345',
-            },
           },
           'another-module': {
             node: {
@@ -62,10 +58,6 @@ describe('drop-module', () => {
             browser: {
               url: 'https://example.com/cdn/another-module/6.7.8/another-module.browser.js',
               integrity: '234',
-            },
-            legacyBrowser: {
-              url: 'https://example.com/cdn/another-module/6.7.8/another-module.legacy.browser.js',
-              integrity: '345',
             },
           },
         },
@@ -86,10 +78,6 @@ describe('drop-module', () => {
             url: 'https://example.com/cdn/another-module/6.7.8/another-module.browser.js',
             integrity: '234',
           },
-          legacyBrowser: {
-            url: 'https://example.com/cdn/another-module/6.7.8/another-module.legacy.browser.js',
-            integrity: '345',
-          },
         },
       },
     }));
@@ -107,10 +95,6 @@ describe('drop-module', () => {
             browser: {
               url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.browser.js',
               integrity: '234',
-            },
-            legacyBrowser: {
-              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.legacy.browser.js',
-              integrity: '345',
             },
           },
         },
@@ -136,10 +120,6 @@ describe('drop-module', () => {
             browser: {
               url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.browser.js',
               integrity: '234',
-            },
-            legacyBrowser: {
-              url: 'https://example.com/cdn/my-module-name/6.7.8/my-module-name.legacy.browser.js',
-              integrity: '345',
             },
           },
         },

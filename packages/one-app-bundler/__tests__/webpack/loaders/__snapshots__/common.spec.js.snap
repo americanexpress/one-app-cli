@@ -11,17 +11,6 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders babel-loader should return a config with the expected BABEL_ENV 1`] = `
-Object {
-  "loader": "babel-loader",
-  "options": Object {
-    "cacheDirectory": "/current/dir/.build-cache",
-    "envName": "legacy",
-    "extends": "/current/dir/.babelrc",
-  },
-}
-`;
-
 exports[`Common webpack loaders css-loader should still return a good localIdentName when not given a chunk name 1`] = `
 Object {
   "loader": "css-loader",

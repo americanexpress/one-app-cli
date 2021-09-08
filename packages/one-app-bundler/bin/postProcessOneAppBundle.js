@@ -26,12 +26,9 @@ const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 
 module.exports = async function postProcessBuild() {
   const endsWithJS = (fileName) => fileName.endsWith('.js');
-  const legacyPath = path.join(tmpPath, 'legacy');
   const jsFileNames = fs.readdirSync(tmpPath).filter(endsWithJS);
-  const legacyJsFileNames = fs.readdirSync(legacyPath).filter(endsWithJS);
   const addIntegrityToManifest = (pathName, prefix = '') => (fileName) => generateIntegrityManifest(prefix + fileName, path.join(pathName, fileName));
   jsFileNames.forEach(addIntegrityToManifest(tmpPath));
-  legacyJsFileNames.forEach(addIntegrityToManifest(legacyPath, 'legacy/'));
   const options = {
     files: { include: ['*.js'] },
     encoding: 'hex',
@@ -39,7 +36,6 @@ module.exports = async function postProcessBuild() {
   const { hash } = await hashElement(tmpPath, options);
   const buildVersion = `${version}-${hash.substring(0, 8)}`;
   const modernBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.browser.json')).assetsByChunkName;
-  const legacyBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.legacyBrowser.json')).assetsByChunkName;
 
   fs.renameSync(tmpPath, path.resolve(tmpPath, `../${buildVersion}`));
   const metaFilePath = path.resolve(pkgPath, '../.build-meta.json');
@@ -47,7 +43,7 @@ module.exports = async function postProcessBuild() {
   fs.writeFileSync(
     metaFilePath,
     JSON.stringify(
-      { buildVersion, modernBrowserChunkAssets, legacyBrowserChunkAssets },
+      { buildVersion, modernBrowserChunkAssets },
       undefined,
       2
     )

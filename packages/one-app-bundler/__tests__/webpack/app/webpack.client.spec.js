@@ -47,41 +47,14 @@ describe('webpack/app', () => {
     return validateWebpackConfig(webpackConfig);
   });
 
-  it('should put legacy build in a legacy directory', () => {
-    const webpackConfig = configGenerator('legacy');
-    expect(webpackConfig.output.path).toMatch(/\/build\/app\/tmp\/legacy$/);
-  });
-
-  it('should not put modern build in a legacy directory', () => {
-    const webpackConfig = configGenerator('modern');
-    expect(webpackConfig.output.path).toMatch(/\/build\/app\/tmp$/);
-  });
-
-  it('should include a fetch polyfill for legacy browsers', () => {
-    const webpackConfig = configGenerator('legacy');
-    expect(webpackConfig.entry.vendors.includes('cross-fetch/polyfill')).toBe(true);
-  });
-
   it('should not include a fetch polyfill for modern browsers', () => {
     const webpackConfig = configGenerator('modern');
     expect(webpackConfig.entry.vendors.includes('cross-fetch/polyfill')).toBe(false);
   });
 
-  it('should include abort-controller polyfill for legacy browsers', () => {
-    const webpackConfig = configGenerator('legacy');
-    expect(webpackConfig.entry.vendors.includes('abort-controller/polyfill')).toBe(true);
-  });
-
   it('should not include abort-controller polyfill for modern browsers', () => {
     const webpackConfig = configGenerator('modern');
     expect(webpackConfig.entry.vendors.includes('abort-controller/polyfill')).toBe(false);
-  });
-
-  it('should use more core-js modules for legacy browsers than modern ones', () => {
-    const modernWebpackConfig = configGenerator('modern');
-    const legacyWebpackConfig = configGenerator('legacy');
-    expect(legacyWebpackConfig.entry.vendors.length - modernWebpackConfig.entry.vendors.length)
-      .toBeGreaterThan(20);
   });
 
   it('does not transpile node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION true', () => {

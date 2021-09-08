@@ -52,7 +52,7 @@ describe('serve-module', () => {
   it('should throw if the module doesn\'t have a version', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name' }),
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     expect(() => require('../../bin/serve-module')).toThrowErrorMatchingSnapshot();
   });
@@ -60,7 +60,7 @@ describe('serve-module', () => {
   it('should create a directory for the module', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     require('../../bin/serve-module');
     expect(fs.mkdirSync).toHaveBeenCalledTimes(2);
@@ -71,7 +71,7 @@ describe('serve-module', () => {
   it('should remove a directory for the module if it already exists since only one version of a module can be served at a time', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
       '/mocked/static/modules/my-module-name/1.0.0': {},
     });
     require('../../bin/serve-module');
@@ -82,7 +82,7 @@ describe('serve-module', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
       '/mocked/static/modules/my-module-name/1.0.0': {},
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     setPlatform('darwin');
     require('../../bin/serve-module');
@@ -96,7 +96,7 @@ describe('serve-module', () => {
     setup('/absolute/path/to/module');
     fs._.setFiles({
       '/absolute/path/to/module/package.json': JSON.stringify({ name: 'absolute-module', version: '0.3.0' }),
-      '/absolute/path/to/module/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '/absolute/path/to/module/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     setPlatform('darwin');
     require('../../bin/serve-module');
@@ -110,7 +110,7 @@ describe('serve-module', () => {
         'my-module-name.client.js': function MyModule() {}.toString(),
         'my-module-name.server.js': function MyModule() {}.toString(),
       },
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     const { platform } = process;
     setPlatform('win32');
@@ -134,14 +134,10 @@ describe('serve-module', () => {
               url: 'https://example.com/cdn/another-module/6.7.8/another-module.browser.js',
               integrity: '234',
             },
-            legacyBrowser: {
-              url: 'https://example.com/cdn/another-module/6.7.8/another-module.legacy.browser.js',
-              integrity: '345',
-            },
           },
         },
       }),
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     require('../../bin/serve-module');
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();
@@ -150,7 +146,7 @@ describe('serve-module', () => {
   it('creates a module map when one does not exist', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '3.4.2' }),
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     require('../../bin/serve-module');
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();

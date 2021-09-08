@@ -30,7 +30,6 @@ argv._.forEach((modulePath) => {
     ? modulePath : path.join(process.cwd(), modulePath);
   const {
     browser: browserSri,
-    legacyBrowser: legacyBrowserSri,
     node: nodeSri,
   } = JSON.parse(fs.readFileSync(path.join(modulePath, 'bundle.integrity.manifest.json')));
   const { version, name: moduleName } = pkg;
@@ -71,10 +70,6 @@ argv._.forEach((modulePath) => {
       browser: {
         integrity: browserSri,
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.browser.js`,
-      },
-      legacyBrowser: {
-        integrity: legacyBrowserSri,
-        url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
       },
       node: {
         integrity: nodeSri,

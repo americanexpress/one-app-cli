@@ -18,7 +18,7 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const coreJsCompat = require('core-js-compat');
 const coreJsEntries = require('core-js-compat/entries');
-const { browserList, legacyBrowserList } = require('babel-preset-amex/browserlist');
+const { browserList } = require('babel-preset-amex/browserlist');
 const createResolver = require('../createResolver');
 const { externals: moduleExternals, ...common } = require('../webpack.common');
 const {
@@ -59,14 +59,14 @@ module.exports = (babelEnv) => merge(
   common,
   {
     output: {
-      path: path.resolve(packageRoot, `build/app/tmp${babelEnv !== 'modern' ? '/legacy' : ''}`),
+      path: path.resolve(packageRoot, 'build/app/tmp'),
       filename: '[name].js',
     },
     entry: {
       app: './src/client/client',
       vendors: [
-        ...babelEnv !== 'modern' ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
-        ...(babelEnv !== 'modern' ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
+        ...[],
+        ...getCoreJsModulePaths(browserList).map(resolve),
         resolve('regenerator-runtime/runtime'),
         ...Object.keys(moduleExternals).map(resolve),
       ],

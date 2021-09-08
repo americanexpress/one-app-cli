@@ -34,10 +34,6 @@ describe('Common webpack loaders', () => {
     it('should return a config that extends the project\'s babelrc', () => {
       expect(babelLoader('modern')).toMatchSnapshot();
     });
-
-    it('should return a config with the expected BABEL_ENV', () => {
-      expect(babelLoader('legacy')).toMatchSnapshot();
-    });
   });
 
   describe('css-loader', () => {
