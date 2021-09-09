@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { execSync, spawnSync } from 'child_process';
+import { execSync, spawnSync, execFileSync } from 'child_process';
 
 import { ufs } from '../../../src/utils/virtual-file-system';
 import {
@@ -26,6 +26,7 @@ import { STATIC_DIR } from '../../../src/utils/paths';
 jest.mock('child_process', () => ({
   execSync: jest.fn(() => 'en-US'),
   spawnSync: jest.fn(() => ''),
+  execFileSync: jest.fn(() => ''),
 }));
 
 jest.mock('../../../src/utils/virtual-file-system', () => {
@@ -81,7 +82,7 @@ describe('loadOneAppStaticsFromDocker', () => {
   });
 
   it('catches any errors when loading in One App statics', () => {
-    execSync.mockImplementationOnce(() => {
+    execFileSync.mockImplementationOnce(() => {
       throw new Error('fail');
     });
     expect(() => loadOneAppStaticsFromDocker()).not.toThrow();
@@ -91,6 +92,7 @@ describe('loadOneAppStaticsFromDocker', () => {
 
 describe('loadStatics', () => {
   it('does nothing when One App statics already exists', async () => {
+    ufs.existsSync.mockImplementationOnce(() => true);
     expect(loadStatics()).toBeUndefined();
     expect(console.log).toHaveBeenCalledTimes(1);
     expect(console.info).toHaveBeenCalledTimes(1);
@@ -108,7 +110,8 @@ describe('loadStatics', () => {
     expect(console.log).toHaveBeenCalledTimes(3);
     expect(console.info).toHaveBeenCalledTimes(1);
     expect(console.error).not.toHaveBeenCalled();
-    expect(execSync).toHaveBeenCalledTimes(3);
+    expect(execSync).toHaveBeenCalledTimes(1);
+    expect(execFileSync).toHaveBeenCalledTimes(3);
     expect(spawnSync).toHaveBeenCalledTimes(2);
   });
 });
