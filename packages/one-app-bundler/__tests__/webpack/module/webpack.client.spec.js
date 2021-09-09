@@ -17,7 +17,7 @@ const { validateWebpackConfig } = require('../../../test-utils');
 const getConfigOptions = require('../../../utils/getConfigOptions');
 const configGenerator = require('../../../webpack/module/webpack.client');
 
-jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
+jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {}, disableLegacy: false })));
 
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 

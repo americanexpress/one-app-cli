@@ -228,6 +228,20 @@ negative impact on performance_.**
 }
 ```
 
+`disableLegacy` can be added to your bundler config and set to *true* to opt out of bundling the `legacy` assets. 
+This will reduce bundle size and build times. 
+**Caution as this will remove legacy browser support from your module.**  
+
+```json
+{
+  "one-amex": {
+    "bundler": {
+      "disableLegacy": true
+    }
+  }
+}
+```
+
 #### Specify what version of One App your module is compatible with
 
 You can specify which version of One App you module is compatible with by simply adding the below configuration to your `package.json`.

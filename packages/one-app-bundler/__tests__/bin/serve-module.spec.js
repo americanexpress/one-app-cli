@@ -18,6 +18,7 @@ let fs = require('fs');
 let rimraf;
 
 jest.mock('fs');
+jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: false })));
 
 const setup = (modulePath) => {
   jest.resetModules();
@@ -61,6 +62,18 @@ describe('serve-module', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
       '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+    });
+    require('../../bin/serve-module');
+    expect(fs.mkdirSync).toHaveBeenCalledTimes(2);
+    expect(fs.mkdirSync.mock.calls[0][0]).toEqual('/mocked/static/modules');
+    expect(fs.mkdirSync.mock.calls[1][0]).toEqual('/mocked/static/modules/my-module-name');
+  });
+
+  it('should create a directory for the module without legacy', () => {
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: true })));
+    fs._.setFiles({
+      '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     require('../../bin/serve-module');
     expect(fs.mkdirSync).toHaveBeenCalledTimes(2);
@@ -151,6 +164,31 @@ describe('serve-module', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '3.4.2' }),
       '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
+    });
+    require('../../bin/serve-module');
+    expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();
+  });
+
+  it('adds to the existing module map without legacy', () => {
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: true })));
+    fs._.setFiles({
+      '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
+      '/mocked/static/module-map.json': JSON.stringify({
+        key: '--- omitted for development ---',
+        modules: {
+          'another-module': {
+            node: {
+              url: 'https://example.com/cdn/another-module/6.7.8/another-module.node.js',
+              integrity: '123',
+            },
+            browser: {
+              url: 'https://example.com/cdn/another-module/6.7.8/another-module.browser.js',
+              integrity: '234',
+            },
+          },
+        },
+      }),
+      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     require('../../bin/serve-module');
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();

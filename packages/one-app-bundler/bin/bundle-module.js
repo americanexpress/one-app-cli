@@ -18,11 +18,13 @@ const path = require('path');
 const fs = require('fs');
 const localeBundler = require('@americanexpress/one-app-locale-bundler');
 
+const getConfigOptions = require('../utils/getConfigOptions');
 const clientConfig = require('../webpack/module/webpack.client');
 const serverConfig = require('../webpack/module/webpack.server');
 const getWebpackCallback = require('./webpackCallback');
 const { watch } = require('../utils/getCliOptions')();
 
+const configOptions = getConfigOptions();
 const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
 
@@ -30,4 +32,5 @@ fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSO
 localeBundler(watch);
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
-webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+
+if (!configOptions.disableLegacy) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));

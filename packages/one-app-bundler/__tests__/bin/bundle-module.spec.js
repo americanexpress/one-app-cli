@@ -36,6 +36,7 @@ describe('bundle-module', () => {
     localeBundler = require('@americanexpress/one-app-locale-bundler');
     clientConfig = require('../../webpack/module/webpack.client');
     serverConfig = require('../../webpack/module/webpack.server');
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: false })));
   });
 
   afterEach(() => {
@@ -74,6 +75,14 @@ describe('bundle-module', () => {
     expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
     expect(webpack.mock.calls[2][0]).not.toHaveProperty('watch');
     expect(webpack.mock.calls[2][0]).not.toHaveProperty('watchOptions');
+  });
+
+  it('should not bundle module for legacy browsers when disableLegacy is true', () => {
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: true })));
+    process.argv = [];
+    require('../../bin/bundle-module');
+    expect(webpack).toHaveBeenCalledTimes(2);
+    expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
   });
 
   it('should use the locale bundler\'s watch mode', () => {

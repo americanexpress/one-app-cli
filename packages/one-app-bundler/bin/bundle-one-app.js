@@ -17,13 +17,19 @@ const { promisify } = require('util');
 const webpack = promisify(require('webpack'));
 const chalk = require('chalk');
 
+const getConfigOptions = require('../utils/getConfigOptions');
 const config = require('../webpack/app/webpack.client');
 const getWebpackCallback = require('./webpackCallback');
 const postProcessOneAppBundle = require('./postProcessOneAppBundle');
 
-Promise.all([
+const configOptions = getConfigOptions();
+
+const configuredPromise = !configOptions.disableLegacy ? Promise.all([
   webpack(config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)),
   webpack(config('legacy')).then((stats) => getWebpackCallback('legacyBrowser', false)(undefined, stats)),
-]).then(postProcessOneAppBundle).catch((err) => {
+]) : Promise.resolve(
+  webpack(config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)));
+
+configuredPromise.then(postProcessOneAppBundle).catch((err) => {
   console.log(chalk.red(err), chalk.red(err.stack));
 });
