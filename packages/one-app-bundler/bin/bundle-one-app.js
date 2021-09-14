@@ -23,8 +23,9 @@ const getWebpackCallback = require('./webpackCallback');
 const postProcessOneAppBundle = require('./postProcessOneAppBundle');
 
 const configOptions = getConfigOptions();
+const disableLegacy = !configOptions.disableLegacy && process.env.NODE_ENV === 'development';
 
-const configuredPromise = !configOptions.disableLegacy ? Promise.all([
+const configuredPromise = disableLegacy ? Promise.all([
   webpack(config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)),
   webpack(config('legacy')).then((stats) => getWebpackCallback('legacyBrowser', false)(undefined, stats)),
 ]) : Promise.resolve(

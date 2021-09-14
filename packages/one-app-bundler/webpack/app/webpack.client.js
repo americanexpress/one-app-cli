@@ -59,19 +59,20 @@ const getCoreJsModulePaths = (targets) => {
 
 module.exports = (babelEnv) => {
   const configOptions = getConfigOptions();
+  const disableLegacy = !configOptions.disableLegacy && process.env.NODE_ENV === 'development';
 
   return merge(
     common,
     {
       output: {
-        path: path.resolve(packageRoot, `build/app/tmp${babelEnv !== 'modern' && !configOptions.disableLegacy ? '/legacy' : ''}`),
+        path: path.resolve(packageRoot, `build/app/tmp${babelEnv !== 'modern' && disableLegacy ? '/legacy' : ''}`),
         filename: '[name].js',
       },
       entry: {
         app: './src/client/client',
         vendors: [
           ...babelEnv !== 'modern' ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
-          ...(babelEnv !== 'modern' && !configOptions.disableLegacy ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
+          ...(babelEnv !== 'modern' && disableLegacy ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
           resolve('regenerator-runtime/runtime'),
           ...Object.keys(moduleExternals).map(resolve),
         ],

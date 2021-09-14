@@ -29,10 +29,11 @@ const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 module.exports = async function postProcessBuild() {
   const endsWithJS = (fileName) => fileName.endsWith('.js');
   const configOptions = getConfigOptions();
+  const disableLegacy = !configOptions.disableLegacy && process.env.NODE_ENV === 'development';
   let legacyPath;
   let legacyJsFileNames;
 
-  if (!configOptions.disableLegacy) {
+  if (disableLegacy) {
     legacyPath = path.join(tmpPath, 'legacy');
     legacyJsFileNames = fs.readdirSync(legacyPath).filter(endsWithJS);
   }
@@ -41,7 +42,7 @@ module.exports = async function postProcessBuild() {
   const addIntegrityToManifest = (pathName, prefix = '') => (fileName) => generateIntegrityManifest(prefix + fileName, path.join(pathName, fileName));
   jsFileNames.forEach(addIntegrityToManifest(tmpPath));
 
-  if (!configOptions.disableLegacy) legacyJsFileNames.forEach(addIntegrityToManifest(legacyPath, 'legacy/'));
+  if (disableLegacy) legacyJsFileNames.forEach(addIntegrityToManifest(legacyPath, 'legacy/'));
 
   const options = {
     files: { include: ['*.js'] },
@@ -60,7 +61,7 @@ module.exports = async function postProcessBuild() {
   fs.writeFileSync(
     metaFilePath,
     JSON.stringify(
-      !configOptions.disableLegacy ? { ...assets, legacyBrowserChunkAssets } : assets,
+      disableLegacy ? { ...assets, legacyBrowserChunkAssets } : assets,
       undefined,
       2
     )

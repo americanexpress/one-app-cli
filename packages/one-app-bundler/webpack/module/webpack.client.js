@@ -38,6 +38,7 @@ const { version, name } = packageJson;
 
 module.exports = (babelEnv) => {
   const configOptions = getConfigOptions();
+  const disableLegacy = !configOptions.disableLegacy && process.env.NODE_ENV === 'development';
 
   return extendWebpackConfig(merge(
     commonConfig,
@@ -47,8 +48,8 @@ module.exports = (babelEnv) => {
         crossOriginLoading: 'anonymous',
         path: path.join(packageRoot, 'build', version),
         publicPath: '__holocron_publicPath_placeholder__',
-        filename: `${name}.${babelEnv !== 'modern' && !configOptions.disableLegacy ? 'legacy.browser' : 'browser'}.js`,
-        chunkFilename: `[name].chunk.${babelEnv !== 'modern' && !configOptions.disableLegacy ? 'legacy.browser' : 'browser'}.js`,
+        filename: `${name}.${babelEnv !== 'modern' && disableLegacy ? 'legacy.browser' : 'browser'}.js`,
+        chunkFilename: `[name].chunk.${babelEnv !== 'modern' && disableLegacy ? 'legacy.browser' : 'browser'}.js`,
         library: 'holocronModule',
         libraryExport: 'default',
       },

@@ -24,13 +24,14 @@ const serverConfig = require('../webpack/module/webpack.server');
 const getWebpackCallback = require('./webpackCallback');
 const { watch } = require('../utils/getCliOptions')();
 
-const configOptions = getConfigOptions();
 const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
+const configOptions = getConfigOptions();
+const disableLegacy = !configOptions.disableLegacy && process.env.NODE_ENV === 'development';
 
 fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 localeBundler(watch);
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
 
-if (!configOptions.disableLegacy) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+if (disableLegacy) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));

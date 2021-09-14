@@ -81,8 +81,9 @@ argv._.forEach((modulePath) => {
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.node.js`,
       },
     };
+    const disableLegacy = !configOptions.disableLegacy && process.env.NODE_ENV === 'development';
 
-    if (!configOptions.disableLegacy) {
+    if (disableLegacy) {
       moduleMap.modules[moduleName] = {
         ...generalConfig,
         legacyBrowser: {

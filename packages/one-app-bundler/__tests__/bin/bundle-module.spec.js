@@ -24,9 +24,11 @@ describe('bundle-module', () => {
   let localeBundler;
   let clientConfig;
   let serverConfig;
+  let originalNodeEnv;
 
   beforeAll(() => {
     ({ argv } = process);
+    originalNodeEnv = process.env.NODE_ENV;
   });
 
   beforeEach(() => {
@@ -37,10 +39,12 @@ describe('bundle-module', () => {
     clientConfig = require('../../webpack/module/webpack.client');
     serverConfig = require('../../webpack/module/webpack.server');
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: false })));
+    originalNodeEnv = 'development';
   });
 
   afterEach(() => {
     process.argv = argv;
+    process.env.NODE_ENV = originalNodeEnv;
   });
 
   it('should bundle language packs', () => {
