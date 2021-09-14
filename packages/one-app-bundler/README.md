@@ -228,8 +228,7 @@ negative impact on performance_.**
 }
 ```
 
-`disableLegacy` can be added to your bundler config and set to *true* to opt out of bundling the `legacy` assets. 
-This will reduce bundle size and build times. 
+`disableLegacy` can be added to your bundler config and set to *true* to opt out of bundling the `legacy` assets. This will reduce bundle size and build times. This is only configured to be removed when in `development`. `production`  builds will not skip the `legacy` build.
 **Caution as this will remove legacy browser support from your module.**  
 
 ```json
