@@ -28,6 +28,7 @@
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "amex-jest-preset": "^6.1.0",
+    "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.2.2",
