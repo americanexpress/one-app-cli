@@ -1,11 +1,12 @@
 {
+  "npmClient": "yarn",
   "packages": [
     "packages/*"
   ],
   "command": {
     "version": {
       "conventionalCommits": true,
-       "message": "chore(release): publish %s"
+      "message": "chore(release): publish packages"
     }
   },
   "version": "independent"
