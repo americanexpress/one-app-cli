@@ -55,7 +55,7 @@ validateBundler(options);
 options.appCompatibility = get(packageJson, ['one-amex', 'app', 'compatibility']);
 options.purgecss = options.purgecss || {};
 options.moduleName = packageJson.name;
-options.disableLegacy = options.disableLegacy || false;
+options.disableDevelopmentLegacyBundle = options.disableDevelopmentLegacyBundle || false;
 validateOptions(options);
 logConfigurationWarnings(options);
 

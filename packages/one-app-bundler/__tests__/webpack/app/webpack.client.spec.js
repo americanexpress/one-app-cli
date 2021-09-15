@@ -15,6 +15,7 @@
 /* eslint-disable global-require */
 const { validateWebpackConfig } = require('../../../test-utils');
 const configGenerator = require('../../../webpack/app/webpack.client');
+const getConfigOptions = require('../../../utils/getConfigOptions');
 
 jest.mock('../../../webpack/loaders/common', () => {
   const originalModule = jest.requireActual('../../../webpack/loaders/common');
@@ -24,6 +25,9 @@ jest.mock('../../../webpack/loaders/common', () => {
     sassLoader: jest.fn(() => 'sassLoader'),
   };
 });
+
+jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
+
 describe('webpack/app', () => {
   let originalNodeEnv;
 
@@ -118,5 +122,16 @@ describe('webpack/app', () => {
     expect(browserDefinitions).toHaveProperty('length', 1);
     // stringified, also can't use .toHaveProperty() as the key we need has a dot in it
     expect(browserDefinitions[0].definitions['global.BROWSER']).toBe('true');
+  });
+
+  it('should use core-js modules only for modern and not generate the legacy build', () => {
+    process.env.NODE_ENV = 'development';
+    getConfigOptions.mockReturnValueOnce({ disableDevelopmentLegacyBundle: true });
+    const modernWebpackConfig = configGenerator('modern').entry.vendors.length;
+
+    getConfigOptions.mockReturnValueOnce({ disableDevelopmentLegacyBundle: true });
+    const legacyWebpackConfig = configGenerator('legacy').entry.vendors.length;
+    expect(legacyWebpackConfig - modernWebpackConfig).toBeGreaterThan(2);
+    expect(legacyWebpackConfig - modernWebpackConfig).toEqual(3);
   });
 });

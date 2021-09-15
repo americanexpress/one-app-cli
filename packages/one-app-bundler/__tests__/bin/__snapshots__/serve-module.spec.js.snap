@@ -26,6 +26,10 @@ exports[`serve-module adds to the existing module map 1`] = `
       \\"node\\": {
         \\"integrity\\": \\"123\\",
         \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/1.0.0/my-module-name.node.js\\"
+      },
+      \\"legacyBrowser\\": {
+        \\"integrity\\": \\"974\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/1.0.0/my-module-name.legacy.browser.js\\"
       }
     }
   }
@@ -72,6 +76,10 @@ exports[`serve-module creates a module map when one does not exist 1`] = `
       \\"node\\": {
         \\"integrity\\": \\"123\\",
         \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/3.4.2/my-module-name.node.js\\"
+      },
+      \\"legacyBrowser\\": {
+        \\"integrity\\": \\"974\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/3.4.2/my-module-name.legacy.browser.js\\"
       }
     }
   }

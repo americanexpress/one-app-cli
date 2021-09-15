@@ -18,7 +18,7 @@ let fs = require('fs');
 let rimraf;
 
 jest.mock('fs');
-jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: false })));
+jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
 
 const setup = (modulePath) => {
   jest.resetModules();
@@ -35,6 +35,8 @@ const setup = (modulePath) => {
 };
 
 describe('serve-module', () => {
+  let originalNodeEnv;
+
   process.cwd = () => '/mocked';
   const originalPlatform = process.platform;
 
@@ -42,8 +44,17 @@ describe('serve-module', () => {
     value: platform,
   });
 
+  beforeAll(() => {
+    originalNodeEnv = process.env.NODE_ENV;
+  });
+
   beforeEach(() => {
     setup('../my-module-name');
+    originalNodeEnv = 'production';
+  });
+
+  afterEach(() => {
+    process.env.NODE_ENV = originalNodeEnv;
   });
 
   afterAll(() => {
@@ -70,7 +81,8 @@ describe('serve-module', () => {
   });
 
   it('should create a directory for the module without legacy', () => {
-    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: true })));
+    process.env.NODE_ENV = 'development';
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
       '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
@@ -170,7 +182,8 @@ describe('serve-module', () => {
   });
 
   it('adds to the existing module map without legacy', () => {
-    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableLegacy: true })));
+    process.env.NODE_ENV = 'development';
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
       '/mocked/static/module-map.json': JSON.stringify({
