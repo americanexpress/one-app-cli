@@ -28,8 +28,7 @@ const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 
 module.exports = async function postProcessBuild() {
   const endsWithJS = (fileName) => fileName.endsWith('.js');
-  const configOptions = getConfigOptions();
-  const disableDevelopmentLegacyBundle = configOptions.disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
+  const disableDevelopmentLegacyBundle = getConfigOptions().disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
   let legacyPath;
   let legacyJsFileNames;
 

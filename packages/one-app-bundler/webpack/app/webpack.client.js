@@ -60,19 +60,22 @@ const getCoreJsModulePaths = (targets) => {
 module.exports = (babelEnv) => {
   const configOptions = getConfigOptions();
   const disableDevelopmentLegacyBundle = configOptions.disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
+  const isNotModernEnv = babelEnv !== 'modern';
+  const canBuildLegacy = isNotModernEnv && !disableDevelopmentLegacyBundle;
 
   return merge(
     common,
     {
       output: {
-        path: path.resolve(packageRoot, `build/app/tmp${babelEnv !== 'modern' && !disableDevelopmentLegacyBundle ? '/legacy' : ''}`),
+        path: path.resolve(packageRoot, `build/app/tmp${canBuildLegacy ? '/legacy' : ''}`),
         filename: '[name].js',
       },
       entry: {
         app: './src/client/client',
         vendors: [
-          ...babelEnv !== 'modern' ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
-          ...(babelEnv !== 'modern' && !disableDevelopmentLegacyBundle ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
+          ...isNotModernEnv ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
+          // eslint-disable-next-line max-len
+          ...(canBuildLegacy ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
           resolve('regenerator-runtime/runtime'),
           ...Object.keys(moduleExternals).map(resolve),
         ],

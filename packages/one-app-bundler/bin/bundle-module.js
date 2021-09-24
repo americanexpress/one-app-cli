@@ -26,8 +26,7 @@ const { watch } = require('../utils/getCliOptions')();
 
 const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
-const configOptions = getConfigOptions();
-const disableDevelopmentLegacyBundle = configOptions.disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
+const disableDevelopmentLegacyBundle = getConfigOptions().disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
 
 fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 localeBundler(watch);
