@@ -58,10 +58,8 @@ const getCoreJsModulePaths = (targets) => {
 };
 
 module.exports = (babelEnv) => {
-  const configOptions = getConfigOptions();
-  const disableDevelopmentLegacyBundle = configOptions.disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
   const isNotModernEnv = babelEnv !== 'modern';
-  const canBuildLegacy = isNotModernEnv && !disableDevelopmentLegacyBundle;
+  const canBuildLegacy = isNotModernEnv && !getConfigOptions().disableDevelopmentLegacyBundle;
 
   return merge(
     common,

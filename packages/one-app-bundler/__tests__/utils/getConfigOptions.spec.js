@@ -98,4 +98,24 @@ describe('getConfigOptions', () => {
     readPkgUp.sync.mockReturnValueOnce({ packageJson: { 'one-amex': { bundler: { webpackConfigPath: 'webpack.config.js', webpackClientConfigPath: 'webpack.config.js' } } } });
     expect(() => require('../../utils/getConfigOptions')).toThrow(errorRegex);
   });
+
+  it('should return disableDevelopmentLegacyBundle as true when config is set true and env is development', () => {
+    process.env.NODE_ENV = 'development';
+    readPkgUp.sync.mockReturnValueOnce({ packageJson: { 'one-amex': { bundler: { disableDevelopmentLegacyBundle: true } } } });
+    const getConfigOptions = require('../../utils/getConfigOptions');
+    expect(getConfigOptions()).toMatchObject({ disableDevelopmentLegacyBundle: true });
+  });
+
+  it('should return disableDevelopmentLegacyBundle as false when config is set true and env is production', () => {
+    process.env.NODE_ENV = 'production';
+    readPkgUp.sync.mockReturnValueOnce({ packageJson: { 'one-amex': { bundler: { disableDevelopmentLegacyBundle: true } } } });
+    const getConfigOptions = require('../../utils/getConfigOptions');
+    expect(getConfigOptions()).toMatchObject({ disableDevelopmentLegacyBundle: false });
+  });
+
+  it('should return disableDevelopmentLegacyBundle as false when config is set false and env is development', () => {
+    readPkgUp.sync.mockReturnValueOnce({ packageJson: { 'one-amex': { bundler: { disableDevelopmentLegacyBundle: false } } } });
+    const getConfigOptions = require('../../utils/getConfigOptions');
+    expect(getConfigOptions()).toMatchObject({ disableDevelopmentLegacyBundle: false });
+  });
 });

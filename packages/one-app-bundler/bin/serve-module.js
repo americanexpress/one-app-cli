@@ -21,8 +21,6 @@ const rimraf = require('rimraf');
 
 const getConfigOptions = require('../utils/getConfigOptions');
 
-const configOptions = getConfigOptions();
-
 const publicPath = path.join(process.cwd(), 'static');
 const symModulesPath = path.join(publicPath, 'modules');
 
@@ -81,19 +79,15 @@ argv._.forEach((modulePath) => {
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.node.js`,
       },
     };
-    const disableDevelopmentLegacyBundle = configOptions.disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
 
-    if (!disableDevelopmentLegacyBundle) {
-      moduleMap.modules[moduleName] = {
-        ...generalConfig,
-        legacyBrowser: {
-          integrity: legacyBrowserSri,
-          url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
-        },
-      };
-    } else {
-      moduleMap.modules[moduleName] = generalConfig;
-    }
+    const legacyConfig = getConfigOptions().disableDevelopmentLegacyBundle ? {} : {
+      legacyBrowser: {
+        integrity: legacyBrowserSri,
+        url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
+      },
+    };
+
+    moduleMap.modules[moduleName] = { ...generalConfig, ...legacyConfig };
 
     fs.writeFileSync(moduleMapPath, JSON.stringify(moduleMap, null, 2));
   }

@@ -36,7 +36,7 @@ exports[`serve-module adds to the existing module map 1`] = `
 }"
 `;
 
-exports[`serve-module adds to the existing module map without legacy 1`] = `
+exports[`serve-module adds to the existing module map without legacy when disableDevelopmentLegacyBundle is true 1`] = `
 "{
   \\"key\\": \\"--- omitted for development ---\\",
   \\"modules\\": {

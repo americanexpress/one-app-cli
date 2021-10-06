@@ -26,11 +26,10 @@ const { watch } = require('../utils/getCliOptions')();
 
 const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
-const disableDevelopmentLegacyBundle = getConfigOptions().disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
 
 fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 localeBundler(watch);
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
 
-if (!disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));

@@ -24,11 +24,9 @@ describe('bundle-module', () => {
   let localeBundler;
   let clientConfig;
   let serverConfig;
-  let originalNodeEnv;
 
   beforeAll(() => {
     ({ argv } = process);
-    originalNodeEnv = process.env.NODE_ENV;
   });
 
   beforeEach(() => {
@@ -39,12 +37,10 @@ describe('bundle-module', () => {
     clientConfig = require('../../webpack/module/webpack.client');
     serverConfig = require('../../webpack/module/webpack.server');
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
-    originalNodeEnv = 'development';
   });
 
   afterEach(() => {
     process.argv = argv;
-    process.env.NODE_ENV = originalNodeEnv;
   });
 
   it('should bundle language packs', () => {
@@ -81,18 +77,27 @@ describe('bundle-module', () => {
     expect(webpack.mock.calls[2][0]).not.toHaveProperty('watchOptions');
   });
 
-  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', () => {
-    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(2);
-    expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
-  });
-
   it('should use the locale bundler\'s watch mode', () => {
     process.argv = ['--watch'];
     require('../../bin/bundle-module');
     expect(localeBundler).toHaveBeenCalledTimes(1);
     expect(localeBundler).toHaveBeenCalledWith(true);
+  });
+
+  it('should bundle module for legacy browsers when disableDevelopmentLegacyBundle is false', () => {
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
+    process.argv = [];
+    require('../../bin/bundle-module');
+    expect(webpack).toHaveBeenCalledTimes(3);
+    expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
+  });
+
+  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', () => {
+    process.env.NODE_ENV = 'development';
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
+    process.argv = [];
+    require('../../bin/bundle-module');
+    expect(webpack).toHaveBeenCalledTimes(2);
+    expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
   });
 });

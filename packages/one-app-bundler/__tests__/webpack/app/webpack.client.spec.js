@@ -124,14 +124,12 @@ describe('webpack/app', () => {
     expect(browserDefinitions[0].definitions['global.BROWSER']).toBe('true');
   });
 
-  it('should use core-js modules only for modern and not generate the legacy build', () => {
+  it('should not generate the legacy directory if disableDevelopmentLegacyBundle is true', () => {
     process.env.NODE_ENV = 'development';
     getConfigOptions.mockReturnValueOnce({ disableDevelopmentLegacyBundle: true });
-    const modernWebpackConfig = configGenerator('modern').entry.vendors.length;
-
-    getConfigOptions.mockReturnValueOnce({ disableDevelopmentLegacyBundle: true });
-    const legacyWebpackConfig = configGenerator('legacy').entry.vendors.length;
-    expect(legacyWebpackConfig - modernWebpackConfig).toBeGreaterThan(2);
-    expect(legacyWebpackConfig - modernWebpackConfig).toEqual(3);
+    const legacyWebpackConfig = configGenerator('legacy');
+    expect(legacyWebpackConfig.output.path).not.toContainEqual(/\/build\/app\/tmp\/legacy$/);
+    const modernWebpackConfig = configGenerator('modern');
+    expect(modernWebpackConfig.output.path).toMatch(/\/build\/app\/tmp$/);
   });
 });

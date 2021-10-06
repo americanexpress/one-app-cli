@@ -18,8 +18,6 @@ const path = require('path');
 const fs = require('fs');
 const { hashElement } = require('folder-hash');
 const readPkgUp = require('read-pkg-up');
-
-const getConfigOptions = require('../utils/getConfigOptions');
 const generateIntegrityManifest = require('./generateIntegrityManifest');
 
 const { packageJson, path: pkgPath } = readPkgUp.sync();
@@ -28,21 +26,12 @@ const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 
 module.exports = async function postProcessBuild() {
   const endsWithJS = (fileName) => fileName.endsWith('.js');
-  const disableDevelopmentLegacyBundle = getConfigOptions().disableDevelopmentLegacyBundle && process.env.NODE_ENV === 'development';
-  let legacyPath;
-  let legacyJsFileNames;
-
-  if (!disableDevelopmentLegacyBundle) {
-    legacyPath = path.join(tmpPath, 'legacy');
-    legacyJsFileNames = fs.readdirSync(legacyPath).filter(endsWithJS);
-  }
-
+  const legacyPath = path.join(tmpPath, 'legacy');
   const jsFileNames = fs.readdirSync(tmpPath).filter(endsWithJS);
+  const legacyJsFileNames = fs.readdirSync(legacyPath).filter(endsWithJS);
   const addIntegrityToManifest = (pathName, prefix = '') => (fileName) => generateIntegrityManifest(prefix + fileName, path.join(pathName, fileName));
   jsFileNames.forEach(addIntegrityToManifest(tmpPath));
-
-  if (!disableDevelopmentLegacyBundle) legacyJsFileNames.forEach(addIntegrityToManifest(legacyPath, 'legacy/'));
-
+  legacyJsFileNames.forEach(addIntegrityToManifest(legacyPath, 'legacy/'));
   const options = {
     files: { include: ['*.js'] },
     encoding: 'hex',
@@ -55,12 +44,10 @@ module.exports = async function postProcessBuild() {
   fs.renameSync(tmpPath, path.resolve(tmpPath, `../${buildVersion}`));
   const metaFilePath = path.resolve(pkgPath, '../.build-meta.json');
   if (fs.existsSync(metaFilePath)) fs.unlinkSync(metaFilePath);
-
-  const assets = { buildVersion, modernBrowserChunkAssets };
   fs.writeFileSync(
     metaFilePath,
     JSON.stringify(
-      !disableDevelopmentLegacyBundle ? { ...assets, legacyBrowserChunkAssets } : assets,
+      { buildVersion, modernBrowserChunkAssets, legacyBrowserChunkAssets },
       undefined,
       2
     )

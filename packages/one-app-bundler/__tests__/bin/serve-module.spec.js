@@ -35,8 +35,6 @@ const setup = (modulePath) => {
 };
 
 describe('serve-module', () => {
-  let originalNodeEnv;
-
   process.cwd = () => '/mocked';
   const originalPlatform = process.platform;
 
@@ -44,17 +42,8 @@ describe('serve-module', () => {
     value: platform,
   });
 
-  beforeAll(() => {
-    originalNodeEnv = process.env.NODE_ENV;
-  });
-
   beforeEach(() => {
     setup('../my-module-name');
-    originalNodeEnv = 'production';
-  });
-
-  afterEach(() => {
-    process.env.NODE_ENV = originalNodeEnv;
   });
 
   afterAll(() => {
@@ -73,19 +62,6 @@ describe('serve-module', () => {
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
       '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234', legacyBrowser: '974' }),
-    });
-    require('../../bin/serve-module');
-    expect(fs.mkdirSync).toHaveBeenCalledTimes(2);
-    expect(fs.mkdirSync.mock.calls[0][0]).toEqual('/mocked/static/modules');
-    expect(fs.mkdirSync.mock.calls[1][0]).toEqual('/mocked/static/modules/my-module-name');
-  });
-
-  it('should create a directory for the module without legacy', () => {
-    process.env.NODE_ENV = 'development';
-    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
-    fs._.setFiles({
-      '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
-      '../my-module-name/bundle.integrity.manifest.json': JSON.stringify({ node: '123', browser: '234' }),
     });
     require('../../bin/serve-module');
     expect(fs.mkdirSync).toHaveBeenCalledTimes(2);
@@ -181,7 +157,7 @@ describe('serve-module', () => {
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();
   });
 
-  it('adds to the existing module map without legacy', () => {
+  it('adds to the existing module map without legacy when disableDevelopmentLegacyBundle is true', () => {
     process.env.NODE_ENV = 'development';
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
     fs._.setFiles({
