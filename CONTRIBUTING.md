@@ -22,7 +22,7 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 1. Fork the repository `one-app-cli` to your GitHub account.
 2. Afterwards run the following commands in your terminal
    Please review this tutorial to learn how to clone a repository https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
- 
+
     ```bash
     $ git clone https://github.com/<your-github-username>/one-app-cli
     $ cd one-app-cli
@@ -42,10 +42,7 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 
 1. Run `yarn lerna:version` locally from your release branch. This would push your release changes(changelog and tags) to the branch on github.
 2. Create a pull request from your branch to the `main` branch with your changes.
-3. Once the changes are approved ensure you merge the changes and provide the commit message for the merge as
-   `chore(release) : 1.9.7`
-   ensure you follow this convention otherwise the deployment will not be executed.
-4. Once this is merged to main a deployment would be initiated on the main branch and all packages that changed would be released to npm.
+3. Once merged run the "manually publish" action.
 
 ## Submitting a new feature
 
