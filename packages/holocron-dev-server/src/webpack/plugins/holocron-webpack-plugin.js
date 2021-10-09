@@ -20,7 +20,7 @@ export const loaderPath = path.join(__dirname, 'holocron-webpack-loader.js');
 // TODO: better regexp to match module entry point,
 // or look at compilation "module" from loader hook to identify if entry point
 // (excluding entries from node_modules and exclusive to module entries)
-export const moduleEntryRegExp = /\/src\/index\.js$/;
+export const moduleEntryRegExp = /[\\\/]src[\\\/]index\.js$/;
 export default class HolocronModulePlugin {
   constructor(options = {}) {
     this.options = options;
