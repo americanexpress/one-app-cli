@@ -57,7 +57,9 @@ describe('HolocronWebpackPlugin', () => {
     const [[, hookHandle]] = tap.mock.calls;
     const compilation = {};
     expect(() => hookHandle(compilation)).not.toThrow();
-    expect(compiler.webpack.NormalModule.getCompilationHooks).toHaveBeenCalledWith(compilation);
+    expect(
+      compiler.webpack.NormalModule.getCompilationHooks
+    ).toHaveBeenCalledWith(compilation);
   });
   test('plugin is applied to compilation for webpack v4 hook', () => {
     const holocronWebpackPlugin = new HolocronWebpackPlugin();
@@ -98,16 +100,17 @@ describe('HolocronWebpackPlugin', () => {
     };
     expect(() => hookHandle(compilation)).not.toThrow();
     expect(tap).toHaveBeenCalledTimes(2);
-    expect(compiler.webpack.NormalModule.getCompilationHooks).not.toHaveBeenCalledWith(compilation);
+    expect(
+      compiler.webpack.NormalModule.getCompilationHooks
+    ).not.toHaveBeenCalledWith(compilation);
   });
 
-  test('plugin loader hook registers a loader before other loaders', () => {
+  describe('plugin loader hook registers a loader before other loaders', () => {
     const options = {
       modules: [{ moduleName: 'root-module', modulePath: 'root-module' }],
       externals: ['supplied-external'],
     };
-    const module = {
-      userRequest: 'root-module/src/index.js',
+    let module = {
       loaders: [
         {
           loader: 'random-loader',
@@ -116,9 +119,21 @@ describe('HolocronWebpackPlugin', () => {
     };
     module.loaders.push = jest.fn();
     const holocronWebpackPlugin = new HolocronWebpackPlugin(options);
-    expect(holocronWebpackPlugin.loaderHook(null, module)).toBe(undefined);
-    expect(module.loaders.push).toHaveBeenCalledTimes(1);
+    test('for windows OS file path', () => {
+      const filePath = 'root-module\\src\\index.js';
+      module = { ...module, userRequest: filePath };
+      expect(holocronWebpackPlugin.loaderHook(null, module)).toBe(undefined);
+      expect(module.loaders.push).toHaveBeenCalledTimes(1);
+    });
+
+    test('for linux OS file path', () => {
+      const filePath = 'root-module/src/index.js';
+      module = { ...module, userRequest: filePath };
+      expect(holocronWebpackPlugin.loaderHook(null, module)).toBe(undefined);
+      expect(module.loaders.push).toHaveBeenCalledTimes(1);
+    });
   });
+
   test('plugin loader is not added if local modules are not present', () => {
     getModuleFromFilePath.mockImplementation(() => false);
     const options = {
