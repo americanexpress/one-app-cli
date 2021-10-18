@@ -12,15 +12,21 @@
  * under the License.
  */
 
-import { validate } from 'webpack';
+import {
+  DllPlugin,
+  validate,
+} from 'webpack';
 import merge from 'webpack-merge';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-import { getContextPath } from '../../utils/paths';
+import { getContextPath, getVendorsPath, getReportFilename } from '../../utils/paths';
+import {
+  externalsLibraryVarName,
+  jsxTest,
+} from '../helpers';
 import { externalsBundleName, modulesBundleName } from '../../constants';
 import {
-  createBrowserConfigFragment,
   createResolverConfigFragment,
-  createDllBundleConfigFragment,
   createDllReferenceConfigFragment,
   createHolocronModulesConfigFragment,
   createEnvironmentDefinitionsConfigFragment,
@@ -28,27 +34,48 @@ import {
 } from './fragments';
 import {
   createJavaScriptSourceLoadersConfigFragment,
-  createEsBuildConfigFragment,
 } from './loaders';
 
 export function createExternalsDllWebpackConfig({
   entries,
-  externals,
-  minify,
-  sourceMap = 'source-map',
-  target = 'es2018',
-  name = externalsBundleName,
 } = {}) {
-  return merge(
-    createBrowserConfigFragment({ sourceMap }),
-    createEsBuildConfigFragment({ minify, target }),
-    createDllBundleConfigFragment({
-      name,
-      entries,
-      externals,
-    }),
-    createBundleAnalyzerConfigFragment({ name })
-  );
+  return {
+    target: 'web',
+    mode: 'development',
+    devtool: 'source-map',
+    module: {
+      rules: [
+        {
+          test: jsxTest,
+          loader: require.resolve('esbuild-loader'),
+          options: {
+            loader: 'jsx',
+            target: 'es2018',
+          },
+        },
+      ],
+    },
+    entry: { 'holocron-externals': entries },
+    output: {
+      path: getVendorsPath(),
+      filename: '[name].js',
+      library: externalsLibraryVarName,
+    },
+    plugins: [
+      new DllPlugin({
+        context: getContextPath(),
+        name: externalsLibraryVarName,
+        path: getVendorsPath(`${'holocron-externals'}.dll.json`),
+      }),
+      new BundleAnalyzerPlugin({
+        openAnalyzer: false,
+        generateStatsFile: false,
+        logLevel: 'silent',
+        analyzerMode: 'static',
+        reportFilename: `./${getReportFilename('holocron-externals')}`,
+      }),
+    ],
+  };
 }
 
 export function createHolocronModuleWebpackConfig({
@@ -57,12 +84,15 @@ export function createHolocronModuleWebpackConfig({
   environmentVariables,
   globalDefinitions,
   purgeCssOptions,
-  sourceMap = 'source-map',
   hot = true,
   webpackConfigPath,
 }) {
   let config = merge(
-    createBrowserConfigFragment({ sourceMap }),
+    {
+      target: 'web',
+      mode: 'development',
+      devtool: 'source-map',
+    },
     createResolverConfigFragment({ modules: holocronModules }),
     createHolocronModulesConfigFragment({
       modules: holocronModules,

@@ -17,7 +17,6 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import {
   HotModuleReplacementPlugin,
   DllReferencePlugin,
-  DllPlugin,
   EnvironmentPlugin,
   DefinePlugin,
 } from 'webpack';
@@ -41,14 +40,6 @@ import {
 } from '../helpers';
 import { isDevelopment } from '../../utils/helpers';
 
-export function createBrowserConfigFragment({ isDev = isDevelopment(), sourceMap } = {}) {
-  return {
-    target: 'web',
-    mode: isDev && 'development',
-    devtool: sourceMap || (isDev && 'eval-cheap-source-map'),
-  };
-}
-
 export function createDllReferenceConfigFragment({ name = externalsBundleName } = {}) {
   return {
     plugins: [
@@ -56,29 +47,6 @@ export function createDllReferenceConfigFragment({ name = externalsBundleName } 
         context: getContextPath(),
         name: externalsLibraryVarName,
         manifest: getVendorsPath(`${name}.dll.json`),
-      }),
-    ],
-  };
-}
-
-export function createDllBundleConfigFragment({
-  name = externalsBundleName,
-  entries = [],
-  externals = createOneAppExternals(),
-} = {}) {
-  return {
-    entry: { [name]: entries },
-    externals,
-    output: {
-      path: getVendorsPath(),
-      filename: '[name].js',
-      library: externalsLibraryVarName,
-    },
-    plugins: [
-      new DllPlugin({
-        context: getContextPath(),
-        name: externalsLibraryVarName,
-        path: getVendorsPath(`${name}.dll.json`),
       }),
     ],
   };

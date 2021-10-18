@@ -136,7 +136,6 @@ describe('createExternalsDllWebpackConfig', () => {
 });
 
 describe('createHolocronModuleWebpackConfig', () => {
-  process.env.NODE_ENV = 'development';
   jest.spyOn(process, 'cwd').mockImplementation(() => '/path');
 
   test('creates the webpack config for Holocron re-loadable modules', () => {
@@ -149,7 +148,7 @@ describe('createHolocronModuleWebpackConfig', () => {
     const config = createHolocronModuleWebpackConfig({
       modules,
     });
-    expect(validate(config).length).toBe(1);
+    expect(validate(config).length).toBe(0);
   });
 
   test('uses Dll config when externals are provided', () => {
@@ -157,7 +156,7 @@ describe('createHolocronModuleWebpackConfig', () => {
     const config = createHolocronModuleWebpackConfig({
       externals,
     });
-    expect(validate(config).length).toBe(2);
+    expect(validate(config).length).toBe(1);
     expect(config.externals).toEqual({
       '@americanexpress/one-app-ducks': {
         commonjs2: '@americanexpress/one-app-ducks',
@@ -194,6 +193,6 @@ describe('createHolocronModuleWebpackConfig', () => {
     const config = createHolocronModuleWebpackConfig({
       webpackConfigPath: 'webpack.config.js',
     });
-    expect(validate(config).length).toBe(4);
+    expect(validate(config).length).toBe(3);
   });
 });

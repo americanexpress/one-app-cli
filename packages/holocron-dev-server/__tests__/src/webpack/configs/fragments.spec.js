@@ -13,7 +13,7 @@
  */
 
 import {
-  DefinePlugin, DllPlugin, DllReferencePlugin, EnvironmentPlugin,
+  DefinePlugin, DllReferencePlugin, EnvironmentPlugin,
 } from 'webpack';
 import path from 'path';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -22,9 +22,7 @@ import {
   getPublicModulesUrl,
 } from '../../../../src/utils/paths';
 import {
-  createBrowserConfigFragment,
   createDllReferenceConfigFragment,
-  createDllBundleConfigFragment,
   createHolocronModulesConfigFragment,
   createBundleAnalyzerConfigFragment,
   createEnvironmentDefinitionsConfigFragment,
@@ -58,29 +56,6 @@ describe('createDllReferenceConfigFragment', () => {
         }),
       ],
     });
-  });
-});
-describe('createBrowserConfigFragment', () => {
-  test('that source map is returned in development', () => {
-    process.env.NODE_ENV = 'development';
-    const fragment = createBrowserConfigFragment();
-    expect(fragment).toEqual({
-      devtool: 'eval-cheap-source-map',
-      mode: 'development',
-      target: 'web',
-    });
-  });
-});
-describe('createDllBundleConfigFragment', () => {
-  test('returns development config fragment for main externals build', () => {
-    const fragment = createDllBundleConfigFragment();
-    expect(fragment.plugins[0]).toEqual(
-      new DllPlugin({
-        context: process.cwd(),
-        name: '__externals__',
-        path: `${process.cwd()}/static/vendor/holocron-externals.dll.json`,
-      })
-    );
   });
 });
 describe('createHolocronModulesConfigFragment', () => {
