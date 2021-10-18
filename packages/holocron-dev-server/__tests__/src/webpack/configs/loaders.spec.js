@@ -17,7 +17,6 @@ import {
   cssLoader,
   jsxLoader,
   createJavaScriptSourceLoadersConfigFragment,
-  createEsBuildConfigFragment,
 } from '../../../../src/webpack/configs/loaders';
 import { getWebpackVersion } from '../../../../src/webpack/helpers';
 
@@ -179,24 +178,6 @@ describe('createJavaScriptSourceLoadersConfigFragment', () => {
                 },
               },
             ],
-          },
-        ],
-      },
-    });
-  });
-});
-describe('createEsBuildConfigFragment', () => {
-  test('returns config for es build', () => {
-    expect(createEsBuildConfigFragment()).toEqual({
-      module: {
-        rules: [
-          {
-            loader: require.resolve('esbuild-loader'),
-            options: {
-              loader: 'jsx',
-              target: 'es2015',
-            },
-            test: /\.jsx?$/i,
           },
         ],
       },

@@ -188,24 +188,3 @@ export function createJavaScriptSourceLoadersConfigFragment({
 
   return fragment;
 }
-
-export function createEsBuildConfigFragment({
-  target = 'es2015',
-  loader = 'jsx',
-  test = jsxTest,
-} = {}) {
-  return {
-    module: {
-      rules: [
-        {
-          test,
-          loader: require.resolve('esbuild-loader'),
-          options: {
-            loader,
-            target,
-          },
-        },
-      ],
-    },
-  };
-}
