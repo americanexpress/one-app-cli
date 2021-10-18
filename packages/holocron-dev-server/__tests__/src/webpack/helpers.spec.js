@@ -28,16 +28,6 @@ describe('createOneAppExternals', () => {
     const externals = createOneAppExternals();
     expect(externals).toMatchSnapshot();
   });
-
-  test('returns the set of externals used by One App including added externals', () => {
-    const externals = createOneAppExternals(['react-package']);
-    expect(externals).toMatchSnapshot();
-  });
-
-  test('returns the set of externals from added externals in array formation [name, varName]', () => {
-    const externals = createOneAppExternals([['react-package', 'reactPackage']]);
-    expect(externals).toMatchSnapshot();
-  });
 });
 
 describe('createHolocronModuleEntries', () => {
