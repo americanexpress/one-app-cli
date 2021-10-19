@@ -33,17 +33,13 @@ export function createExternalEntry([packageName, varName]) {
   return {
     [packageName]: {
       commonjs2: packageName,
-      ...varName
-        ? {
-          var: varName,
-          root: varName,
-        }
-        : {},
+      var: varName,
+      root: varName,
     },
   };
 }
 
-export function createOneAppExternals(additionalExternals = []) {
+export function createOneAppExternals() {
   // TODO: pull this from one-app-bundler when merging
   return [
     ['@americanexpress/one-app-ducks', 'OneAppDucks'],
@@ -59,7 +55,6 @@ export function createOneAppExternals(additionalExternals = []) {
     ['react-redux', 'ReactRedux'],
     ['redux', 'Redux'],
     ['reselect', 'Reselect'],
-    ...additionalExternals.map((external) => (Array.isArray(external) ? external : [external])),
   ]
     .map(createExternalEntry)
     .reduce((map, next) => ({ ...map, ...next }), {});
