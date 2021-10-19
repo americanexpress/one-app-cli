@@ -99,7 +99,6 @@ export function createHolocronModuleWebpackConfig({
   environmentVariables,
   globalDefinitions,
   purgeCssOptions,
-  hot = true,
   webpackConfigPath,
 }) {
   const webpackVersion = getWebpackVersion();
@@ -108,7 +107,7 @@ export function createHolocronModuleWebpackConfig({
   let config = merge(
     createResolverConfigFragment({ modules: holocronModules }),
     {
-      entry: createHolocronModuleEntries({ modules: holocronModules, hot }),
+      entry: createHolocronModuleEntries({ modules: holocronModules }),
       externals: createOneAppExternals(),
       target: 'web',
       mode: 'development',
@@ -127,19 +126,19 @@ export function createHolocronModuleWebpackConfig({
       module: {
         rules: [
           fileLoader().rule,
-          cssLoader({ purgeCssOptions, hot }).rule,
-          jsxLoader({ hot }).rule,
+          cssLoader({ purgeCssOptions }).rule,
+          jsxLoader().rule,
         ],
       },
       plugins: [
         new HolocronModulePlugin({
           modules: holocronModules,
           externals: holocronModuleExternals,
-          hot,
+          hot: true,
         }),
         new HotModuleReplacementPlugin(),
         new ReactRefreshWebpackPlugin({
-          forceEnable: hot,
+          forceEnable: true,
           library: modulesLibraryVarName,
           overlay: {
             sockIntegration: 'whm',

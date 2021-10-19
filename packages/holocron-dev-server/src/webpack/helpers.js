@@ -60,17 +60,16 @@ export function createOneAppExternals() {
     .reduce((map, next) => ({ ...map, ...next }), {});
 }
 
-const createHotModuleEntry = ({ moduleName, modulePath }, hot) => ({
+const createHotModuleEntry = ({ moduleName, modulePath }) => ({
   [moduleName]: [
-    ...hot
-      ? [require.resolve('webpack-hot-middleware/client'), require.resolve('react-refresh/runtime')]
-      : [],
+    require.resolve('webpack-hot-middleware/client'),
+    require.resolve('react-refresh/runtime'),
     `${modulePath}/src/index.js`,
   ],
 });
 
-export function createHolocronModuleEntries({ modules = [], hot = false } = {}) {
+export function createHolocronModuleEntries({ modules = [] } = {}) {
   return modules
-    .map((module) => createHotModuleEntry(module, hot))
+    .map((module) => createHotModuleEntry(module))
     .reduce((map, next) => ({ ...map, ...next }), {});
 }

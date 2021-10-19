@@ -63,9 +63,7 @@ export const cssLoader = ({
   test = cssTest,
   exclude = nodeModulesPattern,
   include,
-  hot = true,
   modules = true,
-  inline = true,
 } = {}) => {
   const loaders = [
     {
@@ -82,11 +80,9 @@ export const cssLoader = ({
     },
   });
 
-  if (hot || inline) {
-    loaders.unshift({
-      loader: 'style-loader',
-    });
-  }
+  loaders.unshift({
+    loader: 'style-loader',
+  });
 
   // TODO: TBD --- instead of inlining css, extract to css static
 
@@ -114,14 +110,11 @@ export const jsxLoader = ({
   babelrc = true,
   // loader config
   test = jsxTest,
-  hot = false,
   cache = true,
   exclude,
   include,
 } = {}) => {
-  if (hot) {
-    plugins.unshift(require.resolve('react-refresh/babel'));
-  }
+  plugins.unshift(require.resolve('react-refresh/babel'));
   const rule = {
     test,
     // eg exclude: /node_modules/, ['my-transpiled-package', ...]
