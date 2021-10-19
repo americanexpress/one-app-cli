@@ -41,13 +41,13 @@ describe('fileLoader', () => {
 
 describe('cssLoader', () => {
   test('returns loader config for CSS files', () => {
-    expect(cssLoader().fragment.module.rules).toMatchSnapshot();
+    expect(cssLoader()).toMatchSnapshot();
   });
 });
 
 describe('jsxLoader', () => {
   test('returns loader config for JavaScript files', () => {
-    expect(jsxLoader().fragment.module.rules).toEqual([
+    expect(jsxLoader()).toEqual(
       {
         exclude: undefined,
         include: undefined,
@@ -73,7 +73,7 @@ describe('jsxLoader', () => {
             },
           },
         ],
-      },
-    ]);
+      }
+    );
   });
 });

@@ -1,83 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`cssLoader returns loader config for CSS files 1`] = `
-Array [
-  Object {
-    "exclude": /node_modules/,
-    "include": undefined,
-    "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
-    "use": Array [
-      Object {
-        "loader": "style-loader",
-      },
-      Object {
-        "loader": "css-loader",
-        "options": Object {
-          "importLoaders": 1,
-          "modules": Object {
-            "localIdentName": "[name]__[local]___[contenthash:base64:5]",
-          },
+Object {
+  "exclude": /node_modules/,
+  "include": undefined,
+  "test": /\\\\\\.\\(sa\\|sc\\|c\\)ss\\$/,
+  "use": Array [
+    Object {
+      "loader": "style-loader",
+    },
+    Object {
+      "loader": "css-loader",
+      "options": Object {
+        "importLoaders": 1,
+        "modules": Object {
+          "localIdentName": "[name]__[local]___[contenthash:base64:5]",
         },
       },
-      Object {
-        "loader": "sass-loader",
-      },
-    ],
-  },
-]
+    },
+    Object {
+      "loader": "sass-loader",
+    },
+  ],
+}
 `;
 
 exports[`fileLoader returns loader config for file types for webpack version 4 and below 1`] = `
 Object {
-  "fragment": Object {
-    "module": Object {
-      "rules": Array [
-        Object {
-          "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
-          "use": Array [
-            Object {
-              "loader": "file-loader",
-              "options": Object {
-                "name": "assets/[name].[ext]",
-              },
-            },
-          ],
-        },
-      ],
-    },
-  },
-  "rule": Object {
-    "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
-    "use": Array [
-      Object {
-        "loader": "file-loader",
-        "options": Object {
-          "name": "assets/[name].[ext]",
-        },
+  "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
+  "use": Array [
+    Object {
+      "loader": "file-loader",
+      "options": Object {
+        "name": "assets/[name].[ext]",
       },
-    ],
-  },
+    },
+  ],
 }
 `;
 
 exports[`fileLoader returns loader config for file types for webpack version 5 and above 1`] = `
 Object {
-  "fragment": Object {
-    "module": Object {
-      "rules": Array [
-        Object {
-          "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
-          "type": "asset/resource",
-        },
-      ],
-    },
-    "output": Object {
-      "assetModuleFilename": "assets/[name].[ext]",
-    },
-  },
-  "rule": Object {
-    "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
-    "type": "asset/resource",
-  },
+  "test": /\\\\\\.\\(woff\\|woff2\\|ttf\\|eot\\|svg\\|png\\|jpg\\|jpeg\\|gif\\|webm\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
+  "type": "asset/resource",
 }
 `;

@@ -34,7 +34,6 @@ import {
 } from '../../utils/paths';
 import {
   externalsLibraryVarName,
-  jsxTest,
   modulesLibraryVarName,
   getWebpackVersion,
   createOneAppExternals,
@@ -61,7 +60,7 @@ export function createExternalsDllWebpackConfig({
     module: {
       rules: [
         {
-          test: jsxTest,
+          test: /\.jsx?$/i,
           loader: require.resolve('esbuild-loader'),
           options: {
             loader: 'jsx',
@@ -125,9 +124,9 @@ export function createHolocronModuleWebpackConfig({
       },
       module: {
         rules: [
-          fileLoader().rule,
-          cssLoader({ purgeCssOptions }).rule,
-          jsxLoader().rule,
+          fileLoader(),
+          cssLoader({ purgeCssOptions }),
+          jsxLoader(),
         ],
       },
       plugins: [

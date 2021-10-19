@@ -17,14 +17,6 @@ import { version } from 'webpack';
 export const modulesLibraryVarName = '__holocron_modules__';
 export const externalsLibraryVarName = '__externals__';
 
-export const modulesFilename = '[name]/[name].js';
-export const assetModuleFilename = 'assets/[name].[ext]';
-
-export const jsxTest = /\.jsx?$/i;
-export const fileTest = /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/;
-export const cssTest = /\.(sa|sc|c)ss$/;
-export const nodeModulesPattern = /node_modules/;
-
 export function getWebpackVersion() {
   return parseInt(version, 10);
 }
