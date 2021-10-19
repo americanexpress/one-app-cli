@@ -15,26 +15,41 @@
 import {
   DllPlugin,
   validate,
+  HotModuleReplacementPlugin,
+  EnvironmentPlugin,
+  DefinePlugin,
+  DllReferencePlugin,
 } from 'webpack';
 import merge from 'webpack-merge';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
-import { getContextPath, getVendorsPath, getReportFilename } from '../../utils/paths';
+import {
+  getContextPath,
+  getVendorsPath,
+  getReportFilename,
+  getModulesPath,
+  getPublicModulesUrl,
+  createModuleScriptUrl,
+} from '../../utils/paths';
 import {
   externalsLibraryVarName,
   jsxTest,
+  modulesLibraryVarName,
+  getWebpackVersion,
+  createOneAppExternals,
+  createHolocronModuleEntries,
 } from '../helpers';
 import { externalsBundleName, modulesBundleName } from '../../constants';
 import {
   createResolverConfigFragment,
-  createDllReferenceConfigFragment,
-  createHolocronModulesConfigFragment,
-  createEnvironmentDefinitionsConfigFragment,
-  createBundleAnalyzerConfigFragment,
 } from './fragments';
 import {
-  createJavaScriptSourceLoadersConfigFragment,
+  fileLoader,
+  cssLoader,
+  jsxLoader,
 } from './loaders';
+import HolocronModulePlugin from '../plugins/holocron-webpack-plugin';
 
 export function createExternalsDllWebpackConfig({
   entries,
@@ -87,36 +102,79 @@ export function createHolocronModuleWebpackConfig({
   hot = true,
   webpackConfigPath,
 }) {
+  const webpackVersion = getWebpackVersion();
+  const libKey = webpackVersion >= 5 ? 'uniqueName' : 'library';
+  const hashName = webpackVersion >= 5 ? 'fullhash' : 'hash';
   let config = merge(
+    createResolverConfigFragment({ modules: holocronModules }),
     {
+      entry: createHolocronModuleEntries({ modules: holocronModules, hot }),
+      externals: createOneAppExternals(),
       target: 'web',
       mode: 'development',
       devtool: 'source-map',
-    },
-    createResolverConfigFragment({ modules: holocronModules }),
-    createHolocronModulesConfigFragment({
-      modules: holocronModules,
-      externals: holocronModuleExternals,
-      hot,
-    }),
-    createJavaScriptSourceLoadersConfigFragment({
-      purgeCssOptions,
-      hot,
-    }),
-    createEnvironmentDefinitionsConfigFragment({
-      environmentVariables,
-      globalDefinitions,
-    }),
-    createBundleAnalyzerConfigFragment({
-      name: modulesBundleName,
-    })
+      output: {
+        publicPath: getPublicModulesUrl(),
+        path: getModulesPath(),
+        filename: createModuleScriptUrl('[name]'),
+        [libKey]: modulesLibraryVarName,
+        hotUpdateChunkFilename: `[name]/[id].[${hashName}].hot-update.js`,
+        hotUpdateMainFilename: `__hot/[${hashName}].hot-update.json`,
+      },
+      optimization: {
+        runtimeChunk: 'single',
+      },
+      module: {
+        rules: [
+          fileLoader().rule,
+          cssLoader({ purgeCssOptions, hot }).rule,
+          jsxLoader({ hot }).rule,
+        ],
+      },
+      plugins: [
+        new HolocronModulePlugin({
+          modules: holocronModules,
+          externals: holocronModuleExternals,
+          hot,
+        }),
+        new HotModuleReplacementPlugin(),
+        new ReactRefreshWebpackPlugin({
+          forceEnable: hot,
+          library: modulesLibraryVarName,
+          overlay: {
+            sockIntegration: 'whm',
+          },
+        }),
+        new EnvironmentPlugin({
+          ...environmentVariables,
+          NODE_ENV: 'development',
+        }),
+        new DefinePlugin({
+          ...globalDefinitions,
+          'global.BROWSER': JSON.stringify(true),
+        }),
+        new BundleAnalyzerPlugin({
+          openAnalyzer: false,
+          generateStatsFile: false,
+          logLevel: 'silent',
+          analyzerMode: 'static',
+          reportFilename: `./${getReportFilename(modulesBundleName)}`,
+        }),
+      ],
+    }
   );
 
   if (holocronModuleExternals.length > 0) {
     config = merge(
-      createDllReferenceConfigFragment({
-        name: externalsBundleName,
-      }),
+      {
+        plugins: [
+          new DllReferencePlugin({
+            context: getContextPath(),
+            name: externalsLibraryVarName,
+            manifest: getVendorsPath(`${externalsBundleName}.dll.json`),
+          }),
+        ],
+      },
       config
     );
   }

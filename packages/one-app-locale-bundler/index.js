@@ -19,6 +19,7 @@ const compileModuleLocales = require('./src/compileModuleLocales');
 function runLocaleBundler(modulePath) {
   return compileModuleLocales(modulePath)
     .catch((err) => {
+      /* istanbul ignore next */
       setTimeout(() => { throw err; });
     });
 }

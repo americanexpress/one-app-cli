@@ -12,15 +12,12 @@
  * under the License.
  */
 
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-
 import {
   assetModuleFilename,
   cssTest,
   fileTest,
   getWebpackVersion,
   jsxTest,
-  modulesLibraryVarName,
   nodeModulesPattern,
 } from '../helpers';
 
@@ -163,28 +160,3 @@ export const jsxLoader = ({
     },
   };
 };
-
-export function createJavaScriptSourceLoadersConfigFragment({
-  purgeCssOptions,
-  hot,
-} = {}) {
-  const fragment = {
-    module: {
-      rules: [fileLoader().rule, cssLoader({ purgeCssOptions, hot }).rule, jsxLoader({ hot }).rule],
-    },
-  };
-
-  if (hot) {
-    fragment.plugins = [
-      new ReactRefreshWebpackPlugin({
-        forceEnable: hot,
-        library: modulesLibraryVarName,
-        overlay: {
-          sockIntegration: 'whm',
-        },
-      }),
-    ];
-  }
-
-  return fragment;
-}

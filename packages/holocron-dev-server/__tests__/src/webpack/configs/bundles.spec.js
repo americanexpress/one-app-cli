@@ -19,7 +19,16 @@ import {
   createExternalsDllWebpackConfig,
   createHolocronModuleWebpackConfig,
 } from '../../../../src/webpack/configs/bundles';
+import { getWebpackVersion, modulesLibraryVarName } from '../../../../src/webpack/helpers';
 
+jest.mock('../../../../src/webpack/helpers', () => {
+  const originalModule = jest.requireActual('../../../../src/webpack/helpers');
+
+  return {
+    ...originalModule,
+    getWebpackVersion: jest.fn(() => 5),
+  };
+});
 const { NODE_ENV } = process.env;
 beforeEach(() => {
   jest.clearAllMocks();
@@ -148,7 +157,20 @@ describe('createHolocronModuleWebpackConfig', () => {
     const config = createHolocronModuleWebpackConfig({
       modules,
     });
-    expect(validate(config).length).toBe(0);
+    expect(validate(config).length).toBe(2);
+  });
+  test('creates the webpack config for Holocron re-loadable modules - webpack v4', () => {
+    getWebpackVersion.mockImplementationOnce(() => 4);
+    const modules = [
+      {
+        moduleName: 'hot-module',
+        modulePath: 'hot-module/src/index.js',
+      },
+    ];
+    const config = createHolocronModuleWebpackConfig({
+      modules,
+    });
+    expect(config.output.library).toBe(modulesLibraryVarName);
   });
 
   test('uses Dll config when externals are provided', () => {
@@ -156,7 +178,7 @@ describe('createHolocronModuleWebpackConfig', () => {
     const config = createHolocronModuleWebpackConfig({
       externals,
     });
-    expect(validate(config).length).toBe(1);
+    expect(validate(config).length).toBe(3);
     expect(config.externals).toEqual({
       '@americanexpress/one-app-ducks': {
         commonjs2: '@americanexpress/one-app-ducks',
