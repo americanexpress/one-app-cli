@@ -16,7 +16,6 @@ import {
   fileLoader,
   cssLoader,
   jsxLoader,
-  createJavaScriptSourceLoadersConfigFragment,
 } from '../../../../src/webpack/configs/loaders';
 import { getWebpackVersion } from '../../../../src/webpack/helpers';
 
@@ -112,75 +111,5 @@ describe('jsxLoader', () => {
         ],
       },
     ]);
-  });
-});
-
-describe('createJavaScriptSourceLoadersConfigFragment', () => {
-  test('returns config for javascript script loader', () => {
-    expect(createJavaScriptSourceLoadersConfigFragment()).toEqual({
-      module: {
-        rules: [
-          {
-            test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/,
-            use: [
-              {
-                loader: 'file-loader',
-                options: {
-                  name: 'assets/[name].[ext]',
-                },
-              },
-            ],
-          },
-          {
-            exclude: /node_modules/,
-            include: undefined,
-            test: /\.(sa|sc|c)ss$/,
-            use: [
-              {
-                loader: 'style-loader',
-              },
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                  modules: {
-                    localIdentName: '[name]__[local]___[contenthash:base64:5]',
-                  },
-                },
-              },
-              {
-                loader: 'sass-loader',
-              },
-            ],
-          },
-          {
-            exclude: undefined,
-            include: undefined,
-            test: /\.jsx?$/i,
-            use: [
-              {
-                loader: require.resolve('babel-loader'),
-                options: {
-                  babelrc: true,
-                  cacheDirectory: true,
-                  plugins: [],
-                  presets: [
-                    [
-                      'amex',
-                      {
-                        modern: true,
-                        'preset-env': {
-                          modules: false,
-                        },
-                      },
-                    ],
-                  ],
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
   });
 });
