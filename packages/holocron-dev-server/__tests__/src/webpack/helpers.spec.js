@@ -43,27 +43,17 @@ describe('createHolocronModuleEntries', () => {
     expect(entries).toEqual({});
   });
 
-  test('returns the entries (with hot entries) of modules to be bundled', () => {
+  test('returns the entries of modules to be bundled', () => {
     const moduleName = 'hot-module';
     const modulePath = '/some/path/to/hot-module';
     const modules = [{ moduleName, modulePath }];
-    const entries = createHolocronModuleEntries({ modules, hot: true });
+    const entries = createHolocronModuleEntries({ modules });
     expect(entries).toEqual({
       [moduleName]: [
         require.resolve('webpack-hot-middleware/client'),
         require.resolve('react-refresh/runtime'),
         `${modulePath}/src/index.js`,
       ],
-    });
-  });
-
-  test('only returns the module entry when bundling without hot configured', () => {
-    const moduleName = 'hot-module';
-    const modulePath = '/some/path/to/hot-module';
-    const modules = [{ moduleName, modulePath }];
-    const entries = createHolocronModuleEntries({ modules });
-    expect(entries).toEqual({
-      [moduleName]: [`${modulePath}/src/index.js`],
     });
   });
 });

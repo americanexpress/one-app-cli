@@ -59,7 +59,6 @@ export function createHotHolocronCompiler({
   webpackConfigPath,
 }) {
   const holocronWebpackConfig = createHolocronModuleWebpackConfig({
-    hot: true,
     modules,
     externals,
     environmentVariables,

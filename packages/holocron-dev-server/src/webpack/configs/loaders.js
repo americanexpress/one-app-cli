@@ -13,150 +13,78 @@
  */
 
 import {
-  assetModuleFilename,
-  cssTest,
-  fileTest,
   getWebpackVersion,
-  jsxTest,
-  nodeModulesPattern,
 } from '../helpers';
 
-export const fileLoader = ({ test = fileTest } = {}) => {
+export const fileLoader = () => {
   const webpackVersion = getWebpackVersion();
-  const fragment = {
-    module: {
-      rules: [],
-    },
-  };
-
   if (webpackVersion >= 5) {
-    fragment.module.rules.push({
-      test,
+    return {
+      test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/,
       type: 'asset/resource',
-    });
-    fragment.output = {
-      assetModuleFilename,
     };
-  } else {
-    // v4 and down
-    fragment.module.rules.push({
-      test,
-      use: [
-        {
-          loader: 'file-loader',
-          options: {
-            name: assetModuleFilename,
-          },
-        },
-      ],
-    });
   }
-
-  const [rule] = fragment.module.rules;
+  // v4 and down
   return {
-    rule,
-    fragment,
-  };
-};
-
-export const cssLoader = ({
-  test = cssTest,
-  exclude = nodeModulesPattern,
-  include,
-  hot = true,
-  modules = true,
-  inline = true,
-} = {}) => {
-  const loaders = [
-    {
-      loader: 'sass-loader',
-    },
-  ];
-  loaders.unshift({
-    loader: 'css-loader',
-    options: {
-      importLoaders: loaders.length,
-      modules: modules && {
-        localIdentName: '[name]__[local]___[contenthash:base64:5]',
-      },
-    },
-  });
-
-  if (hot || inline) {
-    loaders.unshift({
-      loader: 'style-loader',
-    });
-  }
-
-  // TODO: TBD --- instead of inlining css, extract to css static
-
-  const rule = {
-    test,
-    exclude,
-    include,
-    use: loaders,
-  };
-
-  return {
-    rule,
-    fragment: {
-      module: {
-        rules: [rule],
-      },
-    },
-  };
-};
-
-export const jsxLoader = ({
-  // plugins and presets are the babel config passed to the loader
-  plugins = [],
-  presets = [],
-  babelrc = true,
-  // loader config
-  test = jsxTest,
-  hot = false,
-  cache = true,
-  exclude,
-  include,
-} = {}) => {
-  if (hot) {
-    plugins.unshift(require.resolve('react-refresh/babel'));
-  }
-  const rule = {
-    test,
-    // eg exclude: /node_modules/, ['my-transpiled-package', ...]
-    exclude,
-    include,
+    test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/,
     use: [
       {
-        loader: require.resolve('babel-loader'),
+        loader: 'file-loader',
         options: {
-          cacheDirectory: cache,
-          babelrc,
-          presets: [
-            [
-              'amex',
-              {
-                modern: true,
-                'preset-env': {
-                  modules: false,
-                },
-              },
-            ],
-            ...presets,
-          ],
-          plugins,
+          name: 'assets/[name].[ext]',
         },
       },
     ],
   };
+};
 
-  return {
-    rule,
-    fragment: {
-      module: {
-        rules: [rule],
+export const cssLoader = ({
+  include,
+  modules = true,
+} = {}) => ({
+  test: /\.(sa|sc|c)ss$/,
+  exclude: /node_modules/,
+  include,
+  use: [
+    {
+      loader: 'style-loader',
+    },
+    {
+      loader: 'css-loader',
+      options: {
+        importLoaders: 1,
+        modules: modules && {
+          localIdentName: '[name]__[local]___[contenthash:base64:5]',
+        },
       },
     },
-  };
-};
+    {
+      loader: 'sass-loader',
+    },
+  ],
+});
+
+export const jsxLoader = () => ({
+  test: /\.jsx?$/i,
+  use: [
+    {
+      loader: require.resolve('babel-loader'),
+      options: {
+        cacheDirectory: true,
+        babelrc: true,
+        presets: [
+          [
+            'amex',
+            {
+              modern: true,
+              'preset-env': {
+                modules: false,
+              },
+            },
+          ],
+        ],
+        plugins: [require.resolve('react-refresh/babel')],
+      },
+    },
+  ],
+});

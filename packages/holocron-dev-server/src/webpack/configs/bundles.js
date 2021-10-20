@@ -34,7 +34,6 @@ import {
 } from '../../utils/paths';
 import {
   externalsLibraryVarName,
-  jsxTest,
   modulesLibraryVarName,
   getWebpackVersion,
   createOneAppExternals,
@@ -61,7 +60,7 @@ export function createExternalsDllWebpackConfig({
     module: {
       rules: [
         {
-          test: jsxTest,
+          test: /\.jsx?$/i,
           loader: require.resolve('esbuild-loader'),
           options: {
             loader: 'jsx',
@@ -99,7 +98,6 @@ export function createHolocronModuleWebpackConfig({
   environmentVariables,
   globalDefinitions,
   purgeCssOptions,
-  hot = true,
   webpackConfigPath,
 }) {
   const webpackVersion = getWebpackVersion();
@@ -108,7 +106,7 @@ export function createHolocronModuleWebpackConfig({
   let config = merge(
     createResolverConfigFragment({ modules: holocronModules }),
     {
-      entry: createHolocronModuleEntries({ modules: holocronModules, hot }),
+      entry: createHolocronModuleEntries({ modules: holocronModules }),
       externals: createOneAppExternals(),
       target: 'web',
       mode: 'development',
@@ -126,20 +124,20 @@ export function createHolocronModuleWebpackConfig({
       },
       module: {
         rules: [
-          fileLoader().rule,
-          cssLoader({ purgeCssOptions, hot }).rule,
-          jsxLoader({ hot }).rule,
+          fileLoader(),
+          cssLoader({ purgeCssOptions }),
+          jsxLoader(),
         ],
       },
       plugins: [
         new HolocronModulePlugin({
           modules: holocronModules,
           externals: holocronModuleExternals,
-          hot,
+          hot: true,
         }),
         new HotModuleReplacementPlugin(),
         new ReactRefreshWebpackPlugin({
-          forceEnable: hot,
+          forceEnable: true,
           library: modulesLibraryVarName,
           overlay: {
             sockIntegration: 'whm',

@@ -41,49 +41,13 @@ describe('fileLoader', () => {
 
 describe('cssLoader', () => {
   test('returns loader config for CSS files', () => {
-    expect(cssLoader().fragment.module.rules).toMatchSnapshot();
-  });
-  test('returns loader config for CSS files with with inline disabled', () => {
-    expect(cssLoader({ hot: false }).fragment.module.rules).toMatchSnapshot();
-  });
-  test('returns loader config for CSS files with with inline and hot reloading disabled', () => {
-    expect(cssLoader({ hot: false, inline: false }).fragment.module.rules).toMatchSnapshot();
+    expect(cssLoader()).toMatchSnapshot();
   });
 });
 
 describe('jsxLoader', () => {
   test('returns loader config for JavaScript files', () => {
-    expect(jsxLoader().fragment.module.rules).toEqual([
-      {
-        exclude: undefined,
-        include: undefined,
-        test: /\.jsx?$/i,
-        use: [
-          {
-            loader: require.resolve('babel-loader'),
-            options: {
-              babelrc: true,
-              cacheDirectory: true,
-              plugins: [],
-              presets: [
-                [
-                  'amex',
-                  {
-                    modern: true,
-                    'preset-env': {
-                      modules: false,
-                    },
-                  },
-                ],
-              ],
-            },
-          },
-        ],
-      },
-    ]);
-  });
-  test('returns loader config for JavaScript files with hot reloading enabled', () => {
-    expect(jsxLoader({ hot: true }).fragment.module.rules).toEqual([
+    expect(jsxLoader()).toEqual(
       {
         exclude: undefined,
         include: undefined,
@@ -109,7 +73,7 @@ describe('jsxLoader', () => {
             },
           },
         ],
-      },
-    ]);
+      }
+    );
   });
 });
