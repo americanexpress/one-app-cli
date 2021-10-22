@@ -21,13 +21,13 @@
     "posttest": "yarn test:lint && yarn test:git-history && yarn test:lockfile",
     "test:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts registry.yarnpkg.com --validate-https",
     "lerna:version": "lerna version",
-    "lerna:publish": "lerna publish from-package --yes",
-    "lerna:deploy": "node lernaDeploy.js"
+    "lerna:publish": "lerna publish from-package --yes"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "amex-jest-preset": "^6.1.0",
+    "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.2.2",
