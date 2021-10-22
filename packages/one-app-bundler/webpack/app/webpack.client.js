@@ -19,8 +19,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const coreJsCompat = require('core-js-compat');
 const coreJsEntries = require('core-js-compat/entries');
 const { browserList, legacyBrowserList } = require('babel-preset-amex/browserlist');
-
-const getConfigOptions = require('../../utils/getConfigOptions');
 const createResolver = require('../createResolver');
 const { externals: moduleExternals, ...common } = require('../webpack.common');
 const {
@@ -57,79 +55,73 @@ const getCoreJsModulePaths = (targets) => {
       .filter((moduleName) => moduleNames.includes(moduleName)).length);
 };
 
-module.exports = (babelEnv) => {
-  const isNotModernEnv = babelEnv !== 'modern';
-  const canBuildLegacy = isNotModernEnv && !getConfigOptions().disableDevelopmentLegacyBundle;
-
-  return merge(
-    common,
-    {
-      output: {
-        path: path.resolve(packageRoot, `build/app/tmp${canBuildLegacy ? '/legacy' : ''}`),
-        filename: '[name].js',
-      },
-      entry: {
-        app: './src/client/client',
-        vendors: [
-          ...isNotModernEnv ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
-          // eslint-disable-next-line max-len
-          ...(canBuildLegacy ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
-          resolve('regenerator-runtime/runtime'),
-          ...Object.keys(moduleExternals).map(resolve),
-        ],
-      },
-      resolve: {
-        alias: {
-          'transit-js': path.resolve(packageRoot, 'src/universal/vendors/transit-amd-min.js'),
-        },
-        extensions: ['.js', '.jsx'],
-        mainFields,
-        modules: [packageRoot, 'node_modules'],
-      },
-      plugins: [
-        new webpack.DefinePlugin({
-          'global.BROWSER': JSON.stringify(true),
-        }),
-        new webpack.EnvironmentPlugin([
-          'NODE_ENV',
-        ]),
+module.exports = (babelEnv) => merge(
+  common,
+  {
+    output: {
+      path: path.resolve(packageRoot, `build/app/tmp${babelEnv !== 'modern' ? '/legacy' : ''}`),
+      filename: '[name].js',
+    },
+    entry: {
+      app: './src/client/client',
+      vendors: [
+        ...babelEnv !== 'modern' ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
+        ...(babelEnv !== 'modern' ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
+        resolve('regenerator-runtime/runtime'),
+        ...Object.keys(moduleExternals).map(resolve),
       ],
-      module: {
-        rules: [
-          {
-            test: /\.jsx?$/,
-            include: pathsToTranspile,
-            exclude: new RegExp(`^${path.resolve(packageRoot, 'node_modules', 'core-js')}`),
-            use: [babelLoader(babelEnv)],
-          }, {
-            test: /\.(sa|sc|c)ss$/,
-            use: [
-              { loader: 'style-loader' },
-              cssLoader({ importLoaders: 1 }),
-              sassLoader(),
-            ],
-          },
-          ...exposeModuleExternals,
-        ],
+    },
+    resolve: {
+      alias: {
+        'transit-js': path.resolve(packageRoot, 'src/universal/vendors/transit-amd-min.js'),
       },
-      optimization: {
-        runtimeChunk: 'single',
-        splitChunks: {
-          chunks: 'all',
-          minChunks: Infinity,
+      extensions: ['.js', '.jsx'],
+      mainFields,
+      modules: [packageRoot, 'node_modules'],
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        'global.BROWSER': JSON.stringify(true),
+      }),
+      new webpack.EnvironmentPlugin([
+        'NODE_ENV',
+      ]),
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          include: pathsToTranspile,
+          exclude: new RegExp(`^${path.resolve(packageRoot, 'node_modules', 'core-js')}`),
+          use: [babelLoader(babelEnv)],
+        }, {
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            { loader: 'style-loader' },
+            cssLoader({ importLoaders: 1 }),
+            sassLoader(),
+          ],
         },
-        minimizer: [
-          new TerserPlugin({
-            test: /\.jsx?$/i,
-            extractComments: false,
-            terserOptions: {
-              compress: {
-                drop_console: true,
-              },
-            },
-          }),
-        ],
+        ...exposeModuleExternals,
+      ],
+    },
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        chunks: 'all',
+        minChunks: Infinity,
       },
-    }
-  );
-};
+      minimizer: [
+        new TerserPlugin({
+          test: /\.jsx?$/i,
+          extractComments: false,
+          terserOptions: {
+            compress: {
+              drop_console: true,
+            },
+          },
+        }),
+      ],
+    },
+  }
+);
