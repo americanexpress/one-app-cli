@@ -83,7 +83,7 @@ module.exports = {
           ignore: false,
           useEslintrc: false,
           failOnError: true,
-          plugins: ['@americanexpress/one-app'],
+          plugins: ['@americanexpress/one-app', 'lodash'],
           parser: 'babel-eslint',
           parserOptions: {
             ecmaVersion: 6,

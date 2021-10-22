@@ -20,6 +20,7 @@ const WebpackDynamicPublicPathPlugin = require('webpack-dynamic-public-path');
 const WebpackCustomChunkIdPlugin = require('webpack-custom-chunk-id-plugin');
 const HolocronModuleRegisterPlugin = require('holocron-module-register-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const extendWebpackConfig = require('../../utils/extendWebpackConfig');
 const commonConfig = require('../webpack.common');
@@ -81,6 +82,10 @@ module.exports = (babelEnv) => {
         ],
       },
       plugins: [
+        new LodashModuleReplacementPlugin({
+          collections: true,
+          paths: true,
+        }),
         new HolocronModuleRegisterPlugin(name),
         new webpack.DefinePlugin({
           'global.BROWSER': JSON.stringify(true),
