@@ -61,7 +61,7 @@ module.exports = (babelEnv) => {
       performance: {
         maxAssetSize: configOptions.performanceBudget || 250e3,
         maxEntrypointSize: configOptions.performanceBudget || 250e3,
-        hints: process.env.NODE_ENV === 'development' ? 'warning' : 'error',
+        hints: babelEnv !== 'legacy' && (process.env.NODE_ENV === 'development' ? 'warning' : 'error'),
       },
       module: {
         rules: [

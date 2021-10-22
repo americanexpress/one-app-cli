@@ -47,6 +47,14 @@ describe('webpack/module.client', () => {
     });
   });
 
+  it('does not warn for perf budget violations for legacy', () => {
+    const webpackConfig = configGenerator('legacy');
+    expect(webpackConfig.performance).toMatchObject({
+      maxAssetSize: 250e3,
+      hints: false,
+    });
+  });
+
   it('should error for perf budget violations in production', () => {
     process.env.NODE_ENV = 'production';
     const webpackConfig = configGenerator();
