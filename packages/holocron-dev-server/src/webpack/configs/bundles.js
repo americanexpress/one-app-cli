@@ -133,7 +133,6 @@ export function createHolocronModuleWebpackConfig({
         new HolocronModulePlugin({
           modules: holocronModules,
           externals: holocronModuleExternals,
-          hot: true,
         }),
         new HotModuleReplacementPlugin(),
         new ReactRefreshWebpackPlugin({
