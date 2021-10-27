@@ -55,6 +55,7 @@ const optionsSchema = Joi.object({
   webpackConfigPath: webpackConfigSchema,
   webpackClientConfigPath: webpackConfigSchema,
   webpackServerConfigPath: webpackConfigSchema,
+  disableDevelopmentLegacyBundle: Joi.boolean(),
 });
 
 function validateSchema(schema, validationTarget) {
