@@ -2,8 +2,8 @@
 
 exports[`exports virtual file system interfaces 1`] = `
 Array [
-  "volume",
-  "vfs",
   "ufs",
+  "vfs",
+  "volume",
 ]
 `;

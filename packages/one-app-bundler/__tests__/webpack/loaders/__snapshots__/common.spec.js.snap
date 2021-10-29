@@ -175,9 +175,6 @@ Object {
   "loader": "sass-loader",
   "options": Object {
     "implementation": [Function],
-    "sassOptions": Object {
-      "fiber": [Function],
-    },
   },
 }
 `;

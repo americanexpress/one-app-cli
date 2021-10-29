@@ -14,7 +14,6 @@
 
 const path = require('path');
 const dartSass = require('sass');
-const Fiber = require('fibers');
 const getConfigOptions = require('../../utils/getConfigOptions');
 
 const packageRoot = process.cwd();
@@ -67,9 +66,6 @@ const sassLoader = () => ({
   loader: 'sass-loader',
   options: {
     implementation: dartSass,
-    sassOptions: {
-      fiber: Fiber,
-    },
   },
 });
 

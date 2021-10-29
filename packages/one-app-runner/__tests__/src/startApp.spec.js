@@ -18,7 +18,7 @@ const path = require('path');
 const fs = require('fs');
 const childProcess = require('child_process');
 const Docker = require('dockerode');
-
+const makeMockSpawn = require('mock-spawn');
 const startApp = require('../../src/startApp');
 
 const pathToLogFile = path.join(__dirname, '..', 'fixtures', 'app.log');
@@ -27,12 +27,12 @@ jest.mock('child_process', () => ({ spawn: jest.fn() }));
 jest.mock('dockerode');
 
 describe('startApp', () => {
-  beforeEach(() => {
-    jest
-      .resetModules()
-      .resetAllMocks()
-      .restoreAllMocks();
+  const createWriteStreamSpy = jest.spyOn(fs, 'createWriteStream');
+  const stdoutSpy = jest.spyOn(process.stdout, 'write');
+  const stderrSpy = jest.spyOn(process.stderr, 'write');
 
+  beforeEach(() => {
+    jest.resetAllMocks();
     delete process.env.HTTP_PROXY;
     delete process.env.HTTPS_PROXY;
     delete process.env.NO_PROXY;
@@ -41,33 +41,29 @@ describe('startApp', () => {
     delete process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT;
     delete process.env.HTTP_METRICS_PORT;
     delete process.env.NODE_EXTRA_CA_CERTS;
-    jest.spyOn(process.stdout, 'write');
-    jest.spyOn(process.stderr, 'write');
-    jest.spyOn(require('fs'), 'createWriteStream');
   });
 
-  afterAll(() => {
-    fs.unlinkSync(pathToLogFile);
-  });
-
-  it('pulls one app docker image and starts one app', () => {
-    const mockSpawn = require('mock-spawn')();
+  it('pulls one app docker image and starts one app', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({ moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0' });
+    await startApp({ moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0' });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('runs docker run with environment variables', () => {
-    const mockSpawn = require('mock-spawn')();
+  it('runs docker run with environment variables', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', envVars: { MY_VAR: '123' },
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('runs docker run with proxy environment variables if they are set on the users system', () => {
-    const mockSpawn = require('mock-spawn')();
+  it('runs docker run with proxy environment variables if they are set on the users system', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     process.env.HTTP_PROXY = 'https://example.com/proxy';
     process.env.HTTPS_PROXY = 'https://example.com/proxy';
     process.env.NO_PROXY = 'localhost';
@@ -77,166 +73,177 @@ describe('startApp', () => {
     process.env.HTTP_METRICS_PORT = '9005';
 
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', envVars: { MY_VAR: '123' },
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('mounts and serves modules in docker run if module paths are provided', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('mounts and serves modules in docker run if module paths are provided', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a', '/path/to-module-b'],
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('mounts and serves modules in docker run if module paths are provided and moduleMapUrl is not', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('mounts and serves modules in docker run if module paths are provided and moduleMapUrl is not', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a', '/path/to-module-b'],
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('runs set middleware command and starts one app with mock flag in docker run if parrot middleware file is provided', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('runs set middleware command and starts one app with mock flag in docker run if parrot middleware file is provided', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], parrotMiddlewareFile: '/path/to/module-a/dev.middleware.js',
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('runs set dev endpoints command in docker run if dev endpoints file is provided', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('runs set dev endpoints command in docker run if dev endpoints file is provided', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], devEndpointsFile: '/path/to/module-a/dev.endpoints.js',
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('sets the network to join if the network name is provided', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('sets the network to join if the network name is provided', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], dockerNetworkToJoin: 'one-test-environment-1234',
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('creates a docker network when the flag is provided', () => {
+  it('creates a docker network when the flag is provided', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
     const mockCreateNetwork = jest.fn(() => Promise.resolve());
     Docker.mockImplementation(() => ({
       createNetwork: mockCreateNetwork,
     }));
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true, dockerNetworkToJoin: 'one-test-environment-1234',
     });
     expect(mockCreateNetwork.mock.calls).toMatchSnapshot('create network calls');
   });
 
-  it('should throw an error if createDockerNetwork is true but dockerNetworkToJoin is not provided', () => {
-    const startAppTest = startApp({
-      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true,
-    });
-    expect(startAppTest).rejects.toMatchSnapshot('create network calls');
+  it('should throw an error if createDockerNetwork is true but dockerNetworkToJoin is not provided', async () => {
+    expect.assertions(1);
+    try {
+      await startApp({
+        moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true,
+      });
+    } catch (error) {
+      expect(error).toMatchSnapshot('create network calls');
+    }
   });
 
-  it('Displays an error if createNetwork fails', () => {
+  it('Displays an error if createNetwork fails', async () => {
+    expect.assertions(1);
     const mockCreateNetwork = jest.fn(() => Promise.reject(new Error('Error creating network')));
     Docker.mockImplementation(() => ({
       createNetwork: mockCreateNetwork,
     }));
-    startApp({
-      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true, dockerNetworkToJoin: 'one-test-environment-1234',
-    });
-    expect(mockCreateNetwork()).rejects.toMatchSnapshot('create network calls');
+    try {
+      await startApp({
+        moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true, dockerNetworkToJoin: 'one-test-environment-1234',
+      });
+    } catch (error) {
+      expect(error).toMatchSnapshot('create network calls');
+    }
   });
 
-  it('uses host instead of localhost when the useHost flag is passed', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('uses host instead of localhost when the useHost flag is passed', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], useHost: true,
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('bypasses docker pull when the offline flag is passed', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('bypasses docker pull when the offline flag is passed', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], offline: true,
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('Passes the container name to the docker --name flag', () => {
-    const mockSpawn = require('mock-spawn')();
-
+  it('Passes the container name to the docker --name flag', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], containerName: 'one-app-at-test',
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('outputs all logs from docker pull and docker run to a file if output file arg is given', () => {
-    const mockSpawn = require('mock-spawn')();
-    const mockStdout = 'hello world (stdout)';
-    const mockStderr = 'hello erroneous world (stderr)';
-    mockSpawn.setDefault(mockSpawn.simple(0, mockStdout, mockStderr));
+  it('outputs all logs from docker pull and docker run to a file if output file arg is given', async () => {
+    expect.assertions(5);
+    const mockProcess = { on: jest.fn(), stdout: { pipe: jest.fn() }, stderr: { pipe: jest.fn() } };
+    const mockSpawn = jest.fn(() => mockProcess);
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-
-    startApp({
+    createWriteStreamSpy.mockReturnValueOnce('stream');
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', outputFile: pathToLogFile,
     });
-
-    const createWriteStreamSpy = require('fs').createWriteStream;
+    createWriteStreamSpy.mockReturnValueOnce('stream');
     expect(createWriteStreamSpy).toHaveBeenCalledWith(pathToLogFile);
-    expect(process.stdout.write).not.toHaveBeenCalled();
-    expect(process.stderr.write).not.toHaveBeenCalled();
+    expect(mockProcess.stdout.pipe).toHaveBeenCalledWith('stream');
+    expect(mockProcess.stderr.pipe).toHaveBeenCalledWith('stream');
+    expect(stdoutSpy).not.toHaveBeenCalled();
+    expect(stderrSpy).not.toHaveBeenCalled();
   });
 
-  it('throws an error if command errors', () => {
-    const mockSpawn = jest.fn(() => ({ on: jest.fn() }));
+  it('throws an error if command errors', async () => {
+    expect.assertions(2);
+    const mockProcess = { on: jest.fn(), stdout: { pipe: jest.fn() }, stderr: { pipe: jest.fn() } };
+    const mockSpawn = jest.fn(() => mockProcess);
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-
-    startApp({ moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0' });
-
-    const onFunction = mockSpawn.mock.results[0].value.on;
-    const onErrorFunction = onFunction.mock.calls[0][1];
-    expect(
-      () => onErrorFunction()
-    ).toThrowErrorMatchingSnapshot('onErrorFunction');
+    await startApp({ moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0' });
+    const onErrorFunction = mockProcess.on.mock.calls[0][1];
+    expect(mockProcess.on.mock.calls[0][0]).toBe('error');
+    expect(onErrorFunction).toThrowErrorMatchingSnapshot('onErrorFunction');
   });
 
-  it('forwards NODE_EXTRA_CA_CERTS from process.env', () => {
+  it('forwards NODE_EXTRA_CA_CERTS from process.env', async () => {
+    expect.assertions(1);
     process.env.NODE_EXTRA_CA_CERTS = '/process/env/location/extra_certs.pem';
-    const mockSpawn = require('mock-spawn')();
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0',
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
 
-  it('runner configs envVar NODE_EXTRA_CA_CERTS has priority over process.env', () => {
+  it('runner configs envVar NODE_EXTRA_CA_CERTS has priority over process.env', async () => {
+    expect.assertions(1);
     process.env.NODE_EXTRA_CA_CERTS = '/process/env/location/extra_certs.pem';
-    const mockSpawn = require('mock-spawn')();
+    const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementationOnce(mockSpawn);
-    startApp({
+    await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', envVars: { NODE_EXTRA_CA_CERTS: '/envVar/location/cert.pem' },
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();

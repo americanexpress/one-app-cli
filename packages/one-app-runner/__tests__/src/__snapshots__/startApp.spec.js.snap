@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`startApp Displays an error if createNetwork fails: create network calls 1`] = `[Error: Error creating network]`;
+exports[`startApp Displays an error if createNetwork fails: create network calls 1`] = `[Error: Error creating docker network Error: Error creating network]`;
 
 exports[`startApp Passes the container name to the docker --name flag 1`] = `"docker pull one-app:5.0.0 && docker run -t -p 3000:3000 -p 3001:3001 -p 3002:3002 -p 3005:3005 -e NODE_ENV=development --name=one-app-at-test    -v /path/to/module-a:/opt/module-workspace/module-a  one-app:5.0.0 /bin/sh -c \\"npm run serve-module /opt/module-workspace/module-a &&   node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  \\""`;
 
