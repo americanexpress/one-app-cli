@@ -36,6 +36,7 @@ describe('bundle-module', () => {
     localeBundler = require('@americanexpress/one-app-locale-bundler');
     clientConfig = require('../../webpack/module/webpack.client');
     serverConfig = require('../../webpack/module/webpack.server');
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
   });
 
   afterEach(() => {
@@ -81,5 +82,22 @@ describe('bundle-module', () => {
     require('../../bin/bundle-module');
     expect(localeBundler).toHaveBeenCalledTimes(1);
     expect(localeBundler).toHaveBeenCalledWith(true);
+  });
+
+  it('should bundle module for legacy browsers when disableDevelopmentLegacyBundle is false', () => {
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
+    process.argv = [];
+    require('../../bin/bundle-module');
+    expect(webpack).toHaveBeenCalledTimes(3);
+    expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
+  });
+
+  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', () => {
+    process.env.NODE_ENV = 'development';
+    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
+    process.argv = [];
+    require('../../bin/bundle-module');
+    expect(webpack).toHaveBeenCalledTimes(2);
+    expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
   });
 });

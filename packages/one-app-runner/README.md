@@ -378,6 +378,8 @@ Or in `package.json`
 }
 ```
 
+If none of the two is provided, `one-app-dev-cdn` will only use locally served modules.
+
 #### NODE_EXTRA_CA_CERTS
 
 If `NODE_EXTRA_CA_CERTS` is set, either through the `envVars` option or as an environment variable, it will be mounted and passed to the One App docker container.
