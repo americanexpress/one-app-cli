@@ -17,14 +17,6 @@ import { version } from 'webpack';
 export const modulesLibraryVarName = '__holocron_modules__';
 export const externalsLibraryVarName = '__externals__';
 
-export const modulesFilename = '[name]/[name].js';
-export const assetModuleFilename = 'assets/[name].[ext]';
-
-export const jsxTest = /\.jsx?$/i;
-export const fileTest = /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/;
-export const cssTest = /\.(sa|sc|c)ss$/;
-export const nodeModulesPattern = /node_modules/;
-
 export function getWebpackVersion() {
   return parseInt(version, 10);
 }
@@ -33,17 +25,13 @@ export function createExternalEntry([packageName, varName]) {
   return {
     [packageName]: {
       commonjs2: packageName,
-      ...varName
-        ? {
-          var: varName,
-          root: varName,
-        }
-        : {},
+      var: varName,
+      root: varName,
     },
   };
 }
 
-export function createOneAppExternals(additionalExternals = []) {
+export function createOneAppExternals() {
   // TODO: pull this from one-app-bundler when merging
   return [
     ['@americanexpress/one-app-ducks', 'OneAppDucks'],
@@ -59,23 +47,21 @@ export function createOneAppExternals(additionalExternals = []) {
     ['react-redux', 'ReactRedux'],
     ['redux', 'Redux'],
     ['reselect', 'Reselect'],
-    ...additionalExternals.map((external) => (Array.isArray(external) ? external : [external])),
   ]
     .map(createExternalEntry)
     .reduce((map, next) => ({ ...map, ...next }), {});
 }
 
-const createHotModuleEntry = ({ moduleName, modulePath }, hot) => ({
+const createHotModuleEntry = ({ moduleName, modulePath }) => ({
   [moduleName]: [
-    ...hot
-      ? [require.resolve('webpack-hot-middleware/client'), require.resolve('react-refresh/runtime')]
-      : [],
+    require.resolve('webpack-hot-middleware/client'),
+    require.resolve('react-refresh/runtime'),
     `${modulePath}/src/index.js`,
   ],
 });
 
-export function createHolocronModuleEntries({ modules = [], hot = false } = {}) {
+export function createHolocronModuleEntries({ modules = [] } = {}) {
   return modules
-    .map((module) => createHotModuleEntry(module, hot))
+    .map((module) => createHotModuleEntry(module))
     .reduce((map, next) => ({ ...map, ...next }), {});
 }

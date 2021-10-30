@@ -39,11 +39,10 @@ export function createAppConfigForExternalsSource(externals) {
 }
 
 export function injectHolocronModuleWrapper({
-  hot, varName, moduleName, rootModule, externals,
+  varName, moduleName, rootModule, externals,
 }) {
-  const wrapperFileName = hot ? 'HolocronHmrWrapper' : 'RegisterModule';
   const sourceToInject = [
-    `import wrapper from '${packageName}/src/components/${wrapperFileName}.jsx';`,
+    `import wrapper from '${packageName}/src/components/HolocronHmrWrapper.jsx';`,
     `${varName}.moduleName = "${moduleName}";`,
     `const ${moduleVariableName} = wrapper(${varName});`,
     `export default ${moduleVariableName};`,
@@ -57,15 +56,15 @@ export function injectHolocronModuleWrapper({
   return sourceToInject.join('\n');
 }
 
-export function modify(src, {
-  hot, rootModule, moduleName, externals,
-}) {
-  if (!src.includes(fileBanner)) {
-    const modifiedSource = src.split('\n').map((line) => {
+export default function HolocronModuleLoader(source) {
+  const {
+    rootModule, moduleName, externals,
+  } = loaderUtils.getOptions(this);
+  if (!source.includes(fileBanner)) {
+    const modifiedSource = source.split('\n').map((line) => {
       if (line.startsWith('export default')) {
         const varName = line.replace('export default', '').replace(';', '').trim();
         return injectHolocronModuleWrapper({
-          hot,
           varName,
           moduleName,
           rootModule,
@@ -77,10 +76,5 @@ export function modify(src, {
     modifiedSource.unshift(fileBanner);
     return modifiedSource.join('\n').trim();
   }
-  return src;
-}
-
-export default function HolocronModuleLoader(source) {
-  const options = loaderUtils.getOptions(this);
-  return modify(source, options);
+  return source;
 }

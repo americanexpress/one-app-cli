@@ -16,8 +16,6 @@ import {
   fileLoader,
   cssLoader,
   jsxLoader,
-  createJavaScriptSourceLoadersConfigFragment,
-  createEsBuildConfigFragment,
 } from '../../../../src/webpack/configs/loaders';
 import { getWebpackVersion } from '../../../../src/webpack/helpers';
 
@@ -43,49 +41,13 @@ describe('fileLoader', () => {
 
 describe('cssLoader', () => {
   test('returns loader config for CSS files', () => {
-    expect(cssLoader().fragment.module.rules).toMatchSnapshot();
-  });
-  test('returns loader config for CSS files with with inline disabled', () => {
-    expect(cssLoader({ hot: false }).fragment.module.rules).toMatchSnapshot();
-  });
-  test('returns loader config for CSS files with with inline and hot reloading disabled', () => {
-    expect(cssLoader({ hot: false, inline: false }).fragment.module.rules).toMatchSnapshot();
+    expect(cssLoader()).toMatchSnapshot();
   });
 });
 
 describe('jsxLoader', () => {
   test('returns loader config for JavaScript files', () => {
-    expect(jsxLoader().fragment.module.rules).toEqual([
-      {
-        exclude: undefined,
-        include: undefined,
-        test: /\.jsx?$/i,
-        use: [
-          {
-            loader: require.resolve('babel-loader'),
-            options: {
-              babelrc: true,
-              cacheDirectory: true,
-              plugins: [],
-              presets: [
-                [
-                  'amex',
-                  {
-                    modern: true,
-                    'preset-env': {
-                      modules: false,
-                    },
-                  },
-                ],
-              ],
-            },
-          },
-        ],
-      },
-    ]);
-  });
-  test('returns loader config for JavaScript files with hot reloading enabled', () => {
-    expect(jsxLoader({ hot: true }).fragment.module.rules).toEqual([
+    expect(jsxLoader()).toEqual(
       {
         exclude: undefined,
         include: undefined,
@@ -111,95 +73,7 @@ describe('jsxLoader', () => {
             },
           },
         ],
-      },
-    ]);
-  });
-});
-
-describe('createJavaScriptSourceLoadersConfigFragment', () => {
-  test('returns config for javascript script loader', () => {
-    expect(createJavaScriptSourceLoadersConfigFragment()).toEqual({
-      module: {
-        rules: [
-          {
-            test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/,
-            use: [
-              {
-                loader: 'file-loader',
-                options: {
-                  name: 'assets/[name].[ext]',
-                },
-              },
-            ],
-          },
-          {
-            exclude: /node_modules/,
-            include: undefined,
-            test: /\.(sa|sc|c)ss$/,
-            use: [
-              {
-                loader: 'style-loader',
-              },
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                  modules: {
-                    localIdentName: '[name]__[local]___[contenthash:base64:5]',
-                  },
-                },
-              },
-              {
-                loader: 'sass-loader',
-              },
-            ],
-          },
-          {
-            exclude: undefined,
-            include: undefined,
-            test: /\.jsx?$/i,
-            use: [
-              {
-                loader: require.resolve('babel-loader'),
-                options: {
-                  babelrc: true,
-                  cacheDirectory: true,
-                  plugins: [],
-                  presets: [
-                    [
-                      'amex',
-                      {
-                        modern: true,
-                        'preset-env': {
-                          modules: false,
-                        },
-                      },
-                    ],
-                  ],
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
-  });
-});
-describe('createEsBuildConfigFragment', () => {
-  test('returns config for es build', () => {
-    expect(createEsBuildConfigFragment()).toEqual({
-      module: {
-        rules: [
-          {
-            loader: require.resolve('esbuild-loader'),
-            options: {
-              loader: 'jsx',
-              target: 'es2015',
-            },
-            test: /\.jsx?$/i,
-          },
-        ],
-      },
-    });
+      }
+    );
   });
 });

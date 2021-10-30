@@ -60,14 +60,11 @@ window.getTenantRootModule = () => HolocronModule;
 
   test('includes externals if root Holocron module is being used and provides externals', () => {
     getOptions.mockImplementationOnce(() => ({
-      hot: false,
       rootModule: true,
       moduleName: 'root-module',
       externals: [externalLibName],
     }));
     const modifiedSource = HolocronWebpackLoader(source);
-    expect(modifiedSource).toEqual(
-      expectedModifiedSourceWithExternals.replace('HolocronHmrWrapper', 'RegisterModule')
-    );
+    expect(modifiedSource).toEqual(expectedModifiedSourceWithExternals);
   });
 });

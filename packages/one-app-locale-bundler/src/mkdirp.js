@@ -16,6 +16,7 @@
 const mkdirp = require('mkdirp');
 
 const mkdirpPromisified = (dir, opts) => new Promise((res, rej) => {
+  /* istanbul ignore next */
   mkdirp(dir, opts, (err, made) => (err ? rej(err) : res(made)));
 });
 

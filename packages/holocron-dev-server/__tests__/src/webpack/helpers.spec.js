@@ -15,11 +15,12 @@
 import {
   createOneAppExternals,
   createHolocronModuleEntries,
+  getWebpackVersion,
 } from '../../../src/webpack/helpers';
 
 jest.mock('webpack', () => {
   const mockWebpack = jest.fn();
-  mockWebpack.version = '';
+  mockWebpack.version = '4.0.0';
   return mockWebpack;
 });
 
@@ -28,15 +29,11 @@ describe('createOneAppExternals', () => {
     const externals = createOneAppExternals();
     expect(externals).toMatchSnapshot();
   });
+});
 
-  test('returns the set of externals used by One App including added externals', () => {
-    const externals = createOneAppExternals(['react-package']);
-    expect(externals).toMatchSnapshot();
-  });
-
-  test('returns the set of externals from added externals in array formation [name, varName]', () => {
-    const externals = createOneAppExternals([['react-package', 'reactPackage']]);
-    expect(externals).toMatchSnapshot();
+describe('getWebpackVersion', () => {
+  test('should return 4', () => {
+    expect(getWebpackVersion()).toBe(4);
   });
 });
 
@@ -46,27 +43,17 @@ describe('createHolocronModuleEntries', () => {
     expect(entries).toEqual({});
   });
 
-  test('returns the entries (with hot entries) of modules to be bundled', () => {
+  test('returns the entries of modules to be bundled', () => {
     const moduleName = 'hot-module';
     const modulePath = '/some/path/to/hot-module';
     const modules = [{ moduleName, modulePath }];
-    const entries = createHolocronModuleEntries({ modules, hot: true });
+    const entries = createHolocronModuleEntries({ modules });
     expect(entries).toEqual({
       [moduleName]: [
         require.resolve('webpack-hot-middleware/client'),
         require.resolve('react-refresh/runtime'),
         `${modulePath}/src/index.js`,
       ],
-    });
-  });
-
-  test('only returns the module entry when bundling without hot configured', () => {
-    const moduleName = 'hot-module';
-    const modulePath = '/some/path/to/hot-module';
-    const modules = [{ moduleName, modulePath }];
-    const entries = createHolocronModuleEntries({ modules });
-    expect(entries).toEqual({
-      [moduleName]: [`${modulePath}/src/index.js`],
     });
   });
 });
