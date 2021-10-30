@@ -30,7 +30,7 @@ export default class HolocronModulePlugin {
 
   loaderHook(context, module) {
     const filePath = module.userRequest;
-    const { modules, externals, hot } = this.options;
+    const { modules, externals } = this.options;
     if (moduleEntryRegExp.test(filePath)) {
       const localModule = getModuleFromFilePath({ modules, filePath });
       if (localModule) {
@@ -38,7 +38,6 @@ export default class HolocronModulePlugin {
         module.loaders.push({
           loader: loaderPath,
           options: {
-            hot,
             externals,
             moduleName,
             rootModule,
