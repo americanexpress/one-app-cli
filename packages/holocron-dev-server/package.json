@@ -77,7 +77,7 @@
     "redux": "^4.0.5",
     "reselect": "^4.0.0",
     "sass": "^1.26.10",
-    "sass-loader": "^11.0.1",
+    "sass-loader": "^9.0.3",
     "style-loader": "^2.0.0",
     "transit-immutable-js": "0.8.0",
     "transit-js": "0.8.861",
