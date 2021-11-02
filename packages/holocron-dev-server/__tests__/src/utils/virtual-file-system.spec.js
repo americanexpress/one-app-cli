@@ -15,5 +15,5 @@
 import * as vfs from '../../../src/utils/virtual-file-system';
 
 test('exports virtual file system interfaces', () => {
-  expect(Object.keys(vfs)).toMatchSnapshot();
+  expect(Object.keys(vfs).sort()).toMatchSnapshot();
 });

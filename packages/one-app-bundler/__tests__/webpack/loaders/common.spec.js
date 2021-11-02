@@ -13,7 +13,6 @@
  */
 
 const dartSass = require('sass');
-const Fiber = require('fibers');
 const getConfigOptions = require('../../../utils/getConfigOptions');
 
 jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
@@ -27,8 +26,6 @@ const {
 } = require('../../../webpack/loaders/common');
 
 jest.mock('sass', () => () => 0);
-jest.mock('fibers', () => () => 0);
-
 describe('Common webpack loaders', () => {
   describe('babel-loader', () => {
     it('should return a config that extends the project\'s babelrc', () => {
@@ -129,7 +126,6 @@ describe('Common webpack loaders', () => {
     it('should return a config using dart sass', () => {
       const config = sassLoader();
       expect(config.options.implementation).toBe(dartSass);
-      expect(config.options.sassOptions.fiber).toBe(Fiber);
       expect(config).toMatchSnapshot();
     });
   });

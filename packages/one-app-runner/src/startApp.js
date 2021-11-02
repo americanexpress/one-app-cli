@@ -143,6 +143,7 @@ module.exports = async function startApp({
     'SIGTERM',
   ].forEach((signal) => {
     // process is a global referring to current running process https://nodejs.org/api/globals.html#globals_process
+    /* istanbul ignore next */
     process.on(signal, () => 'noop - just need to pass signal to one app process so it can handle it');
   });
 

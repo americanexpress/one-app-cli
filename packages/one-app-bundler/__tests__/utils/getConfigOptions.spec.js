@@ -13,11 +13,10 @@
  */
 
 jest.mock('read-pkg-up', () => ({ sync: jest.fn(() => ({ pkg: {} })) }));
+const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => 0);
 
 describe('getConfigOptions', () => {
   let readPkgUp;
-
-  const consoleWarnSpy = jest.spyOn(console, 'warn');
 
   beforeEach(() => {
     jest.clearAllMocks();
