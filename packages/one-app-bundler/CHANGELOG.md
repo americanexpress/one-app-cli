@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 6.14.0 (2021-11-02)
+
+
+### Bug Fixes
+
+* **asset-warning:** disable for legacy ([#393](https://github.com/americanexpress/one-app-cli/issues/393)) ([58e31fc](https://github.com/americanexpress/one-app-cli/commit/58e31fc13bd873aa4eb0eb71219b77214ade1355))
+
+
+### Features
+
+* **one-app-bundler:** add node 16 support ([#412](https://github.com/americanexpress/one-app-cli/issues/412)) ([3cdf5af](https://github.com/americanexpress/one-app-cli/commit/fe8db7619a0f7789d095c827e3ddce36fb758ea1))
+* **bundler:** add disable legacy asset flag ([63b54a3](https://github.com/americanexpress/one-app-cli/commit/63b54a3adcf06c6051a723dbf5aa4311f644b0ca))
+* **extendWebpackConfig:** added merge plugin feature ([#248](https://github.com/americanexpress/one-app-cli/issues/248)) ([3cdf5af](https://github.com/americanexpress/one-app-cli/commit/3cdf5af287cb444dfe1519b0a41914db9473ef72))
+* **holocron-dev-server:** add holocron dev server ([bf5d231](https://github.com/americanexpress/one-app-cli/commit/bf5d231c2c50c8ca2db4152e13d13eee0c149589))
+
+
+
 # 6.13.0 (2021-09-21)
 
 
