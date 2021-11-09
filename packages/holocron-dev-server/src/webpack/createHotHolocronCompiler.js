@@ -14,53 +14,21 @@
 
 import webpack from 'webpack';
 
-import { createHolocronModuleWebpackConfig, createExternalsDllWebpackConfig } from './configs/bundles';
+import { createHolocronModuleWebpackConfig } from './configs/bundles';
 import { modulesLibraryVarName } from './helpers';
 import { ufs } from '../utils/virtual-file-system';
 import {
-  logError,
   logWebpackStatsWhenDone,
   logWhenWebpackInvalid,
-  logExternalsBuilding,
 } from '../utils/logs';
 
-export function buildWebpackConfig(config) {
-  return new Promise((resolve, reject) => {
-    webpack(config).run((err, stats) => {
-      if (err) {
-        logError(err);
-        reject(err);
-      } else {
-        resolve(stats);
-      }
-    });
-  });
-}
-
-export function buildModuleExternalsDllBundle(config = {}) {
-  const { externals: externalsToPackageDll = [] } = config;
-
-  if (!(externalsToPackageDll.length > 0)) return Promise.resolve();
-
-  return buildWebpackConfig(
-    createExternalsDllWebpackConfig({
-      entries: externalsToPackageDll,
-    })
-  ).then((stats) => {
-    logExternalsBuilding(externalsToPackageDll);
-    return stats;
-  });
-}
-
-export function createHotHolocronCompiler({
+export default function createHotHolocronCompiler({
   modules,
-  externals,
   environmentVariables,
   webpackConfigPath,
 }) {
   const holocronWebpackConfig = createHolocronModuleWebpackConfig({
     modules,
-    externals,
     environmentVariables,
     webpackConfigPath,
   });

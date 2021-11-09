@@ -18,14 +18,12 @@ import { modulesBundleName } from '../../../src/constants';
 import {
   STATIC_DIR,
   MODULES_DIR,
-  EXTERNAL_DIR,
   ONE_APP_DIR,
   TEMP_DIR,
   getContextPath,
   getStaticPath,
   getModulesPath,
   getOneAppPath,
-  getVendorsPath,
   getTempPath,
   getMockDirectoryForModule,
   getScenarioPathForModule,
@@ -35,7 +33,6 @@ import {
   getPublicUrl,
   getPublicModulesUrl,
   getPublicAppUrl,
-  getPublicVendorsUrl,
   createModuleScriptUrl,
   getReportFilename,
 } from '../../../src/utils/paths';
@@ -63,12 +60,6 @@ describe('getModulesPath', () => {
 describe('getOneAppPath', () => {
   test('gets One App path', () => {
     expect(getOneAppPath()).toEqual(path.join(getStaticPath(), ONE_APP_DIR));
-  });
-});
-
-describe('getVendorsPath', () => {
-  test('gets vendors path', () => {
-    expect(getVendorsPath()).toEqual(path.join(getStaticPath(), EXTERNAL_DIR));
   });
 });
 
@@ -121,12 +112,6 @@ describe('getPublicModulesUrl', () => {
 describe('getPublicAppUrl', () => {
   test('gets public url for One App bundle', () => {
     expect(getPublicAppUrl()).toEqual(`/${combineUrlFragments(STATIC_DIR, ONE_APP_DIR, [])}`);
-  });
-});
-
-describe('getPublicVendorsUrl', () => {
-  test('gets public url for vendors bundle', () => {
-    expect(getPublicVendorsUrl()).toEqual(`/${combineUrlFragments(STATIC_DIR, EXTERNAL_DIR, [])}`);
   });
 });
 

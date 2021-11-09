@@ -12,11 +12,9 @@
  * under the License.
  */
 
-import { DllPlugin, validate } from 'webpack';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { validate } from 'webpack';
 
 import {
-  createExternalsDllWebpackConfig,
   createHolocronModuleWebpackConfig,
 } from '../../../../src/webpack/configs/bundles';
 import { getWebpackVersion, modulesLibraryVarName } from '../../../../src/webpack/helpers';
@@ -63,87 +61,6 @@ jest.mock('/path/webpack.config.js', () => ({
   },
 }), { virtual: true });
 
-describe('createExternalsDllWebpackConfig', () => {
-  test('returns the Dll webpack config of the externals provided with default parameters', () => {
-    process.env.NODE_ENV = 'development';
-    const config = createExternalsDllWebpackConfig();
-    expect(config.mode).toEqual('development');
-    expect(config.plugins).toEqual([
-      new DllPlugin({
-        context: process.cwd(),
-        path: `${process.cwd()}/static/vendor/holocron-externals.dll.json`,
-        name: '__externals__',
-      }),
-      new BundleAnalyzerPlugin({
-        openAnalyzer: false,
-        generateStatsFile: false,
-        logLevel: 'silent',
-        analyzerMode: 'static',
-        reportFilename: './development-environment-holocron-externals-report.html',
-      }),
-    ]);
-  });
-  test('returns the Dll webpack config of the externals provided', () => {
-    const config = createExternalsDllWebpackConfig({
-      isDev: false,
-      entries: ['react'],
-    });
-    expect(config.plugins).toEqual([
-      new DllPlugin({
-        context: process.cwd(),
-        path: `${process.cwd()}/static/vendor/holocron-externals.dll.json`,
-        name: '__externals__',
-      }),
-      new BundleAnalyzerPlugin({
-        openAnalyzer: false,
-        generateStatsFile: false,
-        logLevel: 'silent',
-        analyzerMode: 'static',
-        reportFilename: './development-environment-holocron-externals-report.html',
-      }),
-    ]);
-  });
-
-  test('returns the optimization webpack config for development', () => {
-    process.env.NODE_ENV = 'development';
-    const config = createExternalsDllWebpackConfig({
-      isDev: true,
-      dllName: 'vendors',
-      entries: ['react'],
-    });
-    expect(validate(config).length).toEqual(0);
-    expect(config.mode).toEqual('development');
-    expect(config.plugins).toEqual([
-      new DllPlugin({
-        context: process.cwd(),
-        path: `${process.cwd()}/static/vendor/holocron-externals.dll.json`,
-        name: '__externals__',
-      }),
-      new BundleAnalyzerPlugin({
-        openAnalyzer: false,
-        generateStatsFile: false,
-        logLevel: 'silent',
-        analyzerMode: 'static',
-        reportFilename: './development-environment-holocron-externals-report.html',
-      }),
-    ]);
-  });
-
-  test('returns development config for main externals build', () => {
-    const partialConfig = createExternalsDllWebpackConfig({
-      dllName: 'vendors',
-      useAsReference: true,
-    });
-    expect(partialConfig.plugins[0]).toEqual(
-      new DllPlugin({
-        context: process.cwd(),
-        path: `${process.cwd()}/static/vendor/holocron-externals.dll.json`,
-        name: '__externals__',
-      })
-    );
-  });
-});
-
 describe('createHolocronModuleWebpackConfig', () => {
   jest.spyOn(process, 'cwd').mockImplementation(() => '/path');
 
@@ -151,7 +68,7 @@ describe('createHolocronModuleWebpackConfig', () => {
     const modules = [
       {
         moduleName: 'hot-module',
-        modulePath: 'hot-module/src/index.js',
+        modulePath: 'path/to/hot-module',
       },
     ];
     const config = createHolocronModuleWebpackConfig({
@@ -164,7 +81,7 @@ describe('createHolocronModuleWebpackConfig', () => {
     const modules = [
       {
         moduleName: 'hot-module',
-        modulePath: 'hot-module/src/index.js',
+        modulePath: 'path/to/hot-module',
       },
     ];
     const config = createHolocronModuleWebpackConfig({
@@ -173,44 +90,6 @@ describe('createHolocronModuleWebpackConfig', () => {
     expect(config.output.library).toBe(modulesLibraryVarName);
   });
 
-  test('uses Dll config when externals are provided', () => {
-    const externals = ['react-package'];
-    const config = createHolocronModuleWebpackConfig({
-      externals,
-    });
-    expect(validate(config).length).toBe(3);
-    expect(config.externals).toEqual({
-      '@americanexpress/one-app-ducks': {
-        commonjs2: '@americanexpress/one-app-ducks',
-        root: 'OneAppDucks',
-        var: 'OneAppDucks',
-      },
-      '@americanexpress/one-app-router': {
-        commonjs2: '@americanexpress/one-app-router',
-        root: 'OneAppRouter',
-        var: 'OneAppRouter',
-      },
-      'create-shared-react-context': {
-        commonjs2: 'create-shared-react-context',
-        root: 'CreateSharedReactContext',
-        var: 'CreateSharedReactContext',
-      },
-      holocron: { commonjs2: 'holocron', root: 'Holocron', var: 'Holocron' },
-      'holocron-module-route': {
-        commonjs2: 'holocron-module-route',
-        root: 'HolocronModuleRoute',
-        var: 'HolocronModuleRoute',
-      },
-      immutable: { commonjs2: 'immutable', root: 'Immutable', var: 'Immutable' },
-      'prop-types': { commonjs2: 'prop-types', root: 'PropTypes', var: 'PropTypes' },
-      react: { commonjs2: 'react', root: 'React', var: 'React' },
-      'react-dom': { commonjs2: 'react-dom', root: 'ReactDOM', var: 'ReactDOM' },
-      'react-helmet': { commonjs2: 'react-helmet', root: 'ReactHelmet', var: 'ReactHelmet' },
-      'react-redux': { commonjs2: 'react-redux', root: 'ReactRedux', var: 'ReactRedux' },
-      redux: { commonjs2: 'redux', root: 'Redux', var: 'Redux' },
-      reselect: { commonjs2: 'reselect', root: 'Reselect', var: 'Reselect' },
-    });
-  });
   test('load custom webpack config', () => {
     const config = createHolocronModuleWebpackConfig({
       webpackConfigPath: 'webpack.config.js',

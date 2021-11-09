@@ -19,7 +19,6 @@ export const [libraryName] = packageName.split('/').reverse();
 export const oneAppDockerImageName = 'oneamex/one-app-dev:latest';
 
 export const modulesBundleName = 'holocron-modules';
-export const externalsBundleName = 'holocron-externals';
 
 export const bundleType = 'browser';
 export const errorReportingUrlFragment = '/reports/error';

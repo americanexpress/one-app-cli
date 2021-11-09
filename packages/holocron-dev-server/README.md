@@ -51,7 +51,6 @@ provides a faster developer experience on the **client side only**, without the 
 - Hot reload language packs and watch for changes from the local modules
 - Combines the remote module if provided with the local module map
   remote module map with the universal map
-- [providedExternals & requiredExternals][providedexternals--requiredexternals] are pre-built with [esbuild-loader] as a [DLL][dll-plugin] bundle to speed up build times of the local modules
 - Local Holocron modules bundles/externals analyzed and reported using [webpack bundle analyzer][webpack bundle analyzer]
 
 ### Differences with One App

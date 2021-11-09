@@ -15,14 +15,14 @@
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { createHotHolocronCompiler, buildModuleExternalsDllBundle } from '../../../src/webpack/builds';
+import createHotHolocronCompiler from '../../../src/webpack/createHotHolocronCompiler';
 import { setPublisher } from '../../../src/utils/publish';
 import loadWebpackMiddleware from '../../../src/middleware/webpack';
 
 jest.mock('webpack-dev-middleware');
 jest.mock('webpack-hot-middleware');
 jest.mock('../../../src/utils/publish');
-jest.mock('../../../src/webpack/builds');
+jest.mock('../../../src/webpack/createHotHolocronCompiler');
 
 const publish = jest.fn();
 const waitUntilValid = jest.fn((callback) => callback());
@@ -31,7 +31,6 @@ beforeAll(() => {
   webpackHotMiddleware.mockImplementation(() => ({ publish }));
   webpackDevMiddleware.mockImplementation(() => ({ waitUntilValid }));
   createHotHolocronCompiler.mockImplementation(() => 'holocron-compiler');
-  buildModuleExternalsDllBundle.mockImplementation(() => Promise.resolve());
 });
 
 beforeEach(() => {
@@ -49,10 +48,5 @@ describe('loadWebpackMiddleware', () => {
     expect(setPublisher).toHaveBeenCalledTimes(1);
     expect(setPublisher.mock.calls[0][0]()).toBe(undefined);
     expect(publish).toHaveBeenCalledTimes(1);
-  });
-
-  test('builds externals when they are present', async () => {
-    await loadWebpackMiddleware({ externals: ['some-external'] });
-    expect(buildModuleExternalsDllBundle).toHaveBeenCalledTimes(1);
   });
 });
