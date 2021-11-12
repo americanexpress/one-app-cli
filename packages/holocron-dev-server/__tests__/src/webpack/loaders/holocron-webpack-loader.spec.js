@@ -12,7 +12,6 @@
  * under the License.
  */
 
-
 import HolocronWebpackLoader from '../../../../src/webpack/loaders/holocron-webpack-loader';
 import { packageName } from '../../../../src/constants';
 
