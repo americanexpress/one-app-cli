@@ -15,23 +15,17 @@
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { buildModuleExternalsDllBundle, createHotHolocronCompiler } from '../webpack/builds';
+import createHotHolocronCompiler from '../webpack/createHotHolocronCompiler';
 import { vfs } from '../utils/virtual-file-system';
 import { setPublisher } from '../utils/publish';
 
 export default async function loadWebpackMiddleware({
   modules = [],
-  externals = [],
   environmentVariables = {},
   webpackConfigPath = null,
 } = {}) {
-  if (externals.length > 0) {
-    await buildModuleExternalsDllBundle({ externals });
-  }
-
   const compiler = createHotHolocronCompiler({
     modules,
-    externals,
     environmentVariables,
     webpackConfigPath,
   });

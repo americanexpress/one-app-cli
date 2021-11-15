@@ -18,28 +18,9 @@ import { packageName } from '../../constants';
 
 export const fileBanner = '/* Holocron Module */';
 export const moduleVariableName = 'HolocronModule';
-export const globalExternalsName = '__holocron_externals__';
-export const globalModulesName = '__holocron_modules__';
-
-export function createExternalsMap(externals) {
-  const externalsMap = externals
-    .map((externalName) => `'${externalName}': { module: require('${externalName}') },`)
-    .join('\n');
-  return `{\n${externalsMap}\n}`;
-}
-
-export function createAppConfigForExternalsSource(externals) {
-  const externalsMap = createExternalsMap(externals);
-  return [].concat(
-    `window.${globalExternalsName} = ${externalsMap};`,
-    `if ('appConfig' in ${moduleVariableName} === false) ${moduleVariableName}.appConfig = {};`,
-    `${moduleVariableName}.appConfig.providedExternals = window.${globalExternalsName};`,
-    `window.getTenantRootModule = () => ${moduleVariableName};`
-  );
-}
 
 export function injectHolocronModuleWrapper({
-  varName, moduleName, rootModule, externals,
+  varName, moduleName,
 }) {
   const sourceToInject = [
     `import wrapper from '${packageName}/src/components/HolocronHmrWrapper.jsx';`,
@@ -47,19 +28,11 @@ export function injectHolocronModuleWrapper({
     `const ${moduleVariableName} = wrapper(${varName});`,
     `export default ${moduleVariableName};`,
   ];
-
-  if (rootModule && externals.length > 0) {
-    // adding providedExternals to any root modules being bundled and supplying
-    sourceToInject.push(...createAppConfigForExternalsSource(externals));
-  }
-
   return sourceToInject.join('\n');
 }
 
 export default function HolocronModuleLoader(source) {
-  const {
-    rootModule, moduleName, externals,
-  } = loaderUtils.getOptions(this);
+  const { moduleName } = loaderUtils.getOptions(this);
   if (!source.includes(fileBanner)) {
     const modifiedSource = source.split('\n').map((line) => {
       if (line.startsWith('export default')) {
@@ -67,8 +40,6 @@ export default function HolocronModuleLoader(source) {
         return injectHolocronModuleWrapper({
           varName,
           moduleName,
-          rootModule,
-          externals,
         });
       }
       return line;

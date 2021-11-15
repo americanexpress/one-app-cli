@@ -19,7 +19,6 @@ import { modulesBundleName } from '../constants';
 export const STATIC_DIR = 'static';
 export const ONE_APP_DIR = 'app';
 export const MODULES_DIR = 'modules';
-export const EXTERNAL_DIR = 'vendor';
 export const TEMP_DIR = '.temp';
 
 // file paths that are primarily used to place all build assets
@@ -38,10 +37,6 @@ export function getModulesPath(filePath = '', context = getContextPath()) {
 
 export function getOneAppPath(filePath = '', context = getContextPath()) {
   return path.join(context, STATIC_DIR, ONE_APP_DIR, filePath);
-}
-
-export function getVendorsPath(filePath = '', context = getContextPath()) {
-  return path.join(context, STATIC_DIR, EXTERNAL_DIR, filePath);
 }
 
 export function getTempPath(filePath = '', context = getContextPath()) {
@@ -84,10 +79,6 @@ export function getPublicModulesUrl(moduleName) {
 
 export function getPublicAppUrl(appPath) {
   return `/${combineUrlFragments(STATIC_DIR, ONE_APP_DIR, appPath || [])}`;
-}
-
-export function getPublicVendorsUrl(resource) {
-  return `/${combineUrlFragments(STATIC_DIR, EXTERNAL_DIR, resource || [])}`;
 }
 
 export function createModuleScriptUrl(moduleName, bundleType, version) {

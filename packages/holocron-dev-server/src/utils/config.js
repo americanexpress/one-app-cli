@@ -71,7 +71,8 @@ export function extractBundlerOptions({
   purgecss,
 } = {}) {
   return {
-    externals: [].concat(providedExternals, requiredExternals),
+    providedExternals,
+    requiredExternals,
     webpackConfigPath: webpackClientConfigPath || webpackConfigPath,
     performanceBudget,
     purgecss,
@@ -103,7 +104,7 @@ export function createModulesConfig(context) {
       bundler, runner, hmr, ...moduleConfig
     }) => {
       const {
-        externals, providedExternals, requiredExternals, environmentVariables,
+        providedExternals, requiredExternals, environmentVariables,
       } = {
         ...extractBundlerOptions(bundler),
         ...extractRunnerOptions(runner),
@@ -113,7 +114,6 @@ export function createModulesConfig(context) {
       return {
         ...moduleConfig,
         moduleName,
-        externals,
         providedExternals,
         requiredExternals,
         environmentVariables,
@@ -121,21 +121,7 @@ export function createModulesConfig(context) {
         // add the local url path for the module
         src: getPublicModulesUrl(createModuleScriptUrl(moduleName)),
       };
-    })
-    )
-    .then((modules) => {
-      const externals = [
-        ...new Set(
-          modules
-            .map(({ externals: moduleExternals }) => moduleExternals)
-            .reduce((externalsArray, moduleExternals) => externalsArray.concat(moduleExternals), [])
-        ).values(),
-      ];
-      return {
-        modules,
-        externals,
-      };
-    });
+    }));
 }
 
 export function createConfigurationContext({
@@ -148,7 +134,6 @@ export function createConfigurationContext({
 }) {
   const {
     modules,
-    externals,
     rootModuleName = moduleName,
     dockerImage = oneAppDockerImageName,
     logLevel = defaultLogLevel,
@@ -176,7 +161,6 @@ export function createConfigurationContext({
     modulePath,
     moduleVersion,
     modules,
-    externals,
     logLevel,
     port,
     dockerImage,
@@ -195,14 +179,13 @@ export function createConfigurationContext({
 export async function createConfig() {
   const entryConfig = await getPackageJsonConfig();
   const context = createConfigurationContext(entryConfig);
-  const { modules, externals } = await createModulesConfig(context);
+  const modules = await createModulesConfig(context);
 
   const serverAddress = `http://localhost:${context.port}/`;
 
   return {
     ...context,
     modules,
-    externals,
     serverAddress,
   };
 }

@@ -17,6 +17,8 @@ import path from 'path';
 import {
   createResolverConfigFragment,
   createWatchOptionsConfigFragment,
+  createExternalsFragment,
+  createHolocronModuleLoadersFragment,
 } from '../../../../src/webpack/configs/fragments';
 
 jest.mock('../../../../src/webpack/helpers', () => {
@@ -76,5 +78,100 @@ describe('createWatchOptionsConfigFragment', () => {
           ignored: '**/node_modules',
         },
       });
+  });
+});
+
+describe('createExternalsFragment', () => {
+  it('adds loaders for modules which providesExternals', () => {
+    const modules = [{
+      moduleName: 'test-root-module',
+      modulePath: '/path/to/test-root-module',
+      rootModule: true,
+      providedExternals: ['common-dep'],
+    }];
+    const webpackConfigfragment = createExternalsFragment(modules);
+    expect(webpackConfigfragment).toEqual({
+      module: {
+        rules: [
+          {
+            test: '/path/to/test-root-module/src/index',
+            use: [{
+              loader: '@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader',
+              options: {
+                moduleName: 'test-root-module',
+                providedExternals: ['common-dep'],
+              },
+            }],
+          },
+        ],
+      },
+    });
+  });
+
+  it('adds loaders for modules with requiredExternals', () => {
+    const modules = [{
+      moduleName: 'test-child-module',
+      modulePath: '/path/to/test-child-module',
+      requiredExternals: ['common-dep'],
+    }];
+
+    const webpackConfigfragment = createExternalsFragment(modules);
+    expect(webpackConfigfragment).toEqual({
+      module: {
+        rules: [
+          {
+            test: '/path/to/test-child-module/node_modules/common-dep/',
+            use: [{
+              loader: '@americanexpress/one-app-bundler/webpack/loaders/externals-loader',
+              options: {
+                externalName: 'common-dep',
+              },
+            }],
+          },
+          {
+            test: '/path/to/test-child-module/src/index',
+            use: [{
+              loader: '@americanexpress/one-app-bundler/webpack/loaders/validate-required-externals-loader',
+              options: {
+                requiredExternals: ['common-dep'],
+              },
+            }],
+          },
+        ],
+      },
+    });
+  });
+
+  it('does not add provided external loaders when not root module', () => {
+    const modules = [{
+      moduleName: 'test-root-module',
+      modulePath: '/path/to/test-root-module',
+      providedExternals: ['common-dep'],
+    }];
+
+    const webpackConfigfragment = createExternalsFragment(modules);
+    expect(webpackConfigfragment).toEqual({});
+  });
+});
+
+describe('createHolocronModuleLoadersFragment', () => {
+  const modules = [{
+    moduleName: 'test-root-module',
+    modulePath: '/path/to/test-root-module',
+    providedExternals: ['common-dep'],
+  }];
+
+  const webpackConfigfragment = createHolocronModuleLoadersFragment(modules);
+
+  expect(webpackConfigfragment).toEqual({
+    module: {
+      rules: [{
+        test: '/path/to/test-root-module/src/index',
+        use: [{
+          loader: '@americanexpress/holocron-dev-server/src/webpack/loaders/holocron-webpack-loader',
+          options: { moduleName: 'test-root-module' },
+        }],
+      }],
+    },
   });
 });

@@ -23,10 +23,8 @@ import {
   logWhenWebpackInvalid,
   logHotReloadReady,
   logWebpackInit,
-  logExternalsBuilding,
   logServerStart,
   logServerUrl,
-  logExternalsBundleAnalyzerUrl,
   logModuleBundlerAnalyzerUrl,
   logRenderedHolocronModules,
   logProxyRequestMatch,
@@ -110,7 +108,6 @@ describe('messages', () => {
   const serverAddress = `http://localhost:${port}`;
   const remoteUrl = 'https://example.com/cdn/modules/my-module/my-module.browser.js';
   const request = { path: '/static/modules/my-module/my-module.browser.js' };
-  const externals = ['react-external-pkg'];
   const modules = [{ name: moduleName }];
   describe('logWebpackStatsWhenDone', () => {
     test('log webpack statistics when done', () => {
@@ -150,13 +147,6 @@ describe('messages', () => {
     });
   });
 
-  describe('logExternalsBuilding', () => {
-    test('log when externals are being built', () => {
-      expect(logExternalsBuilding(externals)).toBeUndefined();
-      expect(log).toHaveBeenCalledTimes(1);
-    });
-  });
-
   describe('logServerStart', () => {
     test('log when the server starts', () => {
       expect(logServerStart({ rootModuleName })).toBeUndefined();
@@ -169,17 +159,6 @@ describe('messages', () => {
     test('log when the server url is loaded ', () => {
       expect(logServerUrl(serverAddress, port)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('logExternalsBundleAnalyzerUrl', () => {
-    test('log the externals bundler analyzer url', () => {
-      expect(logExternalsBundleAnalyzerUrl(serverAddress)).toBeUndefined();
-      expect(log).toHaveBeenCalledTimes(1);
-    });
-    test('log the externals bundler analyzer url with externals', () => {
-      expect(logExternalsBundleAnalyzerUrl(serverAddress, externals)).toBeUndefined();
-      expect(log).toHaveBeenCalledTimes(1);
     });
   });
 

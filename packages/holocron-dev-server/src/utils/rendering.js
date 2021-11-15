@@ -18,12 +18,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import importJsx from 'import-jsx';
 
-import { ufs } from './virtual-file-system';
 import {
   createModuleScriptUrl,
   getPublicModulesUrl,
-  getPublicVendorsUrl,
-  getVendorsPath,
 } from './paths';
 
 export function createInitialState({
@@ -44,15 +41,6 @@ export function createInitialState({
   );
 }
 
-export function getEntryScriptsForExternals() {
-  const vendorsPath = getVendorsPath();
-  return (ufs.existsSync(vendorsPath) ? ufs.readdirSync(vendorsPath) : [])
-    .filter((pathname) => pathname.endsWith('.js'))
-    .map((fileName) => ({
-      src: getPublicVendorsUrl(fileName),
-    }));
-}
-
 export function getWebpackScriptsForLocalModules({ modules = [], moduleMap, rootModuleName }) {
   const scripts = [...modules];
   // we are creating the script tag info for rendering
@@ -65,7 +53,7 @@ export function getWebpackScriptsForLocalModules({ modules = [], moduleMap, root
     // by using a bool property "rootModule" set on config
     scripts.sort(({ rootModule: a }, { rootModule: b }) => {
       if (a) return -1;
-      if (b) return -1 * Object.keys(moduleMap.modules).length * 2;
+      if (b) return 1;
       return 0;
     });
   } else {
@@ -100,7 +88,6 @@ export function renderDocument({
         lang,
         moduleMap,
         scripts: [].concat(
-          getEntryScriptsForExternals(),
           getWebpackScriptsForLocalModules({ modules, moduleMap, rootModuleName })
         ),
         initialState: createInitialState({

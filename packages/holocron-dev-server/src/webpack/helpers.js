@@ -15,7 +15,6 @@
 import { version } from 'webpack';
 
 export const modulesLibraryVarName = '__holocron_modules__';
-export const externalsLibraryVarName = '__externals__';
 
 export function getWebpackVersion() {
   return parseInt(version, 10);

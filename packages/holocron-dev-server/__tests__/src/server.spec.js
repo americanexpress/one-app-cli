@@ -25,7 +25,6 @@ import {
   setLogLevel,
   logHotReloadReady,
   logServerUrl,
-  logExternalsBundleAnalyzerUrl,
   logModuleBundlerAnalyzerUrl,
   logServerStart,
 } from '../../src/utils/logs';
@@ -82,13 +81,6 @@ describe('onLaunch', () => {
     expect(logHotReloadReady).toHaveBeenCalled();
     expect(logServerUrl).toHaveBeenCalled();
     expect(logModuleBundlerAnalyzerUrl).toHaveBeenCalled();
-    expect(logExternalsBundleAnalyzerUrl).not.toHaveBeenCalled();
-  });
-
-  test('logs externals bundle stats when provided', () => {
-    const fn = onLaunch({ externals: ['react'] });
-    expect(() => fn()).not.toThrow();
-    expect(logExternalsBundleAnalyzerUrl).toHaveBeenCalled();
   });
 
   test('opens the browser when "openWhenReady" is configured to true', () => {

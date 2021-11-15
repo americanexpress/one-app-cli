@@ -18,11 +18,8 @@ import transit from 'transit-immutable-js';
 import {
   renderDocument,
   createInitialState,
-  getEntryScriptsForExternals,
   getWebpackScriptsForLocalModules,
 } from '../../../src/utils/rendering';
-import { getPublicVendorsUrl } from '../../../src/utils/paths';
-import { ufs } from '../../../src/utils/virtual-file-system';
 
 jest.mock('transit-immutable-js', () => ({
   toJSON: jest.fn((obj) => obj),
@@ -43,11 +40,13 @@ describe('renderDocument', () => {
       errorReportingUrl: '/error',
       modules: [
         {
-          rootModule: true,
           name: 'child-module',
           src: 'child-module',
         },
+        // having root module in the middle ensures that the module scripts are
+        // ordered correctly where root module script is last
         {
+          rootModule: true,
           name: 'child-module',
           src: 'child-module',
         },
@@ -85,27 +84,6 @@ describe('createInitialState', () => {
       })
     );
     expect(transit.toJSON).toHaveBeenCalledTimes(2);
-  });
-});
-
-describe('getEntryScriptsForExternals', () => {
-  test('searches for externals and returns', () => {
-    const vendorsSrc = 'vendors.js';
-    ufs.existsSync = jest.fn(() => true);
-    ufs.readdirSync = jest.fn(() => [vendorsSrc]);
-    const externals = getEntryScriptsForExternals();
-    expect(externals).toEqual([
-      {
-        src: getPublicVendorsUrl(vendorsSrc),
-      },
-    ]);
-  });
-  test('searches for externals and returns empty vendor path', () => {
-    const vendorsSrc = 'vendors.js';
-    ufs.existsSync = jest.fn(() => false);
-    ufs.readdirSync = jest.fn(() => [vendorsSrc]);
-    const externals = getEntryScriptsForExternals();
-    expect(externals).toEqual([]);
   });
 });
 
@@ -267,21 +245,9 @@ describe('getWebpackScriptsForLocalModules', () => {
         name: 'another-child-module',
         src: 'another-child-module',
       },
-      {
-        name: 'yet-another-child-module',
-        src: 'yet-another-child-module',
-      },
       { rootModule: true, name, src },
     ];
-    const moduleMap = {
-      modules: {
-        [name]: {
-          browser: {
-            url: src,
-          },
-        },
-      },
-    };
+    const moduleMap = {};
     const webpackScripts = getWebpackScriptsForLocalModules({
       modules,
       moduleMap,
@@ -304,9 +270,60 @@ describe('getWebpackScriptsForLocalModules', () => {
         name: 'another-child-module',
         src: 'another-child-module',
       },
+    ]);
+  });
+
+  test('orders root module when not local', () => {
+    const rootModuleName = 'root-module';
+    const rootModuleSrc = '/static/modules/root-module/root-module.js';
+    const modules = [
       {
-        name: 'yet-another-child-module',
-        src: 'yet-another-child-module',
+        name: 'child-module',
+        src: 'child-module',
+      },
+      {
+        name: 'another-child-module',
+        src: 'another-child-module',
+      },
+      {
+        name: 'last-child-module',
+        src: 'last-child-module',
+      },
+    ];
+    const moduleMap = {
+      modules: {
+        [rootModuleName]: {
+          browser: {
+            url: rootModuleSrc,
+          },
+        },
+      },
+    };
+    const webpackScripts = getWebpackScriptsForLocalModules({
+      modules,
+      moduleMap,
+      rootModuleName,
+    });
+    expect(webpackScripts).toEqual([
+      {
+        name: 'runtime',
+        src: '/static/modules/runtime/runtime.js',
+      },
+      {
+        name: 'root-module',
+        src: rootModuleSrc,
+      },
+      {
+        name: 'child-module',
+        src: 'child-module',
+      },
+      {
+        name: 'another-child-module',
+        src: 'another-child-module',
+      },
+      {
+        name: 'last-child-module',
+        src: 'last-child-module',
       },
     ]);
   });

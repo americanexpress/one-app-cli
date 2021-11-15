@@ -12,17 +12,12 @@
  * under the License.
  */
 
-import { getOptions } from 'loader-utils';
-
-import HolocronWebpackLoader from '../../../../src/webpack/plugins/holocron-webpack-loader';
+import HolocronWebpackLoader from '../../../../src/webpack/loaders/holocron-webpack-loader';
 import { packageName } from '../../../../src/constants';
 
 jest.mock('loader-utils', () => ({
   getOptions: jest.fn(() => ({
-    hot: true,
-    rootModule: false,
     moduleName: 'root-module',
-    externals: [],
   })),
 }));
 
@@ -37,17 +32,6 @@ Module.moduleName = "root-module";
 const HolocronModule = wrapper(Module);
 export default HolocronModule;`.trim();
 
-  const externalLibName = 'an-external-srcrary';
-  const expectedModifiedSourceWithExternals = `
-${expectedModifiedSource}
-window.__holocron_externals__ = {
-'an-external-srcrary': { module: require('an-external-srcrary') },
-};
-if ('appConfig' in HolocronModule === false) HolocronModule.appConfig = {};
-HolocronModule.appConfig.providedExternals = window.__holocron_externals__;
-window.getTenantRootModule = () => HolocronModule;
-    `.trim();
-
   test('modifies the source of an incoming Holocron module entry file', () => {
     const modifiedSource = HolocronWebpackLoader(source);
     expect(modifiedSource).toEqual(expectedModifiedSource);
@@ -56,15 +40,5 @@ window.getTenantRootModule = () => HolocronModule;
   test('does not modify the source of an incoming Holocron module entry if previously modified', () => {
     const modifiedSource = HolocronWebpackLoader(expectedModifiedSource);
     expect(modifiedSource).toEqual(expectedModifiedSource);
-  });
-
-  test('includes externals if root Holocron module is being used and provides externals', () => {
-    getOptions.mockImplementationOnce(() => ({
-      rootModule: true,
-      moduleName: 'root-module',
-      externals: [externalLibName],
-    }));
-    const modifiedSource = HolocronWebpackLoader(source);
-    expect(modifiedSource).toEqual(expectedModifiedSourceWithExternals);
   });
 });

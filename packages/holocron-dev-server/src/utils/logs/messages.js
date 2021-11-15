@@ -12,10 +12,9 @@
  * under the License.
  */
 
-import { modulesBundleName, externalsBundleName } from '../../constants';
+import { modulesBundleName } from '../../constants';
 import {
   getPublicModulesUrl,
-  getPublicVendorsUrl,
   joinUrlFragments,
   getReportFilename,
 } from '../paths';
@@ -32,7 +31,7 @@ import {
   dodgerblue,
   deeppink,
   palegreen,
-  newLine, blueviolet,
+  blueviolet,
 } from './logs';
 
 export function printWebpack(message) {
@@ -80,16 +79,6 @@ export function logWebpackInit() {
   log(printWebpack('initializing webpack'));
 }
 
-export function logExternalsBuilding(externals) {
-  log(
-    printWebpack(
-      `Building Dll bundle for local externals: [ ${externals
-        .map((external) => green(external))
-        .join(', ')} ]`
-    )
-  );
-}
-
 export function logServerStart({ rootModuleName }) {
   info(orange.bold('Starting Holocron dev server'));
   log(`Root Holocron module: ${orange.bold(JSON.stringify(rootModuleName))}`);
@@ -98,24 +87,6 @@ export function logServerStart({ rootModuleName }) {
 export function logServerUrl(serverAddress, port) {
   log(`Server is listening on port ${yellow(`"${port}"`)}`);
   log(`visit ${yellow.bold(`"${serverAddress}"`)} to start!\n`);
-}
-
-export function logExternalsBundleAnalyzerUrl(serverAddress, externals = []) {
-  const externalsReportUrl = joinUrlFragments(
-    serverAddress,
-    getPublicVendorsUrl(getReportFilename(externalsBundleName))
-  );
-  log(
-    printWebpack(
-      [
-        `externals bundled: ${externals
-          .map((external) => green(external))
-          .join(', ')}`,
-        newLine(orange('Bundle Analyzer for Dll externals can be found at \n\n   %s')),
-      ].join('\n')
-    ),
-    yellow.bold(`"${externalsReportUrl}"\n`)
-  );
 }
 
 export function logModuleBundlerAnalyzerUrl(serverAddress) {

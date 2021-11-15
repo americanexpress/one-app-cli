@@ -16,7 +16,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 
 import Document from '../../../src/components/Document';
-import { getPublicVendorsUrl, getPublicModulesUrl } from '../../../src/utils/paths';
+import { getPublicModulesUrl } from '../../../src/utils/paths';
 
 describe('Document', () => {
   test('renders the document without props', () => {
@@ -31,10 +31,6 @@ describe('Document', () => {
     const rootModulePublicUrl = getPublicModulesUrl(`${rootModuleName}/${rootModuleName}.js`);
     const props = {
       scripts: [
-        {
-          // external
-          src: getPublicVendorsUrl('vendors.js'),
-        },
         {
           // module
           name: rootModuleName,

@@ -29,7 +29,6 @@ import {
   setLogLevel,
   logHotReloadReady,
   logServerUrl,
-  logExternalsBundleAnalyzerUrl,
   logModuleBundlerAnalyzerUrl,
   logServerStart,
   logError,
@@ -37,17 +36,13 @@ import {
 import { errorReportingUrlFragment } from './constants';
 
 export function onLaunch({
-  openWhenReady, externals = [], serverAddress, port,
+  openWhenReady, serverAddress, port,
 }) {
   return (error) => {
     if (error) throw error;
     logServerUrl(serverAddress, port);
     logHotReloadReady();
     logModuleBundlerAnalyzerUrl(serverAddress);
-    if (externals.length > 0) {
-      logExternalsBundleAnalyzerUrl(serverAddress, externals);
-    }
-
     if (openWhenReady) openBrowser(serverAddress);
   };
 }
@@ -58,7 +53,6 @@ export default async function holocronDevServer({
   logLevel,
   clientConfig,
   openWhenReady,
-  externals,
   modules,
   rootModuleName,
   environmentVariables,
@@ -99,7 +93,6 @@ export default async function holocronDevServer({
 
   const [devMiddleware, hotMiddleware] = await loadWebpackMiddleware({
     modules,
-    externals,
     environmentVariables,
     webpackConfigPath,
   });
@@ -128,7 +121,6 @@ export default async function holocronDevServer({
       port,
       serverAddress,
       openWhenReady,
-      externals,
     })
   );
 

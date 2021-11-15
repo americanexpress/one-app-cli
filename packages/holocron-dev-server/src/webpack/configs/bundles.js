@@ -13,12 +13,10 @@
  */
 
 import {
-  DllPlugin,
   validate,
   HotModuleReplacementPlugin,
   EnvironmentPlugin,
   DefinePlugin,
-  DllReferencePlugin,
 } from 'webpack';
 import merge from 'webpack-merge';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -26,75 +24,32 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 import {
   getContextPath,
-  getVendorsPath,
   getReportFilename,
   getModulesPath,
   getPublicModulesUrl,
   createModuleScriptUrl,
 } from '../../utils/paths';
 import {
-  externalsLibraryVarName,
   modulesLibraryVarName,
   getWebpackVersion,
   createOneAppExternals,
   createHolocronModuleEntries,
 } from '../helpers';
-import { externalsBundleName, modulesBundleName } from '../../constants';
+import { modulesBundleName } from '../../constants';
 import {
   createResolverConfigFragment,
+  createExternalsFragment,
+  createHolocronModuleLoadersFragment,
 } from './fragments';
 import {
   fileLoader,
   cssLoader,
   jsxLoader,
 } from './loaders';
-import HolocronModulePlugin from '../plugins/holocron-webpack-plugin';
 
-export function createExternalsDllWebpackConfig({
-  entries,
-} = {}) {
-  return {
-    target: 'web',
-    mode: 'development',
-    devtool: 'source-map',
-    module: {
-      rules: [
-        {
-          test: /\.jsx?$/i,
-          loader: require.resolve('esbuild-loader'),
-          options: {
-            loader: 'jsx',
-            target: 'es2018',
-          },
-        },
-      ],
-    },
-    entry: { 'holocron-externals': entries },
-    output: {
-      path: getVendorsPath(),
-      filename: '[name].js',
-      library: externalsLibraryVarName,
-    },
-    plugins: [
-      new DllPlugin({
-        context: getContextPath(),
-        name: externalsLibraryVarName,
-        path: getVendorsPath(`${'holocron-externals'}.dll.json`),
-      }),
-      new BundleAnalyzerPlugin({
-        openAnalyzer: false,
-        generateStatsFile: false,
-        logLevel: 'silent',
-        analyzerMode: 'static',
-        reportFilename: `./${getReportFilename('holocron-externals')}`,
-      }),
-    ],
-  };
-}
-
+// eslint-disable-next-line import/prefer-default-export
 export function createHolocronModuleWebpackConfig({
   modules: holocronModules = [],
-  externals: holocronModuleExternals = [],
   environmentVariables,
   globalDefinitions,
   purgeCssOptions,
@@ -130,10 +85,6 @@ export function createHolocronModuleWebpackConfig({
         ],
       },
       plugins: [
-        new HolocronModulePlugin({
-          modules: holocronModules,
-          externals: holocronModuleExternals,
-        }),
         new HotModuleReplacementPlugin(),
         new ReactRefreshWebpackPlugin({
           forceEnable: true,
@@ -161,28 +112,14 @@ export function createHolocronModuleWebpackConfig({
     }
   );
 
-  if (holocronModuleExternals.length > 0) {
-    config = merge(
-      {
-        plugins: [
-          new DllReferencePlugin({
-            context: getContextPath(),
-            name: externalsLibraryVarName,
-            manifest: getVendorsPath(`${externalsBundleName}.dll.json`),
-          }),
-        ],
-      },
-      config
-    );
-  }
+  config = merge(config, createExternalsFragment(holocronModules));
+  config = merge(config, createHolocronModuleLoadersFragment(holocronModules));
 
   if (webpackConfigPath) {
     // eslint-disable-next-line import/no-dynamic-require, global-require
     const customWebpackConfig = require(getContextPath(webpackConfigPath));
     config = merge(config, customWebpackConfig);
   }
-
   validate(config);
-
   return config;
 }
