@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/holocron-dev-server@0.1.0...@americanexpress/holocron-dev-server@0.1.1) (2021-11-16)
+
+
+### Bug Fixes
+
+* **holocron-dev-server:** removed dll to fix externals ([cd84b99](https://github.com/americanexpress/one-app-cli/commit/cd84b99dfea1afd7a1d603eaddb235bb39d3c62a))
+
+
+
+
+
 # 0.1.0 (2021-10-28)
 
 
