@@ -1,3 +1,16 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [6.5.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-locale-bundler@6.12.0...@americanexpress/one-app-locale-bundler@6.5.1) (2021-11-16)
+
+**Note:** Version bump only for package @americanexpress/one-app-locale-bundler
+
+
+
+
+
 # 6.5.0 (2021-09-13)
 
 
@@ -42,6 +55,3 @@
 ### Features
 
 * **all:** initial oss release ([696609c](https://github.com/americanexpress/one-app-cli/commit/696609c702b128ba0339064173ac328ce8c00766))
-
-
-
