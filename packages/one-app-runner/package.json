@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-runner",
-  "version": "6.12.0",
+  "version": "6.13.0",
   "description": "CLI for running One App locally",
   "license": "Apache-2.0",
   "contributors": [
@@ -33,8 +33,8 @@
   ],
   "dependencies": {
     "dockerode": "^3.2.0",
-    "fs-extra": "^10.0.0",
     "dotenv": "^10.0.0",
+    "fs-extra": "^10.0.0",
     "get-port": "^5.1.1",
     "pkg-up": "^3.1.0",
     "uuid": "^8.3.2",

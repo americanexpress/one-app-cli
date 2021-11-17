@@ -1,3 +1,19 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [6.12.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/generator-one-app-module@6.12.0...@americanexpress/generator-one-app-module@6.12.1) (2021-11-16)
+
+
+### Bug Fixes
+
+* **deps:** update one-app-ducks to 4.3.1 ([#230](https://github.com/americanexpress/one-app-cli/issues/230)) ([c466a3e](https://github.com/americanexpress/one-app-cli/commit/c466a3ee1e526045570835ec2e1fe97e56bde926))
+
+
+
+
+
 # 6.12.0 (2021-09-13)
 
 
@@ -79,6 +95,3 @@
 ### Features
 
 * **generator:** add generator-one-app-module ([#13](https://github.com/americanexpress/one-app-cli/issues/13)) ([0fd994b](https://github.com/americanexpress/one-app-cli/commit/0fd994b57d2fd9487b31f109f95d13c7e64c14aa))
-
-
-
