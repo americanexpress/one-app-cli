@@ -40,9 +40,12 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 
 ### Creating a `one-app-cli` new release
 
-1. Run `yarn lerna:version` locally from your release branch. This would push your release changes(changelog and tags) to the branch on github.
-2. Create a pull request from your branch to the `main` branch with your changes.
-3. Once merged run the "manually publish" action.
+1. Create, checkout and push a new release branch
+2. Run `yarn lerna:version` locally from your release branch. This would push your release changes(changelog and tags) to the branch on github.
+3. Ensure that correctly formatted tags have been created for each package being versioned. Tag needs to be in the format of `@americanexpress/[package-name]@x.x.x` for example`@americanexpress/one-app-bundler@6.0.0`. This can impact future releases.
+4. Create a pull request from your branch to the `main` branch with your changes.
+5. Once merged run the [manually publish](https://github.com/americanexpress/one-app-cli/actions/workflows/publish.yml) github action workflow.
+
 
 ## Submitting a new feature
 
