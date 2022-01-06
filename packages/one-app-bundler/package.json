@@ -90,6 +90,7 @@
     "react-dom": "^16.7.0",
     "react-helmet": "*",
     "react-immutable-proptypes": "*",
+    "react-is": "^17.0.2",
     "react-redux": "*",
     "redux": "*",
     "regenerator-runtime": "^0.13.3",

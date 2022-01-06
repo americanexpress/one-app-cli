@@ -116,6 +116,10 @@ module.exports = {
       var: 'React',
       commonjs2: 'react',
     },
+    'react-is': {
+      var: 'reactIs',
+      commonjs2: 'react-is',
+    },
     'react-dom': {
       var: 'ReactDOM',
       commonjs2: 'react-dom',
