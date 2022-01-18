@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.14.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.14.0...@americanexpress/one-app-bundler@6.14.2) (2022-01-18)
+
+
+### Bug Fixes
+
+* **eslint-loader:** update to 4.x ([#432](https://github.com/americanexpress/one-app-cli/issues/432)) ([7019ce3](https://github.com/americanexpress/one-app-cli/commit/7019ce32a6a102e4860335f09374af4227bea73d))
+
+
+
+
+
 ## [6.14.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.14.0...@americanexpress/one-app-bundler@6.14.1) (2021-11-16)
 
 **Note:** Version bump only for package @americanexpress/one-app-bundler
