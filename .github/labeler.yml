@@ -1,3 +1,6 @@
+one-app-team-review-requested:
+  - '*'
+
 # Add 'eslint-plugin-one-app' label to any file changes
 # in the eslint-plugin-one-app package
 eslint-plugin-one-app:
