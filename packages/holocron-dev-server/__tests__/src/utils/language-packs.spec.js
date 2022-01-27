@@ -12,6 +12,7 @@
  * under the License.
  */
 
+import path from 'path';
 import {
   loadLanguagePacks,
   loadModuleLanguagePack,
@@ -55,6 +56,7 @@ beforeAll(() => {
   ufs.readFileSync = jest.fn(() => ({ toString: jest.fn() }));
   ufs.readdirSync = jest.fn(() => []);
   ufs.existsSync = existsSync;
+  path.sep = '/';
 });
 
 afterEach(() => {
