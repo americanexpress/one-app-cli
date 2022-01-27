@@ -20,6 +20,7 @@ import {
   addModuleLanguagePackToVolume,
   removeModuleLanguagePackFromVolume,
 } from '../../../src/utils/language-packs';
+import path from 'path';
 
 import { createLanguagePackWatcher } from '../../../src/utils/watcher';
 import { volume, ufs } from '../../../src/utils/virtual-file-system';
@@ -55,6 +56,7 @@ beforeAll(() => {
   ufs.readFileSync = jest.fn(() => ({ toString: jest.fn() }));
   ufs.readdirSync = jest.fn(() => []);
   ufs.existsSync = existsSync;
+  path.sep='/';
 });
 
 afterEach(() => {
