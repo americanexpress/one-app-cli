@@ -18,13 +18,13 @@
 
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
-const validateNodeEnv = require('../utils/validateNodeEnv');
+const validateNodeEnvironment = require('../utils/validateNodeEnv');
 
-validateNodeEnv();
+validateNodeEnvironment();
 
-const nodeEnvIsProduction = process.env.NODE_ENV === 'production';
+const nodeEnvironmentIsProduction = process.env.NODE_ENV === 'production';
 
-const prodPlugins = [
+const productionPlugins = [
   new webpack.LoaderOptionsPlugin({
     minimize: true,
     debug: false,
@@ -35,14 +35,14 @@ const plugins = [
   new webpack.EnvironmentPlugin([
     'NODE_ENV',
   ]),
-  ...nodeEnvIsProduction ? prodPlugins : [],
+  ...nodeEnvironmentIsProduction ? productionPlugins : [],
 ];
 
 module.exports = {
   profile: true,
-  devtool: nodeEnvIsProduction ? false : 'source-map',
+  devtool: nodeEnvironmentIsProduction ? false : 'source-map',
   optimization: {
-    minimize: nodeEnvIsProduction,
+    minimize: nodeEnvironmentIsProduction,
     minimizer: [
       new TerserPlugin({
         test: /\.jsx?$/i,
@@ -56,7 +56,7 @@ module.exports = {
       }),
     ],
   },
-  mode: nodeEnvIsProduction ? 'production' : 'development',
+  mode: nodeEnvironmentIsProduction ? 'production' : 'development',
   module: {
     rules: [
       {
@@ -84,7 +84,7 @@ module.exports = {
           useEslintrc: false,
           failOnError: true,
           plugins: ['@americanexpress/one-app'],
-          parser: 'babel-eslint',
+          parser: '@babel/eslint-parser',
           parserOptions: {
             ecmaVersion: 6,
             sourceType: 'module',
