@@ -135,7 +135,7 @@ export function loadLanguagePacks({ modules = [] } = {}) {
 
   if (modulePaths.length > 0) {
     modulePaths.forEach((modulePath) => {
-      const [moduleName] = modulePath.split('/').reverse();
+      const [moduleName] = modulePath.split(path.sep).reverse();
       const languagePacks = writeModuleLanguagePacksToVolume({ modulePath, moduleName });
       logModuleLanguagePacksLoaded({ moduleName, languagePacks });
     });
