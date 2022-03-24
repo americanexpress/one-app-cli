@@ -13,12 +13,13 @@
  */
 
 /* eslint-disable global-require */
+const { sync } = require('read-pkg-up');
 const { validateWebpackConfig } = require('../../../test-utils');
 const getConfigOptions = require('../../../utils/getConfigOptions');
 const configGenerator = require('../../../webpack/module/webpack.client');
 
 jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
-
+jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 
 describe('webpack/module.client', () => {
@@ -79,5 +80,11 @@ describe('webpack/module.client', () => {
     const webpackConfig = configGenerator();
     expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
     expect(webpackConfig.plugins).toContainEqual({ definitions: { 'global.BROWSER': 'true' } });
+  });
+
+  it('should append holocronModule with name', () => {
+    const { packageJson: { name } } = sync();
+    const webpackConfig = configGenerator();
+    expect(webpackConfig.output.library).toBe(`holocronModule_${name.replace(/-/g, '_')}`);
   });
 });

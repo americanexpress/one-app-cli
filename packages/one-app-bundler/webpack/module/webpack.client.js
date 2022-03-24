@@ -36,6 +36,7 @@ const packageRoot = process.cwd();
 const { packageJson } = readPkgUp.sync();
 const { version, name } = packageJson;
 
+const holocronModuleName = `holocronModule_${name.replace(/-/g, '_')}`;
 module.exports = (babelEnv) => {
   const configOptions = getConfigOptions();
   return extendWebpackConfig(merge(
@@ -48,7 +49,7 @@ module.exports = (babelEnv) => {
         publicPath: '__holocron_publicPath_placeholder__',
         filename: `${name}.${babelEnv !== 'modern' ? 'legacy.browser' : 'browser'}.js`,
         chunkFilename: `[name].chunk.${babelEnv !== 'modern' ? 'legacy.browser' : 'browser'}.js`,
-        library: 'holocronModule',
+        library: holocronModuleName,
         libraryExport: 'default',
       },
       resolve: {
@@ -81,7 +82,7 @@ module.exports = (babelEnv) => {
         ],
       },
       plugins: [
-        new HolocronModuleRegisterPlugin(name),
+        new HolocronModuleRegisterPlugin(name, holocronModuleName),
         new webpack.DefinePlugin({
           'global.BROWSER': JSON.stringify(true),
         }),
