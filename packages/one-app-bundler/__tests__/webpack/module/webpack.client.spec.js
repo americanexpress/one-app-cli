@@ -14,13 +14,13 @@
 
 /* eslint-disable global-require */
 const { sync } = require('read-pkg-up');
+const path = require('path');
 const { validateWebpackConfig } = require('../../../test-utils');
 const getConfigOptions = require('../../../utils/getConfigOptions');
 const configGenerator = require('../../../webpack/module/webpack.client');
 
 jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
-jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
-jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
+jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split(`${path.sep}__tests__`)[0]);
 
 describe('webpack/module.client', () => {
   let originalNodeEnv;
