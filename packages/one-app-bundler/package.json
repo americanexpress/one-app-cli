@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-bundler",
-  "version": "6.14.2",
+  "version": "6.15.0",
   "description": "A command line interface(CLI) tool for bundling One App and its modules.",
   "main": "index.js",
   "bin": {
