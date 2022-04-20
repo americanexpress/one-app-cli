@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.15.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.14.2...@americanexpress/one-app-bundler@6.15.0) (2022-04-19)
+
+
+### Bug Fixes
+
+* **lazy-loading:** fixed webpack filename clashing issue ([#446](https://github.com/americanexpress/one-app-cli/issues/446)) ([240a648](https://github.com/americanexpress/one-app-cli/commit/240a6484f0ddcbdd647943ec698a0d54b41d2838))
+* **update-holocron:** updated holocron to 1.2.3 ([#450](https://github.com/americanexpress/one-app-cli/issues/450)) ([553065b](https://github.com/americanexpress/one-app-cli/commit/553065b0447dd5f06328c37bc0879cac54d85d23))
+
+
+### Features
+
+* **bundler-parser:** @babel/eslint-parser ([#439](https://github.com/americanexpress/one-app-cli/issues/439)) ([cf6cec8](https://github.com/americanexpress/one-app-cli/commit/cf6cec8fa4eacf70cf26f521c16b0669a96f8559))
+
+
+
+
+
 ## [6.14.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.14.0...@americanexpress/one-app-bundler@6.14.2) (2022-01-18)
 
 
