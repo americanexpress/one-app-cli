@@ -21,7 +21,7 @@
     "posttest": "yarn test:lint && yarn test:git-history && yarn test:lockfile",
     "test:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts registry.yarnpkg.com --validate-https",
     "lerna:version": "lerna version --include-merged-tags",
-    "lerna:publish": "lerna publish --from-git --yes"
+    "lerna:publish": "lerna publish from-git --yes"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
