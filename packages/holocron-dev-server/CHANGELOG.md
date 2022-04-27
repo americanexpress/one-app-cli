@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.1.3](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/holocron-dev-server@0.1.2...@americanexpress/holocron-dev-server@0.1.3) (2022-04-19)
-
-
-### Bug Fixes
-
-* **lang-pack:** path sep Issue-436 ([#445](https://github.com/americanexpress/one-app-cli/issues/445)) ([67371a9](https://github.com/americanexpress/one-app-cli/commit/67371a94c433bcfc5ebbdccbac0fb042f73872d7))
-
-
-
-
-
 ## [0.1.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/holocron-dev-server@0.1.0...@americanexpress/holocron-dev-server@0.1.2) (2022-01-18)
 
 
