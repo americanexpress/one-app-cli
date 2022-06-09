@@ -30,6 +30,7 @@ Array [
                             available / offline       [boolean] [default: false]
   ----container-name        Assign a container name with the --name option
                                                                         [string]
+  --use-debug               Attaches the node debugger[boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -57,6 +58,7 @@ Array [
       "outputFile": "/fake/path/to/fake-module/one-app.log",
       "parrotMiddlewareFile": "/fake/path/to/fake-module/dev.middleware.js",
       "rootModuleName": "frank-lloyd-root",
+      "useDebug": false,
       "useHost": true,
     },
   ],
@@ -163,6 +165,7 @@ Array [
                             available / offline       [boolean] [default: false]
   ----container-name        Assign a container name with the --name option
                                                                         [string]
+  --use-debug               Attaches the node debugger[boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],
@@ -285,6 +288,7 @@ Array [
                             available / offline       [boolean] [default: false]
   ----container-name        Assign a container name with the --name option
                                                                         [string]
+  --use-debug               Attaches the node debugger[boolean] [default: false]
   --help                    Show help                                  [boolean]",
   ],
   Array [],

@@ -31,6 +31,7 @@ module.exports = async function startApp({
   useHost,
   offline,
   containerName,
+  useDebug,
 }) {
   const generateEnvironmentVariableArgs = (vars) => {
     const environmentVariablesWithProxyAdditions = {
@@ -105,6 +106,8 @@ module.exports = async function startApp({
 
   const generateModuleMap = () => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
 
+  const generateDebug = (port) => (useDebug ? `--inspect=127.0.0.1:${port}` : '');
+
   if (createDockerNetwork) {
     if (!dockerNetworkToJoin) {
       throw new Error(
@@ -129,9 +132,10 @@ module.exports = async function startApp({
   const devCDNPort = process.env.HTTP_ONE_APP_DEV_CDN_PORT || 3001;
   const devProxyServerPort = process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT || 3002;
   const metricsPort = process.env.HTTP_METRICS_PORT || 3005;
-  const ports = `-p ${appPort}:${appPort} -p ${devCDNPort}:${devCDNPort} -p ${devProxyServerPort}:${devProxyServerPort} -p ${metricsPort}:${metricsPort}`;
+  const debugPort = process.env.HTTP_ONE_APP_DEBUG_PORT || 9229;
+  const ports = `-p ${appPort}:${appPort} -p ${devCDNPort}:${devCDNPort} -p ${devProxyServerPort}:${devProxyServerPort} -p ${metricsPort}:${metricsPort} -p ${debugPort}:${debugPort}`;
 
-  const command = `${generatePullCommand()} docker run -t ${ports} -e NODE_ENV=development ${generateContainerNameFlag()} ${generateNetworkToJoin()} ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${generateCaCertsCommands(envVars)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js --root-module-name=${rootModuleName} ${generateModuleMap()} ${generateUseMocksFlag(parrotMiddlewareFile)} ${generateUseHostFlag()}"`;
+  const command = `${generatePullCommand()} docker run -t ${ports} -e NODE_ENV=development ${generateContainerNameFlag()} ${generateNetworkToJoin()} ${generateEnvironmentVariableArgs(envVars)} ${generateModuleMountsArgs(modulesToServe)} ${generateCaCertsCommands(envVars)} ${appDockerImage} /bin/sh -c "${generateServeModuleCommands(modulesToServe)} ${generateSetMiddlewareCommand(parrotMiddlewareFile)} ${generateSetDevEndpointsCommand(devEndpointsFile)} node lib/server/index.js ${generateDebug(debugPort)} --root-module-name=${rootModuleName} ${generateModuleMap()} ${generateUseMocksFlag(parrotMiddlewareFile)} ${generateUseHostFlag()}"`;
   const dockerProcess = spawn(command, { shell: true });
   dockerProcess.on('error', () => {
     throw new Error(

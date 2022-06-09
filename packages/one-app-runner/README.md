@@ -384,6 +384,34 @@ If none of the two is provided, `one-app-dev-cdn` will only use locally served m
 
 If `NODE_EXTRA_CA_CERTS` is set, either through the `envVars` option or as an environment variable, it will be mounted and passed to the One App docker container.
 
+### use-debug [Optional]
+
+Attaches the debugger on port `9229`, the standard port for [node debugging](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --use-debug
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.x.x",
+    "useDebug": true
+  }
+}
+```
+
+#### HTTP_ONE_APP_DEBUG_PORT
+
+If `HTTP_ONE_APP_DEBUG_PORT` is set, it will be used as the port for the debugger. Defaults to `9229`.
+
 ## Proxy Support
 
 `one-app-runner` respects the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables and passes them down to the One App docker container.
@@ -422,6 +450,7 @@ This command generates random ports and values for the following environment var
 HTTP_PORT
 HTTP_ONE_APP_DEV_CDN_PORT
 HTTP_ONE_APP_DEV_PROXY_SERVER_PORT
+HTTP_ONE_APP_DEBUG_PORT
 HTTP_METRICS_PORT
 NETWORK_NAME
 ```
