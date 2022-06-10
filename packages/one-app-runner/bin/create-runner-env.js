@@ -23,6 +23,7 @@ const createRunnerEnv = async () => {
   const devCdnPort = await getPort();
   const devProxyServer = await getPort();
   const metricsPort = await getPort();
+  const debugPort = await getPort();
   const networkName = `one-app-environment-${uuid()}`;
 
   await fs.writeFile('.env',
@@ -31,6 +32,7 @@ HTTP_ONE_APP_DEV_CDN_PORT=${devCdnPort}
 NETWORK_NAME=${networkName}
 HTTP_ONE_APP_DEV_PROXY_SERVER_PORT=${devProxyServer}
 HTTP_METRICS_PORT=${metricsPort}
+HTTP_ONE_APP_DEBUG_PORT=${debugPort}
   `);
 };
 

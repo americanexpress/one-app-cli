@@ -138,6 +138,11 @@ const createYargsConfig = () => {
       describe: 'Assign a container name with the --name option',
       type: 'string',
     })
+    .option('use-debug', {
+      describe: 'Attaches the node debugger',
+      default: false,
+      type: 'boolean',
+    })
     .implies({
       'parrot-middleware': 'modules',
       'dev-endpoints': 'modules',
@@ -169,6 +174,7 @@ try {
     useHost: argv.useHost,
     offline: argv.offline,
     containerName: argv.containerName,
+    useDebug: argv.useDebug,
   });
 } catch (error) {
   /* eslint-disable no-console */

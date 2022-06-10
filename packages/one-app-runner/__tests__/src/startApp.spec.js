@@ -41,6 +41,7 @@ describe('startApp', () => {
     delete process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT;
     delete process.env.HTTP_METRICS_PORT;
     delete process.env.NODE_EXTRA_CA_CERTS;
+    delete process.env.HTTP_ONE_APP_DEBUG_PORT;
   });
 
   it('pulls one app docker image and starts one app', async () => {
@@ -71,6 +72,7 @@ describe('startApp', () => {
     process.env.HTTP_ONE_APP_DEV_CDN_PORT = '9001';
     process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT = '9002';
     process.env.HTTP_METRICS_PORT = '9005';
+    process.env.HTTP_ONE_APP_DEBUG_PORT = '9229';
 
     childProcess.spawn.mockImplementationOnce(mockSpawn);
     await startApp({
@@ -245,6 +247,27 @@ describe('startApp', () => {
     childProcess.spawn.mockImplementationOnce(mockSpawn);
     await startApp({
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', envVars: { NODE_EXTRA_CA_CERTS: '/envVar/location/cert.pem' },
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('applies inspect mode to node process when useDebug is passed', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], useDebug: true,
+    });
+    expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('applies inspect mode to with custom port node process when useDebug and env var', async () => {
+    expect.assertions(1);
+    process.env.HTTP_ONE_APP_DEBUG_PORT = 9221;
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], useDebug: true,
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
   });
