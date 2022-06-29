@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`--modules option is required if --module-map-url option is not given 1`] = `
+exports['--modules option is required if --module-map-url option is not given 1'] = `
 Array [
   Array [
     "Options:
@@ -40,7 +40,7 @@ Array [
 ]
 `;
 
-exports[`all options are used if specified 1`] = `
+exports['all options are used if specified 1'] = `
 Array [
   Array [
     Object {
@@ -65,14 +65,14 @@ Array [
 ]
 `;
 
-exports[`an \`envVars\` arg is supported 1`] = `
+exports['an `envVars` arg is supported 1'] = `
 Object {
   "HELLO": "WORLD",
   "MY_VARIABLE": "my-variable",
 }
 `;
 
-exports[`command errors out if --dev-endpoints is not given a value 1`] = `
+exports['command errors out if --dev-endpoints is not given a value 1'] = `
 Array [
   Array [
     "Options:
@@ -93,7 +93,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if --docker-image option is not given 1`] = `
+exports['command errors out if --docker-image option is not given 1'] = `
 Array [
   Array [
     "Options:
@@ -114,7 +114,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if --docker-image option is not given a value 1`] = `
+exports['command errors out if --docker-image option is not given a value 1'] = `
 Array [
   Array [
     "Options:
@@ -135,7 +135,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if --module-map-url option is not given 1`] = `
+exports['command errors out if --module-map-url option is not given 1'] = `
 Array [
   Array [
     "Options:
@@ -175,7 +175,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if --module-map-url option is not given a value 1`] = `
+exports['command errors out if --module-map-url option is not given a value 1'] = `
 Array [
   Array [
     "Options:
@@ -196,7 +196,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if --modules option is not given any values 1`] = `
+exports['command errors out if --modules option is not given any values 1'] = `
 Array [
   Array [
     "Options:
@@ -217,7 +217,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if --root-module-name option is not given 1`] = `
+exports['command errors out if --root-module-name option is not given 1'] = `
 Array [
   Array [
     "Options:
@@ -238,7 +238,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if --root-module-name option is not given a value 1`] = `
+exports['command errors out if --root-module-name option is not given a value 1'] = `
 Array [
   Array [
     "Options:
@@ -259,7 +259,7 @@ Array [
 ]
 `;
 
-exports[`command errors out if an unknown option is given 1`] = `
+exports['command errors out if an unknown option is given 1'] = `
 Array [
   Array [
     "Options:

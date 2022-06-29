@@ -12,7 +12,6 @@
  * under the License.
  */
 
-/* eslint-disable global-require */
 const { sync } = require('read-pkg-up');
 const path = require('path');
 const { validateWebpackConfig } = require('../../../test-utils');
@@ -29,7 +28,7 @@ describe('webpack/module.client', () => {
 
   it('should export valid webpack config', () => {
     const webpackConfig = configGenerator();
-    return validateWebpackConfig(webpackConfig);
+    expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
   });
 
   it('should provide the envName to babel', () => {

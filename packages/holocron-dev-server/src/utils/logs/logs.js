@@ -12,8 +12,6 @@
  * under the License.
  */
 
-/* eslint-disable no-console */
-
 import createDebug from 'debug';
 import chalk from 'chalk';
 

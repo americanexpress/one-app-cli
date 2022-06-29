@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`serve-module adds to the existing module map 1`] = `
+exports['serve-module adds to the existing module map 1'] = `
 "{
   \\"key\\": \\"--- omitted for development ---\\",
   \\"modules\\": {
@@ -36,7 +36,7 @@ exports[`serve-module adds to the existing module map 1`] = `
 }"
 `;
 
-exports[`serve-module adds to the existing module map without legacy when disableDevelopmentLegacyBundle is true 1`] = `
+exports['serve-module adds to the existing module map without legacy when disableDevelopmentLegacyBundle is true 1'] = `
 "{
   \\"key\\": \\"--- omitted for development ---\\",
   \\"modules\\": {
@@ -64,7 +64,7 @@ exports[`serve-module adds to the existing module map without legacy when disabl
 }"
 `;
 
-exports[`serve-module creates a module map when one does not exist 1`] = `
+exports['serve-module creates a module map when one does not exist 1'] = `
 "{
   \\"key\\": \\"not-used-in-development\\",
   \\"modules\\": {
@@ -86,4 +86,4 @@ exports[`serve-module creates a module map when one does not exist 1`] = `
 }"
 `;
 
-exports[`serve-module should throw if the module doesn't have a version 1`] = `"No versioned bundles exist for module my-module-name"`;
+exports['serve-module should throw if the module doesn\'t have a version 1'] = '"No versioned bundles exist for module my-module-name"';

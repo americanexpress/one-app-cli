@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 1`] = `""`;
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 1'] = '""';
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 2`] = `""`;
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 2'] = '""';
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 3`] = `""`;
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 3'] = '""';
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 4`] = `""`;
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 4'] = '""';
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 5`] = `
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 5'] = `
 "
       // Imports
       
@@ -32,11 +32,11 @@ exports[`SSR CSS loader should remove css-loader's css-base, replace its push an
     "
 `;
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 6`] = `""`;
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 6'] = '""';
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 7`] = `""`;
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 7'] = '""';
 
-exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 8`] = `
+exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 8'] = `
 "
       // Imports
       
@@ -60,24 +60,24 @@ exports[`SSR CSS loader should remove css-loader's css-base, replace its push an
     "
 `;
 
-exports[`SSR CSS loader should throw an error when the css-loader is not present 1`] = `
+exports['SSR CSS loader should throw an error when the css-loader is not present 1'] = `
 "could not find the css-loader in
 no css-loader here!"
 `;
 
-exports[`SSR CSS loader should throw an error when the css-loader is not present 2`] = `
+exports['SSR CSS loader should throw an error when the css-loader is not present 2'] = `
 "could not find the css-loader in
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! css-loader/dist/runtime/api.js */ \\"css-loader/dist/runtime/api.js\\");
     exports = ___CSS_LOADER_API_IMPORT___();"
 `;
 
-exports[`SSR CSS loader should throw an error when the css-loader is not present 3`] = `
+exports['SSR CSS loader should throw an error when the css-loader is not present 3'] = `
 "could not find the css-loader in
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ \\"../../css-loader/dist/runtime/api.js\\");
     exports = ___CSS_LOADER_API_IMPORT___(true);"
 `;
 
-exports[`SSR CSS loader should throw an error when the css-loader is not present 4`] = `
+exports['SSR CSS loader should throw an error when the css-loader is not present 4'] = `
 "could not find the css-loader in
 
     // Imports

@@ -17,6 +17,8 @@ const rimraf = require('rimraf');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
+/* eslint-disable jest/expect-expect -- use yeoman assert in this file */
+
 describe('generator-one-app-module', () => {
   describe('basic child module creation', () => {
     beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
@@ -330,3 +332,5 @@ describe('generator-one-app-module', () => {
     });
   });
 });
+
+/* eslint-enable jest/expect-expect -- disables require enables */

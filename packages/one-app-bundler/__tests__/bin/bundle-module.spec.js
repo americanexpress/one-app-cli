@@ -12,6 +12,9 @@
  * under the License.
  */
 
+/* eslint-disable global-require --
+testing `on import` functionality needs 'require' in every tests */
+
 jest.mock('webpack');
 jest.mock('@americanexpress/one-app-locale-bundler');
 jest.mock('../../bin/webpackCallback', () => jest.fn((x, y) => `cb(${x}, ${y})`));
@@ -101,3 +104,5 @@ describe('bundle-module', () => {
     expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
   });
 });
+
+/* eslint-enable global-require -- disables require enables */

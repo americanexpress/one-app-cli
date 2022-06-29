@@ -13,6 +13,7 @@
  */
 
 const readPkgUp = require('read-pkg-up');
+// eslint-disable-next-line you-dont-need-lodash-underscore/get -- continue to support es5 for now
 const get = require('lodash/get');
 const commonConfig = require('../webpack/webpack.common');
 const { validateBundler } = require('./validation');
@@ -25,7 +26,7 @@ function validateOptions(options) {
   if (options.requiredExternals || options.providedExternals) {
     const intersection = Object.keys(commonConfig.externals)
       .filter((externalName) =>
-        // eslint-disable-next-line implicit-arrow-linebreak
+        // eslint-disable-next-line implicit-arrow-linebreak -- without the linebreak the line fails max-len
         (options.requiredExternals || options.providedExternals).includes(externalName)
       );
     if (intersection.length > 0) {

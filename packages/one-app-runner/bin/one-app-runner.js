@@ -21,7 +21,7 @@ const startApp = require('../src/startApp');
 
 const createYargsConfig = () => {
   const packageJsonPath = pkgUp.sync();
-  // eslint-disable-next-line global-require, import/no-dynamic-require
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- we need to import a package.json at runtime
   const packageJson = require(packageJsonPath);
 
   const oneAppRunnerConfig = (packageJson['one-amex'] && packageJson['one-amex'].runner) || {};
@@ -30,7 +30,6 @@ const createYargsConfig = () => {
     yargs.config(oneAppRunnerConfig);
   }
 
-  // eslint-disable-next-line global-require
   yargs
     .option('module-map-url', {
       type: 'string',
@@ -76,11 +75,11 @@ const createYargsConfig = () => {
     })
     .option('modules', {
       type: 'array',
-      // eslint-disable-next-line global-require
+      // eslint-disable-next-line global-require -- I dont know why we are late requiring yargs into this file that already requires yargs
       demandOption: !require('yargs').argv.moduleMapUrl,
       describe: 'path to local module to serve to One App',
       coerce: (modules) => {
-        if (!modules.length > 0) {
+        if (modules.length === 0) {
           throw new Error('⚠️   --modules option must be given a value but was not given one. Did you mean to pass a value? ⚠️');
         }
         const processedModules = modules.map((module) => path.resolve(process.cwd(), module));
@@ -177,8 +176,6 @@ try {
     useDebug: argv.useDebug,
   });
 } catch (error) {
-  /* eslint-disable no-console */
   console.log();
   console.error('⚠️   Error starting up your One App environment: \n', error.message);
-  /* eslint-enable no-console */
 }

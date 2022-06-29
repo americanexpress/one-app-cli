@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validate-one-app-compatibility-loader should appCompatibility for server side validation  1`] = `
+exports[`validate-one-app-compatibility-loader should appCompatibility for server side validation 1`] = `
 "import SomeComponent from './SomeComponent';
 
 export default SomeComponent;

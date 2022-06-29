@@ -71,6 +71,7 @@ beforeEach(() => {
 describe('loadScenarios', () => {
   test('requires the scenario paths to return result', () => {
     expect(loadScenarios()).toEqual({});
+    // eslint-disable-next-line jest/no-mocks-import,global-require -- it thinks we are importing a mock package, not a set of scenarios
     expect(loadScenarios([scenariosPath])).toEqual(require('../../../__mocks__/scenario'));
   });
 

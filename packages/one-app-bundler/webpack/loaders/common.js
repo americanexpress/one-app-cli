@@ -30,14 +30,15 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
 
       // The below function returns the classnames as is if the resourcePath includes node_modules
       // if it doesn't it returns null allowing localIdentName to define the classname
-      // eslint-disable-next-line max-params, no-unused-vars
-      getLocalIdent: (loaderContext, localIdentName, localName, options) => (
+      getLocalIdent: (loaderContext, localIdentName, localName) => (
         loaderContext.resourcePath.includes('node_modules') ? localName : null
       ),
     },
   },
 });
 
+/* eslint-disable inclusive-language/use-inclusive-words --
+config options for a third party library */
 const purgeCssLoader = () => {
   const configOptions = getConfigOptions();
   const whitelistPatterns = configOptions.purgecss.whitelistPatterns
@@ -61,6 +62,7 @@ const purgeCssLoader = () => {
     },
   }];
 };
+/* eslint-enable inclusive-language/use-inclusive-words -- disables require enables */
 
 const sassLoader = () => ({
   loader: 'sass-loader',

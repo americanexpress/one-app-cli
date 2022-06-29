@@ -23,10 +23,11 @@ jest.mock('read-pkg-up', () => ({
   sync: jest.fn(),
 }));
 
+// eslint-disable-next-line global-require -- mocking readPkgUp needs us to require a json file
 readPkgUp.sync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
 
 describe('validate-required-externals-loader', () => {
-  it('should add versions for server side validation ', () => {
+  it('should add versions for server side validation', () => {
     const content = `\
 import SomeComponent from './SomeComponent';
 

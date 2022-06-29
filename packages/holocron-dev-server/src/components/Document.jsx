@@ -17,7 +17,8 @@ import React from 'react';
 import { bundleType as defaultBundleType } from '../constants';
 import { getPublicAppUrl } from '../utils/paths';
 
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types --
+prop types are too complex to specify here. Use param defauting instead */
 export default function Document({
   bundleType = defaultBundleType,
   scripts = [],
@@ -34,7 +35,7 @@ export default function Document({
         <div id="root" />
         <script
           id="initial-state"
-          // eslint-disable-next-line react/no-danger
+          // eslint-disable-next-line react/no-danger -- inject required value to the document
           dangerouslySetInnerHTML={{
             __html: `
               window.__render_mode__ = 'render';
@@ -51,10 +52,12 @@ export default function Document({
         <script src={getPublicAppUrl('vendors.js')} />
         <script src={getPublicAppUrl(`i18n/${lang.toLowerCase()}.js`)} />
         {React.Children.toArray(
-          scripts.map(({ src }) => <script src={src} />)
+          scripts.map(({ src }) => <script src={src} key={src} />)
         )}
         <script src={getPublicAppUrl('app.js')} />
       </body>
     </html>
   );
 }
+
+/* eslint-enable react/prop-types -- disables require enables */

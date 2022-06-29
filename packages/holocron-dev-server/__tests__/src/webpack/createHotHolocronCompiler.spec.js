@@ -54,12 +54,12 @@ beforeAll(() => {
 });
 
 describe('createHotHolocronCompiler', () => {
-  test(' create Hot Holocron Compiler', () => {
+  test('create Hot Holocron Compiler', () => {
     const config = {
       modules: [],
       environmentVariables: [],
       webpackConfigPath: [],
     };
-    createHotHolocronCompiler(config);
+    expect(() => createHotHolocronCompiler(config)).not.toThrow();
   });
 });

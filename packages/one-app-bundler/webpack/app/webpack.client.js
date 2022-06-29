@@ -109,7 +109,7 @@ module.exports = (babelEnv) => merge(
       runtimeChunk: 'single',
       splitChunks: {
         chunks: 'all',
-        minChunks: Infinity,
+        minChunks: Number.POSITIVE_INFINITY,
       },
       minimizer: [
         new TerserPlugin({

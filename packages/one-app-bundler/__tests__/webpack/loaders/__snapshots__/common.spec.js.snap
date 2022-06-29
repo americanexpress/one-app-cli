@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Common webpack loaders babel-loader should return a config that extends the project's babelrc 1`] = `
+exports['Common webpack loaders babel-loader should return a config that extends the project\'s babelrc 1'] = `
 Object {
   "loader": "babel-loader",
   "options": Object {
@@ -11,7 +11,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders babel-loader should return a config with the expected BABEL_ENV 1`] = `
+exports['Common webpack loaders babel-loader should return a config with the expected BABEL_ENV 1'] = `
 Object {
   "loader": "babel-loader",
   "options": Object {
@@ -22,7 +22,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders css-loader should still return a good localIdentName when not given a chunk name 1`] = `
+exports['Common webpack loaders css-loader should still return a good localIdentName when not given a chunk name 1'] = `
 Object {
   "loader": "css-loader",
   "options": Object {
@@ -35,7 +35,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders css-loader should still return localName from getLocalIdent if resourcePath includes node_modules 1`] = `
+exports['Common webpack loaders css-loader should still return localName from getLocalIdent if resourcePath includes node_modules 1'] = `
 Object {
   "loader": "css-loader",
   "options": Object {
@@ -48,7 +48,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders css-loader should still return null from getLocalIdent if resourcePath does not include node_modules 1`] = `
+exports['Common webpack loaders css-loader should still return null from getLocalIdent if resourcePath does not include node_modules 1'] = `
 Object {
   "loader": "css-loader",
   "options": Object {
@@ -61,7 +61,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders css-loader should use the chunk name in the localIdentName when given 1`] = `
+exports['Common webpack loaders css-loader should use the chunk name in the localIdentName when given 1'] = `
 Object {
   "loader": "css-loader",
   "options": Object {
@@ -74,7 +74,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders css-loader should use the css-loader 1`] = `
+exports['Common webpack loaders css-loader should use the css-loader 1'] = `
 Object {
   "loader": "css-loader",
   "options": Object {
@@ -87,7 +87,7 @@ Object {
 }
 `;
 
-exports[`Common webpack loaders purgecss-loader should include any additional configured options 1`] = `
+exports['Common webpack loaders purgecss-loader should include any additional configured options 1'] = `
 Array [
   Object {
     "loader": "@americanexpress/purgecss-loader",
@@ -124,7 +124,7 @@ Array [
 ]
 `;
 
-exports[`Common webpack loaders purgecss-loader should include any additional configured paths 1`] = `
+exports['Common webpack loaders purgecss-loader should include any additional configured paths 1'] = `
 Array [
   Object {
     "loader": "@americanexpress/purgecss-loader",
@@ -148,7 +148,7 @@ Array [
 ]
 `;
 
-exports[`Common webpack loaders purgecss-loader should return a config that accounts for the src dir 1`] = `
+exports['Common webpack loaders purgecss-loader should return a config that accounts for the src dir 1'] = `
 Array [
   Object {
     "loader": "@americanexpress/purgecss-loader",
@@ -170,7 +170,7 @@ Array [
 ]
 `;
 
-exports[`Common webpack loaders sass-loader should return a config using dart sass 1`] = `
+exports['Common webpack loaders sass-loader should return a config using dart sass 1'] = `
 Object {
   "loader": "sass-loader",
   "options": Object {

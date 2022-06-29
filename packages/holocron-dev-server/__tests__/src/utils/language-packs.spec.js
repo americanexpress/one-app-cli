@@ -187,12 +187,14 @@ describe('addModuleLanguagePackToVolume', () => {
 });
 
 describe('remove module Language Pack', () => {
-  removeModuleLanguagePackFromVolume({
-    moduleName: 'sample-module',
-    locale: 'en-US',
+  it('should remove the module language pack', () => {
+    removeModuleLanguagePackFromVolume({
+      moduleName: 'sample-module',
+      locale: 'en-US',
+    });
+    expect(volume.unlinkSync).toHaveBeenCalledTimes(1);
+    expect(volume.rmdirSync).toHaveBeenCalledTimes(1);
   });
-  expect(volume.unlinkSync).toHaveBeenCalledTimes(1);
-  expect(volume.rmdirSync).toHaveBeenCalledTimes(1);
 });
 
 describe('loadLanguagePacks', () => {

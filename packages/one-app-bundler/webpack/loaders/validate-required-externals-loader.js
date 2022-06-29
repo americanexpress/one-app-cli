@@ -17,14 +17,13 @@ const readPkgUp = require('read-pkg-up');
 
 function validateRequiredExternalsLoader(content) {
   const options = loaderUtils.getOptions(this);
-  // eslint-disable-next-line global-require, import/no-dynamic-require
   const { packageJson } = readPkgUp.sync();
 
   const requiredExternals = options.requiredExternals.map((externalName) => {
     const version = packageJson.dependencies[externalName];
     return `'${externalName}': '${version}'`;
   });
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+);$/m);
+  const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
     const newContent = `${content};

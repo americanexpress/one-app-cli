@@ -37,8 +37,6 @@ HTTP_ONE_APP_DEBUG_PORT=${debugPort}
 };
 
 createRunnerEnv().catch((error) => {
-  /* eslint-disable no-console */
   console.log();
   console.error('⚠️   Error creating environment variables: \n', error);
-  /* eslint-enable no-console */
 });

@@ -12,8 +12,7 @@
  * the License.
  */
 
-// yeoman private methods use underscores
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle -- yeoman private methods use underscores */
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const _ = require('lodash');
@@ -256,3 +255,5 @@ module.exports = class extends Generator {
     this.npmInstall();
   }
 };
+
+/* eslint-enable no-underscore-dangle -- disables require enables */

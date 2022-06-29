@@ -20,12 +20,14 @@ export const fileLoader = () => {
   const webpackVersion = getWebpackVersion();
   if (webpackVersion >= 5) {
     return {
+      // eslint-disable-next-line unicorn/no-unsafe-regex -- common regex for webpack loader
       test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/,
       type: 'asset/resource',
     };
   }
   // v4 and down
   return {
+    // eslint-disable-next-line unicorn/no-unsafe-regex -- common regex for webpack loader
     test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webm)(\?.*)?$/,
     use: [
       {

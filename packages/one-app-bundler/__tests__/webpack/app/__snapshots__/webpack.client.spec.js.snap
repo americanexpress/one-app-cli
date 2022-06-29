@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`webpack/app always transpiles node_modules when env is production 1`] = `
+exports['webpack/app always transpiles node_modules when env is production 1'] = `
 Object {
   "exclude": /\\^\\\\/node_modules\\\\/core-js/,
   "include": Array [
@@ -21,7 +21,7 @@ Object {
 }
 `;
 
-exports[`webpack/app does not transpile node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION true 1`] = `
+exports['webpack/app does not transpile node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION true 1'] = `
 Object {
   "exclude": /\\^\\\\/node_modules\\\\/core-js/,
   "include": Array [
@@ -41,7 +41,7 @@ Object {
 }
 `;
 
-exports[`webpack/app transpiles node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION false 1`] = `
+exports['webpack/app transpiles node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION false 1'] = `
 Object {
   "exclude": /\\^\\\\/node_modules\\\\/core-js/,
   "include": Array [

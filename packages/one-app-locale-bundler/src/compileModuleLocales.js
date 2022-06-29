@@ -169,7 +169,7 @@ function compileModuleLocales(modulePath) {
           path.join(moduleLocaleInputDir, moduleLocal)
         ))
       ).then(() => {
-        if (moduleLocals.length !== 0) {
+        if (moduleLocals.length > 0) {
           console.log(`Generated language packs for ${moduleLocals.map((fileName) => fileName.replace(/\.json$/, '')).join(', ')}`);
         } else {
           console.log('Generated 0 language packs.');

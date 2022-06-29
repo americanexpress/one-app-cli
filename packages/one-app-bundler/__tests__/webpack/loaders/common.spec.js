@@ -108,9 +108,12 @@ describe('Common webpack loaders', () => {
         fontFace: true,
         keyframes: true,
         variables: true,
+        /* eslint-disable inclusive-language/use-inclusive-words --
+        config options for a third party library */
         whitelist: ['random', 'yep', 'button'],
         whitelistPatterns: ['red'],
         whitelistPatternsChildren: ['blue'],
+        /* eslint-enable -- disables require enables */
       };
       getConfigOptions.mockReturnValueOnce({ purgecss });
       expect(purgeCssLoader()).toMatchSnapshot();

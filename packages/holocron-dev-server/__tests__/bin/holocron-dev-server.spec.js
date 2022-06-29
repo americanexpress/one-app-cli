@@ -22,13 +22,13 @@ jest.mock('../..', () => ({
 function loadBin() {
   let promise = null;
   jest.isolateModules(() => {
-    // eslint-disable-next-line global-require
+    // eslint-disable-next-line global-require -- testing `on import` functionality needs require
     promise = require('../../bin/holocron-dev-server');
   });
   return promise;
 }
 
-describe('holocron-dev-server ', () => {
+describe('holocron-dev-server', () => {
   test('runs the bin script without error', async () => {
     await expect(loadBin()).resolves.toBeUndefined();
     expect(createConfig).toHaveBeenCalledTimes(1);

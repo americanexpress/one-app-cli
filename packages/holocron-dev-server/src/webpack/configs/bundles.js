@@ -47,7 +47,6 @@ import {
   jsxLoader,
 } from './loaders';
 
-// eslint-disable-next-line import/prefer-default-export
 export function createHolocronModuleWebpackConfig({
   modules: holocronModules = [],
   environmentVariables,
@@ -116,7 +115,7 @@ export function createHolocronModuleWebpackConfig({
   config = merge(config, createHolocronModuleLoadersFragment(holocronModules));
 
   if (webpackConfigPath) {
-    // eslint-disable-next-line import/no-dynamic-require, global-require
+    // eslint-disable-next-line import/no-dynamic-require, global-require -- import config file at runtime
     const customWebpackConfig = require(getContextPath(webpackConfigPath));
     config = merge(config, customWebpackConfig);
   }

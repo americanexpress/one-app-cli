@@ -40,9 +40,12 @@ const purgecssSchema = Joi.object({
   fontFace: Joi.boolean().strict(),
   keyframes: Joi.boolean().strict(),
   variables: Joi.boolean().strict(),
+  /* eslint-disable inclusive-language/use-inclusive-words --
+  config options for a third party library */
   whitelist: Joi.array().items(Joi.string().required()),
   whitelistPatterns: Joi.array().items(Joi.string().required()),
   whitelistPatternsChildren: Joi.array().items(Joi.string().required()),
+  /* eslint-enable inclusive-language/use-inclusive-words -- disables require enables */
   disabled: Joi.boolean().strict(),
 });
 

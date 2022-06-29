@@ -19,10 +19,10 @@ import hoistStatics from 'hoist-non-react-statics';
 import useHotMiddlewareSubscriber from './hooks/useHotMiddlewareSubscriber';
 
 export default function createHolocronHmrWrapper(Module) {
-  // eslint-disable-next-line prefer-arrow-callback
+  // eslint-disable-next-line prefer-arrow-callback -- maintain `this` bind
   const HotModule = hoistStatics(function HolocronHmrWrapper(props) {
     useHotMiddlewareSubscriber(Module);
-    // eslint-disable-next-line react/jsx-props-no-spreading
+    // eslint-disable-next-line react/jsx-props-no-spreading -- HOCs can spread props
     return <Module {...props} />;
   }, Module);
 

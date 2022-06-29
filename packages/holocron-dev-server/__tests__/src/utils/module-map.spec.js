@@ -55,7 +55,7 @@ describe('loadRemoteModuleMap', () => {
       },
     });
   });
-  test('remote module map is not string returns empty list of modules ', async () => {
+  test('remote module map is not string returns empty list of modules', async () => {
     const remoteModuleMapUrl = {};
     const remoteModuleMap = await loadRemoteModuleMap(remoteModuleMapUrl);
     expect(remoteModuleMap).toEqual({

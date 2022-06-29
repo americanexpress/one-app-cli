@@ -46,8 +46,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   let customWebpackConfig = {};
 
   if (customWebpackConfigPath) {
-    // Dynamic require is needed here for loading custom config
-    // eslint-disable-next-line global-require, import/no-dynamic-require
+    // eslint-disable-next-line global-require, import/no-dynamic-require -- Dynamic require is needed here for loading custom config
     customWebpackConfig = require(path.join(process.cwd(), customWebpackConfigPath));
   }
 

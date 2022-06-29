@@ -17,7 +17,7 @@ import { version } from 'webpack';
 export const modulesLibraryVarName = '__holocron_modules__';
 
 export function getWebpackVersion() {
-  return parseInt(version, 10);
+  return Number.parseInt(version, 10);
 }
 
 export function createExternalEntry([packageName, varName]) {

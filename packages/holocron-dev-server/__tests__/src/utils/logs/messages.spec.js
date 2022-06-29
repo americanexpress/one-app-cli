@@ -156,7 +156,7 @@ describe('messages', () => {
   });
 
   describe('logServerUrl', () => {
-    test('log when the server url is loaded ', () => {
+    test('log when the server url is loaded', () => {
       expect(logServerUrl(serverAddress, port)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(2);
     });
@@ -177,7 +177,7 @@ describe('messages', () => {
   });
 
   describe('logProxyRequestMatch', () => {
-    test('log when proxy requests match ', () => {
+    test('log when proxy requests match', () => {
       expect(logProxyRequestMatch(request)).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
@@ -200,7 +200,7 @@ describe('messages', () => {
   });
 
   describe('logMockWatchReady', () => {
-    test('log when mock scenarios are being watched for changes ', () => {
+    test('log when mock scenarios are being watched for changes', () => {
       expect(logMockWatchReady()).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
@@ -228,7 +228,7 @@ describe('messages', () => {
   });
 
   describe('logLocaleAction', () => {
-    test('log when locale has any changes ', () => {
+    test('log when locale has any changes', () => {
       expect(logLocaleAction({ action: 'change', locale: 'en-US', moduleName })).toBeUndefined();
       expect(log).toHaveBeenCalledTimes(1);
     });
@@ -290,7 +290,7 @@ describe('messages', () => {
   });
 
   describe('logStaticStep', () => {
-    test('log when statics are loaded ', () => {
+    test('log when statics are loaded', () => {
       expect(logStaticStep()).toBeUndefined();
       expect(info).toHaveBeenCalledTimes(1);
     });

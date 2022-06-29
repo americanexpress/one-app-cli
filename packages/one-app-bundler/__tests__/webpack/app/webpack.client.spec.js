@@ -12,7 +12,9 @@
  * under the License.
  */
 
-/* eslint-disable global-require */
+/* eslint-disable global-require --
+we need to require generated files to validate their content */
+
 const { validateWebpackConfig } = require('../../../test-utils');
 const configGenerator = require('../../../webpack/app/webpack.client');
 const getConfigOptions = require('../../../utils/getConfigOptions');
@@ -48,7 +50,7 @@ describe('webpack/app', () => {
 
   it('should export valid webpack config', () => {
     const webpackConfig = configGenerator();
-    return validateWebpackConfig(webpackConfig);
+    expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
   });
 
   it('should put legacy build in a legacy directory', () => {
@@ -133,3 +135,5 @@ describe('webpack/app', () => {
     expect(modernWebpackConfig.output.path).toMatch(/\/build\/app\/tmp$/);
   });
 });
+
+/* eslint-enable global-require -- disables require enables */
