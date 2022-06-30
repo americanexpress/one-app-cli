@@ -12,6 +12,9 @@
  * under the License.
  */
 
+/* eslint-disable global-require --
+testing `on import` functionality needs requires in each test */
+
 jest.mock('../../utils/validateNodeEnv');
 
 describe('webpack/one-amex.base', () => {
@@ -84,3 +87,4 @@ describe('webpack/one-amex.base', () => {
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
 });
+/* eslint-enable  global-require -- disables require enables */

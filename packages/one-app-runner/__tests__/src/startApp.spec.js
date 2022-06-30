@@ -13,7 +13,6 @@
  */
 
 // explicitly requiring within each test needed in order to have independent mocks
-/* eslint-disable global-require */
 const path = require('path');
 const fs = require('fs');
 const childProcess = require('child_process');
@@ -152,6 +151,7 @@ describe('startApp', () => {
         moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true,
       });
     } catch (error) {
+      // eslint-disable-next-line jest/no-conditional-expect -- covered by expect.assertions
       expect(error).toMatchSnapshot('create network calls');
     }
   });
@@ -167,6 +167,7 @@ describe('startApp', () => {
         moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], createDockerNetwork: true, dockerNetworkToJoin: 'one-test-environment-1234',
       });
     } catch (error) {
+      // eslint-disable-next-line jest/no-conditional-expect -- covered by expect.assertions
       expect(error).toMatchSnapshot('create network calls');
     }
   });

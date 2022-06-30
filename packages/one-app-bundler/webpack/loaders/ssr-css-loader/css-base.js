@@ -12,8 +12,8 @@
  * under the License.
  */
 
-// uglifyjs expects ES5, disable newer syntax/features
-/* eslint-disable prefer-arrow-callback, object-shorthand */
+/* eslint-disable prefer-arrow-callback, object-shorthand --
+uglifyjs expects ES5, disable newer syntax/features */
 
 const styleList = [];
 
@@ -34,3 +34,5 @@ module.exports = function getCssBase(/* useSourceMap */) {
     getFullSheet: getFullSheet,
   };
 };
+
+/* eslint-enable prefer-arrow-callback, object-shorthand -- disables require enables */

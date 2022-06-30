@@ -234,7 +234,7 @@ describe('createConfig', () => {
       serverAddress: 'http://localhost:4000/',
     });
   });
-  it('returns  undefined module config if the bundler options are not provided ', () => {
+  it('returns undefined module config if the bundler options are not provided', () => {
     expect(createConfigurationContext({
       bundler: undefined,
     })).toMatchObject({

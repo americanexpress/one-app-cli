@@ -12,7 +12,9 @@
  * under the License.
  */
 
-/* eslint-disable global-require */
+/* eslint-disable global-require --
+testing `on import` functionality needs 'require' in every tests */
+
 let fs = require('fs');
 
 let rimraf;
@@ -183,3 +185,5 @@ describe('serve-module', () => {
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();
   });
 });
+
+/* eslint-enable global-require -- disables require enables */

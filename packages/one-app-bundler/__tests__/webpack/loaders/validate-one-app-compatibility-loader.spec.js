@@ -19,7 +19,7 @@ jest.mock('loader-utils', () => ({
 }));
 
 describe('validate-one-app-compatibility-loader', () => {
-  it('should appCompatibility for server side validation ', () => {
+  it('should appCompatibility for server side validation', () => {
     const content = `\
 import SomeComponent from './SomeComponent';
 

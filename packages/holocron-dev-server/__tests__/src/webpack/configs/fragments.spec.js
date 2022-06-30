@@ -161,17 +161,19 @@ describe('createHolocronModuleLoadersFragment', () => {
     providedExternals: ['common-dep'],
   }];
 
-  const webpackConfigfragment = createHolocronModuleLoadersFragment(modules);
+  it('should create the expected config', () => {
+    const webpackConfigfragment = createHolocronModuleLoadersFragment(modules);
 
-  expect(webpackConfigfragment).toEqual({
-    module: {
-      rules: [{
-        test: '/path/to/test-root-module/src/index',
-        use: [{
-          loader: '@americanexpress/holocron-dev-server/src/webpack/loaders/holocron-webpack-loader',
-          options: { moduleName: 'test-root-module' },
+    expect(webpackConfigfragment).toEqual({
+      module: {
+        rules: [{
+          test: '/path/to/test-root-module/src/index',
+          use: [{
+            loader: '@americanexpress/holocron-dev-server/src/webpack/loaders/holocron-webpack-loader',
+            options: { moduleName: 'test-root-module' },
+          }],
         }],
-      }],
-    },
+      },
+    });
   });
 });

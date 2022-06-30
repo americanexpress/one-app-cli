@@ -12,6 +12,6 @@
  * under the License.
  */
 
-// eslint-disable-next-line no-global-assign
+// eslint-disable-next-line no-global-assign -- override require for dev server
 require = require('esm')(module, { mainFields: ['module', 'main'] });
 module.exports = require('./src');

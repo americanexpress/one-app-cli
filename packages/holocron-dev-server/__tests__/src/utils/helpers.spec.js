@@ -12,6 +12,7 @@
  * under the License.
  */
 
+import open from 'open';
 import {
   isDevelopment,
   getLocalRootModule,
@@ -70,9 +71,7 @@ describe('getModuleFromFilePath', () => {
 });
 
 describe('openBrowser', () => {
-  const open = require('open');
-
-  test('opens the default browser ', () => {
+  test('opens the default browser', () => {
     const url = 'https://localhost:4000';
     expect(openBrowser(url)).toBeUndefined();
     expect(open).toHaveBeenCalledWith(url);

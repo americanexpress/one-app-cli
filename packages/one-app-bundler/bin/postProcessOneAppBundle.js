@@ -12,7 +12,8 @@
  * under the License.
  */
 
-/* eslint-disable import/no-dynamic-require, global-require */
+/* eslint-disable import/no-dynamic-require, global-require --
+we need to load generated assets at runtime */
 
 const path = require('path');
 const fs = require('fs');
@@ -37,7 +38,7 @@ module.exports = async function postProcessBuild() {
     encoding: 'hex',
   };
   const { hash } = await hashElement(tmpPath, options);
-  const buildVersion = `${version}-${hash.substring(0, 8)}`;
+  const buildVersion = `${version}-${hash.slice(0, 8)}`;
   const modernBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.browser.json')).assetsByChunkName;
   const legacyBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.legacyBrowser.json')).assetsByChunkName;
 
@@ -53,3 +54,5 @@ module.exports = async function postProcessBuild() {
     )
   );
 };
+
+/* eslint-enable import/no-dynamic-require, global-require -- disables require enables */

@@ -12,10 +12,12 @@
  * under the License.
  */
 
+/* eslint-disable import/no-import-module-exports --
+This rule is not broken in this file, eslint is just confused */
+
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { registerModule } from 'holocron';
-
 import useHotMiddlewareSubscriber from '../../../src/components/hooks/useHotMiddlewareSubscriber';
 import HolocronHmrWrapper from '../../../src/components/HolocronHmrWrapper';
 
@@ -47,3 +49,5 @@ describe('HolocronHmrWrapper', () => {
     expect(useHotMiddlewareSubscriber).toHaveBeenCalledWith(Module);
   });
 });
+
+/* eslint-enable import/no-import-module-exports -- disables require enables */

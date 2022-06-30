@@ -12,8 +12,9 @@
  * the License.
  */
 
+/* eslint-disable global-require --
+testing `on import` behaviour needs requires directly in tests */
 // explicitly requiring within each test needed in order to have independent mocks
-/* eslint-disable global-require */
 const path = require('path');
 
 const originalProcessExit = process.exit;
@@ -284,3 +285,5 @@ test('an `envVars` arg is supported', () => {
   require('../../bin/one-app-runner');
   expect(startApp.mock.calls[0][0].envVars).toMatchSnapshot();
 });
+
+/* eslint-enable global-require -- disables require enables */

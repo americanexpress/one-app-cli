@@ -16,7 +16,7 @@ const loaderUtils = require('loader-utils');
 
 function validateOneAppCompatabilityLoader(content) {
   const { appCompatibility } = loaderUtils.getOptions(this);
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+);$/m);
+  const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
     const newContent = `${content};

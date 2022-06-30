@@ -59,6 +59,9 @@ export function createSubscriberHandle(Module, dispatch) {
   };
 }
 
+/* eslint-disable react-hooks/exhaustive-deps --
+I dont know if this was intentional, but adding it is a semantic change */
+
 export default function useHotMiddlewareSubscriber(Module) {
   const dispatch = useDispatch();
 
@@ -67,3 +70,5 @@ export default function useHotMiddlewareSubscriber(Module) {
     subscribe(createSubscriberHandle(Module, dispatch));
   }, []);
 }
+
+/* eslint-enable react-hooks/exhaustive-deps -- disables require enables */

@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validateNodeEnv should throw if NODE_ENV is invalid 1`] = `"Expected NODE_ENV to be one of [\\"production\\",\\"development\\"], but received \\"test\\""`;
+exports['validateNodeEnv should throw if NODE_ENV is invalid 1'] = '"Expected NODE_ENV to be one of [\\"production\\",\\"development\\"], but received \\"test\\""';
 
-exports[`validateNodeEnv should throw if NODE_ENV is undefined 1`] = `"Expected NODE_ENV to be one of [\\"production\\",\\"development\\"], but received undefined"`;
+exports['validateNodeEnv should throw if NODE_ENV is undefined 1'] = '"Expected NODE_ENV to be one of [\\"production\\",\\"development\\"], but received undefined"';

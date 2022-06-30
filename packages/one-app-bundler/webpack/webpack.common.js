@@ -60,10 +60,12 @@ module.exports = {
   module: {
     rules: [
       {
+        // eslint-disable-next-line unicorn/no-unsafe-regex -- Common regex for webpack loaders
         test: /\.(ttf|eot|svg|png|jpg)(\?.*)?$/,
         use: [{ loader: 'url-loader' }],
       },
       {
+        // eslint-disable-next-line unicorn/no-unsafe-regex -- Common regex for webpack loaders
         test: /\.(woff|woff2)(\?.*)?$/,
         use: [{
           loader: 'url-loader',

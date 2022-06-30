@@ -12,6 +12,9 @@
  * under the License.
  */
 
+/* eslint-disable global-require --
+testing `on import` functionality needs 'require' in every tests */
+
 jest.mock('read-pkg-up', () => ({ sync: jest.fn(() => ({ pkg: {} })) }));
 
 describe('getCliOptions', () => {
@@ -37,3 +40,5 @@ describe('getCliOptions', () => {
     expect(getCliOptions()).toMatchObject({ watch: false });
   });
 });
+
+/* eslint-enable global-require -- disables require enables */

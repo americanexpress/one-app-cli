@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validate-required-externals-loader should add versions for server side validation  1`] = `
+exports[`validate-required-externals-loader should add versions for server side validation 1`] = `
 "import SomeComponent from './SomeComponent';
 
 export default SomeComponent;

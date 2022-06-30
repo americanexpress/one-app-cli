@@ -12,6 +12,7 @@
  * under the License.
  */
 
+// eslint-disable-next-line you-dont-need-lodash-underscore/get -- continue to support es5 for now
 const get = require('lodash/get');
 
 module.exports = {

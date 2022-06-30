@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 // eslint-disable-next-line jest/no-large-snapshots
-exports[`createOneAppExternals returns the set of externals used by One App 1`] = `
+exports['createOneAppExternals returns the set of externals used by One App 1'] = `
 Object {
   "@americanexpress/one-app-ducks": Object {
     "commonjs2": "@americanexpress/one-app-ducks",

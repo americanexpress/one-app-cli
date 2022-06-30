@@ -132,7 +132,6 @@ describe('createModulesProxyRelayMiddleware', () => {
   });
 
   test('middleware does not fetch when remote resource that already exists in virtual volume', async () => {
-    // eslint-disable-next-line prefer-promise-reject-errors
     const middleware = createModulesProxyRelayMiddleware({
       localModuleMap,
       remoteModuleMap,
@@ -148,8 +147,7 @@ describe('createModulesProxyRelayMiddleware', () => {
   });
 
   test('middleware fails when fetching remote language pack and stores default value in virtual volume', async () => {
-    // eslint-disable-next-line prefer-promise-reject-errors
-    fetch.mockImplementationOnce(() => Promise.reject('error'));
+    fetch.mockImplementationOnce(() => Promise.reject(new Error('error')));
     const middleware = createModulesProxyRelayMiddleware({
       localModuleMap,
       remoteModuleMap,
@@ -166,6 +164,6 @@ describe('createModulesProxyRelayMiddleware', () => {
       [`${process.cwd()}/static/modules/child-module/en-us/child-module.json`]: 'lang pack',
       [`${process.cwd()}/static/modules/child-module/en-ca/child-module.json`]: '',
     });
-    expect(logError).toHaveBeenCalledWith('error');
+    expect(logError).toHaveBeenCalledWith(new Error('error'));
   });
 });

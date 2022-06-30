@@ -26,7 +26,7 @@ jest.mock('read-pkg-up', () => ({
 readPkgUp.sync.mockImplementation(() => ({ packageJson: { version: '1.0.0' } }));
 
 describe('validate-required-externals-loader', () => {
-  it('should add versions for server side validation ', () => {
+  it('should add versions for server side validation', () => {
     const content = `\
 import SomeComponent from './SomeComponent';
 

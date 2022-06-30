@@ -35,7 +35,7 @@ export function loadScenarios(scenarioPaths = [], mockCache = []) {
   });
   // TODO: safely source scenarios, use VM builtin module
   // TODO: warn when scenarios are overwritten between other module scenarios
-  // eslint-disable-next-line global-require, import/no-dynamic-require
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- requiring files at runtime
   return scenarioPaths.reduce((map, nextPath) => ({ ...map, ...require(nextPath) }), {});
 }
 

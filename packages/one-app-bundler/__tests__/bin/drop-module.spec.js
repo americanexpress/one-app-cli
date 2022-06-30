@@ -12,9 +12,9 @@
  * under the License.
  */
 
-/* eslint-disable global-require */
-// eslint erroneously thinks mock-fs should not be a devDependency
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable global-require --
+testing `on import` functionality needs 'require' in every tests */
+
 let fs = require('fs');
 
 jest.mock('fs');
@@ -149,3 +149,5 @@ describe('drop-module', () => {
     expect(() => require('../../bin/drop-module')).not.toThrowError();
   });
 });
+
+/* eslint-enable global-require -- disables require enables */

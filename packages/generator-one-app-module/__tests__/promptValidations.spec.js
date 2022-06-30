@@ -12,18 +12,17 @@
  * the License.
  */
 
-const assert = require('yeoman-assert');
 const chalk = require('chalk');
 const helper = require('../generators/app/promptValidations');
 
 describe('testing prompt helpers', () => {
   it('should return false with an empty string', () => {
-    assert.equal(helper.validateIfInputIsValidOrNot(''), chalk.red('Can\'t be an empty string.'));
+    expect(helper.validateIfInputIsValidOrNot('')).toEqual(chalk.red('Can\'t be an empty string.'));
   });
   it('should return false when a user just enters empty spaces', () => {
-    assert.equal(helper.validateIfInputIsValidOrNot('    '), chalk.red('Can\'t be an empty string.'));
+    expect(helper.validateIfInputIsValidOrNot('    ')).toEqual(chalk.red('Can\'t be an empty string.'));
   });
   it('should return true when a name is entered', () => {
-    assert.equal(helper.validateIfInputIsValidOrNot('CF Frost'), true);
+    expect(helper.validateIfInputIsValidOrNot('CF Frost')).toEqual(true);
   });
 });

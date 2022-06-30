@@ -20,7 +20,6 @@ Examples of **incorrect** code for this rule:
 MyHolocronModule.appConfig = {
   // ...
 };
-
 ```
 
 Examples of **correct** code for this rule:

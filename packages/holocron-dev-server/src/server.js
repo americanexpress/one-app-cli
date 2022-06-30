@@ -64,8 +64,6 @@ export default async function holocronDevServer({
     logError(
       'Please ensure you are running this in development environment. Check that NODE_ENV="development"'
     );
-    // Since this is a CLI tool and only enabled for production build
-    // eslint-disable-next-line unicorn/no-process-exit
     process.exit(1);
   }
   setLogLevel(logLevel);

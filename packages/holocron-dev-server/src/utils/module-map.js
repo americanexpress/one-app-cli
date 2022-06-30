@@ -45,7 +45,7 @@ export async function loadRemoteModuleMap(remoteModuleMapUrl) {
   };
 }
 
-export function createLocalModuleMap(modules = [], bundleType) {
+export function createLocalModuleMap(modules = [], bundleType = undefined) {
   return {
     modules: modules.reduce((map, { moduleName }) => {
       const baseUrl = getPublicModulesUrl(moduleName);

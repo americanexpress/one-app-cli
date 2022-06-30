@@ -17,11 +17,11 @@ const loaderUtils = require('loader-utils');
 function providedExternalsLoader(content) {
   const options = loaderUtils.getOptions(this);
   const providedExternals = options.providedExternals.map((externalName) => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
+    // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     const { version } = require(`${externalName}/package.json`);
     return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
   });
-  const match = content.match(/export\s+default\s+(?!from)([\w\d]+);$/m);
+  const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
     return `${content};
