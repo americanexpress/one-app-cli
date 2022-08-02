@@ -44,6 +44,9 @@ describe('webpack/one-amex.base', () => {
     const webpackConfig = require('../../webpack/webpack.common');
     expect(webpackConfig).toEqual({
       devtool: false,
+      output: {
+        hashFunction: 'xxhash64',
+      },
       profile: true,
       externals: expect.any(Object),
       module: expect.any(Object),
@@ -61,6 +64,9 @@ describe('webpack/one-amex.base', () => {
     const webpackConfig = require('../../webpack/webpack.common');
     expect(webpackConfig).toEqual({
       devtool: 'source-map',
+      output: {
+        hashFunction: 'xxhash64',
+      },
       profile: true,
       externals: expect.any(Object),
       module: expect.any(Object),
