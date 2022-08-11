@@ -41,6 +41,9 @@ const plugins = [
 module.exports = {
   profile: true,
   devtool: nodeEnvironmentIsProduction ? false : 'source-map',
+  output: {
+    hashFunction: 'xxhash64',
+  },
   optimization: {
     minimize: nodeEnvironmentIsProduction,
     minimizer: [
