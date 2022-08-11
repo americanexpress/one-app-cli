@@ -1,3 +1,19 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [6.13.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/eslint-plugin-one-app@6.12.0...@americanexpress/eslint-plugin-one-app@6.13.0) (2022-08-11)
+
+
+### Features
+
+* **holocron-dev-server:** add holocron dev server ([bf5d231](https://github.com/americanexpress/one-app-cli/commit/bf5d231c2c50c8ca2db4152e13d13eee0c149589))
+
+
+
+
+
 # 6.12.0 (2021-09-13)
 
 
@@ -58,6 +74,3 @@
 ### Features
 
 * **all:** initial oss release ([696609c](https://github.com/americanexpress/one-app-cli/commit/696609c702b128ba0339064173ac328ce8c00766))
-
-
-

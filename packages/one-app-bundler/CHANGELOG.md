@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.15.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.15.0...@americanexpress/one-app-bundler@6.15.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* **bundler:** default hashing method doesnt work in node 18 ([#465](https://github.com/americanexpress/one-app-cli/issues/465)) ([9441a18](https://github.com/americanexpress/one-app-cli/commit/9441a1817719fc7183967cdcee52d7ce0d7a39a0))
+
+
+
+
+
 # [6.15.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.14.2...@americanexpress/one-app-bundler@6.15.0) (2022-04-27)
 
 
