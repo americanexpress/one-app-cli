@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.12.3](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/generator-one-app-module@6.12.2...@americanexpress/generator-one-app-module@6.12.3) (2022-08-12)
+
+
+### Reverts
+
+* Revert "fix(bundler): default hashing method doesnt work in node 18 (#465)" (#468) ([35a3297](https://github.com/americanexpress/one-app-cli/commit/35a3297c88040faff5c4b4a6cf9501c3fb68f798)), closes [#465](https://github.com/americanexpress/one-app-cli/issues/465) [#468](https://github.com/americanexpress/one-app-cli/issues/468)
+
+
+
+
+
 ## [6.12.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/generator-one-app-module@6.12.0...@americanexpress/generator-one-app-module@6.12.2) (2022-08-11)
 
 
