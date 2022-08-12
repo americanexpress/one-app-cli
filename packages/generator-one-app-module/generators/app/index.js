@@ -13,16 +13,11 @@
  */
 
 /* eslint-disable no-underscore-dangle -- yeoman private methods use underscores */
-const path = require('path');
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const _ = require('lodash');
 const helper = require('./promptValidations');
 const packagejs = require('../../package.json');
-
-_.extend(Generator.prototype, require('yeoman-generator/lib/actions/install'));
-
-const getTemplatePath = (templateName) => path.join(__dirname, 'templates', templateName);
 
 const isNegativeAnswer = (answer) => (answer === false)
   || (
@@ -127,7 +122,7 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copyTpl(
-      this.templatePath(getTemplatePath('base-child-module')),
+      this.templatePath('./base-child-module'),
       this.destinationPath(),
       {
         modulePackageName: this.modulePackageName,
@@ -139,7 +134,7 @@ module.exports = class extends Generator {
 
     if (this.moduleType === 'root module') {
       this.fs.copyTpl(
-        this.templatePath(getTemplatePath('root-module')),
+        this.templatePath('./root-module'),
         this.destinationPath(),
         {
           modulePackageName: this.modulePackageName,
@@ -162,7 +157,7 @@ module.exports = class extends Generator {
 
     if (this.setupInternationalization) {
       this.fs.copyTpl(
-        this.templatePath(getTemplatePath('intl-child-module')),
+        this.templatePath('./intl-child-module'),
         this.destinationPath(),
         {
           modulePackageName: this.modulePackageName,
@@ -202,7 +197,7 @@ module.exports = class extends Generator {
       }
       if (this.moduleType === 'root module') {
         this.fs.copyTpl(
-          this.templatePath(getTemplatePath('intl-root-module')),
+          this.templatePath('./intl-root-module'),
           this.destinationPath(),
           {
             modulePackageName: this.modulePackageName,
