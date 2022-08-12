@@ -13,36 +13,31 @@
  */
 
 const path = require('path');
+const rimraf = require('rimraf');
+const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
-const AppGenerator = require('../generators/app');
 
 /* eslint-disable jest/expect-expect -- use yeoman assert in this file */
 
-const createGetTmpFilePath = (tmpDirPath) => (filename) => path.join(tmpDirPath, filename);
-
 describe('generator-one-app-module', () => {
   describe('basic child module creation', () => {
-    let runResult;
-    let getTmpFilePath;
-    beforeAll(async () => {
-      runResult = await helpers
-        .create(AppGenerator)
-        .withPrompts({
-          moduleName: 'my-basic-child-module',
-          moduleType: 'child module',
-          setupInternationalization: 'No',
-          setupParrotMiddleware: 'No',
-        })
-        .inTmpDir((tmpDirPathCb) => { getTmpFilePath = createGetTmpFilePath(path.join(tmpDirPathCb, 'my-basic-child-module')); })
-        .run();
-    });
+    beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .withPrompts({
+        moduleName: 'my-basic-child-module',
+        moduleType: 'child module',
+        setupInternationalization: 'No',
+        setupParrotMiddleware: 'No',
+      })
+      .toPromise()
+    );
 
     afterAll(() => {
-      runResult.cleanup();
+      rimraf.sync(path.join(__dirname, '../../../default-module'));
+      rimraf.sync(path.join(__dirname, '../../../my-basic-child-module'));
     });
 
     it('creates files', () => {
-      runResult.assertFile([
+      assert.file([
         '__tests__/components/MyBasicChildModule.spec.jsx',
         '__tests__/.eslintrc.json',
         '__tests__/index.spec.js',
@@ -53,41 +48,31 @@ describe('generator-one-app-module', () => {
         '.gitignore',
         'package.json',
         'README.md',
-      ].map(getTmpFilePath));
+      ]);
     });
-    it('provides src/components/DefaultModule.jsx as default when no prompt is provided', async () => {
-      let tmpDirPath;
-      const defaultResult = await helpers
-        .create(AppGenerator)
-        .inTmpDir((tmpDirPathCb) => { tmpDirPath = tmpDirPathCb; })
-        .run();
-      defaultResult.assertFile([path.join(tmpDirPath, 'default-module', 'src/components/DefaultModule.jsx')]);
-      defaultResult.cleanup();
-    });
+    it('provides src/components/DefaultModule.jsx as default when no prompt is provided', () => helpers
+      .run(path.join(__dirname, '../generators/app')).then(() => {
+        assert.file(['src/components/DefaultModule.jsx']);
+      }));
   });
 
   describe('basic root module creation', () => {
-    let runResult;
-    let getTmpFilePath;
-    beforeAll(async () => {
-      runResult = await helpers
-        .create(AppGenerator)
-        .withPrompts({
-          moduleName: 'my-basic-root-module',
-          moduleType: 'root module',
-          setupInternationalization: 'No',
-          setupParrotMiddleware: 'No',
-        })
-        .inTmpDir((tmpDirPathCb) => { getTmpFilePath = createGetTmpFilePath(path.join(tmpDirPathCb, 'my-basic-root-module')); })
-        .run();
-    });
+    beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .withPrompts({
+        moduleName: 'my-basic-root-module',
+        moduleType: 'root module',
+        setupInternationalization: 'No',
+        setupParrotMiddleware: 'No',
+      })
+      .toPromise()
+    );
 
     afterAll(() => {
-      runResult.cleanup();
+      rimraf.sync(path.join(__dirname, '../../../my-basic-root-module'));
     });
 
     it('creates files', () => {
-      runResult.assertFile([
+      assert.file([
         '__tests__/components/MyBasicRootModule.spec.jsx',
         '__tests__/appConfig.spec.js',
         '__tests__/index.spec.js',
@@ -102,10 +87,10 @@ describe('generator-one-app-module', () => {
         '.gitignore',
         'package.json',
         'README.md',
-      ].map(getTmpFilePath));
+      ]);
     });
     it('installs csp dependencies', () => {
-      runResult.assertJsonFileContent(getTmpFilePath('package.json'), {
+      assert.jsonFileContent('package.json', {
         dependencies: {
           'content-security-policy-builder': '^2.1.0',
         },
@@ -114,27 +99,22 @@ describe('generator-one-app-module', () => {
   });
 
   describe('intl child module creation', () => {
-    let runResult;
-    let getTmpFilePath;
-    beforeAll(async () => {
-      runResult = await helpers
-        .create(AppGenerator)
-        .withPrompts({
-          moduleName: 'my-intl-child-module',
-          moduleType: 'child module',
-          setupInternationalization: 'Yes',
-          setupParrotMiddleware: 'No',
-        })
-        .inTmpDir((tmpDirPathCb) => { getTmpFilePath = createGetTmpFilePath(path.join(tmpDirPathCb, 'my-intl-child-module')); })
-        .run();
-    });
+    beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .withPrompts({
+        moduleName: 'my-intl-child-module',
+        moduleType: 'child module',
+        setupInternationalization: 'Yes',
+        setupParrotMiddleware: 'No',
+      })
+      .toPromise()
+    );
 
     afterAll(() => {
-      runResult.cleanup();
+      rimraf.sync(path.join(__dirname, '../../../my-intl-child-module'));
     });
 
     it('creates files', () => {
-      runResult.assertFile([
+      assert.file([
         '__tests__/components/MyIntlChildModule.spec.jsx',
         '__tests__/.eslintrc.json',
         '__tests__/index.spec.js',
@@ -150,10 +130,10 @@ describe('generator-one-app-module', () => {
         '.gitignore',
         'package.json',
         'README.md',
-      ].map(getTmpFilePath));
+      ]);
     });
     it('installs intl dependencies and test scripts', () => {
-      runResult.assertJsonFileContent(getTmpFilePath('package.json'), {
+      assert.jsonFileContent('package.json', {
         dependencies: {
           '@americanexpress/one-app-ducks': '^4.3.1',
           immutable: '^4.0.0-rc.12',
@@ -172,7 +152,7 @@ describe('generator-one-app-module', () => {
       });
     });
     it('adds react-intl as an external', () => {
-      runResult.assertJsonFileContent(getTmpFilePath('package.json'), {
+      assert.jsonFileContent('package.json', {
         'one-amex': {
           bundler: {
             requiredExternals: ['react-intl'],
@@ -183,27 +163,22 @@ describe('generator-one-app-module', () => {
   });
 
   describe('intl root module creation', () => {
-    let runResult;
-    let getTmpFilePath;
-    beforeAll(async () => {
-      runResult = await helpers
-        .create(AppGenerator)
-        .withPrompts({
-          moduleName: 'my-intl-root-module',
-          moduleType: 'root module',
-          setupInternationalization: 'Yes',
-          setupParrotMiddleware: 'No',
-        })
-        .inTmpDir((tmpDirPathCb) => { getTmpFilePath = createGetTmpFilePath(path.join(tmpDirPathCb, 'my-intl-root-module')); })
-        .run();
-    });
+    beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .withPrompts({
+        moduleName: 'my-intl-root-module',
+        moduleType: 'root module',
+        setupInternationalization: 'Yes',
+        setupParrotMiddleware: 'No',
+      })
+      .toPromise()
+    );
 
     afterAll(() => {
-      runResult.cleanup();
+      rimraf.sync(path.join(__dirname, '../../../my-intl-root-module'));
     });
 
     it('creates files', () => {
-      runResult.assertFile([
+      assert.file([
         '__tests__/components/MyIntlRootModule.spec.jsx',
         '__tests__/appConfig.spec.js',
         '__tests__/.eslintrc.json',
@@ -223,10 +198,10 @@ describe('generator-one-app-module', () => {
         '.gitignore',
         'package.json',
         'README.md',
-      ].map(getTmpFilePath));
+      ]);
     });
     it('installs intl dependencies and test scripts', () => {
-      runResult.assertJsonFileContent(getTmpFilePath('package.json'), {
+      assert.jsonFileContent('package.json', {
         dependencies: {
           '@americanexpress/one-app-ducks': '^4.3.1',
           immutable: '^4.0.0-rc.12',
@@ -245,7 +220,7 @@ describe('generator-one-app-module', () => {
       });
     });
     it('provides react-intl as an external for child modules', () => {
-      runResult.assertJsonFileContent(getTmpFilePath('package.json'), {
+      assert.jsonFileContent('package.json', {
         'one-amex': {
           bundler: {
             providedExternals: ['react-intl'],
@@ -256,27 +231,22 @@ describe('generator-one-app-module', () => {
   });
 
   describe('intl child with parrot module creation', () => {
-    let runResult;
-    let getTmpFilePath;
-    beforeAll(async () => {
-      runResult = await helpers
-        .create(AppGenerator)
-        .withPrompts({
-          moduleName: 'my-intl-child-parrot-module',
-          moduleType: 'child module',
-          setupInternationalization: 'Yes',
-          setupParrotMiddleware: 'Yes',
-        })
-        .inTmpDir((tmpDirPathCb) => { getTmpFilePath = createGetTmpFilePath(path.join(tmpDirPathCb, 'my-intl-child-parrot-module')); })
-        .run();
-    });
+    beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .withPrompts({
+        moduleName: 'my-intl-child-parrot-module',
+        moduleType: 'child module',
+        setupInternationalization: 'Yes',
+        setupParrotMiddleware: 'Yes',
+      })
+      .toPromise()
+    );
 
     afterAll(() => {
-      runResult.cleanup();
+      rimraf.sync(path.join(__dirname, '../../../my-intl-child-parrot-module'));
     });
 
     it('creates files', () => {
-      runResult.assertFile([
+      assert.file([
         '__tests__/components/MyIntlChildParrotModule.spec.jsx',
         '__tests__/.eslintrc.json',
         '__tests__/index.spec.js',
@@ -294,10 +264,10 @@ describe('generator-one-app-module', () => {
         '.gitignore',
         'package.json',
         'README.md',
-      ].map(getTmpFilePath));
+      ]);
     });
     it('adds parrot-middleware dependency and runner script', () => {
-      runResult.assertJsonFileContent(getTmpFilePath('package.json'), {
+      assert.jsonFileContent('package.json', {
         'one-amex': {
           runner: {
             parrotMiddleware: './dev.middleware.js',
@@ -311,29 +281,24 @@ describe('generator-one-app-module', () => {
   });
 
   describe('child with setupInternationalizationByDefault option module creation', () => {
-    let runResult;
-    let getTmpFilePath;
-    beforeAll(async () => {
-      runResult = await helpers
-        .create(AppGenerator)
-        .withOptions({
-          setupInternationalizationByDefault: 'my-intl-by-default-child',
-        })
-        .withPrompts({
-          moduleName: 'my-intl-by-default-child',
-          moduleType: 'child module',
-          setupParrotMiddleware: 'Yes',
-        })
-        .inTmpDir((tmpDirPathCb) => { getTmpFilePath = createGetTmpFilePath(path.join(tmpDirPathCb, 'my-intl-by-default-child')); })
-        .run();
-    });
+    beforeAll(() => helpers.run(path.join(__dirname, '../generators/app'))
+      .withOptions({
+        setupInternationalizationByDefault: 'my-intl-by-default-child',
+      })
+      .withPrompts({
+        moduleName: 'my-intl-by-default-child',
+        moduleType: 'child module',
+        setupParrotMiddleware: 'Yes',
+      })
+      .toPromise()
+    );
 
     afterAll(() => {
-      runResult.cleanup();
+      rimraf.sync(path.join(__dirname, '../../../my-intl-by-default-child'));
     });
 
     it('creates files', () => {
-      runResult.assertFile([
+      assert.file([
         '__tests__/components/MyIntlByDefaultChild.spec.jsx',
         '__tests__/.eslintrc.json',
         '__tests__/index.spec.js',
@@ -351,10 +316,10 @@ describe('generator-one-app-module', () => {
         '.gitignore',
         'package.json',
         'README.md',
-      ].map(getTmpFilePath));
+      ]);
     });
     it('adds parrot-middleware dependency and runner script', () => {
-      runResult.assertJsonFileContent(getTmpFilePath('package.json'), {
+      assert.jsonFileContent('package.json', {
         'one-amex': {
           runner: {
             parrotMiddleware: './dev.middleware.js',

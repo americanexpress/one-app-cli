@@ -24,7 +24,7 @@ jobs:
       - name: Node Install
         uses: actions/setup-node@v1
         with:
-          node-version: '18'
+          node-version: '16'
       - name: Installing Packages
         env:
           NODE_ENV: development
