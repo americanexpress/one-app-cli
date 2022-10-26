@@ -38,6 +38,12 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 
 4. You can now run the scripts within the different [packages](./packages).
 
+### Unit tests
+
+There are 2 jest setups in this repo, one for CJS, one for ESM. If you are adding a new package you must go to one of `jest.cjs.config.js` or `jest.esm.config.js` and add your package to the `roots` field.
+
+`yarn run test` will first run the CJS tests. If they fail it will stop, allowing you to see the report. If the CJS tests pass it will then run the ESM tests.
+
 ### Creating a `one-app-cli` new release
 
 1. Create, checkout and push a new release branch
