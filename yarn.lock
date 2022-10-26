@@ -3268,10 +3268,10 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amex-jest-preset@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/amex-jest-preset/-/amex-jest-preset-6.1.0.tgz#b690393104818dc906104194a27527df373390f2"
-  integrity sha512-uRsBVygZHZrg6xDtqrr3M43B0HsOAn2CYl8tBOWt2RJibm8N3WYLiOohFt1rjSZZyOvUTITZXcFpbpfXUpiA6g==
+amex-jest-preset@^6.1.1:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/amex-jest-preset/-/amex-jest-preset-6.1.2.tgz#6ccd46361530f9f81f97c81a8c2070016c040e3f"
+  integrity sha512-1uCgmuTQCW3xqesymyrJVm/hYsSVghXqdlRRGk3yOugG7plHdEpkO8M6kqKHh9Zkp517DF0pxFb/oyKDZgNbmA==
   dependencies:
     is-ci "^1.0.10"
     mkdirp "^0.5.1"

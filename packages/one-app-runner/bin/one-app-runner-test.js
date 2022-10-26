@@ -16,6 +16,23 @@
 
 require('dotenv').config();
 const { spawn } = require('child_process');
+const { waitForOK } = require('../utils/waitForOK');
 
 const command = `one-app-runner --output-file=one-app-test.log --create-docker-network --docker-network-to-join=${process.env.NETWORK_NAME} --use-host`;
-spawn(command, { shell: true, stdio: 'ignore', detached: true }).unref();
+
+const run = async () => {
+  spawn(command, { shell: true, stdio: 'ignore', detached: true }).unref();
+  const port = process.env.HTTP_PORT;
+  const timeout = 200000;
+
+  console.log(`Waiting for one app to start on port ${port}`);
+
+  const val = await waitForOK({
+    url: `http://localhost:${port}/_/status`,
+    timeout,
+  });
+
+  console.log(`${val ? 'One app server started successfully' : `One app crashed in ${timeout}ms`}`);
+};
+
+run();
