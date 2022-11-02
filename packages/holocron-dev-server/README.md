@@ -189,7 +189,7 @@ subject to change. The options supported are:
 
 There may be instances where fast refresh may stop working
 for various reasons, check out the
-[troubleshooting guide from `@pmmmwh/react-refresh-webpack-plugin react-refresh`](react-refresh-troubleshooting)
+[troubleshooting guide from `@pmmmwh/react-refresh-webpack-plugin react-refresh`][react-refresh-troubleshooting]
 for debugging tips.
 
 If any issues persist, try removing the `static` directory generated

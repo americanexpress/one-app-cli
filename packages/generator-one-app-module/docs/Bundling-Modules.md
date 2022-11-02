@@ -116,7 +116,7 @@ npm run watch:build
 
 ## Bundling Locales
 
- > Looking for internationalization please refer to this resources [Internationalization](../api/modules/Internationalization.md)
+ > Looking for internationalization please refer to this resources [Internationalization](https://github.com/americanexpress/one-app/blob/main/docs/api/modules/Internationalization.md)
 
 Use [one-app-locale-bundler](https://github.com/americanexpress/one-app-cli/tree/main/packages/one-app-locale-bundler#readme) to generate locale files for modules.
 
