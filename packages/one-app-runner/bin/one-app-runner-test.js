@@ -27,12 +27,12 @@ const run = async () => {
 
   console.log(`Waiting for one app to start on port ${port}`);
 
-  const val = await waitForOK({
+  const resolvedStatus = await waitForOK({
     url: `http://localhost:${port}/_/status`,
     timeout,
   });
 
-  console.log(`${val ? 'One app server started successfully' : `One app crashed in ${timeout}ms`}`);
+  console.log(`${resolvedStatus ? 'One app server started successfully' : `One app crashed in ${timeout}ms`}`);
 };
 
 run();
