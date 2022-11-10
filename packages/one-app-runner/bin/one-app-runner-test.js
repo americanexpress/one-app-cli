@@ -32,7 +32,12 @@ const run = async () => {
     timeout,
   });
 
-  console.log(`${resolvedStatus ? 'One app server started successfully' : `One app crashed in ${timeout}ms`}`);
+  if (resolvedStatus) {
+    console.log(`One app server started successfully on port ${port}`);
+  } else {
+    console.error(`One app crashed in ${timeout}ms`);
+    process.exit(1);
+  }
 };
 
 run();
