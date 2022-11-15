@@ -20,7 +20,8 @@
   },
   "files": [
     "src",
-    "bin"
+    "bin",
+    "utils/"
   ],
   "repository": {
     "url": "https://github.com/americanexpress/one-app-cli.git",
