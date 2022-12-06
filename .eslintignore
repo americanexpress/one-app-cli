@@ -4,3 +4,8 @@ build
 test-results
 public
 **/templates
+jest.cjs.setup.js
+jest.esm.setup.js
+
+# This directory contains input and output test fixtures, which contain generated code. It is not expected it to be well formatted.
+**/one-app-index-loader/*
