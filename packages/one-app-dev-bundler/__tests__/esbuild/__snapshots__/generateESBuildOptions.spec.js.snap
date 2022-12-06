@@ -1,0 +1,280 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The generateESBuildOptions function should return the correct values for all build targets when not watching 1`] = `
+Object {
+  "bundle": true,
+  "define": Object {
+    "global": "globalThis",
+    "global.BROWSER": "true",
+  },
+  "entryPoints": Array [
+    "./src/index.js",
+  ],
+  "metafile": true,
+  "minify": false,
+  "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.browser.js",
+  "plugins": Array [
+    "esbuild_plugin_for(remove-webpack-loader-syntax)",
+    "esbuild_plugin_for(prevent-prod-builds-for-now)",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
+    "esbuild_plugin_for(image-loader)",
+    "esbuild_plugin_for(font-loader)",
+    "esbuild_plugin_for(node-globals-polyfill)([{\\"buffer\\":true}])",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
+    "esbuild_plugin_for(externals-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(one-app-index-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(esbuild-plugin-global-externals)([{\\"@americanexpress/one-app-router\\":{\\"varName\\":\\"OneAppRouter\\",\\"type\\":\\"cjs\\"},\\"create-shared-react-context\\":{\\"varName\\":\\"CreateSharedReactContext\\",\\"type\\":\\"cjs\\"},\\"holocron\\":{\\"varName\\":\\"Holocron\\",\\"type\\":\\"cjs\\"},\\"react\\":{\\"varName\\":\\"React\\",\\"type\\":\\"cjs\\"},\\"react-dom\\":{\\"varName\\":\\"ReactDOM\\",\\"type\\":\\"cjs\\"},\\"redux\\":{\\"varName\\":\\"Redux\\",\\"type\\":\\"cjs\\"},\\"react-redux\\":{\\"varName\\":\\"ReactRedux\\",\\"type\\":\\"cjs\\"},\\"reselect\\":{\\"varName\\":\\"Reselect\\",\\"type\\":\\"cjs\\"},\\"immutable\\":{\\"varName\\":\\"Immutable\\",\\"type\\":\\"cjs\\"},\\"@americanexpress/one-app-ducks\\":{\\"varName\\":\\"OneAppDucks\\",\\"type\\":\\"cjs\\"},\\"holocron-module-route\\":{\\"varName\\":\\"HolocronModuleRoute\\",\\"type\\":\\"cjs\\"},\\"prop-types\\":{\\"varName\\":\\"PropTypes\\",\\"type\\":\\"cjs\\"},\\"react-helmet\\":{\\"varName\\":\\"ReactHelmet\\",\\"type\\":\\"cjs\\"}}])",
+    "esbuild_plugin_for(styles-loader)([{},{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(legacy-bundler)([\\"packageNameMock\\"])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"browser\\"}])",
+    "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(server-styles-dispatcher)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"browser\\",\\"watch\\":false}])",
+  ],
+  "sourcemap": true,
+  "target": Array [
+    "chrome58",
+    "firefox57",
+    "safari11",
+  ],
+  "treeShaking": true,
+}
+`;
+
+exports[`The generateESBuildOptions function should return the correct values for all build targets when not watching 2`] = `
+Object {
+  "bundle": true,
+  "define": Object {
+    "global.BROWSER": "false",
+  },
+  "entryPoints": Array [
+    "./src/index.js",
+  ],
+  "external": Array [
+    "@americanexpress/one-app-router",
+    "create-shared-react-context",
+    "holocron",
+    "react",
+    "react-dom",
+    "redux",
+    "react-redux",
+    "reselect",
+    "immutable",
+    "@americanexpress/one-app-ducks",
+    "holocron-module-route",
+    "prop-types",
+    "react-helmet",
+  ],
+  "metafile": true,
+  "minify": false,
+  "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.node.js",
+  "platform": "node",
+  "plugins": Array [
+    "esbuild_plugin_for(remove-webpack-loader-syntax)",
+    "esbuild_plugin_for(prevent-prod-builds-for-now)",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
+    "esbuild_plugin_for(image-loader)",
+    "esbuild_plugin_for(font-loader)",
+    "esbuild_plugin_for(externals-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(one-app-index-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(cjs-compatibility-hotpatch)",
+    "esbuild_plugin_for(styles-loader)([{},{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"node\\"}])",
+    "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(server-styles-dispatcher)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"node\\",\\"watch\\":false}])",
+  ],
+  "target": Array [
+    "node12",
+  ],
+  "treeShaking": true,
+}
+`;
+
+exports[`The generateESBuildOptions function should return the correct values for all build targets when on prod mode 1`] = `
+Object {
+  "bundle": true,
+  "define": Object {
+    "global": "globalThis",
+    "global.BROWSER": "true",
+  },
+  "entryPoints": Array [
+    "./src/index.js",
+  ],
+  "metafile": true,
+  "minify": true,
+  "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.browser.js",
+  "plugins": Array [
+    "esbuild_plugin_for(remove-webpack-loader-syntax)",
+    "esbuild_plugin_for(prevent-prod-builds-for-now)",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\"}])",
+    "esbuild_plugin_for(image-loader)",
+    "esbuild_plugin_for(font-loader)",
+    "esbuild_plugin_for(node-globals-polyfill)([{\\"buffer\\":true}])",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\"}])",
+    "esbuild_plugin_for(externals-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(one-app-index-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(esbuild-plugin-global-externals)([{\\"@americanexpress/one-app-router\\":{\\"varName\\":\\"OneAppRouter\\",\\"type\\":\\"cjs\\"},\\"create-shared-react-context\\":{\\"varName\\":\\"CreateSharedReactContext\\",\\"type\\":\\"cjs\\"},\\"holocron\\":{\\"varName\\":\\"Holocron\\",\\"type\\":\\"cjs\\"},\\"react\\":{\\"varName\\":\\"React\\",\\"type\\":\\"cjs\\"},\\"react-dom\\":{\\"varName\\":\\"ReactDOM\\",\\"type\\":\\"cjs\\"},\\"redux\\":{\\"varName\\":\\"Redux\\",\\"type\\":\\"cjs\\"},\\"react-redux\\":{\\"varName\\":\\"ReactRedux\\",\\"type\\":\\"cjs\\"},\\"reselect\\":{\\"varName\\":\\"Reselect\\",\\"type\\":\\"cjs\\"},\\"immutable\\":{\\"varName\\":\\"Immutable\\",\\"type\\":\\"cjs\\"},\\"@americanexpress/one-app-ducks\\":{\\"varName\\":\\"OneAppDucks\\",\\"type\\":\\"cjs\\"},\\"holocron-module-route\\":{\\"varName\\":\\"HolocronModuleRoute\\",\\"type\\":\\"cjs\\"},\\"prop-types\\":{\\"varName\\":\\"PropTypes\\",\\"type\\":\\"cjs\\"},\\"react-helmet\\":{\\"varName\\":\\"ReactHelmet\\",\\"type\\":\\"cjs\\"}}])",
+    "esbuild_plugin_for(styles-loader)([{},{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(legacy-bundler)([\\"packageNameMock\\"])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"browser\\"}])",
+    "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(server-styles-dispatcher)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"browser\\",\\"watch\\":false}])",
+  ],
+  "sourcemap": false,
+  "target": Array [
+    "chrome58",
+    "firefox57",
+    "safari11",
+  ],
+  "treeShaking": true,
+}
+`;
+
+exports[`The generateESBuildOptions function should return the correct values for all build targets when on prod mode 2`] = `
+Object {
+  "bundle": true,
+  "define": Object {
+    "global.BROWSER": "false",
+  },
+  "entryPoints": Array [
+    "./src/index.js",
+  ],
+  "external": Array [
+    "@americanexpress/one-app-router",
+    "create-shared-react-context",
+    "holocron",
+    "react",
+    "react-dom",
+    "redux",
+    "react-redux",
+    "reselect",
+    "immutable",
+    "@americanexpress/one-app-ducks",
+    "holocron-module-route",
+    "prop-types",
+    "react-helmet",
+  ],
+  "metafile": true,
+  "minify": true,
+  "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.node.js",
+  "platform": "node",
+  "plugins": Array [
+    "esbuild_plugin_for(remove-webpack-loader-syntax)",
+    "esbuild_plugin_for(prevent-prod-builds-for-now)",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\"}])",
+    "esbuild_plugin_for(image-loader)",
+    "esbuild_plugin_for(font-loader)",
+    "esbuild_plugin_for(externals-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(one-app-index-loader)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(cjs-compatibility-hotpatch)",
+    "esbuild_plugin_for(styles-loader)([{},{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"node\\"}])",
+    "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(server-styles-dispatcher)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"node\\",\\"watch\\":false}])",
+  ],
+  "target": Array [
+    "node12",
+  ],
+  "treeShaking": true,
+}
+`;
+
+exports[`The generateESBuildOptions function should return the correct values for all build targets when watching 1`] = `
+Object {
+  "bundle": true,
+  "define": Object {
+    "global": "globalThis",
+    "global.BROWSER": "true",
+  },
+  "entryPoints": Array [
+    "./src/index.js",
+  ],
+  "metafile": true,
+  "minify": false,
+  "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.browser.js",
+  "plugins": Array [
+    "esbuild_plugin_for(remove-webpack-loader-syntax)",
+    "esbuild_plugin_for(prevent-prod-builds-for-now)",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
+    "esbuild_plugin_for(image-loader)",
+    "esbuild_plugin_for(font-loader)",
+    "esbuild_plugin_for(node-globals-polyfill)([{\\"buffer\\":true}])",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
+    "esbuild_plugin_for(externals-loader)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(one-app-index-loader)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(esbuild-plugin-global-externals)([{\\"@americanexpress/one-app-router\\":{\\"varName\\":\\"OneAppRouter\\",\\"type\\":\\"cjs\\"},\\"create-shared-react-context\\":{\\"varName\\":\\"CreateSharedReactContext\\",\\"type\\":\\"cjs\\"},\\"holocron\\":{\\"varName\\":\\"Holocron\\",\\"type\\":\\"cjs\\"},\\"react\\":{\\"varName\\":\\"React\\",\\"type\\":\\"cjs\\"},\\"react-dom\\":{\\"varName\\":\\"ReactDOM\\",\\"type\\":\\"cjs\\"},\\"redux\\":{\\"varName\\":\\"Redux\\",\\"type\\":\\"cjs\\"},\\"react-redux\\":{\\"varName\\":\\"ReactRedux\\",\\"type\\":\\"cjs\\"},\\"reselect\\":{\\"varName\\":\\"Reselect\\",\\"type\\":\\"cjs\\"},\\"immutable\\":{\\"varName\\":\\"Immutable\\",\\"type\\":\\"cjs\\"},\\"@americanexpress/one-app-ducks\\":{\\"varName\\":\\"OneAppDucks\\",\\"type\\":\\"cjs\\"},\\"holocron-module-route\\":{\\"varName\\":\\"HolocronModuleRoute\\",\\"type\\":\\"cjs\\"},\\"prop-types\\":{\\"varName\\":\\"PropTypes\\",\\"type\\":\\"cjs\\"},\\"react-helmet\\":{\\"varName\\":\\"ReactHelmet\\",\\"type\\":\\"cjs\\"}}])",
+    "esbuild_plugin_for(styles-loader)([{},{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(legacy-bundler)([\\"packageNameMock\\"])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"browser\\"}])",
+    "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(server-styles-dispatcher)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"browser\\",\\"watch\\":true}])",
+  ],
+  "sourcemap": true,
+  "target": Array [
+    "chrome58",
+    "firefox57",
+    "safari11",
+  ],
+  "treeShaking": true,
+  "watch": Object {
+    "onRebuild": [Function],
+  },
+}
+`;
+
+exports[`The generateESBuildOptions function should return the correct values for all build targets when watching 2`] = `
+Object {
+  "bundle": true,
+  "define": Object {
+    "global.BROWSER": "false",
+  },
+  "entryPoints": Array [
+    "./src/index.js",
+  ],
+  "external": Array [
+    "@americanexpress/one-app-router",
+    "create-shared-react-context",
+    "holocron",
+    "react",
+    "react-dom",
+    "redux",
+    "react-redux",
+    "reselect",
+    "immutable",
+    "@americanexpress/one-app-ducks",
+    "holocron-module-route",
+    "prop-types",
+    "react-helmet",
+  ],
+  "metafile": true,
+  "minify": false,
+  "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.node.js",
+  "platform": "node",
+  "plugins": Array [
+    "esbuild_plugin_for(remove-webpack-loader-syntax)",
+    "esbuild_plugin_for(prevent-prod-builds-for-now)",
+    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
+    "esbuild_plugin_for(image-loader)",
+    "esbuild_plugin_for(font-loader)",
+    "esbuild_plugin_for(externals-loader)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(one-app-index-loader)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(cjs-compatibility-hotpatch)",
+    "esbuild_plugin_for(styles-loader)([{},{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"node\\"}])",
+    "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(server-styles-dispatcher)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(SERVER)\\"}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"node\\",\\"watch\\":true}])",
+  ],
+  "target": Array [
+    "node12",
+  ],
+  "treeShaking": true,
+  "watch": Object {
+    "onRebuild": [Function],
+  },
+}
+`;
