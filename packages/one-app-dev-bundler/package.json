@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-dev-bundler",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A development bundler focussed on speed and modern features.",
   "main": "index.js",
   "bin": {
@@ -75,5 +75,8 @@
         0
       ]
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
