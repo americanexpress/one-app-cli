@@ -15,6 +15,7 @@
 /* eslint-disable global-require --
 we need to require generated files to validate their content */
 
+const crypto = require('crypto');
 const { validateWebpackConfig } = require('../../../test-utils');
 const configGenerator = require('../../../webpack/app/webpack.client');
 const getConfigOptions = require('../../../utils/getConfigOptions');
@@ -46,6 +47,21 @@ describe('webpack/app', () => {
 
   afterAll(() => {
     process.env.NODE_ENV = originalNodeEnv;
+  });
+
+  it('should replace md4 with sha256 as default hash algo', () => {
+    const mockHash = jest.fn();
+    crypto.createHash = mockHash;
+    require('../../../webpack/app/webpack.client');
+    crypto.createHash('md4');
+    expect(mockHash).toHaveBeenCalledWith('sha256');
+  });
+  it('should keep hash if different than md4', () => {
+    const mockHash = jest.fn();
+    crypto.createHash = mockHash;
+    require('../../../webpack/app/webpack.client');
+    crypto.createHash('sha512');
+    expect(mockHash).toHaveBeenCalledWith('sha512');
   });
 
   it('should export valid webpack config', () => {
