@@ -35,6 +35,7 @@ describe('webpack/app', () => {
   let originalNodeEnv;
 
   jest.spyOn(process, 'cwd').mockImplementation(() => '/');
+  const originalCreateHash = crypto.createHash;
 
   beforeAll(() => {
     originalNodeEnv = process.env.NODE_ENV;
@@ -47,6 +48,7 @@ describe('webpack/app', () => {
 
   afterAll(() => {
     process.env.NODE_ENV = originalNodeEnv;
+    crypto.createHash = originalCreateHash;
   });
 
   it('should replace md4 with sha256 as default hash algo', () => {
