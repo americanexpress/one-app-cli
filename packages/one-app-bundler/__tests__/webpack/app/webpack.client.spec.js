@@ -46,6 +46,8 @@ describe('webpack/app', () => {
     jest.resetModules();
   });
 
+  afterEach(() => createHashSpy.mockClear());
+
   afterAll(() => {
     process.env.NODE_ENV = originalNodeEnv;
   });
