@@ -35,7 +35,7 @@ describe('webpack/app', () => {
   let originalNodeEnv;
 
   jest.spyOn(process, 'cwd').mockImplementation(() => '/');
-  const originalCreateHash = crypto.createHash;
+  const createHashSpy = jest.spyOn(crypto, 'createHash');
 
   beforeAll(() => {
     originalNodeEnv = process.env.NODE_ENV;
@@ -48,22 +48,17 @@ describe('webpack/app', () => {
 
   afterAll(() => {
     process.env.NODE_ENV = originalNodeEnv;
-    crypto.createHash = originalCreateHash;
   });
 
   it('should replace md4 with sha256 as default hash algo', () => {
-    const mockHash = jest.fn();
-    crypto.createHash = mockHash;
     require('../../../webpack/app/webpack.client');
     crypto.createHash('md4');
-    expect(mockHash).toHaveBeenCalledWith('sha256');
+    expect(createHashSpy).toHaveBeenCalledWith('sha256');
   });
   it('should keep hash if different than md4', () => {
-    const mockHash = jest.fn();
-    crypto.createHash = mockHash;
     require('../../../webpack/app/webpack.client');
     crypto.createHash('sha512');
-    expect(mockHash).toHaveBeenCalledWith('sha512');
+    expect(createHashSpy).toHaveBeenCalledWith('sha512');
   });
 
   it('should export valid webpack config', () => {
