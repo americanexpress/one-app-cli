@@ -40,6 +40,73 @@ within `package.json`:
 }
 ```
 
+#### Watch Mode
+
+The bundler supports automatically re-building on file changes via the `--watch` flag. You can include an addition script for this:
+
+```json
+{
+  "scripts": {
+    "watch:build": "bundle-module --watch"
+  }
+}
+```
+
+Or pass the flag when running the build script:
+
+```bash
+npm run build -- --watch
+```
+
+#### Development Bundler
+
+When working on One App modules locally, you can use the Development Bundler.
+
+This bundler aims to provide <500ms build times, and Live Holocron Module Reload.
+
+To enable the development bundler, pass the `--dev` flag, either in your scripts:
+
+```json
+{
+  "scripts": {
+    "build": "bundle-module --dev",
+    "prepare": "npm run build",
+    "watch:build": "bundle-module --watch --dev"
+  }
+}
+```
+
+or on the command line:
+
+```bash
+npm run build -- --dev
+```
+
+The development bundler will only run if `NODE_ENV !== 'production'`. This means you can include the flag for all builds, and for `production` builds the Webpack bundler will be used.
+
+#### Live Holocron Module Reload
+
+When in watch mode, the Development Bundler can automatically re-load changed modules in your browser.
+
+This allows you to see changes made to modules near instantly, with no full page re-load required.
+
+This can be enabled with the `--live` flag. The `--live` flag also implies the `--watch` flag so there is no need to pass both:
+
+```json
+{
+  "scripts": {
+    "build": "bundle-module --dev",
+    "prepare": "npm run build",
+    "watch:build": "bundle-module --watch --dev",
+    "live:build": "bundle-module --live --dev"
+  }
+}
+```
+
+```bash
+npm run build -- --dev --live
+```
+
 #### `providedExternals` & `requiredExternals`
 
 In order to avoid duplicate code in your One App instance, you may want to
