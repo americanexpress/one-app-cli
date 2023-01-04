@@ -15,6 +15,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
+const crypto = require('crypto');
 const TerserPlugin = require('terser-webpack-plugin');
 const coreJsCompat = require('core-js-compat');
 const coreJsEntries = require('core-js-compat/entries');
@@ -54,6 +55,11 @@ const getCoreJsModulePaths = (targets) => {
     .filter((entry) => coreJsEntries[entry]
       .filter((moduleName) => moduleNames.includes(moduleName)).length);
 };
+
+// Monkey Patch for unsupported hash algo. Needed to support Node >=17.
+// https://github.com/webpack/webpack/issues/13572#issuecomment-923736472
+const originalCreateHash = crypto.createHash;
+crypto.createHash = (algo) => originalCreateHash(algo === 'md4' ? 'sha256' : algo);
 
 module.exports = (babelEnv) => merge(
   common,
