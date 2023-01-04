@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 /*
- * Copyright 2019 American Express Travel Related Services Company, Inc.
+ * Copyright 2022 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,23 +13,22 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
-const localeBundler = require('@americanexpress/one-app-locale-bundler');
-
-const getConfigOptions = require('../utils/getConfigOptions');
-const clientConfig = require('../webpack/module/webpack.client');
-const serverConfig = require('../webpack/module/webpack.server');
-const getWebpackCallback = require('./webpackCallback');
-const { watch } = require('../utils/getCliOptions')();
-
-const modernClientConfig = clientConfig('modern');
-const legacyClientConfig = clientConfig('legacy');
-
-fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
-localeBundler(watch);
-webpack(serverConfig, getWebpackCallback('node', true));
-webpack(modernClientConfig, getWebpackCallback('browser', true));
-
-if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+if (process.env.NODE_ENV !== 'production' && process.argv.includes('--dev')) {
+  console.info('Running dev bundler');
+  import('@americanexpress/one-app-dev-bundler').then(({ default: esbuildBundleModule }) => {
+    if (esbuildBundleModule) {
+      esbuildBundleModule().catch((error) => {
+        console.error(`Build failed with error ${error.message}`);
+        console.error(error);
+        throw error;
+      });
+    }
+  });
+} else {
+  if (process.argv.includes('--dev')) {
+    console.info('Ignoring `--dev` flag for NODE_ENV=production');
+  }
+  console.info('Running production bundler');
+  // eslint-disable-next-line global-require -- Only require the on bundler being run
+  require('./webpack-bundle-module');
+}

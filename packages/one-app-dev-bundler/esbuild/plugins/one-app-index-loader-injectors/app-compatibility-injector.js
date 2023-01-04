@@ -34,5 +34,5 @@ export default class AppCompatibilityInjector {
     appCompatibility: "${this.appCompatibility}",
   });
 `;
-  }
+  };
 }
