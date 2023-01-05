@@ -30,5 +30,5 @@ export default class HolocronModuleRegisterInjector {
     return `${content};
 Holocron.registerModule("${this.moduleName}", ${rootComponentName});
 `;
-  }
+  };
 }

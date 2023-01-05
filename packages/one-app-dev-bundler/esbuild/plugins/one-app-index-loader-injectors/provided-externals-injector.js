@@ -60,5 +60,5 @@ ${this.globalReferenceString}.getTenantRootModule = () => ${rootComponentName};
 ${this.globalReferenceString}.rootModuleName = '${this.moduleName}';
 }
 `;
-  }
+  };
 }

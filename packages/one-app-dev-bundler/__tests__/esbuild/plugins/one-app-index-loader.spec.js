@@ -219,7 +219,8 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
 
       // it doesn't matter which injector is mocked here.
       jest.doMock('../../../esbuild/plugins/one-app-index-loader-injectors/module-metadata-injector', () => class BadInjector {
-          inject = async () => 'not a default export!'
+        // eslint-disable-next-line class-methods-use-this -- it doesnt' matter if 'this' is used for this mock
+        inject = async () => 'not a default export!';
       });
 
       const plugin = oneAppIndexLoader({ bundleType: BUNDLE_TYPES.BROWSER, watch: true });

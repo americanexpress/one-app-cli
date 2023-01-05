@@ -35,5 +35,5 @@ ${rootComponentName}.${META_DATA_KEY} = {
   version: '${this.version}',
 };
 `;
-  }
+  };
 }

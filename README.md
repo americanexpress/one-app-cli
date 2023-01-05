@@ -21,14 +21,15 @@ Want to get paid for your contributions to `one-app-cli`?
 
 This codebase has the following packages:
 
-| Name                                                                                                      | Description                                                     |
-| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| **[eslint-plugin-one-app](./packages/eslint-plugin-one-app)** |[eslint](https://eslint.org/) plugin that exports rules related to One App usage
-| **[generator-one-app-module](./packages/generator-one-app-module)** | [Yeoman](https://yeoman.io/) generator for a [One App](https://github.com/americanexpress/one-app#modules) `holocron` Module      |
-| **[holocron-dev-server](./packages/holocron-dev-server/README.md)** | development server for Holocron modules |
-| **[one-app-bundler](./packages/one-app-bundler)**             | CLI to bundle one-app modules |
-| **[one-app-locale-bundler](./packages/one-app-locale-bundler)**     | CLI to bundle locale and environment JSON files      |
-| **[one-app-runner](./packages/one-app-runner)**     | CLI tool for running [One App](https://github.com/americanexpress/one-app) locally |
+| Name                                                                | Description                                                                                                                  |
+|---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| **[eslint-plugin-one-app](./packages/eslint-plugin-one-app)**       | [eslint](https://eslint.org/) plugin that exports rules related to One App usage                                             
+| **[generator-one-app-module](./packages/generator-one-app-module)** | [Yeoman](https://yeoman.io/) generator for a [One App](https://github.com/americanexpress/one-app#modules) `holocron` Module |
+| **[holocron-dev-server](./packages/holocron-dev-server/README.md)** | development server for Holocron modules                                                                                      |
+| **[one-app-bundler](./packages/one-app-bundler)**                   | CLI to bundle one-app modules                                                                                                |
+| **[one-app-dev-bundler](./packages/one-app-dev-bundler)**               | An alternal ESBuild bundler for development environments. This is a sub-package of the one-app-bundler.                      |
+| **[one-app-locale-bundler](./packages/one-app-locale-bundler)**     | CLI to bundle locale and environment JSON files                                                                              |
+| **[one-app-runner](./packages/one-app-runner)**                     | CLI tool for running [One App](https://github.com/americanexpress/one-app) locally                                           |
 
 
 ## 🏆 Contributing

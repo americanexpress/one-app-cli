@@ -15,93 +15,57 @@
 /* eslint-disable global-require --
 testing `on import` functionality needs 'require' in every tests */
 
-jest.mock('webpack');
-jest.mock('@americanexpress/one-app-locale-bundler');
-jest.mock('../../bin/webpackCallback', () => jest.fn((x, y) => `cb(${x}, ${y})`));
-jest.mock('../../webpack/module/webpack.client', () => (babelEnv) => ({ config: 'client', babelEnv }));
-jest.mock('../../webpack/module/webpack.server', () => ({ config: 'server' }));
+jest.mock('@americanexpress/one-app-dev-bundler', () => jest.fn(async () => {}));
+jest.mock('../../bin/webpack-bundle-module', () => jest.fn());
+
+jest.spyOn(console, 'info');
 
 describe('bundle-module', () => {
   let argv;
-  let webpack;
-  let localeBundler;
-  let clientConfig;
-  let serverConfig;
+  let nodeEnv;
 
   beforeAll(() => {
     ({ argv } = process);
+    nodeEnv = process.env.NODE_ENV;
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetModules();
-    webpack = require('webpack');
-    localeBundler = require('@americanexpress/one-app-locale-bundler');
-    clientConfig = require('../../webpack/module/webpack.client');
-    serverConfig = require('../../webpack/module/webpack.server');
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
   });
 
   afterEach(() => {
     process.argv = argv;
+    process.env.NODE_ENV = nodeEnv;
   });
 
-  it('should bundle language packs', () => {
+  it('should call the webpack bundler with no args', () => {
     process.argv = [];
     require('../../bin/bundle-module');
-    expect(localeBundler).toHaveBeenCalledTimes(1);
-    expect(localeBundler).toHaveBeenCalledWith(false);
+
+    // Since this is testing on-require behaviour, and there is a dynamic import, it's not possible
+    // to directly assert the correct bundler was called, so instead just assert that the
+    // correct info log was produced
+    expect(console.info).toHaveBeenCalledTimes(1);
+    expect(console.info).toHaveBeenCalledWith('Running production bundler');
   });
 
-  it('should bundle the module for the server', () => {
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(serverConfig, 'cb(node, true)');
-    expect(webpack.mock.calls[0][0]).not.toHaveProperty('watch');
-    expect(webpack.mock.calls[0][0]).not.toHaveProperty('watchOptions');
-  });
-
-  it('should bundle the module for modern browsers', () => {
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(clientConfig('modern'), 'cb(browser, true)');
-    expect(webpack.mock.calls[1][0]).not.toHaveProperty('watch');
-    expect(webpack.mock.calls[1][0]).not.toHaveProperty('watchOptions');
-  });
-
-  it('should bundle the module for legacy browsers', () => {
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
-    expect(webpack.mock.calls[2][0]).not.toHaveProperty('watch');
-    expect(webpack.mock.calls[2][0]).not.toHaveProperty('watchOptions');
-  });
-
-  it('should use the locale bundler\'s watch mode', () => {
-    process.argv = ['--watch'];
-    require('../../bin/bundle-module');
-    expect(localeBundler).toHaveBeenCalledTimes(1);
-    expect(localeBundler).toHaveBeenCalledWith(true);
-  });
-
-  it('should bundle module for legacy browsers when disableDevelopmentLegacyBundle is false', () => {
-    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
-    process.argv = [];
-    require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(3);
-    expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
-  });
-
-  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', () => {
+  it('should call the dev bundler when passed --dev in NODE_ENV=development', async () => {
+    process.argv = ['--dev'];
     process.env.NODE_ENV = 'development';
-    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
-    process.argv = [];
     require('../../bin/bundle-module');
-    expect(webpack).toHaveBeenCalledTimes(2);
-    expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
+    expect(console.info).toHaveBeenCalledTimes(1);
+    expect(console.info).toHaveBeenCalledWith('Running dev bundler');
+  });
+
+  it('should call the webpack bundler when passed --dev in NODE_ENV=production, and inform the user this has happened', async () => {
+    process.argv = ['--dev'];
+    process.env.NODE_ENV = 'production';
+    require('../../bin/bundle-module');
+    expect(console.info).toHaveBeenCalledTimes(2);
+    expect(console.info).toHaveBeenNthCalledWith(1, 'Ignoring `--dev` flag for NODE_ENV=production');
+    expect(console.info).toHaveBeenNthCalledWith(2, 'Running production bundler');
   });
 });
 

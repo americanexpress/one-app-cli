@@ -110,5 +110,5 @@ LiveModuleContainer.LiveWrappedModule = ${rootComponentName};
 // finally export the LiveModuleContainer instead of the ModuleContainer
 export default LiveModuleContainer;
 `);
-  }
+  };
 }
