@@ -20,6 +20,7 @@ const WebpackDynamicPublicPathPlugin = require('webpack-dynamic-public-path');
 const WebpackCustomChunkIdPlugin = require('webpack-custom-chunk-id-plugin');
 const HolocronModuleRegisterPlugin = require('holocron-module-register-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
+const { camelCase } = require('lodash');
 
 const extendWebpackConfig = require('../../utils/extendWebpackConfig');
 const commonConfig = require('../webpack.common');
@@ -36,9 +37,19 @@ const packageRoot = process.cwd();
 const { packageJson } = readPkgUp.sync();
 const { version, name } = packageJson;
 
+const generateExternalsChunks = (externals) => externals.reduce((acc, external) => ({
+  ...acc,
+  [external]: {
+    test: new RegExp(`[\\/]node_modules[\\/](${external})[\\/]`),
+    name: camelCase(external),
+  },
+}), {});
+
 const holocronModuleName = `holocronModule_${name.replace(/-/g, '_')}`;
 module.exports = (babelEnv) => {
   const configOptions = getConfigOptions();
+  const { sharedExternals } = configOptions;
+
   return extendWebpackConfig(merge(
     commonConfig,
     {
@@ -51,6 +62,18 @@ module.exports = (babelEnv) => {
         chunkFilename: `[name].chunk.${babelEnv !== 'modern' ? 'legacy.browser' : 'browser'}.js`,
         library: holocronModuleName,
         libraryExport: 'default',
+      },
+      optimization: {
+        minimize: false,
+        // splitChunks: {
+        //   chunks: 'all',
+        //   minSize: 0,
+        //   cacheGroups: {
+        //     default: false,
+        //     vendors: false,
+        //     ...generateExternalsChunks(sharedExternals),
+        //   },
+        // },
       },
       resolve: {
         mainFields: ['browser', 'module', 'main'],

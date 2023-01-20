@@ -52,6 +52,7 @@ const purgecssSchema = Joi.object({
 const optionsSchema = Joi.object({
   providedExternals: externalsSchema,
   requiredExternals: externalsSchema,
+  sharedExternals: externalsSchema,
   performanceBudget: performanceBudgetSchema,
   app: appSchema,
   purgecss: purgecssSchema,

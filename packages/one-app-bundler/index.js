@@ -14,4 +14,5 @@
 
 module.exports = {
   META_DATA_KEY: '__holocron_module_meta_data__',
+  EXTERNAL_PREFIX: '__holocron_external_',
 };
