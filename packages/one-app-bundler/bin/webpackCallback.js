@@ -15,11 +15,7 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
-const webpack = require('webpack');
-const { snakeCase } = require('lodash');
-const readPkgUp = require('read-pkg-up');
 const generateIntegrityManifest = require('./generateIntegrityManifest');
-const { EXTERNAL_PREFIX } = require('..');
 
 module.exports = function getWebpackCallback(label, isModuleBuild) {
   if (typeof label !== 'string' || !label) {
@@ -32,9 +28,6 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
     }
 
     const jsonStats = stats.toJson();
-    const { packageJson } = readPkgUp.sync();
-    const { version } = packageJson;
-    const { bundler } = packageJson['one-amex'];
 
     if (jsonStats.errors.length > 0) {
       jsonStats.errors.forEach((e) => {
@@ -56,33 +49,6 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
         label,
         path.join(stats.compilation.compiler.outputPath, stats.compilation.outputOptions.filename)
       );
-    }
-
-    // Run externals through webpack
-    if (label === 'browser' && bundler.sharedExternals) {
-      const sharedExternalsPath = path.resolve(process.cwd(), `build/${version}/sharedExternals`);
-      const rawExternalFiles = fs.readdirSync(sharedExternalsPath);
-      rawExternalFiles.forEach((file) => {
-        const fileWithoutExtension = path.parse(file).name;
-        webpack({
-          entry: path.resolve(process.cwd(), `build/${version}/sharedExternals/${file}`),
-          output: {
-            // This makes the global variable name `__holocron_external_<package-name>`
-            // eg. `__holocron_external_is_even`
-            library: `${EXTERNAL_PREFIX}${snakeCase(fileWithoutExtension)}`,
-            path: path.resolve(process.cwd(), `build/${version}`),
-            filename: file,
-          },
-        }, (externalError) => {
-          if (err) {
-            console.log(`Failed to bundle external - ${path.parse(file).name}`);
-            console.log(chalk.red(externalError), chalk.red(externalError.stack));
-            throw externalError;
-          }
-          // Clean up the /sharedExternals/ folder
-          fs.rmSync(sharedExternalsPath, { recursive: true, force: true });
-        });
-      });
     }
 
     if (process.argv.indexOf('--watch') !== -1) {

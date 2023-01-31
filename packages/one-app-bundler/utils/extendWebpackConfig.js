@@ -53,7 +53,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
 
   const indexPath = path.join(process.cwd(), 'src', 'index');
 
-  if (sharedExternals && bundleTarget === 'client') {
+  if (sharedExternals) {
     customWebpackConfig = merge(customWebpackConfig, {
       module: {
         rules: [...sharedExternals.map((externalName) => ({
@@ -62,6 +62,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/shared-externals-loader',
             options: {
               externalName,
+              bundleTarget,
             },
           }],
         }))],

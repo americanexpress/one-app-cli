@@ -13,19 +13,17 @@
  */
 
 const loaderUtils = require('loader-utils');
-const { snakeCase } = require('lodash');
-const { EXTERNAL_PREFIX } = require('../..');
 
-function sharedExternalsLoader(content) {
-  const { externalName } = loaderUtils.getOptions(this);
-  const externalFileName = `/sharedExternals/${externalName}.js`;
-  const assetInfo = { sourceFilename: externalFileName };
-  this.emitFile(externalFileName, content, null, assetInfo);
+function sharedExternalsLoader() {
+  const { externalName, bundleTarget } = loaderUtils.getOptions(this);
+  const getExternalString = bundleTarget === 'client'
+    ? `global.Holocron.getExternal('${externalName}')`
+    : `global.getExternal('${externalName}')`;
   return `\
 try {
-  module.exports = ${EXTERNAL_PREFIX}${snakeCase(externalName)};
+  module.exports = ${getExternalString};
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external ${externalName} from root module');
+  const errorGettingExternal = new Error('Failed to get external ${externalName}');
   errorGettingExternal.shouldBlockModuleReload = false;
   throw error;
 }
