@@ -84,7 +84,8 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
       const lifeCycleHooks = runSetupAndGetLifeHooks(plugin);
 
       expect(lifeCycleHooks.onLoad.length).toBe(1);
-      expect(lifeCycleHooks.onLoad[0].config).toEqual({ filter: /mock\/path\/to\/modules\/src\/index/ });
+      // eslint-disable-next-line prefer-regex-literals -- needs to match exactly
+      expect(lifeCycleHooks.onLoad[0].config).toEqual({ filter: new RegExp('[\\/]axp-mock-module-name[\\/]src[\\/]index') });
     });
   });
 
