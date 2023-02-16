@@ -14,6 +14,7 @@
  * permissions and limitations under the License.
  */
 
+import path from 'path';
 import fs from 'fs';
 
 import { readPackageUpSync } from 'read-pkg-up';
@@ -32,7 +33,7 @@ import DevLiveReloaderInjector from './one-app-index-loader-injectors/dev-live-r
 const oneAppIndexLoader = (options) => ({
   name: 'oneAppIndexLoader',
   setup(build) {
-    const { packageJson } = readPackageUpSync();
+    const { packageJson, path: packageJsonPath } = readPackageUpSync();
     const injectorOptions = {
       packageJson,
       ...options,
@@ -46,8 +47,9 @@ const oneAppIndexLoader = (options) => ({
       new DevLiveReloaderInjector(injectorOptions),
     ];
 
-    const { name } = packageJson;
-    const filterRegex = new RegExp(`[\\/]${name}[\\/]src[\\/]index`);
+    const packageRoot = packageJsonPath.replace(`${path.sep}package.json`, '');
+    const folderName = packageRoot.split(path.sep).pop();
+    const filterRegex = new RegExp(`[\\/]${folderName}[\\/]src[\\/]index`);
 
     build.onLoad({ filter: filterRegex }, async (args) => {
       const initialContent = await fs.promises.readFile(args.path, 'utf8');
