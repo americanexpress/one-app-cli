@@ -47,9 +47,9 @@ const oneAppIndexLoader = (options) => ({
       new DevLiveReloaderInjector(injectorOptions),
     ];
 
-    const packageRoot = packageJsonPath.replace('package.json', '');
-
-    const filterRegex = new RegExp(path.join(packageRoot, 'src', 'index'));
+    const packageRoot = packageJsonPath.replace(`${path.sep}package.json`, '');
+    const folderName = packageRoot.split(path.sep).pop();
+    const filterRegex = new RegExp(`[\\/]${folderName}[\\/]src[\\/]index`);
 
     build.onLoad({ filter: filterRegex }, async (args) => {
       const initialContent = await fs.promises.readFile(args.path, 'utf8');
