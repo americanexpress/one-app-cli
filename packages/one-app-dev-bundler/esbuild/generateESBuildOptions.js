@@ -15,7 +15,7 @@
  */
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
-import { NodeGlobalsPolyfillPlugin as globalsPolyfill } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import { readPackageUpSync } from 'read-pkg-up';
 import path from 'path';
@@ -84,7 +84,7 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
     plugins: [
       ...commonConfig.plugins,
       // TODO make these opt in, this would be a breaking change as webpack always includes them
-      globalsPolyfill({
+      NodeGlobalsPolyfillPlugin({
         buffer: true,
       }),
       NodeModulesPolyfillPlugin(),
