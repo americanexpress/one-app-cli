@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.12.7](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/generator-one-app-module@6.12.3...@americanexpress/generator-one-app-module@6.12.7) (2023-03-08)
+
+**Note:** Version bump only for package @americanexpress/generator-one-app-module
+
+
+
+
+
 ## [6.12.6](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/generator-one-app-module@6.12.3...@americanexpress/generator-one-app-module@6.12.6) (2023-02-16)
 
 **Note:** Version bump only for package @americanexpress/generator-one-app-module
