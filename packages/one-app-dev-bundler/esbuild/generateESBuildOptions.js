@@ -16,6 +16,7 @@
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { NodeGlobalsPolyfillPlugin as globalsPolyfill } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import { readPackageUpSync } from 'read-pkg-up';
 import path from 'path';
 import { BUNDLE_TYPES, SEVERITY } from './constants/enums.js';
@@ -86,6 +87,7 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
       globalsPolyfill({
         buffer: true,
       }),
+      NodeModulesPolyfillPlugin(),
       bundleAssetSizeLimiter(commonConfigPluginOptions),
       externalsLoader(browserConfigPluginOptions),
       oneAppIndexLoader(browserConfigPluginOptions),
