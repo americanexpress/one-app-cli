@@ -32,7 +32,7 @@ jest.mock('chalk', () => {
   return new chalk.Instance({ level: 0 });
 });
 
-jest.spyOn(console, 'log');
+jest.spyOn(console, 'log').mockImplementation();
 
 afterAll(() => {
   jest.clearAllMocks();

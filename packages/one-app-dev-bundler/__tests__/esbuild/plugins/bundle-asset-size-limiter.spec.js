@@ -22,9 +22,9 @@ import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 jest.mock('../../../esbuild/utils/get-modules-webpack-config', () => jest.fn());
 jest.mock('../../../esbuild/utils/get-modules-bundler-config', () => jest.fn());
 
-jest.spyOn(console, 'log');
-jest.spyOn(console, 'warn');
-jest.spyOn(console, 'error');
+jest.spyOn(console, 'log').mockImplementation();
+jest.spyOn(console, 'warn').mockImplementation();
+jest.spyOn(console, 'error').mockImplementation();
 
 // these tests want to 'see' chalk formatting
 jest.mock('chalk', () => ({

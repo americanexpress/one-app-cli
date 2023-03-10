@@ -54,7 +54,7 @@ ModuleContainer.propTypes = {
 
 export default ModuleContainer;`;
 
-jest.spyOn(console, 'log');
+jest.spyOn(console, 'log').mockImplementation();
 
 describe('the output from dev-websocket-injector', () => {
   let InitialModuleContainer = null;

@@ -17,7 +17,7 @@
 import getCliOptions from '../../utils/get-cli-options.js';
 
 jest.spyOn(process.argv, 'includes');
-jest.spyOn(console, 'warn');
+jest.spyOn(console, 'warn').mockImplementation();
 
 describe('get-cli-options', () => {
   let prevNodeEnv = null;

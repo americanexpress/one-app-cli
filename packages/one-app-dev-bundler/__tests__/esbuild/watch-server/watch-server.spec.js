@@ -27,8 +27,8 @@ jest.mock('ws', () => ({
 
 jest.useFakeTimers();
 
-jest.spyOn(console, 'log');
-jest.spyOn(console, 'error');
+jest.spyOn(console, 'log').mockImplementation();
+jest.spyOn(console, 'error').mockImplementation();
 
 describe('The watch server', () => {
   let optionsMock;

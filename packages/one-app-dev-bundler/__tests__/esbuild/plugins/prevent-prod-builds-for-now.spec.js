@@ -17,7 +17,7 @@
 import preventProdBuildsForNow from '../../../esbuild/plugins/prevent-prod-builds-for-now';
 import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 
-jest.spyOn(console, 'error');
+jest.spyOn(console, 'error').mockImplementation();
 jest.spyOn(process, 'exit');
 
 describe('Esbuild plugin preventProdBuildsForNow', () => {

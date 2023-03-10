@@ -16,7 +16,7 @@
 
 import { logErrors, logWarnings } from '../../../esbuild/utils/colorful-logging';
 
-jest.spyOn(console, 'log');
+jest.spyOn(console, 'log').mockImplementation();
 
 // this test wants to see chalk formatting
 jest.mock('chalk', () => ({

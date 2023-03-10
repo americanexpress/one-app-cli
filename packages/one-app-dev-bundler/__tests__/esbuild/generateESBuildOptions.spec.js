@@ -67,8 +67,8 @@ jest.mock('read-pkg-up', () => ({
 
 jest.useFakeTimers();
 
-jest.spyOn(console, 'log');
-jest.spyOn(console, 'error');
+jest.spyOn(console, 'log').mockImplementation();
+jest.spyOn(console, 'error').mockImplementation();
 jest.spyOn(global, 'setTimeout');
 
 describe('The generateESBuildOptions function', () => {

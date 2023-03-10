@@ -19,7 +19,7 @@ import timeBuild from '../../../esbuild/plugins/time-build';
 import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 
 jest.spyOn(process.hrtime, 'bigint');
-jest.spyOn(console, 'log');
+jest.spyOn(console, 'log').mockImplementation();
 
 jest.mock('fs', () => ({
   promises: {
