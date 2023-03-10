@@ -27,8 +27,9 @@ jest.mock('dockerode');
 
 describe('startApp', () => {
   const createWriteStreamSpy = jest.spyOn(fs, 'createWriteStream');
-  const stdoutSpy = jest.spyOn(process.stdout, 'write');
-  const stderrSpy = jest.spyOn(process.stderr, 'write');
+  jest.spyOn(console, 'log').mockImplementation();
+  jest.spyOn(process.stdout, 'write').mockImplementation();
+  jest.spyOn(process.stderr, 'write').mockImplementation();
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -215,8 +216,8 @@ describe('startApp', () => {
     expect(createWriteStreamSpy).toHaveBeenCalledWith(pathToLogFile);
     expect(mockProcess.stdout.pipe).toHaveBeenCalledWith('stream');
     expect(mockProcess.stderr.pipe).toHaveBeenCalledWith('stream');
-    expect(stdoutSpy).not.toHaveBeenCalled();
-    expect(stderrSpy).not.toHaveBeenCalled();
+    expect(process.stdout.write).not.toHaveBeenCalled();
+    expect(process.stderr.write).not.toHaveBeenCalled();
   });
 
   it('throws an error if command errors', async () => {

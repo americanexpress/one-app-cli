@@ -18,7 +18,6 @@ const fs = require('fs');
 const mockFs = require('mock-fs');
 
 const modulePath = __dirname.split('/__tests__')[0];
-console.log(`Module path for test is ${modulePath}`);
 
 jest.spyOn(process, 'cwd').mockImplementation(() => modulePath);
 
@@ -42,7 +41,7 @@ function notExpectFiles(list) {
 describe('compileModuleLocales', () => {
   const pkgName = 'sample-thing';
   const pkgVersion = '0.1.0-post';
-  const consoleLogSpy = jest.spyOn(console, 'log');
+  jest.spyOn(console, 'log').mockImplementation();
 
   beforeEach(jest.clearAllMocks);
 
@@ -76,8 +75,8 @@ describe('compileModuleLocales', () => {
           [`${process.cwd()}/build/${pkgVersion}/sv-se/qa.json`]: compiled,
           [`${process.cwd()}/build/${pkgVersion}/sv-se/integration.json`]: compiled,
         });
-        expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-        expect(consoleLogSpy).toHaveBeenCalledWith('Generated language packs for sv-SE');
+        expect(console.log).toHaveBeenCalledTimes(1);
+        expect(console.log).toHaveBeenCalledWith('Generated language packs for sv-SE');
       });
   });
 
@@ -112,8 +111,8 @@ describe('compileModuleLocales', () => {
           [`${process.cwd()}/build/${pkgVersion}/es-es/qa.json`]: compiled,
           [`${process.cwd()}/build/${pkgVersion}/es-es/integration.json`]: compiled,
         });
-        expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-        expect(consoleLogSpy).toHaveBeenCalledWith('Generated language packs for es-ES');
+        expect(console.log).toHaveBeenCalledTimes(1);
+        expect(console.log).toHaveBeenCalledWith('Generated language packs for es-ES');
       });
   });
   it('builds locale that has environment JSON', () => {
@@ -161,8 +160,8 @@ describe('compileModuleLocales', () => {
             },
           }),
         });
-        expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-        expect(consoleLogSpy).toHaveBeenCalledWith('Generated language packs for nl-NL');
+        expect(console.log).toHaveBeenCalledTimes(1);
+        expect(console.log).toHaveBeenCalledWith('Generated language packs for nl-NL');
       });
   });
 
@@ -206,8 +205,8 @@ describe('compileModuleLocales', () => {
           `${process.cwd()}/build/${pkgVersion}/en-us/qa.json`,
           `${process.cwd()}/build/${pkgVersion}/en-us/integration.json`,
         ]);
-        expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-        expect(consoleLogSpy).toHaveBeenCalledWith('Generated language packs for sv-SE');
+        expect(console.log).toHaveBeenCalledTimes(1);
+        expect(console.log).toHaveBeenCalledWith('Generated language packs for sv-SE');
       });
   });
 
@@ -251,8 +250,8 @@ describe('compileModuleLocales', () => {
           [`${process.cwd()}/build/${pkgVersion}/${pkgName}.node.js`]: module,
           [`${process.cwd()}/build/${pkgVersion}/assets/someFile.json`]: JSON.stringify({}),
         });
-        expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-        expect(consoleLogSpy).toHaveBeenCalledWith('Generated language packs for sv-SE');
+        expect(console.log).toHaveBeenCalledTimes(1);
+        expect(console.log).toHaveBeenCalledWith('Generated language packs for sv-SE');
       });
   });
 
@@ -268,8 +267,8 @@ describe('compileModuleLocales', () => {
 
     return compileModuleLocales(process.cwd())
       .then(() => {
-        expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-        expect(consoleLogSpy).toHaveBeenCalledWith('Generated 0 language packs.');
+        expect(console.log).toHaveBeenCalledTimes(1);
+        expect(console.log).toHaveBeenCalledWith('Generated 0 language packs.');
       });
   });
 });

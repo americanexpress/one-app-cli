@@ -18,7 +18,7 @@ testing `on import` functionality needs 'require' in every tests */
 jest.mock('@americanexpress/one-app-dev-bundler', () => jest.fn(async () => {}));
 jest.mock('../../bin/webpack-bundle-module', () => jest.fn());
 
-jest.spyOn(console, 'info');
+jest.spyOn(console, 'info').mockImplementation();
 
 describe('bundle-module', () => {
   let argv;
