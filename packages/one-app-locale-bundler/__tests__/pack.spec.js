@@ -25,12 +25,24 @@ describe('publish artifact', () => {
   it('is a known size', () => {
     expect(buildReport).toHaveProperty('0.size', expect.any(Number));
     expect(buildReport).toHaveProperty('0.unpackedSize', expect.any(Number));
-    expect(sizeForHumans(buildReport[0].size)).toMatchInlineSnapshot();
-    expect(sizeForHumans(buildReport[0].unpackedSize)).toMatchInlineSnapshot();
+    expect(sizeForHumans(buildReport[0].size)).toMatchInlineSnapshot('"8.2 KiB / 8.35 KB"');
+    expect(sizeForHumans(buildReport[0].unpackedSize)).toMatchInlineSnapshot('"28.0 KiB / 28.66 KB"');
   });
 
   it('includes expected files', () => {
     expect(buildReport).toHaveProperty('0.files', expect.any(Array));
-    expect(buildReport[0].files.map(({ path: filePath }) => filePath)).toMatchInlineSnapshot();
+    expect(buildReport[0].files.map(({ path: filePath }) => filePath)).toMatchInlineSnapshot(`
+Array [
+  "CHANGELOG.md",
+  "LICENSE.txt",
+  "README.md",
+  "bin/bundle-module-locale.js",
+  "index.js",
+  "package.json",
+  "src/compileModuleLocales.js",
+  "src/mkdirp.js",
+  "src/promisified-fs.js",
+]
+`);
   });
 });

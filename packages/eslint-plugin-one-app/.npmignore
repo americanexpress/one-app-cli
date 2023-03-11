@@ -1,0 +1,8 @@
+# test
+*.spec.js
+
+# dev
+.eslintrc.json
+
+# npm pack
+*.tgz

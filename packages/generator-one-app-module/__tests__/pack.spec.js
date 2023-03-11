@@ -25,12 +25,47 @@ describe('publish artifact', () => {
   it('is a known size', () => {
     expect(buildReport).toHaveProperty('0.size', expect.any(Number));
     expect(buildReport).toHaveProperty('0.unpackedSize', expect.any(Number));
-    expect(sizeForHumans(buildReport[0].size)).toMatchInlineSnapshot();
-    expect(sizeForHumans(buildReport[0].unpackedSize)).toMatchInlineSnapshot();
+    expect(sizeForHumans(buildReport[0].size)).toMatchInlineSnapshot('"12.5 KiB / 12.83 KB"');
+    expect(sizeForHumans(buildReport[0].unpackedSize)).toMatchInlineSnapshot('"46.7 KiB / 47.80 KB"');
   });
 
   it('includes expected files', () => {
     expect(buildReport).toHaveProperty('0.files', expect.any(Array));
-    expect(buildReport[0].files.map(({ path: filePath }) => filePath)).toMatchInlineSnapshot();
+    expect(buildReport[0].files.map(({ path: filePath }) => filePath)).toMatchInlineSnapshot(`
+Array [
+  "LICENSE.txt",
+  "README.md",
+  "generators/app/index.js",
+  "generators/app/promptValidations.js",
+  "generators/app/templates/base-child-module/__tests__/.eslintrc.json",
+  "generators/app/templates/base-child-module/__tests__/components/ModuleContainer.spec.jsx",
+  "generators/app/templates/base-child-module/__tests__/index.spec.js",
+  "generators/app/templates/base-child-module/.babelrc",
+  "generators/app/templates/base-child-module/.eslintrc.json",
+  "generators/app/templates/base-child-module/dev.middleware.js",
+  "generators/app/templates/base-child-module/gitignore",
+  "generators/app/templates/base-child-module/mock/scenarios.js",
+  "generators/app/templates/base-child-module/package.json",
+  "generators/app/templates/base-child-module/README.md",
+  "generators/app/templates/base-child-module/src/components/ModuleContainer.jsx",
+  "generators/app/templates/base-child-module/src/index.js",
+  "generators/app/templates/intl-child-module/__tests__/components/ModuleContainer.spec.jsx",
+  "generators/app/templates/intl-child-module/__tests__/locale.spec.js",
+  "generators/app/templates/intl-child-module/locale/en-CA.json",
+  "generators/app/templates/intl-child-module/locale/en-US.json",
+  "generators/app/templates/intl-child-module/locale/es-MX.json",
+  "generators/app/templates/intl-child-module/src/components/ModuleContainer.jsx",
+  "generators/app/templates/intl-child-module/test-setup.js",
+  "generators/app/templates/intl-root-module/__tests__/components/ModuleContainer.spec.jsx",
+  "generators/app/templates/intl-root-module/src/components/ModuleContainer.jsx",
+  "generators/app/templates/root-module/__tests__/appConfig.spec.js",
+  "generators/app/templates/root-module/__tests__/components/ModuleContainer.spec.jsx",
+  "generators/app/templates/root-module/src/appConfig.js",
+  "generators/app/templates/root-module/src/childRoutes.jsx",
+  "generators/app/templates/root-module/src/components/ModuleContainer.jsx",
+  "generators/app/templates/root-module/src/csp.js",
+  "package.json",
+]
+`);
   });
 });

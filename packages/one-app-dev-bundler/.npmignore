@@ -1,0 +1,9 @@
+# test
+__tests__
+__mocks__
+
+# dev
+.eslintrc.json
+
+# npm pack
+*.tgz
