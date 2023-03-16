@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.10](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/holocron-dev-server@0.1.9...@americanexpress/holocron-dev-server@0.1.10) (2023-03-16)
+
+**Note:** Version bump only for package @americanexpress/holocron-dev-server
+
+
+
+
+
 ## [0.1.9](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/holocron-dev-server@0.1.5...@americanexpress/holocron-dev-server@0.1.9) (2023-03-08)
 
 **Note:** Version bump only for package @americanexpress/holocron-dev-server
