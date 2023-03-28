@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.3.0...@americanexpress/one-app-dev-bundler@1.3.1) (2023-03-16)
+
+
+### Bug Fixes
+
+* **devBundler:** support named exports from style files ([#502](https://github.com/americanexpress/one-app-cli/issues/502)) ([0db64a1](https://github.com/americanexpress/one-app-cli/commit/0db64a152d762bc1489e25f951622f5667718478))
+
+
+
+
+
 # 1.3.0 (2023-03-08)
 
 
