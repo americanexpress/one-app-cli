@@ -29,6 +29,7 @@ const externalsLoader = ({ bundleType }) => ({
     const globalReferenceString = bundleType === BUNDLE_TYPES.BROWSER ? 'globalThis' : 'global';
 
     requiredExternalNames.forEach((requiredExternalName) => {
+      // FIXME: escape characters
       const filterRegex = new RegExp(`^${requiredExternalName}$`);
 
       build.onResolve({ filter: filterRegex }, (args) => ({ path: args.path, namespace: 'externalsLoader' }));
