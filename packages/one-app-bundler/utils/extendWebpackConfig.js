@@ -38,7 +38,6 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     appCompatibility,
     requiredExternals,
     providedExternals,
-    sharedExternals,
     moduleName,
   } = configOptions;
   const { watch } = cliOptions;
@@ -52,23 +51,6 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   }
 
   const indexPath = path.join(process.cwd(), 'src', 'index');
-
-  if (sharedExternals) {
-    customWebpackConfig = merge(customWebpackConfig, {
-      module: {
-        rules: [...sharedExternals.map((externalName) => ({
-          test: resolve(externalName),
-          use: [{
-            loader: '@americanexpress/one-app-bundler/webpack/loaders/shared-externals-loader',
-            options: {
-              externalName,
-              bundleTarget,
-            },
-          }],
-        }))],
-      },
-    });
-  }
 
   if (providedExternals) {
     customWebpackConfig = merge(customWebpackConfig, {

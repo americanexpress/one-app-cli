@@ -21,16 +21,20 @@ const getConfigOptions = require('../utils/getConfigOptions');
 const clientConfig = require('../webpack/module/webpack.client');
 const serverConfig = require('../webpack/module/webpack.server');
 const getWebpackCallback = require('./webpackCallback');
-const bundleExternals = require('./webpack-bundle-externals');
+const maybeBundleExternals = require('./maybe-bundle-externals');
 const { watch } = require('../utils/getCliOptions')();
 
 const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
 
 fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
+
 localeBundler(watch);
+
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
-bundleExternals('node');
-bundleExternals('browser');
+
+maybeBundleExternals('node');
+maybeBundleExternals('browser');
+
 if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
