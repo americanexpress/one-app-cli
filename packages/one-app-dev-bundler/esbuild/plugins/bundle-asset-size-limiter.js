@@ -26,6 +26,10 @@ const bundleAssetSizeLimiter = ({ watch, severity }) => ({
   name: 'bundleAssetSizeLimiter',
   setup(build) {
     build.onEnd(async (result) => {
+      if (!result.metafile) {
+        return result;
+      }
+
       // get filenames and sizes of outputs in this build
       const fileNames = getJsFilenamesFromKeys(result.metafile.outputs);
       const sizes = fileNames.map((fileName) => result.metafile.outputs[fileName].bytes);
