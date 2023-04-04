@@ -19,9 +19,15 @@ const compileModuleLocales = require('./src/compileModuleLocales');
 function runLocaleBundler(modulePath) {
   return compileModuleLocales(modulePath)
     .catch((err) => {
-      /* istanbul ignore next */
       setTimeout(() => { throw err; });
     });
+}
+
+function runLocaleBundlerLogErrors(modulePath) {
+  return compileModuleLocales(modulePath)
+      .catch((err) => {
+        console.log('Error generating language packs: '+err);
+      });
 }
 
 module.exports = function localeBundler(watch) {
@@ -33,6 +39,6 @@ module.exports = function localeBundler(watch) {
     const inputPath = path.join(modulePath, 'locale');
     chokidar
       .watch(inputPath, { ignoreInitial: true })
-      .on('all', () => runLocaleBundler(modulePath));
+      .on('all', () => runLocaleBundlerLogErrors(modulePath));
   }
 };

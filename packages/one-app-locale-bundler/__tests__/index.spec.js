@@ -16,6 +16,8 @@ const chokidar = require('chokidar');
 const index = require('..');
 const compileModuleLocales = require('../src/compileModuleLocales');
 
+jest.useFakeTimers();
+
 jest.mock('chokidar', () => {
   const mockChokidar = {
     watch: jest.fn(() => mockChokidar),
@@ -28,6 +30,7 @@ jest.mock('../src/compileModuleLocales', () => jest.fn(() => Promise.resolve()))
 
 describe('index', () => {
   jest.spyOn(process, 'cwd').mockImplementation(() => 'module/path');
+  const consoleLogSpy = jest.spyOn(console, 'log');
 
   beforeEach(() => jest.clearAllMocks());
 
@@ -55,5 +58,23 @@ describe('index', () => {
     expect(chokidar.on.mock.calls[0][0]).toBe('all');
     chokidar.on.mock.calls[0][1]();
     expect(compileModuleLocales).toHaveBeenCalledTimes(2);
+  });
+
+  it('throws on initial error', async () => {
+    compileModuleLocales.mockRejectedValueOnce(new SyntaxError('some error'))
+    await expect(async () => {
+      await index();
+      jest.runAllTimers();
+    }).rejects.toThrowError(new SyntaxError('some error'));
+
+  });
+
+  it('logs to console on error during watch', async () => {
+    index(true);
+    compileModuleLocales.mockRejectedValueOnce(new SyntaxError('some error'))
+    await chokidar.on.mock.calls[0][1]();
+    jest.runAllTimers();
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    expect(consoleLogSpy).toHaveBeenCalledWith('Error generating language packs: SyntaxError: some error');
   });
 });
