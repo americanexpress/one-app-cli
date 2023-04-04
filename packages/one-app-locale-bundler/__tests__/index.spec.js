@@ -61,17 +61,16 @@ describe('index', () => {
   });
 
   it('throws on initial error', async () => {
-    compileModuleLocales.mockRejectedValueOnce(new SyntaxError('some error'))
+    compileModuleLocales.mockRejectedValueOnce(new SyntaxError('some error'));
     await expect(async () => {
       await index();
       jest.runAllTimers();
     }).rejects.toThrowError(new SyntaxError('some error'));
-
   });
 
   it('logs to console on error during watch', async () => {
     index(true);
-    compileModuleLocales.mockRejectedValueOnce(new SyntaxError('some error'))
+    compileModuleLocales.mockRejectedValueOnce(new SyntaxError('some error'));
     await chokidar.on.mock.calls[0][1]();
     jest.runAllTimers();
     expect(consoleLogSpy).toHaveBeenCalledTimes(1);

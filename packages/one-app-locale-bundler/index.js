@@ -25,9 +25,9 @@ function runLocaleBundler(modulePath) {
 
 function runLocaleBundlerLogErrors(modulePath) {
   return compileModuleLocales(modulePath)
-      .catch((err) => {
-        console.log('Error generating language packs: '+err);
-      });
+    .catch((err) => {
+      console.log(`Error generating language packs: ${err}`);
+    });
 }
 
 module.exports = function localeBundler(watch) {
