@@ -13,16 +13,48 @@
  */
 
 const loaderUtils = require('loader-utils');
+const readPkgUp = require('read-pkg-up');
 
-function requiredExternalsLoader() {
-  const options = loaderUtils.getOptions(this);
+const { packageJson } = readPkgUp.sync();
+
+function requiredExternalsLoader(content) {
+  const { externalName, bundleTarget } = loaderUtils.getOptions(this);
+
+  if (bundleTarget === 'server') {
+    return `\
+  const rootModuleExternal = global.getTenantRootModule().appConfig.providedExternals['${externalName}']
+
+  if (rootModuleExternal && global.holocron.shouldUseRootModuleExternal({
+    providedExternalVersion: rootModuleExternal.version,
+    requiredExternalSemver': '${packageJson.dependencies[externalName]}',
+  })) {
+    try {
+      module.exports = rootModuleExternal.module;
+    } catch (error) {
+      const errorGettingExternal = new Error('Failed to get external ${externalName} from root module');
+      errorGettingExternal.shouldBlockModuleReload = false;
+      throw errorGettingExternal;
+    }
+  } else {
+    module.exports = ${content};
+  }
+`;
+  }
+
+  // client
   return `\
 try {
-  module.exports = global.getTenantRootModule().appConfig.providedExternals['${options.externalName}'].module;
+  module.exports = global.Holocron.getExternal({
+    externalName: '${externalName}',
+    version: '${
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
+  require(`${externalName}/package.json`).version
+}',
+  }) || global.getTenantRootModule().appConfig.providedExternals['${externalName}'].module;
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external ${options.externalName} from root module');
+  const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');
   errorGettingExternal.shouldBlockModuleReload = false;
-  throw errorGettingExternal;
+  throw error;
 }
 `;
 }

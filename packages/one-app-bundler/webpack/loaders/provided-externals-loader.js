@@ -16,19 +16,35 @@ const loaderUtils = require('loader-utils');
 
 function providedExternalsLoader(content) {
   const options = loaderUtils.getOptions(this);
-  const providedExternals = options.providedExternals.map((externalName) => {
+
+  const providedExternals = Array.isArray(options.providedExternals)
+    ? options.providedExternals.reduce((obj, externalName) => ({
+      ...obj,
+      [externalName]: {
+        enableFallback: false,
+      },
+    }), {}) : options.providedExternals;
+
+  const extendedProvidedExternals = Object.keys(providedExternals).reduce((obj, externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-    const { version } = require(`${externalName}/package.json`);
-    return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
-  });
+    const externalPkg = require(`${externalName}/package.json`);
+
+    return {
+      ...obj,
+      [externalName]: {
+        ...providedExternals[externalName],
+        version: externalPkg.version,
+        module: `require('${externalName}')`,
+      },
+    };
+  }, {});
+
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
     return `${content};
 ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
-  providedExternals: {
-    ${providedExternals.join(',\n  ')},
-  },
+  providedExternals: ${JSON.stringify(extendedProvidedExternals, null, 2)},
 });
 
 if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${options.moduleName}')){

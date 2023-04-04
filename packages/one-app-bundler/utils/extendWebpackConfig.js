@@ -78,6 +78,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/externals-loader',
             options: {
               externalName,
+              bundleTarget,
             },
           }],
         })), {
