@@ -19,7 +19,7 @@ import fs from 'fs';
 const fontLoader = {
   name: 'fontLoader',
   setup(build) {
-    build.onLoad({ filter: /.ttf$|.woff$|.woff2$|.jfproj$/ }, async (args) => {
+    build.onLoad({ filter: /\.(ttf|woff2?|jfproj)$/i }, async (args) => {
       const dataurl = await fs.promises.readFile(args.path, 'base64');
       const fileType = args.path.split('.').pop();
       const jsContent = `module.exports = "data:font/${fileType};base64,${dataurl}"`;
