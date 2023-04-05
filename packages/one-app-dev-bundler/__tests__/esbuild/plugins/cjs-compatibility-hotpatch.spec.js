@@ -76,8 +76,8 @@ describe('Esbuild plugin cjsCompatibilityHotpatch', () => {
 
       await onEnd({});
 
-      expect(fs.promises.readFile).toHaveBeenCalledTimes(0);
-      expect(fs.promises.writeFile).toHaveBeenCalledTimes(0);
+      expect(fs.promises.readFile).not.toHaveBeenCalled();
+      expect(fs.promises.writeFile).not.toHaveBeenCalled();
     });
   });
 });
