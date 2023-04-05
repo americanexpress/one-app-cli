@@ -123,8 +123,8 @@ describe('Esbuild plugin generateIntegrityManifest', () => {
         const onEnd = hooks.onEnd[0];
         await onEnd({});
 
-        expect(fs.promises.readFile).toHaveBeenCalledTimes(0);
-        expect(fs.promises.writeFile).toHaveBeenCalledTimes(0);
+        expect(fs.promises.readFile).not.toHaveBeenCalled();
+        expect(fs.promises.writeFile).not.toHaveBeenCalled();
       });
     });
   });
