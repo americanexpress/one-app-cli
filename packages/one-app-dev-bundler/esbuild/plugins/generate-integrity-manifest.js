@@ -35,6 +35,9 @@ const generateIntegrityManifest = ({ bundleName }) => ({
   name: 'generateIntegrityManifest',
   setup(build) {
     build.onEnd(async (result) => {
+      if (!result.metafile) {
+        return result;
+      }
       // this boldly assumes there will be exactly 1 .js file emitted from the build
       const fileName = getJsFilenamesFromKeys(result.metafile.outputs)[0];
 

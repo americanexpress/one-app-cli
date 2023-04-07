@@ -217,6 +217,21 @@ if(false) {
           ]
         `);
       });
+
+      it('should do nothing if there is no results metadata', async () => {
+        expect.assertions(2);
+
+        const plugin = restrictRuntimeSymbols({
+          severity: SEVERITY.WARNING,
+          bundleType: BUNDLE_TYPES.BROWSER,
+        });
+        const onEnd = runSetupAndGetLifeHooks(plugin).onEnd[0];
+
+        await onEnd({});
+
+        expect(logWarnings).not.toHaveBeenCalled();
+        expect(logErrors).not.toHaveBeenCalled();
+      });
     });
 
     describe('onEnd for server bundles', () => {
@@ -257,6 +272,22 @@ if(false) {
             "\`create-react-class\` is restricted from being used",
           ]
         `);
+      });
+
+      it('should do nothing if there is no results metadata', async () => {
+        expect.assertions(2);
+
+        const plugin = restrictRuntimeSymbols({
+          severity: SEVERITY.WARNING,
+          bundleType: BUNDLE_TYPES.SERVER,
+        });
+        const onEnd = runSetupAndGetLifeHooks(plugin).onEnd[0];
+
+        const mockResult = {};
+        await onEnd(mockResult);
+
+        expect(logWarnings).not.toHaveBeenCalled();
+        expect(logErrors).not.toHaveBeenCalled();
       });
     });
   });

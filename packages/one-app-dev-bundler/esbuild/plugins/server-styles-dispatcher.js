@@ -24,6 +24,9 @@ const serverStylesDispatcher = ({ bundleType }) => ({
   setup(build) {
     if (bundleType === BUNDLE_TYPES.SERVER) {
       build.onEnd(async (result) => {
+        if (!result.metafile) {
+          return result;
+        }
         const fileNames = getJsFilenamesFromKeys(result.metafile.outputs);
         await Promise.all(fileNames.map(async (fileName) => {
           const initialContent = await fs.promises.readFile(fileName, 'utf8');
