@@ -64,7 +64,16 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
               moduleName,
             },
           }],
-        }],
+        }, ...providedExternals.map((externalName) => ({
+          test: resolve(externalName),
+          use: [{
+            loader: '@americanexpress/one-app-bundler/webpack/loaders/self-register-externals-loader',
+            options: {
+              externalName,
+              bundleTarget,
+            },
+          }],
+        }))],
       },
     });
   }
