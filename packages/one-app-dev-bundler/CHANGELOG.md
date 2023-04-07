@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.3.1...@americanexpress/one-app-dev-bundler@1.3.2) (2023-04-07)
+
+
+### Bug Fixes
+
+* **one-app-dev-bundler:** index loader filter for Windows paths ([#507](https://github.com/americanexpress/one-app-cli/issues/507)) ([a6b66e9](https://github.com/americanexpress/one-app-cli/commit/a6b66e99d7b9e77b76714b772c9d7f116191bcc0))
+* **one-app-dev-bundler:** match a period, rather than wildcard ([#508](https://github.com/americanexpress/one-app-cli/issues/508)) ([490f74b](https://github.com/americanexpress/one-app-cli/commit/490f74b43aca5bf1cb1bd0cb88deab2af60c11b7))
+
+
+
+
+
 ## [1.3.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.3.0...@americanexpress/one-app-dev-bundler@1.3.1) (2023-03-16)
 
 
