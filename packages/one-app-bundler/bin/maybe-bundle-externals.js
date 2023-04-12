@@ -6,15 +6,16 @@ const { snakeCase } = require('lodash');
 const { ConcatSource } = require('webpack-sources');
 const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 const { EXTERNAL_PREFIX } = require('..');
-function HolocronModuleRegisterPlugin(externalName) {
+
+function HolocronExternalRegisterPlugin(externalName) {
   this.externalName = externalName;
   this.options = {};
 }
 
-HolocronModuleRegisterPlugin.prototype.apply = function apply(compiler) {
+HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
   const { externalName, options } = this;
-  compiler.hooks.compilation.tap('HolocronModuleRegisterPlugin', (compilation) => {
-    compilation.hooks.optimizeChunkAssets.tapAsync('HolocronModuleRegisterPlugin', (chunks, callback) => {
+  compiler.hooks.compilation.tap('HolocronExternalRegisterPlugin', (compilation) => {
+    compilation.hooks.optimizeChunkAssets.tapAsync('HolocronExternalRegisterPlugin', (chunks, callback) => {
       chunks.forEach((chunk) => {
         if (chunk.name !== 'main') return;
         chunk.files
@@ -48,7 +49,7 @@ module.exports = function maybeBundleExternals(runtimeEnv) {
     return;
   }
 
-  if (!['browser', 'node'].includes(runtimeEnv)) {
+  if (!['browser'].includes(runtimeEnv)) {
     throw new Error(`Invalid runtimeEnv "${runtimeEnv}"`);
   }
 
@@ -60,14 +61,10 @@ module.exports = function maybeBundleExternals(runtimeEnv) {
       output: {
         path: path.resolve(process.cwd(), `build/${version}`),
         filename: `${externalName}.${runtimeEnv}.js`,
-        ...runtimeEnv === 'browser' ? {
-          library: `${EXTERNAL_PREFIX}${snakeCase(externalName)}`,
-        } : {
-          libraryTarget: 'commonjs2',
-        },
+        library: `${EXTERNAL_PREFIX}${snakeCase(externalName)}`,
       },
       plugins: [
-        new HolocronModuleRegisterPlugin(externalName),
+        new HolocronExternalRegisterPlugin(externalName),
       ],
     }, (externalError) => {
       if (externalError) {

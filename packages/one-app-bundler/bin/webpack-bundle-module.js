@@ -34,7 +34,6 @@ localeBundler(watch);
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
 
-maybeBundleExternals('node');
 maybeBundleExternals('browser');
 
 if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
