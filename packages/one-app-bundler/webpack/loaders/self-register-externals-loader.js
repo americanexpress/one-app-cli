@@ -17,16 +17,12 @@ const loaderUtils = require('loader-utils');
 function selfRegisterExternalsLoader(content) {
   const { externalName, bundleTarget } = loaderUtils.getOptions(this);
 
-  console.log('--selfRegisterExternalsLoader');
-  console.log('--externalName', externalName);
-  console.log('--bundleTarget', bundleTarget);
-
-  if (bundleTarget === 'node') {
+  if (bundleTarget === 'server') {
     return content;
   }
 
   return `${content};
-Holocron.registerExternal("${externalName}");
+Holocron.registerExternal("${externalName}", "[VERSION]");
 `;
 }
 
