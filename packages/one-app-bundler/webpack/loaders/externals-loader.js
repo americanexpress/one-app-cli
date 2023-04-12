@@ -22,7 +22,7 @@ function requiredExternalsLoader(content) {
 
   if (bundleTarget === 'server') {
     return `\
-  const rootModuleExternal = global.getTenantRootModule().appConfig.providedExternals['${externalName}']
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}']
 
   if (rootModuleExternal && global.holocron.validateExternal({
     providedVersion: rootModuleExternal.version,
@@ -47,9 +47,9 @@ try {
   module.exports = global.Holocron.getExternal({
     externalName: '${externalName}',
     version: '${
-    // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-    require(`${externalName}/package.json`).version
-    }',
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
+  require(`${externalName}/package.json`).version
+}',
   }) || global.getTenantRootModule().appConfig.providedExternals['${externalName}'].module;
 } catch (error) {
   const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');
