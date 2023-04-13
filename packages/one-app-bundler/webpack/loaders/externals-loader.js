@@ -45,7 +45,7 @@ function requiredExternalsLoader(content) {
   return `\
 try {
   module.exports = global.Holocron.getExternal({
-    externalName: '${externalName}',
+    name: '${externalName}',
     version: '${
   // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
   require(`${externalName}/package.json`).version

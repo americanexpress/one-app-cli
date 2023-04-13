@@ -28,7 +28,7 @@ HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
               '\n',
               compilation.assets[file],
               '\n',
-              `Holocron.registerExternal({ name: "${externalName}", version: "${externalVersion}" });})();`
+              `Holocron.registerExternal({ name: "${externalName}", version: "${externalVersion}"});})();`
             );
           });
       });
