@@ -7,6 +7,8 @@ const { ConcatSource } = require('webpack-sources');
 const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 const { EXTERNAL_PREFIX } = require('..');
 
+const getLibraryName = (externalName) => `${EXTERNAL_PREFIX}${snakeCase(externalName)}`
+
 function HolocronExternalRegisterPlugin(externalName, version) {
   this.externalName = externalName;
   this.externalVersion = version;
@@ -24,11 +26,13 @@ HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
           .forEach((file) => {
             // eslint-disable-next-line no-param-reassign
             compilation.assets[file] = new ConcatSource(
-              '(function() {',
-              '\n',
+              // '(function() {',
+              // '\n',
               compilation.assets[file],
               '\n',
-              `Holocron.registerExternal({ name: "${externalName}", version: "${externalVersion}"});})();`
+              `Holocron.registerExternal({ name: "${externalName}", version: "${externalVersion}", module: ${getLibraryName(externalName)}});`,
+              '\n',
+              // `})();`
             );
           });
       });
@@ -64,7 +68,7 @@ module.exports = function maybeBundleExternals(runtimeEnv) {
       output: {
         path: path.resolve(process.cwd(), `build/${version}`),
         filename: `${externalName}.js`,
-        library: `${EXTERNAL_PREFIX}${snakeCase(externalName)}`,
+        library: `${getLibraryName(externalName)}`,
       },
       plugins: [
         new HolocronExternalRegisterPlugin(externalName, version),

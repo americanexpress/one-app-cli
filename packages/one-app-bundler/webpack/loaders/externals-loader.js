@@ -40,17 +40,22 @@ function requiredExternalsLoader(content) {
   }
 `;
   }
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
+  const { version } = require(`${externalName}/package.json`);
 
   // client
   return `\
 try {
-  module.exports = global.Holocron.getExternal({
+  const fallbackExternal = global.Holocron.getExternal({
     name: '${externalName}',
-    version: '${
-    // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-    require(`${externalName}/package.json`).version
-    }',
-  }) || global.getTenantRootModule().appConfig.providedExternals['${externalName}'].module;
+    version: '${version}',
+    module: () => true,
+  });
+  const rootModuleExternal = global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
+
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('External not found: ${externalName}')
+  });
 } catch (error) {
   const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');
   errorGettingExternal.shouldBlockModuleReload = false;
