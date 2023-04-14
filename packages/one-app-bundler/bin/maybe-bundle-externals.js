@@ -7,13 +7,14 @@ const { ConcatSource } = require('webpack-sources');
 const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 const { EXTERNAL_PREFIX } = require('..');
 
-function HolocronExternalRegisterPlugin(externalName) {
+function HolocronExternalRegisterPlugin(externalName, version) {
   this.externalName = externalName;
+  this.externalVersion = version;
   this.options = {};
 }
 
 HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
-  const { externalName, options } = this;
+  const { externalName, externalVersion, options } = this;
   compiler.hooks.compilation.tap('HolocronExternalRegisterPlugin', (compilation) => {
     compilation.hooks.optimizeChunkAssets.tapAsync('HolocronExternalRegisterPlugin', (chunks, callback) => {
       chunks.forEach((chunk) => {
@@ -27,7 +28,7 @@ HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
               '\n',
               compilation.assets[file],
               '\n',
-              `Holocron.registerExternal("${externalName}");})();`
+              `Holocron.registerExternal({ name: "${externalName}", version: "${externalVersion}"});})();`
             );
           });
       });
@@ -39,7 +40,7 @@ HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
 
 module.exports = function maybeBundleExternals(runtimeEnv) {
   const { packageJson } = readPkgUp.sync();
-  const { version, 'one-amex': { bundler } } = packageJson;
+  const { 'one-amex': { bundler = {} } } = packageJson;
   const { requiredExternals } = bundler;
 
   if (
@@ -55,16 +56,18 @@ module.exports = function maybeBundleExternals(runtimeEnv) {
 
   requiredExternals.forEach((externalName) => {
     const indexPath = path.resolve(process.cwd(), `node_modules/${externalName}`);
+    // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
+    const { version } = require(`${externalName}/package.json`);
 
     webpack({
       entry: indexPath,
       output: {
         path: path.resolve(process.cwd(), `build/${version}`),
-        filename: `${externalName}.${runtimeEnv}.js`,
+        filename: `${externalName}.js`,
         library: `${EXTERNAL_PREFIX}${snakeCase(externalName)}`,
       },
       plugins: [
-        new HolocronExternalRegisterPlugin(externalName),
+        new HolocronExternalRegisterPlugin(externalName, version),
       ],
     }, (externalError) => {
       if (externalError) {

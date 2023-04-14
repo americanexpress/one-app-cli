@@ -22,7 +22,7 @@ function requiredExternalsLoader(content) {
 
   if (bundleTarget === 'server') {
     return `\
-  const rootModuleExternal = global.getTenantRootModule().appConfig.providedExternals['${externalName}']
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}']
 
   if (rootModuleExternal && global.holocron.validateExternal({
     providedVersion: rootModuleExternal.version,
@@ -45,7 +45,7 @@ function requiredExternalsLoader(content) {
   return `\
 try {
   module.exports = global.Holocron.getExternal({
-    externalName: '${externalName}',
+    name: '${externalName}',
     version: '${
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     require(`${externalName}/package.json`).version
