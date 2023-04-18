@@ -61,7 +61,7 @@ module.exports = function maybeBundleExternals(runtimeEnv) {
     webpack({
       entry: indexPath,
       output: {
-        path: path.resolve(process.cwd(), `build/${version}`),
+        path: path.resolve(process.cwd(), `build/${packageJson.version}`),
         filename: `${externalName}.js`,
         library: `${getExternalLibraryName(externalName)}`,
       },
