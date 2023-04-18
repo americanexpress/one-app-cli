@@ -36,7 +36,7 @@ function requiredExternalsLoader(content) {
       throw errorGettingExternal;
     }
   } else {
-    module.exports = ${content};
+    ${content};
   }
 `;
   }

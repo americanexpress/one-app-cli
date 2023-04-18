@@ -21,7 +21,7 @@ const getConfigOptions = require('../utils/getConfigOptions');
 const clientConfig = require('../webpack/module/webpack.client');
 const serverConfig = require('../webpack/module/webpack.server');
 const getWebpackCallback = require('./webpackCallback');
-const maybeBundleExternals = require('./maybe-bundle-externals');
+const bundleExternalFallbacks = require('./bundle-external-fallbacks');
 const { watch } = require('../utils/getCliOptions')();
 
 const modernClientConfig = clientConfig('modern');
@@ -34,6 +34,6 @@ localeBundler(watch);
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
 
-maybeBundleExternals('browser');
+bundleExternalFallbacks();
 
 if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));

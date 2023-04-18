@@ -37,7 +37,7 @@ HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
   });
 };
 
-module.exports = function maybeBundleExternals(runtimeEnv) {
+module.exports = function bundleExternalFallbacks() {
   const { packageJson } = readPkgUp.sync();
   const { 'one-amex': { bundler = {} } } = packageJson;
   const { requiredExternals } = bundler;
@@ -47,10 +47,6 @@ module.exports = function maybeBundleExternals(runtimeEnv) {
     || requiredExternals.length === 0
   ) {
     return;
-  }
-
-  if (!['browser'].includes(runtimeEnv)) {
-    throw new Error(`Invalid runtimeEnv "${runtimeEnv}"`);
   }
 
   requiredExternals.forEach((externalName) => {
@@ -70,7 +66,7 @@ module.exports = function maybeBundleExternals(runtimeEnv) {
       ],
     }, (externalError) => {
       if (externalError) {
-        console.log(`Failed to bundle external - ${externalName} (runtimeEnv)`);
+        console.log(`Failed to bundle external - ${externalName}`);
         console.log(chalk.red(externalError), chalk.red(externalError.stack));
         throw externalError;
       }
