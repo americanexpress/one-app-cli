@@ -13,6 +13,7 @@
  */
 
 const loaderUtils = require('loader-utils');
+const getRegisterExternalStr = require('../../utils/getRegisterExternalStr');
 
 function selfRegisterExternalsLoader(content) {
   const { externalName, bundleTarget } = loaderUtils.getOptions(this);
@@ -21,8 +22,11 @@ function selfRegisterExternalsLoader(content) {
     return content;
   }
 
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
+  const { version } = require(`${externalName}/package.json`);
+
   return `${content};
-Holocron.registerExternal("${externalName}", "[VERSION]");
+${getRegisterExternalStr(externalName, version)}
 `;
 }
 
