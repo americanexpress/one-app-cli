@@ -48,10 +48,9 @@ function requiredExternalsLoader(content) {
 try {
   const fallbackExternal = global.Holocron.getExternal({
     name: '${externalName}',
-    version: '${version}',
-    module: () => true,
+    version: '${version}'
   });
-  const rootModuleExternal = global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
 
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
     throw new Error('External not found: ${externalName}')
