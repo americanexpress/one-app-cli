@@ -230,5 +230,20 @@ Array [
 `);
       });
     });
+
+    it('should do nothing if there is no results metadata', async () => {
+      expect.assertions(2);
+
+      getModulesBundlerConfig.mockImplementation(() => null);
+      getModulesWebpackConfig.mockImplementation(() => null);
+
+      const plugin = bundleAssetSizeLimiter({ ...params });
+      const onEnd = runSetupAndGetLifeHooks(plugin).onEnd[0];
+
+      const output = await onEnd({});
+
+      expect(console).not.toHaveLogs();
+      expect(output.messages).toBe(undefined);
+    });
   });
 });

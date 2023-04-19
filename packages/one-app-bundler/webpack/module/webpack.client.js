@@ -24,7 +24,7 @@ const SriPlugin = require('webpack-subresource-integrity');
 const extendWebpackConfig = require('../../utils/extendWebpackConfig');
 const commonConfig = require('../webpack.common');
 const getConfigOptions = require('../../utils/getConfigOptions');
-
+require('../../utils/patchedCryptoHash');
 const {
   babelLoader,
   cssLoader,
