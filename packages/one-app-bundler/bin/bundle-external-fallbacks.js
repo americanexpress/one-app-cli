@@ -59,7 +59,7 @@ module.exports = function bundleExternalFallbacks() {
       output: {
         path: path.resolve(process.cwd(), `build/${packageJson.version}`),
         filename: `${externalName}.js`,
-        library: `${getExternalLibraryName(externalName)}`,
+        library: `${getExternalLibraryName(externalName, version)}`,
       },
       plugins: [
         new HolocronExternalRegisterPlugin(externalName, version),
