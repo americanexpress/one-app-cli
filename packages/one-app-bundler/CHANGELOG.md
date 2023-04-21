@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.18.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.18.1...@americanexpress/one-app-bundler@6.18.2) (2023-04-07)
+
+**Note:** Version bump only for package @americanexpress/one-app-bundler
+
+
+
+
+
+## [6.18.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.18.0...@americanexpress/one-app-bundler@6.18.1) (2023-03-16)
+
+**Note:** Version bump only for package @americanexpress/one-app-bundler
+
+
+
+
+
+# [6.18.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.15.2...@americanexpress/one-app-bundler@6.18.0) (2023-03-08)
+
+
+### Bug Fixes
+
+* **hash:** use OpenSSL supported hash for webpack ([#488](https://github.com/americanexpress/one-app-cli/issues/488)) ([7c6660a](https://github.com/americanexpress/one-app-cli/commit/7c6660a4a345f075603080a7203b8e84f64bb5d8))
+
+
+### Features
+
+* **bundler:** enable dev bundler through flag ([1cc171b](https://github.com/americanexpress/one-app-cli/commit/1cc171bffec3c4f4da8aa3689eb9c3e10dd89870))
+
+
+
+
+
+# [6.17.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.15.2...@americanexpress/one-app-bundler@6.17.0) (2023-02-16)
+
+
+### Bug Fixes
+
+* **hash:** use OpenSSL supported hash for webpack ([#488](https://github.com/americanexpress/one-app-cli/issues/488)) ([7c6660a](https://github.com/americanexpress/one-app-cli/commit/7c6660a4a345f075603080a7203b8e84f64bb5d8))
+
+
+### Features
+
+* **bundler:** enable dev bundler through flag ([1cc171b](https://github.com/americanexpress/one-app-cli/commit/1cc171bffec3c4f4da8aa3689eb9c3e10dd89870))
+
+
+
+
+
 # [6.16.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.15.2...@americanexpress/one-app-bundler@6.16.0) (2023-01-05)
 
 

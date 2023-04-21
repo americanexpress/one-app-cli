@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/generator-one-app-module",
-  "version": "6.12.5",
+  "version": "6.12.7",
   "description": "generator for One App Modules",
   "license": "Apache-2.0",
   "contributors": [

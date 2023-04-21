@@ -70,12 +70,10 @@ const stylesLoader = (cssModulesOptions = {}, { bundleType } = {}) => ({
       hash.update(args.path);
       const digest = hash.copy().digest('hex');
 
-      const classNames = JSON.stringify(cssModulesJSON);
-
       let injectedCode = '';
       if (bundleType === BUNDLE_TYPES.BROWSER) {
         // For browsers generate code to inject this style into the head at runtime
-        injectedCode = `
+        injectedCode = `\
 (function() {
   if ( global.BROWSER && !document.getElementById(digest)) {
     var el = document.createElement('style');
@@ -90,11 +88,12 @@ const stylesLoader = (cssModulesOptions = {}, { bundleType } = {}) => ({
       }
 
       // provide useful values to the importer of this file, most importantly, the classnames
-      const jsContent = `
+      const jsContent = `\
 const digest = '${digest}';
 const css = \`${result.css}\`;
 ${injectedCode}
-export default ${classNames};
+${Object.entries(cssModulesJSON).map(([exportName, className]) => `export const ${exportName} = '${className}';`).join('\n')}
+export default { ${Object.keys(cssModulesJSON).join(', ')} };
 export { css, digest };`;
 
       return {

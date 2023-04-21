@@ -47,9 +47,18 @@ const oneAppIndexLoader = (options) => ({
       new DevLiveReloaderInjector(injectorOptions),
     ];
 
-    const packageRoot = packageJsonPath.replace('package.json', '');
-
-    const filterRegex = new RegExp(path.join(packageRoot, 'src', 'index'));
+    const packageRoot = path.dirname(packageJsonPath);
+    const folderName = path.basename(packageRoot);
+    // this is a String being parsed to build a RegExp
+    // to match both OS slashes we need \ & / (C:\Users, /home)
+    // both to be escaped in a String
+    // but \ needs to be escaped for the RegExp (once) which is built from a String (second escape)
+    // thus \ turns into \\\\ (\\\\ -> String of \\ -> RegExp of \)
+    // and / into \\/ (\\/ -> String of \/ -> RegExp of /)
+    // usually () indicate a capture group, but we want to specify two options (|)
+    // we can tell the RegExp engine not to store the slash as a capture group using ?:
+    // so the full way to specify a path delineator slash of either \ or / is (?:\\/|\\\\)
+    const filterRegex = new RegExp(`(?:\\/|\\\\)${folderName}(?:\\/|\\\\)src(?:\\/|\\\\)index`);
 
     build.onLoad({ filter: filterRegex }, async (args) => {
       const initialContent = await fs.promises.readFile(args.path, 'utf8');
