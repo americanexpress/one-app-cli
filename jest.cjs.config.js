@@ -10,11 +10,10 @@
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
- */
-
+*/
 module.exports = {
   preset: 'amex-jest-preset',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.cjs.setup.js'],
   collectCoverageFrom: [
     'packages/**/*.{js,jsx}',
     '!**/node_modules/**',
@@ -35,5 +34,13 @@ module.exports = {
   },
   testPathIgnorePatterns: [
     'packages/generator-one-app-module/generators/app/templates',
+  ],
+  roots: [
+    'packages/eslint-plugin-one-app',
+    'packages/generator-one-app-module',
+    'packages/holocron-dev-server',
+    'packages/one-app-bundler',
+    'packages/one-app-locale-bundler',
+    'packages/one-app-runner',
   ],
 };

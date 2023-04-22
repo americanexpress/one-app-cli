@@ -26,6 +26,7 @@ const {
   cssLoader,
   sassLoader,
 } = require('../loaders/common');
+require('../../utils/patchedCryptoHash');
 
 const mainFields = ['browser', 'module', 'main'];
 const resolve = createResolver({ mainFields });
