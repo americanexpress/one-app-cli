@@ -37,8 +37,9 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
   },
 });
 
-/* eslint-disable inclusive-language/use-inclusive-words --
+/* eslint-disable inclusive-language/use-inclusive-words, max-len --
 config options for a third party library */
+
 const purgeCssLoader = () => {
   const configOptions = getConfigOptions();
   const whitelistPatterns = configOptions.purgecss.whitelistPatterns
@@ -47,6 +48,15 @@ const purgeCssLoader = () => {
   const whitelistPatternsChildren = configOptions.purgecss.whitelistPatternsChildren
     ? configOptions.purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'))
     : [/:global$/];
+  let aggregatedStandard = [];
+  // aggregate the various whitelist options
+  if (configOptions.purgecss.whitelist !== undefined && configOptions.purgecss.whitelist.length > 0) {
+    aggregatedStandard = aggregatedStandard.concat(configOptions.purgecss.whitelist);
+  }
+  if (whitelistPatterns !== undefined && whitelistPatterns.length > 0) {
+    aggregatedStandard = aggregatedStandard.concat(whitelistPatterns);
+  }
+  //
   if (configOptions.purgecss.disabled) return [];
   return [{
     loader: '@americanexpress/purgecss-loader',
@@ -55,14 +65,20 @@ const purgeCssLoader = () => {
       extractors: configOptions.purgecss.extractors || [],
       fontFace: configOptions.purgecss.fontFace || false,
       keyframes: configOptions.purgecss.keyframes || false,
-      variables: configOptions.purgecss.variables || false,
-      whitelist: configOptions.purgecss.whitelist || [],
-      whitelistPatterns,
-      whitelistPatternsChildren,
+      variables: configOptions.purgecss.keyframes || false,
+      safelist: configOptions.purgecss.safelist || {
+        standard: aggregatedStandard,
+        deep: whitelistPatternsChildren || [],
+        greedy: [],
+        keyframes: configOptions.purgecss.keyframes || false,
+        variables: configOptions.purgecss.keyframes || false,
+      },
+      blocklist: configOptions.purgecss.blocklist || [],
+      //
     },
   }];
 };
-/* eslint-enable inclusive-language/use-inclusive-words -- disables require enables */
+/* eslint-enable inclusive-language/use-inclusive-words, max-len -- disables require enables */
 
 const sassLoader = () => ({
   loader: 'sass-loader',

@@ -98,7 +98,7 @@ describe('Common webpack loaders', () => {
       expect(purgeCssLoader()).toMatchSnapshot();
     });
 
-    it('should include any additional configured options', () => {
+    it('should include purgecss 2 configuration in purgecss 3 format', () => {
       const purgecss = {
         paths: ['foo', 'bar'],
         extractors: [{
@@ -122,6 +122,28 @@ describe('Common webpack loaders', () => {
     it('should return an empty object when disabled', () => {
       getConfigOptions.mockReturnValueOnce({ purgecss: { disabled: true } });
       expect(purgeCssLoader()).toEqual([]);
+    });
+    it('should include purgecss 3 configuration options', () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        safelist: {
+          standard: ['random'],
+          deep: [/randomdeep/i],
+          greedy: [/randomgreedy/i],
+          keyframes: false,
+          variables: false,
+        },
+        blocklist: ['blockClass'],
+      };
+      getConfigOptions.mockReturnValueOnce({ purgecss });
+      expect(purgeCssLoader()).toMatchSnapshot();
     });
   });
 
