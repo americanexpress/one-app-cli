@@ -77,7 +77,7 @@ describe('Esbuild plugin stylesLoader', () => {
           const mockFileName = 'index.scss';
           const mockFileContent = `body {
   background: white;
-  
+
   & > p {
     font-color: black;
   }
@@ -98,15 +98,13 @@ describe('Esbuild plugin stylesLoader', () => {
 
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
-"
-const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
+"const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
 const css = \`body {
   background: white;
 }
 body > p {
   font-color: black;
 }\`;
-
 (function() {
   if ( global.BROWSER && !document.getElementById(digest)) {
     var el = document.createElement('style');
@@ -115,7 +113,8 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-export default {};
+
+export default {  };
 export { css, digest };"
 `);
         });
@@ -144,15 +143,13 @@ body > p {
           expect(sass.compile).toHaveBeenCalledTimes(0);
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
-"
-const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
+"const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
 const css = \`body {
   background: white;
 }
 body > p {
   font-color: black;
 }\`;
-
 (function() {
   if ( global.BROWSER && !document.getElementById(digest)) {
     var el = document.createElement('style');
@@ -161,7 +158,8 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-export default {};
+
+export default {  };
 export { css, digest };"
 `);
         });
@@ -193,8 +191,7 @@ body > p {
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"
-const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
+"const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
 const css = \`body {
   background: white;
 }
@@ -203,7 +200,8 @@ body > p {
   font-color: black;
 }\`;
 
-export default {};
+
+export default {  };
 export { css, digest };"
 `);
       });
@@ -232,8 +230,7 @@ body > p {
         expect(sass.compile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"
-const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
+"const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
 const css = \`body {
   background: white;
 }
@@ -241,7 +238,8 @@ body > p {
   font-color: black;
 }\`;
 
-export default {};
+
+export default {  };
 export { css, digest };"
 `);
       });
@@ -250,7 +248,7 @@ export { css, digest };"
     describe('PRODUCTION environment', () => {
       mockNodeEnv('production');
 
-      it('should transform inputs to outputs for purged css, browser', async () => {
+      it('should transform inputs to default outputs for purged css, browser', async () => {
         glob.sync.mockReturnValue(['Test.jsx']);
 
         expect.assertions(3);
@@ -260,13 +258,18 @@ export { css, digest };"
         });
         const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
         const additionalMockedFiles = {
-          'Test.jsx': `import styles from './index.module.css';
-        
-        const Component = () => {
-        return <div className={styles.root}>Testing</div>
-        }
-        
-        export default Component`,
+          'Test.jsx': `\
+            import styles from './index.module.css';
+
+            const Component = () => {
+              return (
+                <div className={styles.root}>
+                  <p className={styles.second}>Testing</p>
+                </div>
+              );
+            }
+
+            export default Component`,
         };
 
         const {
@@ -275,13 +278,18 @@ export { css, digest };"
           onLoadHook,
           {
             mockFileNAme: 'index.module.css',
-            mockFileContent: `.root {
-background: white;
-}
+            mockFileContent: `\
+              .root {
+                background: white;
+              }
 
-.somethingElse {
-font-color: black;
-}`,
+              .somethingElse {
+                font-color: lime;
+              }
+
+              .second {
+                font-color: black;
+              }`,
           },
           additionalMockedFiles
         );
@@ -289,12 +297,14 @@ font-color: black;
         expect(sass.compile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"
-const digest = '786f696ae19422021e0f17df7c6dd6eb43f92c9c101f7d0649b341165dda1b31';
-const css = \`._root_1gq4q_1 {
-background: white;
-}\`;
+"const digest = '786f696ae19422021e0f17df7c6dd6eb43f92c9c101f7d0649b341165dda1b31';
+const css = \`              ._root_1vf0l_1 {
+                background: white;
+              }
 
+              ._second_1vf0l_9 {
+                font-color: black;
+              }\`;
 (function() {
   if ( global.BROWSER && !document.getElementById(digest)) {
     var el = document.createElement('style');
@@ -303,7 +313,81 @@ background: white;
     document.head.appendChild(el);
   }
 })();
-export default {\\"root\\":\\"_root_1gq4q_1\\"};
+export const root = '_root_1vf0l_1';
+export const second = '_second_1vf0l_9';
+export default { root, second };
+export { css, digest };"
+`);
+      });
+
+      it('should transform inputs to named outputs for purged css, browser', async () => {
+        glob.sync.mockReturnValue(['Test.jsx']);
+
+        expect.assertions(3);
+
+        const plugin = stylesLoader({}, {
+          bundleType: BUNDLE_TYPES.BROWSER,
+        });
+        const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+        const additionalMockedFiles = {
+          'Test.jsx': `\
+            import { root, second } from './index.module.css';
+
+            const Component = () => {
+              return (
+                <div className={root}>
+                  <p className={second}>Testing</p>
+                </div>
+              );
+            }
+
+            export default Component`,
+        };
+
+        const {
+          contents, loader,
+        } = await runOnLoadHook(
+          onLoadHook,
+          {
+            mockFileNAme: 'index.module.css',
+            mockFileContent: `\
+              .root {
+                background: white;
+              }
+
+              .somethingElse {
+                font-color: lime;
+              }
+
+              .second {
+                font-color: black;
+              }`,
+          },
+          additionalMockedFiles
+        );
+
+        expect(sass.compile).toHaveBeenCalledTimes(0);
+        expect(loader).toEqual('js');
+        expect(contents).toMatchInlineSnapshot(`
+"const digest = '786f696ae19422021e0f17df7c6dd6eb43f92c9c101f7d0649b341165dda1b31';
+const css = \`              ._root_1vf0l_1 {
+                background: white;
+              }
+
+              ._second_1vf0l_9 {
+                font-color: black;
+              }\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const root = '_root_1vf0l_1';
+export const second = '_second_1vf0l_9';
+export default { root, second };
 export { css, digest };"
 `);
       });
@@ -318,7 +402,7 @@ export { css, digest };"
         const mockFileName = 'index.scss';
         const mockFileContent = `body {
   background: white;
-  
+
   & > p {
     font-color: black;
   }
@@ -339,15 +423,13 @@ export { css, digest };"
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"
-const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
+"const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
 const css = \`body {
   background: white;
 }
 body > p {
   font-color: black;
 }\`;
-
 (function() {
   if ( global.BROWSER && !document.getElementById(digest)) {
     var el = document.createElement('style');
@@ -356,7 +438,8 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-export default {};
+
+export default {  };
 export { css, digest };"
 `);
       });
@@ -389,15 +472,13 @@ body > p {
         expect(sass.compile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"
-const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
+"const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
 const css = \`body {
   background: white;
 }
 body > p {
   font-color: black;
 }\`;
-
 (function() {
   if ( global.BROWSER && !document.getElementById(digest)) {
     var el = document.createElement('style');
@@ -406,7 +487,8 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-export default {};
+
+export default {  };
 export { css, digest };"
 `);
       });

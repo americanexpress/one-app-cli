@@ -29,8 +29,23 @@ describe('Esbuild image loader', () => {
   describe('setup function', () => {
     it('should register an onLoad hook, with the right filters for all bundles', () => {
       const lifeCycleHooks = runSetupAndGetLifeHooks(imageLoader);
-      expect(lifeCycleHooks.onLoad.length).toBe(1);
-      expect(lifeCycleHooks.onLoad[0].config).toEqual({ filter: /\.png$|\.jpg$|\.jpeg$|\.svg$/ });
+      expect(lifeCycleHooks).toHaveProperty('onLoad.0.config.filter', expect.any(RegExp));
+      expect(lifeCycleHooks.onLoad).toHaveLength(1);
+    });
+
+    it.each([
+      ['/home/me/projects/modules/src/components/image.png'],
+      ['/home/me/projects/modules/src/components/image.PNG'],
+      ['/home/me/projects/modules/src/components/image.jpeg'],
+      ['/home/me/projects/modules/src/components/image.JPEG'],
+      ['/home/me/projects/modules/src/components/image.jpg'],
+      ['/home/me/projects/modules/src/components/image.JPG'],
+      ['/home/me/projects/modules/src/components/image.svg'],
+      ['/home/me/projects/modules/src/components/image.SVG'],
+    ])('should register an onLoad hook for a resource like %s', (filePath) => {
+      const lifeCycleHooks = runSetupAndGetLifeHooks(imageLoader);
+      expect(lifeCycleHooks).toHaveProperty('onLoad.0.config.filter', expect.any(RegExp));
+      expect(filePath).toMatch(lifeCycleHooks.onLoad[0].config.filter);
     });
   });
 });

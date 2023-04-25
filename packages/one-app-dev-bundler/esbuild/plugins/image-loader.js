@@ -19,7 +19,7 @@ import fs from 'fs';
 const imageLoader = {
   name: 'imageLoader',
   setup(build) {
-    build.onLoad({ filter: /\.png$|\.jpg$|\.jpeg$|\.svg$/ }, async (args) => {
+    build.onLoad({ filter: /\.(png|jpe?g|svg)$/i }, async (args) => {
       const dataurl = await fs.promises.readFile(args.path, 'base64');
       let fileType = args.path.split('.').pop();
       if (fileType === 'svg') {

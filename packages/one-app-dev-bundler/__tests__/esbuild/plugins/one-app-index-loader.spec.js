@@ -84,8 +84,14 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
       const lifeCycleHooks = runSetupAndGetLifeHooks(plugin);
 
       expect(lifeCycleHooks.onLoad.length).toBe(1);
-      // eslint-disable-next-line prefer-regex-literals -- needs to match exactly
-      expect(lifeCycleHooks.onLoad[0].config).toEqual({ filter: new RegExp('[\\/]modules[\\/]src[\\/]index') });
+      expect(lifeCycleHooks.onLoad[0].config).toHaveProperty('filter', expect.any(RegExp));
+      const { filter } = lifeCycleHooks.onLoad[0].config;
+      // *nix
+      expect('/home/me/projects/modules/src/index.js').toMatch(filter);
+      expect('/home/me/projects/modules/src/components/index.js').not.toMatch(filter);
+      // Windows
+      expect('C:\\Users\\me\\projects\\modules\\src\\index.js').toMatch(filter);
+      expect('C:\\Users\\me\\projects\\modules\\src\\components\\index.js').not.toMatch(filter);
     });
   });
 

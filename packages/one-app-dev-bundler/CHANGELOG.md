@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.3.1...@americanexpress/one-app-dev-bundler@1.3.2) (2023-04-07)
+
+
+### Bug Fixes
+
+* **dev-bundler:** skip plugins when no results metadata ([#513](https://github.com/americanexpress/one-app-cli/issues/513)) ([76b5566](https://github.com/americanexpress/one-app-cli/commit/76b5566b1d74a5686c31fbbb24c496e6b8af59db))
+* **one-app-dev-bundler:** index loader filter for Windows paths ([#507](https://github.com/americanexpress/one-app-cli/issues/507)) ([a6b66e9](https://github.com/americanexpress/one-app-cli/commit/a6b66e99d7b9e77b76714b772c9d7f116191bcc0))
+* **one-app-dev-bundler:** match a period, rather than wildcard ([#508](https://github.com/americanexpress/one-app-cli/issues/508)) ([490f74b](https://github.com/americanexpress/one-app-cli/commit/490f74b43aca5bf1cb1bd0cb88deab2af60c11b7))
+
+
+
+
+
+## [1.3.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.3.0...@americanexpress/one-app-dev-bundler@1.3.1) (2023-03-16)
+
+
+### Bug Fixes
+
+* **devBundler:** support named exports from style files ([#502](https://github.com/americanexpress/one-app-cli/issues/502)) ([0db64a1](https://github.com/americanexpress/one-app-cli/commit/0db64a152d762bc1489e25f951622f5667718478))
+
+
+
+
+
 # 1.3.0 (2023-03-08)
 
 
