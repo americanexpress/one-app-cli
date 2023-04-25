@@ -82,7 +82,7 @@ const oneAppIndexLoader = (options) => ({
 
       return {
         contents: outputContent,
-        loader: 'jsx', // for the live module container
+        loader: 'tsx', // for the live module container
       };
     });
   },

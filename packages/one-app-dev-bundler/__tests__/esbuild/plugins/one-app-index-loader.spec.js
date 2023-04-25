@@ -110,7 +110,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_browser-not-watching.output.jsx`).toString());
       });
 
@@ -128,7 +128,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_browser-watching-not-live.output.jsx`).toString());
       });
 
@@ -146,7 +146,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_browser-watching-live.output.jsx`).toString());
       });
 
@@ -164,7 +164,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_server-not-watching.output.jsx`).toString());
       });
 
@@ -182,7 +182,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_server-watching-not-live.output.jsx`).toString());
       });
 
@@ -200,7 +200,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_server-watching-live.output.jsx`).toString());
       });
     });
