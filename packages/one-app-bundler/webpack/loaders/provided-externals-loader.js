@@ -16,14 +16,7 @@ const loaderUtils = require('loader-utils');
 
 function providedExternalsLoader(content) {
   const options = loaderUtils.getOptions(this);
-
-  const providedExternals = Array.isArray(options.providedExternals)
-    ? options.providedExternals.reduce((obj, externalName) => ({
-      ...obj,
-      [externalName]: {
-        enableFallback: false,
-      },
-    }), {}) : options.providedExternals;
+  const { providedExternals } = options;
 
   const extendedProvidedExternals = Object.keys(providedExternals).reduce((obj, externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime

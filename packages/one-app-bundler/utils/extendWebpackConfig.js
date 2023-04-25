@@ -29,6 +29,16 @@ function getCustomWebpackConfigPath(options, bundleTarget) {
   return false;
 }
 
+function parseProvidedExternals(providedExternals) {
+  return Array.isArray(providedExternals)
+    ? providedExternals.reduce((obj, externalName) => ({
+      ...obj,
+      [externalName]: {
+        enableFallback: false,
+      },
+    }), {}) : providedExternals;
+}
+
 function extendWebpackConfig(webpackConfig, bundleTarget) {
   const configOptions = getConfigOptions();
   const cliOptions = getCliOptions();
@@ -53,6 +63,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   const indexPath = path.join(process.cwd(), 'src', 'index');
 
   if (providedExternals) {
+    const parsedProvidedExternals = parseProvidedExternals(providedExternals);
     customWebpackConfig = merge(customWebpackConfig, {
       module: {
         rules: [{
@@ -60,11 +71,11 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
           use: [{
             loader: '@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader',
             options: {
-              providedExternals,
+              providedExternals: parsedProvidedExternals,
               moduleName,
             },
           }],
-        }, ...providedExternals.map((externalName) => ({
+        }, ...Object.keys(parsedProvidedExternals).map((externalName) => ({
           test: resolve(externalName),
           use: [{
             loader: '@americanexpress/one-app-bundler/webpack/loaders/self-register-externals-loader',
