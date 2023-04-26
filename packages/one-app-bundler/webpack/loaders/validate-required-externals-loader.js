@@ -14,6 +14,7 @@
 
 const loaderUtils = require('loader-utils');
 const readPkgUp = require('read-pkg-up');
+const getExternalFilename = require('../../utils/getExternalFilename');
 
 function validateRequiredExternalsLoader(content) {
   const options = loaderUtils.getOptions(this);
@@ -29,6 +30,7 @@ function validateRequiredExternalsLoader(content) {
       [externalName]: {
         version,
         semanticRange,
+        filename: getExternalFilename,
       },
     };
   }, {});

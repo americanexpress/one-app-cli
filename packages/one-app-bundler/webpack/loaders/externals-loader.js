@@ -24,7 +24,7 @@ function requiredExternalsLoader(content) {
     return `\
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}']
 
-  if (rootModuleExternal && global.holocron.validateExternal({
+  if (rootModuleExternal && require('holocron').validateExternal({
     providedVersion: rootModuleExternal.version,
     requestedRange: '${packageJson.dependencies[externalName]}'
   })) {

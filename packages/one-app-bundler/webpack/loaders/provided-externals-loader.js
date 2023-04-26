@@ -25,18 +25,16 @@ function providedExternalsLoader(content) {
       },
     }), {}) : options.providedExternals;
 
-  const extendedProvidedExternals = Object.keys(providedExternals).reduce((obj, externalName) => {
+  const extendedProvidedExternals = Object.keys(providedExternals).map((externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     const externalPkg = require(`${externalName}/package.json`);
 
-    return {
-      ...obj,
-      [externalName]: {
-        ...providedExternals[externalName],
-        version: externalPkg.version,
-        module: `require('${externalName}')`,
-      },
-    };
+    return `
+      '${externalName}': {
+        ...${JSON.stringify(providedExternals[externalName], null, 2)},
+        version: '${externalPkg.version}',
+        module: require('${externalName}'),
+      }`;
   }, {});
 
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
@@ -44,7 +42,12 @@ function providedExternalsLoader(content) {
   if (match) {
     return `${content};
 ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
-  providedExternals: ${JSON.stringify(extendedProvidedExternals, null, 2)},
+  providedExternals: {
+    ${
+      // NOTE: We need to use 'join' instead of JSON.stringify because it performs some escaping.
+      extendedProvidedExternals.join(', \n')
+      }
+  },
 });
 
 if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${options.moduleName}')){

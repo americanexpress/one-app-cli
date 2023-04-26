@@ -6,6 +6,7 @@ const { ConcatSource } = require('webpack-sources');
 const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 const getRegisterExternalStr = require('../utils/getRegisterExternalStr');
 const getExternalLibraryName = require('../utils/getExternalLibraryName');
+const getExternalFilename = require('../utils/getExternalFilename');
 
 function HolocronExternalRegisterPlugin(externalName, version) {
   this.externalName = externalName;
@@ -58,8 +59,8 @@ module.exports = function bundleExternalFallbacks() {
       entry: indexPath,
       output: {
         path: path.resolve(process.cwd(), `build/${packageJson.version}`),
-        filename: `${externalName}.js`,
-        library: `${getExternalLibraryName(externalName, version)}`,
+        filename: getExternalFilename(externalName),
+        library: getExternalLibraryName(externalName, version),
       },
       plugins: [
         new HolocronExternalRegisterPlugin(externalName, version),
