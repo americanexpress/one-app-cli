@@ -24,7 +24,10 @@ function providedExternalsLoader(content) {
 
     return `
       '${externalName}': {
-        ...${JSON.stringify(providedExternals[externalName], null, 2)},
+        ...${JSON.stringify({
+      fallbackEnabled: false,
+      ...providedExternals[externalName],
+    }, null, 2)},
         version: '${externalPkg.version}',
         module: require('${externalName}'),
       }`;
