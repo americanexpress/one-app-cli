@@ -23,6 +23,7 @@ const {
   cssLoader,
   purgeCssLoader,
   sassLoader,
+  reconcileConfigOptions,
 } = require('../../../webpack/loaders/common');
 
 jest.mock('sass', () => () => 0);
@@ -135,15 +136,68 @@ describe('Common webpack loaders', () => {
         variables: true,
         safelist: {
           standard: ['random'],
-          deep: [/randomdeep/i],
-          greedy: [/randomgreedy/i],
-          keyframes: false,
-          variables: false,
+          deep: ['randomdeep'],
+          greedy: ['randomgreedy'],
+          keyframes: true,
+          variables: true,
         },
         blocklist: ['blockClass'],
       };
       getConfigOptions.mockReturnValueOnce({ purgecss });
       expect(purgeCssLoader()).toMatchSnapshot();
+    });
+  });
+  describe('reconcileConfigOptions', () => {
+    it('should insert deep and greedy defaults if not present', async () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        safelist: {
+          standard: ['random'],
+          keyframes: true,
+          variables: true,
+        },
+        blocklist: ['blockClass'],
+      };
+      const reconciledTwo = reconcileConfigOptions({ purgecss });
+      expect(reconciledTwo).toMatchSnapshot();
+    });
+    it('should not modfify passed config', async () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        blocklist: ['blockClass'],
+      };
+      const reconciled = reconcileConfigOptions({ purgecss });
+      expect(reconciled).toMatchSnapshot();
+    });
+    it('should not modfify safelist', async () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        safelist: ['random'],
+        blocklist: ['blockClass'],
+      };
+      const reconciled = reconcileConfigOptions({ purgecss });
+      expect(reconciled).toMatchSnapshot();
     });
   });
 

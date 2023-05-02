@@ -39,9 +39,25 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
 
 /* eslint-disable inclusive-language/use-inclusive-words, max-len --
 config options for a third party library */
+// transform strings deep and greedy perameters into regex
+const reconcileConfigOptions = (configOptions) => {
+  const configOptionsReconciled = configOptions;
+  if (configOptionsReconciled.purgecss.safelist !== undefined && !Array.isArray(configOptionsReconciled.purgecss.safelist)) {
+    const greedy = configOptions.purgecss.safelist.greedy
+      ? configOptions.purgecss.safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
+      : [];
+    configOptionsReconciled.purgecss.safelist.greedy = greedy;
+    const deep = configOptions.purgecss.safelist.deep
+      ? configOptions.purgecss.safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
+      : [/:global$/];
+    configOptionsReconciled.purgecss.safelist.deep = deep;
+  }
+  return configOptionsReconciled;
+};
 
 const purgeCssLoader = () => {
-  const configOptions = getConfigOptions();
+  let configOptions = getConfigOptions();
+  configOptions = reconcileConfigOptions(configOptions);
   const whitelistPatterns = configOptions.purgecss.whitelistPatterns
     ? configOptions.purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i'))
     : [];
@@ -68,7 +84,7 @@ const purgeCssLoader = () => {
       variables: configOptions.purgecss.keyframes || false,
       safelist: configOptions.purgecss.safelist || {
         standard: aggregatedStandard,
-        deep: whitelistPatternsChildren || [],
+        deep: whitelistPatternsChildren,
         greedy: [],
         keyframes: configOptions.purgecss.keyframes || false,
         variables: configOptions.purgecss.keyframes || false,
@@ -101,4 +117,5 @@ module.exports = {
   cssLoader,
   purgeCssLoader,
   sassLoader,
+  reconcileConfigOptions,
 };

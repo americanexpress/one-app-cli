@@ -46,13 +46,14 @@ const purgecssSchema = Joi.object({
   whitelistPatterns: Joi.array().items(Joi.string().required()),
   whitelistPatternsChildren: Joi.array().items(Joi.string().required()),
   safelist: Joi.alternatives().try(Joi.array().items(Joi.string()),
-    Joi.object().keys({ 
+    Joi.object().keys({
       standard: Joi.array().items(Joi.string()),
       deep: Joi.array().items(Joi.string()),
       greedy: Joi.boolean().strict(),
       keyframes: Joi.boolean().strict(),
-      variables: Joi.boolean().strict()
+      variables: Joi.boolean().strict(),
     })),
+  blocklist: Joi.array().items(Joi.string().required()),
   /* eslint-enable inclusive-language/use-inclusive-words -- disables require enables */
   disabled: Joi.boolean().strict(),
 });
