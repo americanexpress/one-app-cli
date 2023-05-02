@@ -23,7 +23,7 @@ const {
   cssLoader,
   purgeCssLoader,
   sassLoader,
-  reconcileConfigOptions,
+  reconcileSafeList,
 } = require('../../../webpack/loaders/common');
 
 jest.mock('sass', () => () => 0);
@@ -146,9 +146,7 @@ describe('Common webpack loaders', () => {
       getConfigOptions.mockReturnValueOnce({ purgecss });
       expect(purgeCssLoader()).toMatchSnapshot();
     });
-  });
-  describe('reconcileConfigOptions', () => {
-    it('should insert deep and greedy defaults if not present', async () => {
+    it('should not modify safelist if it is an array', () => {
       const purgecss = {
         paths: ['foo', 'bar'],
         extractors: [{
@@ -158,17 +156,26 @@ describe('Common webpack loaders', () => {
         fontFace: true,
         keyframes: true,
         variables: true,
-        safelist: {
-          standard: ['random'],
-          keyframes: true,
-          variables: true,
-        },
+        safelist: ['red'],
         blocklist: ['blockClass'],
       };
-      const reconciledTwo = reconcileConfigOptions({ purgecss });
-      expect(reconciledTwo).toMatchSnapshot();
+      getConfigOptions.mockReturnValueOnce({ purgecss });
+      expect(purgeCssLoader()).toMatchSnapshot();
     });
-    it('should not modfify passed config', async () => {
+  });
+  describe('reconcileSafeList', () => {
+    it('should insert deep and greedy defaults if not present', async () => {
+      const safelist = {
+        standard: ['random'],
+        keyframes: true,
+        variables: true,
+      };
+      const reconciledSafeList = reconcileSafeList(safelist);
+      expect(reconciledSafeList).toEqual({
+        deep: [/:global$/], greedy: [], keyframes: true, standard: ['random'], variables: true,
+      });
+    });
+    it('should return undefined if safelist is not in purgecss config', async () => {
       const purgecss = {
         paths: ['foo', 'bar'],
         extractors: [{
@@ -180,8 +187,8 @@ describe('Common webpack loaders', () => {
         variables: true,
         blocklist: ['blockClass'],
       };
-      const reconciled = reconcileConfigOptions({ purgecss });
-      expect(reconciled).toMatchSnapshot();
+      const reconciled = reconcileSafeList(purgecss.safelist);
+      expect(reconciled).toEqual(undefined);
     });
     it('should not modfify safelist', async () => {
       const purgecss = {
@@ -196,8 +203,8 @@ describe('Common webpack loaders', () => {
         safelist: ['random'],
         blocklist: ['blockClass'],
       };
-      const reconciled = reconcileConfigOptions({ purgecss });
-      expect(reconciled).toMatchSnapshot();
+      const reconciled = reconcileSafeList(purgecss.safelist);
+      expect(reconciled).toEqual(['random']);
     });
   });
 

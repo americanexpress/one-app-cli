@@ -144,10 +144,10 @@ Array [
         "greedy": Array [],
         "keyframes": true,
         "standard": Array [
+          /red/i,
           "random",
           "yep",
           "button",
-          /red/i,
         ],
         "variables": true,
       },
@@ -199,6 +199,38 @@ Array [
 ]
 `;
 
+exports[`Common webpack loaders purgecss-loader should not modify safelist if it is an array 1`] = `
+Array [
+  Object {
+    "loader": "@americanexpress/purgecss-loader",
+    "options": Object {
+      "blocklist": Array [
+        "blockClass",
+      ],
+      "extractors": Array [
+        Object {
+          "extensions": Array [
+            "js",
+          ],
+          "extractor": "purgeJs",
+        },
+      ],
+      "fontFace": true,
+      "keyframes": true,
+      "paths": Array [
+        "/current/dir/src/**/*.{js,jsx}",
+        "foo",
+        "bar",
+      ],
+      "safelist": Array [
+        "red",
+      ],
+      "variables": true,
+    },
+  },
+]
+`;
+
 exports[`Common webpack loaders purgecss-loader should return a config that accounts for the src dir 1`] = `
 Array [
   Object {
@@ -224,95 +256,6 @@ Array [
     },
   },
 ]
-`;
-
-exports[`Common webpack loaders reconcileConfigOptions should insert deep and greedy defaults if not present 1`] = `
-Object {
-  "purgecss": Object {
-    "blocklist": Array [
-      "blockClass",
-    ],
-    "extractors": Array [
-      Object {
-        "extensions": Array [
-          "js",
-        ],
-        "extractor": "purgeJs",
-      },
-    ],
-    "fontFace": true,
-    "keyframes": true,
-    "paths": Array [
-      "foo",
-      "bar",
-    ],
-    "safelist": Object {
-      "deep": Array [
-        /:global\\$/,
-      ],
-      "greedy": Array [],
-      "keyframes": true,
-      "standard": Array [
-        "random",
-      ],
-      "variables": true,
-    },
-    "variables": true,
-  },
-}
-`;
-
-exports[`Common webpack loaders reconcileConfigOptions should not modfify passed config 1`] = `
-Object {
-  "purgecss": Object {
-    "blocklist": Array [
-      "blockClass",
-    ],
-    "extractors": Array [
-      Object {
-        "extensions": Array [
-          "js",
-        ],
-        "extractor": "purgeJs",
-      },
-    ],
-    "fontFace": true,
-    "keyframes": true,
-    "paths": Array [
-      "foo",
-      "bar",
-    ],
-    "variables": true,
-  },
-}
-`;
-
-exports[`Common webpack loaders reconcileConfigOptions should not modfify safelist 1`] = `
-Object {
-  "purgecss": Object {
-    "blocklist": Array [
-      "blockClass",
-    ],
-    "extractors": Array [
-      Object {
-        "extensions": Array [
-          "js",
-        ],
-        "extractor": "purgeJs",
-      },
-    ],
-    "fontFace": true,
-    "keyframes": true,
-    "paths": Array [
-      "foo",
-      "bar",
-    ],
-    "safelist": Array [
-      "random",
-    ],
-    "variables": true,
-  },
-}
 `;
 
 exports[`Common webpack loaders sass-loader should return a config using dart sass 1`] = `

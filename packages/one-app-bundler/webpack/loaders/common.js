@@ -37,64 +37,74 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
   },
 });
 
-/* eslint-disable inclusive-language/use-inclusive-words, max-len --
+/* eslint-disable inclusive-language/use-inclusive-words --
 config options for a third party library */
 // transform strings deep and greedy perameters into regex
-const reconcileConfigOptions = (configOptions) => {
-  const configOptionsReconciled = configOptions;
-  if (configOptionsReconciled.purgecss.safelist !== undefined && !Array.isArray(configOptionsReconciled.purgecss.safelist)) {
-    const greedy = configOptions.purgecss.safelist.greedy
-      ? configOptions.purgecss.safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
-      : [];
-    configOptionsReconciled.purgecss.safelist.greedy = greedy;
-    const deep = configOptions.purgecss.safelist.deep
-      ? configOptions.purgecss.safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
-      : [/:global$/];
-    configOptionsReconciled.purgecss.safelist.deep = deep;
+const reconcileSafeList = (safelist) => {
+  if (!safelist || Array.isArray(safelist)) {
+    return safelist;
   }
+  const configOptionsReconciled = safelist;
+
+  const greedy = safelist.greedy
+    ? safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
+    : [];
+  configOptionsReconciled.greedy = greedy;
+  const deep = safelist.deep
+    ? safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
+    : [/:global$/];
+  configOptionsReconciled.deep = deep;
+
   return configOptionsReconciled;
 };
 
 const purgeCssLoader = () => {
-  let configOptions = getConfigOptions();
-  configOptions = reconcileConfigOptions(configOptions);
-  const whitelistPatterns = configOptions.purgecss.whitelistPatterns
-    ? configOptions.purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i'))
-    : [];
-  const whitelistPatternsChildren = configOptions.purgecss.whitelistPatternsChildren
-    ? configOptions.purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'))
-    : [/:global$/];
+  const { purgecss } = getConfigOptions();
+  const safelist = reconcileSafeList(purgecss.safelist);
   let aggregatedStandard = [];
-  // aggregate the various whitelist options
-  if (configOptions.purgecss.whitelist !== undefined && configOptions.purgecss.whitelist.length > 0) {
-    aggregatedStandard = aggregatedStandard.concat(configOptions.purgecss.whitelist);
+  let safelistDeep = [/:global$/];
+  // aggregate the various whitelist options if safelist is not present
+  if (!safelist) {
+    if (purgecss.whitelistPatterns) {
+      console.warn('deprecated whitelist patters');
+      aggregatedStandard = [
+        ...aggregatedStandard,
+        ...purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i')),
+      ];
+    }
+    if (purgecss.whitelist) {
+      console.warn('deprecated whitelist usage');
+      aggregatedStandard = [...aggregatedStandard, ...purgecss.whitelist];
+    }
+    if (purgecss.whitelistPatternsChildren) {
+      console.warn('Using depreciated property whitelistPatternsChildren');
+
+      safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
+    }
   }
-  if (whitelistPatterns !== undefined && whitelistPatterns.length > 0) {
-    aggregatedStandard = aggregatedStandard.concat(whitelistPatterns);
-  }
-  //
-  if (configOptions.purgecss.disabled) return [];
+  /* eslint-enable inclusive-language/use-inclusive-words --
+  re enable disabled */
+  if (purgecss.disabled) return [];
   return [{
     loader: '@americanexpress/purgecss-loader',
     options: {
-      paths: [path.join(packageRoot, 'src/**/*.{js,jsx}'), ...configOptions.purgecss.paths || []],
-      extractors: configOptions.purgecss.extractors || [],
-      fontFace: configOptions.purgecss.fontFace || false,
-      keyframes: configOptions.purgecss.keyframes || false,
-      variables: configOptions.purgecss.keyframes || false,
-      safelist: configOptions.purgecss.safelist || {
+      paths: [path.join(packageRoot, 'src/**/*.{js,jsx}'), ...purgecss.paths || []],
+      extractors: purgecss.extractors || [],
+      fontFace: purgecss.fontFace || false,
+      keyframes: purgecss.keyframes || false,
+      variables: purgecss.keyframes || false,
+      safelist: safelist || {
         standard: aggregatedStandard,
-        deep: whitelistPatternsChildren,
+        deep: safelistDeep,
         greedy: [],
-        keyframes: configOptions.purgecss.keyframes || false,
-        variables: configOptions.purgecss.keyframes || false,
+        keyframes: purgecss.keyframes || false,
+        variables: purgecss.keyframes || false,
       },
-      blocklist: configOptions.purgecss.blocklist || [],
+      blocklist: purgecss.blocklist || [],
       //
     },
   }];
 };
-/* eslint-enable inclusive-language/use-inclusive-words, max-len -- disables require enables */
 
 const sassLoader = () => ({
   loader: 'sass-loader',
@@ -117,5 +127,5 @@ module.exports = {
   cssLoader,
   purgeCssLoader,
   sassLoader,
-  reconcileConfigOptions,
+  reconcileSafeList,
 };
