@@ -49,7 +49,7 @@ const purgecssSchema = Joi.object({
     Joi.object().keys({
       standard: Joi.array().items(Joi.string()),
       deep: Joi.array().items(Joi.string()),
-      greedy: Joi.boolean().strict(),
+      greedy: Joi.array().items(Joi.string()),
       keyframes: Joi.boolean().strict(),
       variables: Joi.boolean().strict(),
     })),
