@@ -39,7 +39,7 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
 
 /* eslint-disable inclusive-language/use-inclusive-words --
 config options for a third party library */
-// transform strings deep and greedy perameters into regex
+// transform strings deep and greedy parameters into regex
 const reconcileSafeList = (safelist) => {
   if (!safelist || Array.isArray(safelist)) {
     return safelist;
