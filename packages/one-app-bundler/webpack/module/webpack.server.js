@@ -44,12 +44,12 @@ module.exports = extendWebpackConfig(merge(
     resolve: {
       mainFields: ['module', 'main'],
       modules: [packageRoot, 'node_modules'],
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.[jt]sx?$/,
           include: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
           use: [babelLoader()],
         },
