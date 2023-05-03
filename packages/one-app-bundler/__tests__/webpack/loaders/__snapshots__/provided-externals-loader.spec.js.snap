@@ -1,13 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['provided-externals-loader should append the providedExternals to the default export 1'] = `
+exports[`provided-externals-loader should append the providedExternals to the default export 1`] = `
 "import MyComponent from './components/MyComponent';
 export default MyComponent;
 ;
 MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
   providedExternals: {
-    'ajv': { version: '6.12.6', module: require('ajv')},
-  'lodash': { version: '4.17.21', module: require('lodash')},
+    
+      'ajv': {
+        ...{
+  \\"fallbackEnabled\\": false
+},
+        version: '6.12.6',
+        module: require('ajv'),
+      }, 
+
+      'lodash': {
+        ...{
+  \\"fallbackEnabled\\": false
+},
+        version: '4.17.21',
+        module: require('lodash'),
+      }
   },
 });
 
@@ -18,8 +32,8 @@ global.rootModuleName = 'undefined';
 "
 `;
 
-exports['provided-externals-loader should throw an error when the wrong syntax is used - export default hoc() 1'] = '"@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use providedExternals"';
+exports[`provided-externals-loader should throw an error when the wrong syntax is used - export default hoc() 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use providedExternals"`;
 
-exports['provided-externals-loader should throw an error when the wrong syntax is used - export from 1'] = '"@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use providedExternals"';
+exports[`provided-externals-loader should throw an error when the wrong syntax is used - export from 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use providedExternals"`;
 
-exports['provided-externals-loader should throw an error when the wrong syntax is used - module.exports 1'] = '"@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use providedExternals"';
+exports[`provided-externals-loader should throw an error when the wrong syntax is used - module.exports 1`] = `"@americanexpress/one-app-bundler: Module must use \`export default VariableName\` in index syntax to use providedExternals"`;

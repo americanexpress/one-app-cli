@@ -15,10 +15,9 @@
 const loaderUtils = require('loader-utils');
 
 function providedExternalsLoader(content) {
-  const options = loaderUtils.getOptions(this);
-  const { providedExternals } = options;
+  const { moduleName, providedExternals } = loaderUtils.getOptions(this);
 
-  const extendedProvidedExternals = Object.keys(providedExternals).map((externalName) => {
+  const extendedProvidedExternals = (Array.isArray(providedExternals) ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     const externalPkg = require(`${externalName}/package.json`);
 
@@ -46,9 +45,9 @@ ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
   },
 });
 
-if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${options.moduleName}')){
+if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${moduleName}')){
 global.getTenantRootModule = () => ${match[1]};
-global.rootModuleName = '${options.moduleName}';
+global.rootModuleName = '${moduleName}';
 }
 `;
   }

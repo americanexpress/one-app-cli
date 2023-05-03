@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['extendWebpackConfig should bundle requiredExternals designated by providedExternals 1'] = `
+exports[`extendWebpackConfig should bundle requiredExternals designated by providedExternals 1`] = `
 Object {
   "test": "/path/src/index",
   "use": Array [
@@ -8,24 +8,31 @@ Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader",
       "options": Object {
         "moduleName": "test-root-module",
-        "providedExternals": Array [
-          "ajv",
-          "chalk",
-          "lodash",
-        ],
+        "providedExternals": Object {
+          "ajv": Object {
+            "enableFallback": false,
+          },
+          "chalk": Object {
+            "enableFallback": false,
+          },
+          "lodash": Object {
+            "enableFallback": false,
+          },
+        },
       },
     },
   ],
 }
 `;
 
-exports['extendWebpackConfig should use the correct trailing slash on windows 1'] = `
+exports[`extendWebpackConfig should use the correct trailing slash on windows 1`] = `
 Object {
   "test": StringMatching /ajv\\\\\\\\\\$/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
       "options": Object {
+        "bundleTarget": undefined,
         "externalName": "ajv",
       },
     },
@@ -33,13 +40,14 @@ Object {
 }
 `;
 
-exports['extendWebpackConfig should use the correct trailing slash on windows 2'] = `
+exports[`extendWebpackConfig should use the correct trailing slash on windows 2`] = `
 Object {
   "test": StringMatching /lodash\\\\\\\\\\$/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
       "options": Object {
+        "bundleTarget": undefined,
         "externalName": "lodash",
       },
     },
@@ -47,7 +55,7 @@ Object {
 }
 `;
 
-exports['extendWebpackConfig should use the correct trailing slash on windows 3'] = `
+exports[`extendWebpackConfig should use the correct trailing slash on windows 3`] = `
 Object {
   "test": "/path/src/index",
   "use": Array [
@@ -64,13 +72,14 @@ Object {
 }
 `;
 
-exports['extendWebpackConfig should use the provided requiredExternals configured 1'] = `
+exports[`extendWebpackConfig should use the provided requiredExternals configured 1`] = `
 Object {
   "test": StringMatching /ajv\\\\/\\$/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
       "options": Object {
+        "bundleTarget": undefined,
         "externalName": "ajv",
       },
     },
@@ -78,13 +87,14 @@ Object {
 }
 `;
 
-exports['extendWebpackConfig should use the provided requiredExternals configured 2'] = `
+exports[`extendWebpackConfig should use the provided requiredExternals configured 2`] = `
 Object {
   "test": StringMatching /lodash\\\\/\\$/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
       "options": Object {
+        "bundleTarget": undefined,
         "externalName": "lodash",
       },
     },
@@ -92,7 +102,7 @@ Object {
 }
 `;
 
-exports['extendWebpackConfig should use the provided requiredExternals configured 3'] = `
+exports[`extendWebpackConfig should use the provided requiredExternals configured 3`] = `
 Object {
   "test": "/path/src/index",
   "use": Array [
@@ -109,7 +119,7 @@ Object {
 }
 `;
 
-exports['extendWebpackConfig should validate the one app version 1'] = `
+exports[`extendWebpackConfig should validate the one app version 1`] = `
 Object {
   "test": "/path/src/index",
   "use": Array [

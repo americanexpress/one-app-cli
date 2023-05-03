@@ -15,7 +15,7 @@
 const externalsLoader = require('../../../webpack/loaders/externals-loader');
 
 jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ externalName: 'my-dependency' })),
+  getOptions: jest.fn(() => ({ externalName: 'lodash' })),
 }));
 
 describe('externals-loader', () => {

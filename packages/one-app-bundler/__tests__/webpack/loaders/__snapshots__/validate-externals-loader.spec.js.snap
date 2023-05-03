@@ -8,9 +8,15 @@ export default SomeComponent;
 if (!global.BROWSER) {
   SomeComponent.appConfig = Object.assign({}, SomeComponent.appConfig, {
     requiredExternals: {
-      'ajv': '^6.7.0',
-      'lodash': '^4.17.20',
-    },
+  \\"ajv\\": {
+    \\"version\\": \\"6.12.6\\",
+    \\"semanticRange\\": \\"^6.7.0\\"
+  },
+  \\"lodash\\": {
+    \\"version\\": \\"4.17.21\\",
+    \\"semanticRange\\": \\"^4.17.20\\"
+  }
+},
   });
 }
 "

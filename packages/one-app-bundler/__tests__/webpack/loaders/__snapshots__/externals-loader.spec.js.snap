@@ -1,12 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['externals-loader should ignore the content and get the dependency from the root module 1'] = `
+exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
 "try {
-  module.exports = global.getTenantRootModule().appConfig.providedExternals['my-dependency'].module;
+  const fallbackExternal = global.Holocron.getExternal({
+    name: 'lodash',
+    version: '4.17.21'
+  });
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
+
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('External not found: lodash')
+  });
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external my-dependency from root module');
+  const errorGettingExternal = new Error('Failed to get external fallback lodash');
   errorGettingExternal.shouldBlockModuleReload = false;
-  throw errorGettingExternal;
+  throw error;
 }
 "
 `;
