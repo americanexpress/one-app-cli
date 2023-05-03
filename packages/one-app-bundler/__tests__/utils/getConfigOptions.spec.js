@@ -67,6 +67,11 @@ describe('getConfigOptions', () => {
     expect(() => require('../../utils/getConfigOptions')).not.toThrow();
   });
 
+  it('should allow a user to include requiredExternals, providedExternals can also be an object', () => {
+    readPkgUp.sync.mockReturnValueOnce({ packageJson: { 'one-amex': { bundler: { providedExternals: { b: {} } } } } });
+    expect(() => require('../../utils/getConfigOptions')).not.toThrow();
+  });
+
   it('should throw when a user attempts to provide an app provided external', () => {
     readPkgUp.sync.mockReturnValueOnce({ packageJson: { 'one-amex': { bundler: { providedExternals: ['@americanexpress/one-app-ducks'] } } } });
     expect(() => require('../../utils/getConfigOptions')).toThrowErrorMatchingSnapshot();

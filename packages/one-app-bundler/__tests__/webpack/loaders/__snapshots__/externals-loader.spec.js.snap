@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`externals-loader does not use fallback for server 1`] = `
+"  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash']
+
+  if (rootModuleExternal && require('holocron').validateExternal({
+    providedVersion: rootModuleExternal.version,
+    requestedRange: '^1.0.0'
+  })) {
+    try {
+      module.exports = rootModuleExternal.module;
+    } catch (error) {
+      const errorGettingExternal = new Error('Failed to get external lodash from root module');
+      errorGettingExternal.shouldBlockModuleReload = false;
+      throw errorGettingExternal;
+    }
+  } else {
+    This is some content!;
+  }
+"
+`;
+
 exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
 "try {
   const fallbackExternal = global.Holocron.getExternal({

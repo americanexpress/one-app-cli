@@ -7,6 +7,6 @@ const { EXTERNAL_PREFIX } = require('..');
  * @param {string} version External semver version (e.g. 1.2.3)
  * @returns {string} global variable name
  */
-const getExternalLibraryName = (name, version) => [EXTERNAL_PREFIX, snakeCase(name), version.replace(/[^0-9.]+/g, '').replace(/[.]+/g, "_")].filter(Boolean).join('__');
+const getExternalLibraryName = (name, version) => [EXTERNAL_PREFIX, snakeCase(name), version.replace(/[^\d.]+/g, '').replace(/\.+/g, '_')].filter(Boolean).join('__');
 
 module.exports = getExternalLibraryName;

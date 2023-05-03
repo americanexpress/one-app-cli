@@ -12,14 +12,31 @@
  * under the License.
  */
 
+const loaderUtils = require('loader-utils');
 const externalsLoader = require('../../../webpack/loaders/externals-loader');
 
 jest.mock('loader-utils', () => ({
   getOptions: jest.fn(() => ({ externalName: 'lodash' })),
 }));
 
+jest.mock('read-pkg-up', () => ({
+  sync: () => ({
+    packageJson: {
+      dependencies: {
+        lodash: '^1.0.0',
+      },
+    },
+  }),
+}));
+
 describe('externals-loader', () => {
   it('should ignore the content and get the dependency from the root module', () => {
+    expect(externalsLoader('This is some content!')).toMatchSnapshot();
+  });
+
+  it('does not use fallback for server', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ externalName: 'lodash', bundleTarget: 'server' });
+
     expect(externalsLoader('This is some content!')).toMatchSnapshot();
   });
 });

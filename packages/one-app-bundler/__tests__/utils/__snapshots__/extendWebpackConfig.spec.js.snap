@@ -25,6 +25,29 @@ Object {
 }
 `;
 
+exports[`extendWebpackConfig should bundle requiredExternals designated by providedExternals with custom configuration 1`] = `
+Object {
+  "test": "/path/src/index",
+  "use": Array [
+    Object {
+      "loader": "@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader",
+      "options": Object {
+        "moduleName": "test-root-module",
+        "providedExternals": Object {
+          "ajv": Object {
+            "enableFallback": true,
+          },
+          "chalk": Object {
+            "enableFallback": false,
+          },
+          "lodash": Object {},
+        },
+      },
+    },
+  ],
+}
+`;
+
 exports[`extendWebpackConfig should use the correct trailing slash on windows 1`] = `
 Object {
   "test": StringMatching /ajv\\\\\\\\\\$/,

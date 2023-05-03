@@ -17,16 +17,17 @@ const loaderUtils = require('loader-utils');
 function providedExternalsLoader(content) {
   const { moduleName, providedExternals } = loaderUtils.getOptions(this);
 
-  const extendedProvidedExternals = (Array.isArray(providedExternals) ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
+  const extendedProvidedExternals = (Array.isArray(providedExternals)
+    ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     const externalPkg = require(`${externalName}/package.json`);
 
     return `
       '${externalName}': {
         ...${JSON.stringify({
-      fallbackEnabled: false,
-      ...providedExternals[externalName],
-    }, null, 2)},
+    fallbackEnabled: false,
+    ...providedExternals[externalName],
+  }, null, 2)},
         version: '${externalPkg.version}',
         module: require('${externalName}'),
       }`;
@@ -39,9 +40,9 @@ function providedExternalsLoader(content) {
 ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
   providedExternals: {
     ${
-      // NOTE: We need to use 'join' instead of JSON.stringify because it performs some escaping.
-      extendedProvidedExternals.join(', \n')
-      }
+  // NOTE: We need to use 'join' instead of JSON.stringify because it performs some escaping.
+  extendedProvidedExternals.join(', \n')
+}
   },
 });
 

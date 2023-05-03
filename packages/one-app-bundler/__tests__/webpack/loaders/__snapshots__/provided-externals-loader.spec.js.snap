@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`provided-externals-loader accepts an object 1`] = `
+"import MyComponent from './components/MyComponent';
+export default MyComponent;
+;
+MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
+  providedExternals: {
+    
+      'ajv': {
+        ...{
+  \\"fallbackEnabled\\": false
+},
+        version: '6.12.6',
+        module: require('ajv'),
+      }, 
+
+      'lodash': {
+        ...{
+  \\"fallbackEnabled\\": false
+},
+        version: '4.17.21',
+        module: require('lodash'),
+      }
+  },
+});
+
+if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === 'undefined')){
+global.getTenantRootModule = () => MyComponent;
+global.rootModuleName = 'undefined';
+}
+"
+`;
+
 exports[`provided-externals-loader should append the providedExternals to the default export 1`] = `
 "import MyComponent from './components/MyComponent';
 export default MyComponent;
