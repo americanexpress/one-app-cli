@@ -31,12 +31,12 @@ function requiredExternalsLoader(content) {
     try {
       module.exports = rootModuleExternal.module;
     } catch (error) {
-      const errorGettingExternal = new Error('Failed to get external ${externalName} from root module');
+      const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server');
       errorGettingExternal.shouldBlockModuleReload = false;
       throw errorGettingExternal;
     }
   } else {
-    ${content};
+    ${content}
   }
 `;
   }

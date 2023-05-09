@@ -1,5 +1,6 @@
 const path = require('path');
-const webpack = require('webpack');
+const { promisify } = require('util');
+const webpack = promisify(require('webpack'));
 const readPkgUp = require('read-pkg-up');
 const chalk = require('chalk');
 const { ConcatSource } = require('webpack-sources');
@@ -7,6 +8,7 @@ const ModuleFilenameHelpers = require('webpack/lib/ModuleFilenameHelpers');
 const getRegisterExternalStr = require('../utils/getRegisterExternalStr');
 const getExternalLibraryName = require('../utils/getExternalLibraryName');
 const getExternalFilename = require('../utils/getExternalFilename');
+const generateIntegrityManifest = require('./generateIntegrityManifest');
 
 function HolocronExternalRegisterPlugin(externalName, version) {
   this.externalName = externalName;
@@ -38,7 +40,7 @@ HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
   });
 };
 
-module.exports = function bundleExternalFallbacks() {
+module.exports = async function bundleExternalFallbacks() {
   const { packageJson } = readPkgUp.sync();
   const { 'one-amex': { bundler = {} } } = packageJson;
   const { requiredExternals } = bundler;
@@ -50,27 +52,31 @@ module.exports = function bundleExternalFallbacks() {
     return;
   }
 
-  requiredExternals.forEach((externalName) => {
+  await Promise.all(requiredExternals.map((externalName) => {
     const indexPath = path.resolve(process.cwd(), `node_modules/${externalName}`);
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     const { version } = require(`${externalName}/package.json`);
+    const buildPath = path.resolve(process.cwd(), `build/${packageJson.version}`)
 
-    webpack({
+    return webpack({
       entry: indexPath,
       output: {
-        path: path.resolve(process.cwd(), `build/${packageJson.version}`),
+        path: buildPath,
         filename: getExternalFilename(externalName),
         library: getExternalLibraryName(externalName, version),
       },
       plugins: [
         new HolocronExternalRegisterPlugin(externalName, version),
       ],
-    }, (externalError) => {
-      if (externalError) {
-        console.log(`Failed to bundle external - ${externalName}`);
-        console.log(chalk.red(externalError), chalk.red(externalError.stack));
-        throw externalError;
-      }
+    }).then(() => {
+      generateIntegrityManifest(
+        externalName,
+        path.resolve(buildPath, getExternalFilename(externalName))
+      )
+    }).catch((externalError) => {
+      console.log(`Failed to bundle external - ${externalName}`);
+      console.log(chalk.red(externalError), chalk.red(externalError.stack));
+      throw externalError;
     });
-  });
+  }));
 };

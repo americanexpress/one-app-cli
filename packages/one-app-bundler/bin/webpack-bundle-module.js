@@ -31,9 +31,9 @@ fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSO
 
 localeBundler(watch);
 
-webpack(serverConfig, getWebpackCallback('node', true));
-webpack(modernClientConfig, getWebpackCallback('browser', true));
-
-bundleExternalFallbacks();
+bundleExternalFallbacks().then(() => {
+  webpack(serverConfig, getWebpackCallback('node', true));
+  webpack(modernClientConfig, getWebpackCallback('browser', true));
+});
 
 if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
