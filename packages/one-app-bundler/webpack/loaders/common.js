@@ -66,18 +66,18 @@ const purgeCssLoader = () => {
   // aggregate the various whitelist options if safelist is not present
   if (!safelist) {
     if (purgecss.whitelistPatterns) {
-      console.warn('deprecated whitelist patters');
+      console.warn('Purgecss: Using depreciated property whitelistPatterns');
       aggregatedStandard = [
         ...aggregatedStandard,
         ...purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i')),
       ];
     }
     if (purgecss.whitelist) {
-      console.warn('deprecated whitelist usage');
+      console.warn('Purgecss: Using depreciated property whitelist');
       aggregatedStandard = [...aggregatedStandard, ...purgecss.whitelist];
     }
     if (purgecss.whitelistPatternsChildren) {
-      console.warn('Using depreciated property whitelistPatternsChildren');
+      console.warn('Purgecss: Using depreciated property whitelistPatternsChildren');
 
       safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
     }
