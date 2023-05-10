@@ -10,11 +10,17 @@ const getExternalLibraryName = require('../utils/getExternalLibraryName');
 const getExternalFilename = require('../utils/getExternalFilename');
 const generateIntegrityManifest = require('./generateIntegrityManifest');
 
+const nodeEnvironmentIsProduction = process.env.NODE_ENV === 'production';
+
 function HolocronExternalRegisterPlugin(externalName, version) {
   this.externalName = externalName;
   this.externalVersion = version;
   this.options = {};
 }
+
+const {
+  babelLoader,
+} = require('../webpack/loaders/common');
 
 HolocronExternalRegisterPlugin.prototype.apply = function apply(compiler) {
   const { externalName, externalVersion, options } = this;
@@ -56,7 +62,7 @@ module.exports = async function bundleExternalFallbacks() {
     const indexPath = path.resolve(process.cwd(), `node_modules/${externalName}`);
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     const { version } = require(`${externalName}/package.json`);
-    const buildPath = path.resolve(process.cwd(), `build/${packageJson.version}`)
+    const buildPath = path.resolve(process.cwd(), `build/${packageJson.version}`);
 
     return webpack({
       entry: indexPath,
@@ -65,14 +71,23 @@ module.exports = async function bundleExternalFallbacks() {
         filename: getExternalFilename(externalName),
         library: getExternalLibraryName(externalName, version),
       },
+      mode: nodeEnvironmentIsProduction ? 'production' : 'development',
       plugins: [
         new HolocronExternalRegisterPlugin(externalName, version),
       ],
+      module: {
+        rules: [
+          {
+            test: /\.jsx?$/,
+            use: [babelLoader('modern')],
+          },
+        ],
+      },
     }).then(() => {
       generateIntegrityManifest(
         externalName,
         path.resolve(buildPath, getExternalFilename(externalName))
-      )
+      );
     }).catch((externalError) => {
       console.log(`Failed to bundle external - ${externalName}`);
       console.log(chalk.red(externalError), chalk.red(externalError.stack));
