@@ -59,7 +59,9 @@ describe('Esbuild plugin preventProdBuildsForNow', () => {
  ____) |  | | | |__| | |     
 |_____/   |_|  \\____/|_|     
 
-This bundler is only enabled for local development. If you see this message please raise an issue`);
+This bundler is only enabled for local development.
+
+NODE_ENV variable is set to 'production' but must be set to 'development'.`);
       expect(process.exit).toHaveBeenCalledTimes(1);
       expect(process.exit).toHaveBeenCalledWith(2);
     });
