@@ -14,15 +14,24 @@
 
 const loaderUtils = require('loader-utils');
 const readPkgUp = require('read-pkg-up');
+const fs = require('fs');
 
 const { packageJson } = readPkgUp.sync();
+const path = require('path');
 
 function requiredExternalsLoader(content) {
   const { externalName, bundleTarget } = loaderUtils.getOptions(this);
-
   if (bundleTarget === 'server') {
+    const fileExtension = path.parse(this.resourcePath).ext;
+    const newContentLocation = path.resolve(this.context, `${externalName}-tmp${fileExtension}`);
+    // write file to temporarily hide possible ESM 'import' and 'export' from babel and webpack.
+    fs.writeFileSync(newContentLocation, content);
+    // when webpack runs the newly written file through this loader, due to below require,
+    // leave content as is.
+    if (newContentLocation === this.resourcePath) return content;
+
     return `\
-  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}']
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
 
   if (rootModuleExternal && require('holocron').validateExternal({
     providedVersion: rootModuleExternal.version,
@@ -31,12 +40,12 @@ function requiredExternalsLoader(content) {
     try {
       module.exports = rootModuleExternal.module;
     } catch (error) {
-      const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server');
+      const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server', error.message);
       errorGettingExternal.shouldBlockModuleReload = false;
       throw errorGettingExternal;
     }
   } else {
-    ${content}
+    module.exports = require("${newContentLocation}");
   }
 `;
   }
@@ -53,7 +62,7 @@ try {
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
 
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-    throw new Error('External not found: ${externalName}')
+    throw new Error('External not found: ${externalName}');
   });
 } catch (error) {
   const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');

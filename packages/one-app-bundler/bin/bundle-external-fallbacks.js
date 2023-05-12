@@ -72,6 +72,7 @@ module.exports = async function bundleExternalFallbacks() {
         library: getExternalLibraryName(externalName, version),
       },
       mode: nodeEnvironmentIsProduction ? 'production' : 'development',
+      devtool: nodeEnvironmentIsProduction ? false : 'source-map',
       plugins: [
         new HolocronExternalRegisterPlugin(externalName, version),
       ],

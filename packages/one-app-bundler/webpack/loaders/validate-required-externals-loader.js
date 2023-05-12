@@ -23,7 +23,7 @@ function validateRequiredExternalsLoader(content) {
   const { packageJson } = readPkgUp.sync();
   const integrityManifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), 'utf-8'));
 
-  console.log('--integrityManifest', integrityManifest)
+  console.log('--integrityManifest', integrityManifest);
 
   const requiredExternals = options.requiredExternals.reduce((obj, externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
