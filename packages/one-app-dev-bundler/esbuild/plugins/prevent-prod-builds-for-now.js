@@ -26,7 +26,9 @@ const preventProdBuildsForNow = {
  ____) |  | | | |__| | |     
 |_____/   |_|  \\____/|_|     
 
-This bundler is only enabled for local development. If you see this message please raise an issue`);
+This bundler is only enabled for local development.
+
+NODE_ENV variable is set to '${process.env.NODE_ENV}' but must be set to 'development'.`);
       // eslint-disable-next-line unicorn/no-process-exit -- This is a cli app.
       process.exit(2);
     }
