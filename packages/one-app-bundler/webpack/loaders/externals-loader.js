@@ -67,7 +67,7 @@ try {
 } catch (error) {
   const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');
   errorGettingExternal.shouldBlockModuleReload = false;
-  throw error;
+  throw errorGettingExternal;
 }
 `;
 }
