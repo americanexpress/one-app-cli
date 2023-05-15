@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.14.6](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.14.5...@americanexpress/one-app-runner@6.14.6) (2023-05-15)
+
+
+### Bug Fixes
+
+* **one-app-runner-test:** improve console messaging ([#526](https://github.com/americanexpress/one-app-cli/issues/526)) ([900add5](https://github.com/americanexpress/one-app-cli/commit/900add571d48ad578726bc03bf38d2101eae2590))
+
+
+
+
+
 ## [6.14.5](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.14.0...@americanexpress/one-app-runner@6.14.5) (2023-03-08)
 
 
