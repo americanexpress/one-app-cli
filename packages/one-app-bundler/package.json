@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-bundler",
-  "version": "6.19.0",
+  "version": "6.19.1",
   "description": "A command line interface(CLI) tool for bundling One App and its modules.",
   "main": "index.js",
   "bin": {
@@ -39,8 +39,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@americanexpress/eslint-plugin-one-app": "^6.13.4",
-    "@americanexpress/one-app-dev-bundler": "^1.4.0",
-    "@americanexpress/one-app-locale-bundler": "^6.5.9",
+    "@americanexpress/one-app-dev-bundler": "^1.4.1",
+    "@americanexpress/one-app-locale-bundler": "^6.5.10",
     "@americanexpress/purgecss-loader": "^2.0.0",
     "@babel/core": "^7.17.5",
     "@babel/eslint-parser": "^7.17.0",
