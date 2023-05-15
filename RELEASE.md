@@ -8,5 +8,5 @@
 6. When merging try to ensure that commit does not get squashed as this will cause the tags be against missing commits.
 7. Once merged run the [manually publish](https://github.com/americanexpress/one-app-cli/actions/workflows/publish.yml) github action workflow.
 
-One App Cli is currently not setup for pre-releases.
+One App CLI is currently not setup for pre-releases.
 In theory, if one is required, using [--conventional-prerelease](https://github.com/lerna/lerna/tree/main/commands/version#--conventional-prerelease) in step two should work. For example: `yarn lerna:version --conventional-prerelease`
