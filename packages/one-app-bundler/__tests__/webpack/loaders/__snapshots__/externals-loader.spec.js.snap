@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`externals-loader does not use fallback for server 1`] = `
-"  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash']
+"  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
 
   if (rootModuleExternal && require('holocron').validateExternal({
     providedVersion: rootModuleExternal.version,
@@ -10,15 +10,17 @@ exports[`externals-loader does not use fallback for server 1`] = `
     try {
       module.exports = rootModuleExternal.module;
     } catch (error) {
-      const errorGettingExternal = new Error('Failed to get external lodash from root module');
+      const errorGettingExternal = new Error('Failed to get external lodash from root module on the server', error.message);
       errorGettingExternal.shouldBlockModuleReload = false;
       throw errorGettingExternal;
     }
   } else {
-    This is some content!;
+    module.exports = require(\\"/Users/gkranev/Projects/one-amex/one-app-cli/test.js/lodash-tmp.js\\");
   }
 "
 `;
+
+exports[`externals-loader returns content 1`] = `"This is some content!"`;
 
 exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
 "try {
@@ -29,12 +31,12 @@ exports[`externals-loader should ignore the content and get the dependency from 
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
 
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-    throw new Error('External not found: lodash')
+    throw new Error('External not found: lodash');
   });
 } catch (error) {
   const errorGettingExternal = new Error('Failed to get external fallback lodash');
   errorGettingExternal.shouldBlockModuleReload = false;
-  throw error;
+  throw errorGettingExternal;
 }
 "
 `;

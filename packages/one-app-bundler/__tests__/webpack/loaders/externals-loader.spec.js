@@ -29,14 +29,31 @@ jest.mock('read-pkg-up', () => ({
   }),
 }));
 
+jest.mock('fs');
+
 describe('externals-loader', () => {
   it('should ignore the content and get the dependency from the root module', () => {
-    expect(externalsLoader('This is some content!')).toMatchSnapshot();
+    expect(externalsLoader.bind({
+      resourcePath: 'test.js',
+      context: 'test.js',
+    })('This is some content!')).toMatchSnapshot();
   });
 
   it('does not use fallback for server', () => {
     loaderUtils.getOptions.mockReturnValueOnce({ externalName: 'lodash', bundleTarget: 'server' });
 
-    expect(externalsLoader('This is some content!')).toMatchSnapshot();
+    expect(externalsLoader.bind({
+      resourcePath: 'test.js',
+      context: 'test.js',
+    })('This is some content!')).toMatchSnapshot();
+  });
+
+  it('returns content', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ externalName: 'lodash', bundleTarget: 'server' });
+
+    expect(externalsLoader.bind({
+      resourcePath: '/build/lodash-tmp.js',
+      context: '/build',
+    })('This is some content!')).toMatchSnapshot();
   });
 });

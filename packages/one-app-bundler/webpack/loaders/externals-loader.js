@@ -19,8 +19,9 @@ const fs = require('fs');
 const { packageJson } = readPkgUp.sync();
 const path = require('path');
 
-function requiredExternalsLoader(content) {
+function externalsLoader(content) {
   const { externalName, bundleTarget } = loaderUtils.getOptions(this);
+
   if (bundleTarget === 'server') {
     const fileExtension = path.parse(this.resourcePath).ext;
     const newContentLocation = path.resolve(this.context, `${externalName}-tmp${fileExtension}`);
@@ -72,4 +73,4 @@ try {
 `;
 }
 
-module.exports = requiredExternalsLoader;
+module.exports = externalsLoader;
