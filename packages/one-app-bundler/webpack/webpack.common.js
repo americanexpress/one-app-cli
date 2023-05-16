@@ -45,7 +45,7 @@ module.exports = {
     minimize: nodeEnvironmentIsProduction,
     minimizer: [
       new TerserPlugin({
-        test: /\.jsx?$/i,
+        test: /\.[jt]sx?$/i,
         extractComments: false,
         terserOptions: {
           compress: {
@@ -77,7 +77,7 @@ module.exports = {
       },
       {
         enforce: 'pre',
-        test: /\.jsx?$/,
+        test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
         options: {

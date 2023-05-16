@@ -60,7 +60,7 @@ module.exports = (babelEnv) => {
       resolve: {
         mainFields: ['browser', 'module', 'main'],
         modules: [packageRoot, 'node_modules'],
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
       node: { module: 'empty', net: 'empty', fs: 'empty' },
       performance: {
@@ -71,7 +71,7 @@ module.exports = (babelEnv) => {
       module: {
         rules: [
           {
-            test: /\.jsx?$/,
+            test: /[jt]sx?$/,
             include: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
             use: [babelLoader(babelEnv)],
           },

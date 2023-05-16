@@ -25,7 +25,7 @@ const run = async () => {
   const port = process.env.HTTP_PORT;
   const timeout = 200000;
 
-  console.log(`Waiting for one app to start on port ${port}`);
+  console.log(`Waiting for One App to start on port ${port}`);
 
   const resolvedStatus = await waitForOK({
     url: `http://localhost:${port}/_/status`,
@@ -33,9 +33,9 @@ const run = async () => {
   });
 
   if (resolvedStatus) {
-    console.log(`One app server started successfully on port ${port}`);
+    console.log(`One App server started successfully on port ${port}`);
   } else {
-    console.error(`One app crashed in ${timeout}ms`);
+    console.error(`One App failed to start within ${timeout}ms. Please check the one-app-test.log for more information.`);
     process.exit(1);
   }
 };
