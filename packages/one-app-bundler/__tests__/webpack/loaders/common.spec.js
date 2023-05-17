@@ -117,7 +117,10 @@ describe('Common webpack loaders', () => {
         /* eslint-enable -- disables require enables */
       };
       getConfigOptions.mockReturnValueOnce({ purgecss });
-      expect(purgeCssLoader()).toMatchSnapshot();
+      const configured = purgeCssLoader();
+      expect(configured[0].options.blocklist).toEqual([]);
+      expect(configured[0].options.safelist.standard).toEqual([/red/i, 'random', 'yep', 'button']);
+      expect(configured[0].options.safelist.deep).toEqual([/blue/i]);
     });
 
     it('should return an empty object when disabled', () => {
@@ -144,7 +147,15 @@ describe('Common webpack loaders', () => {
         blocklist: ['blockClass'],
       };
       getConfigOptions.mockReturnValueOnce({ purgecss });
-      expect(purgeCssLoader()).toMatchSnapshot();
+      const configured = purgeCssLoader();
+      expect(configured[0].options.safelist).toEqual({
+        standard: ['random'],
+        deep: [/randomdeep/i],
+        greedy: [/randomgreedy/i],
+        keyframes: true,
+        variables: true,
+      });
+      expect(configured[0].options.blocklist).toEqual(['blockClass']);
     });
     it('should not modify safelist if it is an array', () => {
       const purgecss = {
@@ -160,7 +171,8 @@ describe('Common webpack loaders', () => {
         blocklist: ['blockClass'],
       };
       getConfigOptions.mockReturnValueOnce({ purgecss });
-      expect(purgeCssLoader()).toMatchSnapshot();
+      const configured = purgeCssLoader();
+      expect(configured[0].options.safelist).toEqual(['red']);
     });
   });
   describe('reconcileSafeList', () => {
