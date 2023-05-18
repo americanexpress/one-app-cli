@@ -49,6 +49,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     requiredExternals,
     providedExternals,
     moduleName,
+    enableMissingExternalFallbacks,
   } = configOptions;
   const { watch } = cliOptions;
 
@@ -98,6 +99,22 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/validate-required-externals-loader',
             options: {
               requiredExternals,
+            },
+          }],
+        }],
+      },
+    });
+  }
+
+  if (enableMissingExternalFallbacks) {
+    customWebpackConfig = merge(customWebpackConfig, {
+      module: {
+        rules: [{
+          test: indexPath,
+          use: [{
+            loader: '@americanexpress/one-app-bundler/webpack/loaders/enable-missing-externals-loader',
+            options: {
+              enableMissingExternalFallbacks,
             },
           }],
         }],

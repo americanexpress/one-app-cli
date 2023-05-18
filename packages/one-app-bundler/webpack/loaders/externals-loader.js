@@ -14,22 +14,19 @@
 
 const loaderUtils = require('loader-utils');
 const readPkgUp = require('read-pkg-up');
-const fs = require('fs');
+const babel = require('@babel/core');
 
 const { packageJson } = readPkgUp.sync();
 const path = require('path');
 
+const packageRoot = process.cwd();
+
 function externalsLoader(content) {
   const { externalName, bundleTarget } = loaderUtils.getOptions(this);
-
   if (bundleTarget === 'server') {
-    const fileExtension = path.parse(this.resourcePath).ext;
-    const newContentLocation = path.resolve(this.context, `${externalName}-tmp${fileExtension}`);
-    // write file to temporarily hide possible ESM 'import' and 'export' from babel and webpack.
-    fs.writeFileSync(newContentLocation, content);
-    // when webpack runs the newly written file through this loader, due to below require,
-    // leave content as is.
-    if (newContentLocation === this.resourcePath) return content;
+    const babelContent = babel.transformSync(content, {
+      extends: path.join(packageRoot, '.babelrc'),
+    }).code;
 
     return `\
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
@@ -46,7 +43,7 @@ function externalsLoader(content) {
       throw errorGettingExternal;
     }
   } else {
-    module.exports = require("${newContentLocation}");
+    ${babelContent}
   }
 `;
   }
