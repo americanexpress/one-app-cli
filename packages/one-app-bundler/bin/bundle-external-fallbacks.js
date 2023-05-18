@@ -84,6 +84,60 @@ module.exports = async function bundleExternalFallbacks() {
           },
         ],
       },
+      externals: {
+        '@americanexpress/one-app-router': {
+          var: 'OneAppRouter',
+          commonjs2: '@americanexpress/one-app-router',
+        },
+        'create-shared-react-context': {
+          var: 'CreateSharedReactContext',
+          commonjs2: 'create-shared-react-context',
+        },
+        holocron: {
+          var: 'Holocron',
+          commonjs2: 'holocron',
+        },
+        react: {
+          var: 'React',
+          commonjs2: 'react',
+        },
+        'react-dom': {
+          var: 'ReactDOM',
+          commonjs2: 'react-dom',
+        },
+        redux: {
+          var: 'Redux',
+          commonjs2: 'redux',
+        },
+        'react-redux': {
+          var: 'ReactRedux',
+          commonjs2: 'react-redux',
+        },
+        reselect: {
+          var: 'Reselect',
+          commonjs2: 'reselect',
+        },
+        immutable: {
+          var: 'Immutable',
+          commonjs2: 'immutable',
+        },
+        '@americanexpress/one-app-ducks': {
+          var: 'OneAppDucks',
+          commonjs2: '@americanexpress/one-app-ducks',
+        },
+        'holocron-module-route': {
+          var: 'HolocronModuleRoute',
+          commonjs2: 'holocron-module-route',
+        },
+        'prop-types': {
+          var: 'PropTypes',
+          commonjs2: 'prop-types',
+        },
+        'react-helmet': {
+          var: 'ReactHelmet',
+          commonjs2: 'react-helmet',
+        },
+      },
     }).then(() => {
       generateIntegrityManifest(
         externalName,
