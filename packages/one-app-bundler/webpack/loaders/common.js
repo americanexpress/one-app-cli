@@ -61,6 +61,7 @@ const reconcileSafeList = (safelist) => {
 const purgeCssLoader = () => {
   const { purgecss } = getConfigOptions();
   const safelist = reconcileSafeList(purgecss.safelist);
+  if (purgecss.disabled) return [];
   let aggregatedStandard = [];
   let safelistDeep = [/:global$/];
   // aggregate the various whitelist options if safelist is not present
@@ -84,7 +85,6 @@ const purgeCssLoader = () => {
   }
   /* eslint-enable inclusive-language/use-inclusive-words --
   re enable disabled */
-  if (purgecss.disabled) return [];
   return [{
     loader: '@americanexpress/purgecss-loader',
     options: {
