@@ -1,10 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['externals-loader should ignore the content and get the dependency from the root module 1'] = `
+exports[`externals-loader does not use fallback for server 1`] = `
+"  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
+  if (rootModuleExternal && require('holocron').validateExternal({
+    providedVersion: rootModuleExternal.version,
+    requestedRange: '^1.0.0'
+  })) {
+    try {
+      module.exports = rootModuleExternal.module;
+    } catch (error) {
+      const errorGettingExternal = new Error('Failed to get external lodash from root module on the server', error.message);
+      errorGettingExternal.shouldBlockModuleReload = false;
+      throw errorGettingExternal;
+    }
+  } else {
+    This is CJS code
+  }
+"
+`;
+
+exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
 "try {
-  module.exports = global.getTenantRootModule().appConfig.providedExternals['my-dependency'].module;
+  const fallbackExternal = global.Holocron.getExternal({
+    name: 'lodash',
+    version: '4.17.21'
+  });
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('External not found: lodash');
+  });
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external my-dependency from root module');
+  const errorGettingExternal = new Error('Failed to get external fallback lodash');
   errorGettingExternal.shouldBlockModuleReload = false;
   throw errorGettingExternal;
 }

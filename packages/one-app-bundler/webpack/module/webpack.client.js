@@ -39,6 +39,7 @@ const { version, name } = packageJson;
 const holocronModuleName = `holocronModule_${name.replace(/-/g, '_')}`;
 module.exports = (babelEnv) => {
   const configOptions = getConfigOptions();
+
   return extendWebpackConfig(merge(
     commonConfig,
     {

@@ -12,19 +12,59 @@
  * under the License.
  */
 
+const path = require('path');
 const loaderUtils = require('loader-utils');
+const readPkgUp = require('read-pkg-up');
+const babel = require('@babel/core');
 
-function requiredExternalsLoader() {
-  const options = loaderUtils.getOptions(this);
+const packageRoot = process.cwd();
+const { packageJson } = readPkgUp.sync();
+
+function externalsLoader(content) {
+  const { externalName, bundleTarget } = loaderUtils.getOptions(this);
+  if (bundleTarget === 'server') {
+    const babelContent = babel.transformSync(content, {
+      extends: path.join(packageRoot, '.babelrc'),
+    }).code;
+
+    return `\
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
+  if (rootModuleExternal && require('holocron').validateExternal({
+    providedVersion: rootModuleExternal.version,
+    requestedRange: '${packageJson.dependencies[externalName]}'
+  })) {
+    try {
+      module.exports = rootModuleExternal.module;
+    } catch (error) {
+      const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server', error.message);
+      errorGettingExternal.shouldBlockModuleReload = false;
+      throw errorGettingExternal;
+    }
+  } else {
+    ${babelContent}
+  }
+`;
+  }
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
+  const { version } = require(`${externalName}/package.json`);
+
+  // client
   return `\
 try {
-  module.exports = global.getTenantRootModule().appConfig.providedExternals['${options.externalName}'].module;
+  const fallbackExternal = global.Holocron.getExternal({
+    name: '${externalName}',
+    version: '${version}'
+  });
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('External not found: ${externalName}');
+  });
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external ${options.externalName} from root module');
+  const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');
   errorGettingExternal.shouldBlockModuleReload = false;
   throw errorGettingExternal;
 }
 `;
 }
 
-module.exports = requiredExternalsLoader;
+module.exports = externalsLoader;

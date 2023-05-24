@@ -13,59 +13,49 @@
  */
 
 const loaderUtils = require('loader-utils');
-const providedExternalsLoader = require('../../../webpack/loaders/provided-externals-loader');
+const enableMissingExternalsLoader = require('../../../webpack/loaders/enable-missing-externals-loader');
 
 jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ providedExternals: ['ajv', 'lodash'] })),
+  getOptions: jest.fn(() => ({ enableMissingExternalFallbacks: true })),
 }));
 
-describe('provided-externals-loader', () => {
-  it('should append the providedExternals to the default export', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+describe('enable-missing-externals-loader', () => {
+  it('should append the enableMissingExternalFallbacks to the default export', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
 
     const content = `\
 import MyComponent from './components/MyComponent';
 export default MyComponent;
 `;
-    expect(providedExternalsLoader(content)).toMatchSnapshot();
-  });
-
-  it('accepts an object', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: { ajv: {}, lodash: {} } });
-
-    const content = `\
-import MyComponent from './components/MyComponent';
-export default MyComponent;
-`;
-    expect(providedExternalsLoader(content)).toMatchSnapshot();
+    expect(enableMissingExternalsLoader(content)).toMatchSnapshot();
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
 
     const content = `\
 export default from './components/MyComponent';
 `;
-    expect(() => providedExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    expect(() => enableMissingExternalsLoader(content)).toThrowErrorMatchingSnapshot();
   });
 
   it('should throw an error when the wrong syntax is used - module.exports', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
 
     const content = `\
 module.exports = require('./components/MyComponent');
 `;
-    expect(() => providedExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    expect(() => enableMissingExternalsLoader(content)).toThrowErrorMatchingSnapshot();
   });
 
   it('should throw an error when the wrong syntax is used - export default hoc()', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
 
     const content = `\
 import SomeComponent from './SomeComponent';
 
 export default hocChain(SomeComponent);
 `;
-    expect(() => providedExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    expect(() => enableMissingExternalsLoader(content)).toThrowErrorMatchingSnapshot();
   });
 });

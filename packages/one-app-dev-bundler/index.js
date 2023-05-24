@@ -14,6 +14,5 @@
  * permissions and limitations under the License.
  */
 
-import devBuildModule from './utils/dev-build-module.js';
-
-export default devBuildModule;
+export { devBuildModule } from './utils/dev-build-module.js';
+export { bundleExternalFallbacks } from './utils/bundle-external-fallbacks.js';
