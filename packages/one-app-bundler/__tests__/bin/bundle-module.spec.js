@@ -15,7 +15,10 @@
 /* eslint-disable global-require --
 testing `on import` functionality needs 'require' in every tests */
 
-jest.mock('@americanexpress/one-app-dev-bundler', () => jest.fn(async () => {}));
+jest.mock('@americanexpress/one-app-dev-bundler', () => ({
+  devBuildModule: async () => undefined,
+  bundleExternalFallbacks: async () => undefined,
+}));
 jest.mock('../../bin/webpack-bundle-module', () => jest.fn());
 
 jest.spyOn(console, 'info');
@@ -40,32 +43,49 @@ describe('bundle-module', () => {
     process.env.NODE_ENV = nodeEnv;
   });
 
-  it('should call the webpack bundler with no args', () => {
+  const sleep = () => new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, 100)
+  })
+
+  it('should call the webpack bundler with no args', async () => {
     process.argv = [];
+
     require('../../bin/bundle-module');
+    await sleep();
 
     // Since this is testing on-require behaviour, and there is a dynamic import, it's not possible
     // to directly assert the correct bundler was called, so instead just assert that the
     // correct info log was produced
-    expect(console.info).toHaveBeenCalledTimes(1);
+    expect(console.info).toHaveBeenCalledTimes(2);
+    expect(console.info).toHaveBeenCalledWith('Bundling External Fallbacks');
     expect(console.info).toHaveBeenCalledWith('Running production bundler');
   });
 
   it('should call the dev bundler when passed --dev in NODE_ENV=development', async () => {
     process.argv = ['--dev'];
     process.env.NODE_ENV = 'development';
+
     require('../../bin/bundle-module');
-    expect(console.info).toHaveBeenCalledTimes(1);
+    await sleep();
+
+    expect(console.info).toHaveBeenCalledTimes(2);
+    expect(console.info).toHaveBeenCalledWith('Bundling External Fallbacks');
     expect(console.info).toHaveBeenCalledWith('Running dev bundler');
   });
 
   it('should call the webpack bundler when passed --dev in NODE_ENV=production, and inform the user this has happened', async () => {
     process.argv = ['--dev'];
     process.env.NODE_ENV = 'production';
+
     require('../../bin/bundle-module');
-    expect(console.info).toHaveBeenCalledTimes(2);
-    expect(console.info).toHaveBeenNthCalledWith(1, 'Ignoring `--dev` flag for NODE_ENV=production');
-    expect(console.info).toHaveBeenNthCalledWith(2, 'Running production bundler');
+    await sleep();
+
+    expect(console.info).toHaveBeenCalledTimes(3);
+    expect(console.info).toHaveBeenNthCalledWith(1, 'Bundling External Fallbacks');
+    expect(console.info).toHaveBeenNthCalledWith(2, 'Ignoring `--dev` flag for NODE_ENV=production');
+    expect(console.info).toHaveBeenNthCalledWith(3, 'Running production bundler');
   });
 });
 

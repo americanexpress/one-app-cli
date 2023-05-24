@@ -27,7 +27,9 @@ const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
 
 fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
+
 localeBundler(watch);
+
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
 

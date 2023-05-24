@@ -156,6 +156,7 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
   }
 
   return {
+    commonConfig,
     browserConfig,
     nodeConfig,
   };
