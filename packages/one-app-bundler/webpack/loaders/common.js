@@ -42,9 +42,6 @@ config options for a third party library */
 // transform strings deep and greedy parameters into regex
 const reconcileSafeList = (safelist) => {
   const configOptionsReconciled = safelist;
-  // if (!safelist || Array.isArray(safelist)) {
-  //   return safelist;
-  // }
 
   const greedy = safelist.greedy
     ? safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
