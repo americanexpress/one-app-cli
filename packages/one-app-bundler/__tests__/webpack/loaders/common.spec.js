@@ -187,21 +187,6 @@ describe('Common webpack loaders', () => {
         deep: [/:global$/], greedy: [], keyframes: true, standard: ['random'], variables: true,
       });
     });
-    it('should return undefined if safelist is not in purgecss config', async () => {
-      const purgecss = {
-        paths: ['foo', 'bar'],
-        extractors: [{
-          extractor: 'purgeJs',
-          extensions: ['js'],
-        }],
-        fontFace: true,
-        keyframes: true,
-        variables: true,
-        blocklist: ['blockClass'],
-      };
-      const reconciled = reconcileSafeList(purgecss.safelist);
-      expect(reconciled).toEqual(undefined);
-    });
     it('should not modfify safelist', async () => {
       const purgecss = {
         paths: ['foo', 'bar'],
@@ -215,8 +200,9 @@ describe('Common webpack loaders', () => {
         safelist: ['random'],
         blocklist: ['blockClass'],
       };
-      const reconciled = reconcileSafeList(purgecss.safelist);
-      expect(reconciled).toEqual(['random']);
+      getConfigOptions.mockReturnValueOnce({ purgecss });
+      const configured = purgeCssLoader();
+      expect(configured[0].options.safelist).toEqual(['random']);
     });
   });
 

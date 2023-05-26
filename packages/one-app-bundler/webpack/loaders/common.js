@@ -41,10 +41,10 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
 config options for a third party library */
 // transform strings deep and greedy parameters into regex
 const reconcileSafeList = (safelist) => {
-  if (!safelist || Array.isArray(safelist)) {
-    return safelist;
-  }
   const configOptionsReconciled = safelist;
+  // if (!safelist || Array.isArray(safelist)) {
+  //   return safelist;
+  // }
 
   const greedy = safelist.greedy
     ? safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
@@ -60,8 +60,12 @@ const reconcileSafeList = (safelist) => {
 
 const purgeCssLoader = () => {
   const { purgecss } = getConfigOptions();
-  const safelist = reconcileSafeList(purgecss.safelist);
   if (purgecss.disabled) return [];
+
+  let { safelist } = purgecss;
+  if (purgecss.safelist && !Array.isArray(purgecss.safelist)) {
+    safelist = reconcileSafeList(purgecss.safelist);
+  }
   let aggregatedStandard = [];
   let safelistDeep = [/:global$/];
   // aggregate the various whitelist options if safelist is not present
