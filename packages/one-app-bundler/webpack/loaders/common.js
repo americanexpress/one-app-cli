@@ -40,33 +40,27 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
 /* eslint-disable inclusive-language/use-inclusive-words --
 config options for a third party library */
 // transform strings deep and greedy parameters into regex
-const reconcileSafeList = (safelist) => {
-  const configOptionsReconciled = safelist;
-
-  const greedy = safelist.greedy
+const reconcileSafeList = (safelist) => ({
+  ...safelist,
+  greedy: safelist.greedy
     ? safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
-    : [];
-  configOptionsReconciled.greedy = greedy;
-  const deep = safelist.deep
+    : [],
+  deep: safelist.deep
     ? safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
-    : [/:global$/];
-  configOptionsReconciled.deep = deep;
-
-  return configOptionsReconciled;
-};
+    : [/:global$/],
+});
 
 const purgeCssLoader = () => {
   const { purgecss } = getConfigOptions();
   if (purgecss.disabled) return [];
 
+  let aggregatedStandard = [];
+  let safelistDeep = [/:global$/];
   let { safelist } = purgecss;
   if (purgecss.safelist && !Array.isArray(purgecss.safelist)) {
     safelist = reconcileSafeList(purgecss.safelist);
-  }
-  let aggregatedStandard = [];
-  let safelistDeep = [/:global$/];
-  // aggregate the various whitelist options if safelist is not present
-  if (!safelist) {
+  } else {
+    // aggregate the various whitelist options if safelist is not present
     if (purgecss.whitelistPatterns) {
       console.warn('Purgecss: Using depreciated property whitelistPatterns');
       aggregatedStandard = [
@@ -84,6 +78,7 @@ const purgeCssLoader = () => {
       safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
     }
   }
+
   /* eslint-enable inclusive-language/use-inclusive-words --
   re enable disabled */
   return [{
