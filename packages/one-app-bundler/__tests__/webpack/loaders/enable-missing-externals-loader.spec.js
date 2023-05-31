@@ -16,12 +16,12 @@ const loaderUtils = require('loader-utils');
 const enableMissingExternalsLoader = require('../../../webpack/loaders/enable-missing-externals-loader');
 
 jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ enableMissingExternalFallbacks: true })),
+  getOptions: jest.fn(() => ({ enableUnlistedExternalFallbacks: true })),
 }));
 
 describe('enable-missing-externals-loader', () => {
-  it('should append the enableMissingExternalFallbacks to the default export', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
+  it('should append the enableUnlistedExternalFallbacks to the default export', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });
 
     const content = `\
 import MyComponent from './components/MyComponent';
@@ -31,7 +31,7 @@ export default MyComponent;
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
+    loaderUtils.getOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });
 
     const content = `\
 export default from './components/MyComponent';
@@ -40,7 +40,7 @@ export default from './components/MyComponent';
   });
 
   it('should throw an error when the wrong syntax is used - module.exports', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
+    loaderUtils.getOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });
 
     const content = `\
 module.exports = require('./components/MyComponent');
@@ -49,7 +49,7 @@ module.exports = require('./components/MyComponent');
   });
 
   it('should throw an error when the wrong syntax is used - export default hoc()', () => {
-    loaderUtils.getOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
+    loaderUtils.getOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });
 
     const content = `\
 import SomeComponent from './SomeComponent';

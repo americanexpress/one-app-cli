@@ -3,7 +3,6 @@ import { readPackageUpSync } from 'read-pkg-up';
 import esbuild from 'esbuild';
 import snakeCase from 'lodash.snakecase';
 import generateESBuildOptions from '../esbuild/generateESBuildOptions.js';
-import generateIntegrityManifest from './generate-integrity-manifest.js';
 
 const EXTERNAL_PREFIX = '__holocron_external';
 
@@ -23,16 +22,8 @@ export const bundleExternalFallbacks = async () => {
     && requiredExternals.length > 0
   ) {
     const {
-      commonConfig,
-      browserConfig,
+      externalsConfig,
     } = await generateESBuildOptions({ watch: false, useLiveReload: false });
-
-    const config = {
-      ...browserConfig,
-      plugins: [
-        ...commonConfig.plugins,
-      ],
-    };
 
     await Promise.all(requiredExternals.map((externalName) => {
       const indexPath = path.resolve(process.cwd(), `node_modules/${externalName}`);
@@ -44,15 +35,12 @@ export const bundleExternalFallbacks = async () => {
       })?.packageJson.version;
 
       return esbuild.build({
-        ...config,
+        ...externalsConfig(externalName),
         entryPoints: [indexPath],
         outfile,
         globalName: getExternalLibraryName(externalName, version),
-      }).then(() => {
-        generateIntegrityManifest(
-          externalName,
-          outfile
-        );
+      }).catch((error) => {
+        console.error(`Failed to build fallback for external ${externalName}`, error);
       });
     }));
   }

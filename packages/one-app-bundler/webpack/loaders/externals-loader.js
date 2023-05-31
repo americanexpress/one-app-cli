@@ -28,21 +28,21 @@ function externalsLoader(content) {
     }).code;
 
     return `\
+try {
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
   if (rootModuleExternal && require('holocron').validateExternal({
     providedVersion: rootModuleExternal.version,
     requestedRange: '${packageJson.dependencies[externalName]}'
   })) {
-    try {
-      module.exports = rootModuleExternal.module;
-    } catch (error) {
-      const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server', error.message);
-      errorGettingExternal.shouldBlockModuleReload = false;
-      throw errorGettingExternal;
-    }
+    module.exports = rootModuleExternal.module;
   } else {
     ${babelContent}
   }
+} catch (error) {
+  const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server', error.message);
+  errorGettingExternal.shouldBlockModuleReload = false;
+  throw errorGettingExternal;
+}
 `;
   }
   // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime

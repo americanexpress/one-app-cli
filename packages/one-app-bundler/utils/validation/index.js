@@ -53,7 +53,7 @@ const purgecssSchema = Joi.object({
 });
 
 const optionsSchema = Joi.object({
-  enableMissingExternalFallbacks: Joi.boolean(),
+  enableUnlistedExternalFallbacks: Joi.boolean(),
   providedExternals: externalsSchema,
   requiredExternals: externalsSchema,
   performanceBudget: performanceBudgetSchema,

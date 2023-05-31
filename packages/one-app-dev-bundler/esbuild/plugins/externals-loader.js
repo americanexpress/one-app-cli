@@ -42,7 +42,7 @@ const ignoreUntil = (cond, arr = []) => {
 const externalsLoader = ({ bundleType }) => ({
   name: 'externalsLoader',
   setup(build) {
-    const requiredExternalNames = getModulesBundlerConfig("requiredExternals");
+    const requiredExternalNames = getModulesBundlerConfig('requiredExternals');
 
     if (!Array.isArray(requiredExternalNames) || requiredExternalNames.length === 0) {
       return; // this module does not require any externals, so dont register the hooks
@@ -74,7 +74,7 @@ const externalsLoader = ({ bundleType }) => ({
     // return a namespace. (see this above)
     // your onLoad can then just match .* within that namespace and you guarantee you target
     // every package you want.
-    build.onLoad({ filter: /.*/, namespace: 'externalsLoader' }, async ({ path: externalName, ...args }) => {
+    build.onLoad({ filter: /.*/, namespace: 'externalsLoader' }, async ({ path: externalName }) => {
       if (bundleType === BUNDLE_TYPES.SERVER) {
         const require = createRequire(import.meta.url);
         const cjsCode = (await swc.transform(await fs.promises.readFile(require.resolve(externalName), 'utf8'), {

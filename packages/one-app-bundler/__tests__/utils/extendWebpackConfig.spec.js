@@ -219,7 +219,7 @@ describe('extendWebpackConfig', () => {
   });
 
   it('should enable missing external fallbacks', () => {
-    getConfigOptions.mockReturnValueOnce({ enableMissingExternalFallbacks: true });
+    getConfigOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });
     const result = extendWebpackConfig(originalWebpackConfig);
     const { rules } = result.module;
     expect(rules[rules.length - 1]).toMatchSnapshot();
