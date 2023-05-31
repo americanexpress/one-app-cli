@@ -19,7 +19,6 @@ const bundleModule = async () => {
     bundleExternalFallbacks,
   } = await import('@americanexpress/one-app-dev-bundler');
 
-  console.info('Bundling External Fallbacks');
   await bundleExternalFallbacks();
 
   if (process.env.NODE_ENV !== 'production' && process.argv.includes('--dev')) {
