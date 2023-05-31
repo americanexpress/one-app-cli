@@ -21,12 +21,6 @@ jest.mock('../../bin/webpackCallback', () => jest.fn((x, y) => `cb(${x}, ${y})`)
 jest.mock('../../webpack/module/webpack.client', () => (babelEnv) => ({ config: 'client', babelEnv }));
 jest.mock('../../webpack/module/webpack.server', () => ({ config: 'server' }));
 
-const sleep = (ms = 100) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve();
-  }, ms);
-});
-
 describe('bundle-module', () => {
   let argv;
   let webpack;
@@ -59,11 +53,9 @@ describe('bundle-module', () => {
     expect(localeBundler).toHaveBeenCalledWith(false);
   });
 
-  it('should bundle the module for the server', async () => {
+  it('should bundle the module for the server', () => {
     process.argv = [];
     require('../../bin/webpack-bundle-module');
-
-    await sleep();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(serverConfig, 'cb(node, true)');
@@ -71,11 +63,9 @@ describe('bundle-module', () => {
     expect(webpack.mock.calls[0][0]).not.toHaveProperty('watchOptions');
   });
 
-  it('should bundle the module for modern browsers', async () => {
+  it('should bundle the module for modern browsers', () => {
     process.argv = [];
     require('../../bin/webpack-bundle-module');
-
-    await sleep();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(clientConfig('modern'), 'cb(browser, true)');
@@ -83,11 +73,9 @@ describe('bundle-module', () => {
     expect(webpack.mock.calls[1][0]).not.toHaveProperty('watchOptions');
   });
 
-  it('should bundle the module for legacy browsers', async () => {
+  it('should bundle the module for legacy browsers', () => {
     process.argv = [];
     require('../../bin/webpack-bundle-module');
-
-    await sleep();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
@@ -102,24 +90,20 @@ describe('bundle-module', () => {
     expect(localeBundler).toHaveBeenCalledWith(true);
   });
 
-  it('should bundle module for legacy browsers when disableDevelopmentLegacyBundle is false', async () => {
+  it('should bundle module for legacy browsers when disableDevelopmentLegacyBundle is false', () => {
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
     process.argv = [];
     require('../../bin/webpack-bundle-module');
-
-    await sleep();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
   });
 
-  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', async () => {
+  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', () => {
     process.env.NODE_ENV = 'development';
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
     process.argv = [];
     require('../../bin/webpack-bundle-module');
-
-    await sleep();
 
     expect(webpack).toHaveBeenCalledTimes(2);
     expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');

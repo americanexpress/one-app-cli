@@ -58,8 +58,7 @@ describe('bundle-module', () => {
     // Since this is testing on-require behaviour, and there is a dynamic import, it's not possible
     // to directly assert the correct bundler was called, so instead just assert that the
     // correct info log was produced
-    expect(console.info).toHaveBeenCalledTimes(2);
-    expect(console.info).toHaveBeenCalledWith('Bundling External Fallbacks');
+    expect(console.info).toHaveBeenCalledTimes(1);
     expect(console.info).toHaveBeenCalledWith('Running production bundler');
   });
 
@@ -70,8 +69,7 @@ describe('bundle-module', () => {
     require('../../bin/bundle-module');
     await sleep();
 
-    expect(console.info).toHaveBeenCalledTimes(2);
-    expect(console.info).toHaveBeenCalledWith('Bundling External Fallbacks');
+    expect(console.info).toHaveBeenCalledTimes(1);
     expect(console.info).toHaveBeenCalledWith('Running dev bundler');
   });
 
@@ -82,10 +80,9 @@ describe('bundle-module', () => {
     require('../../bin/bundle-module');
     await sleep();
 
-    expect(console.info).toHaveBeenCalledTimes(3);
-    expect(console.info).toHaveBeenNthCalledWith(1, 'Bundling External Fallbacks');
-    expect(console.info).toHaveBeenNthCalledWith(2, 'Ignoring `--dev` flag for NODE_ENV=production');
-    expect(console.info).toHaveBeenNthCalledWith(3, 'Running production bundler');
+    expect(console.info).toHaveBeenCalledTimes(2);
+    expect(console.info).toHaveBeenNthCalledWith(1, 'Ignoring `--dev` flag for NODE_ENV=production');
+    expect(console.info).toHaveBeenNthCalledWith(2, 'Running production bundler');
   });
 });
 
