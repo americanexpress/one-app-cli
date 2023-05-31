@@ -49,7 +49,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     requiredExternals,
     providedExternals,
     moduleName,
-    enableMissingExternalFallbacks,
+    enableUnlistedExternalFallbacks,
   } = configOptions;
   const { watch } = cliOptions;
 
@@ -106,7 +106,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     });
   }
 
-  if (enableMissingExternalFallbacks) {
+  if (enableUnlistedExternalFallbacks) {
     customWebpackConfig = merge(customWebpackConfig, {
       module: {
         rules: [{
@@ -114,7 +114,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
           use: [{
             loader: '@americanexpress/one-app-bundler/webpack/loaders/enable-missing-externals-loader',
             options: {
-              enableMissingExternalFallbacks,
+              enableUnlistedExternalFallbacks,
             },
           }],
         }],

@@ -55,7 +55,7 @@ Object {
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/enable-missing-externals-loader",
       "options": Object {
-        "enableMissingExternalFallbacks": true,
+        "enableUnlistedExternalFallbacks": true,
       },
     },
   ],

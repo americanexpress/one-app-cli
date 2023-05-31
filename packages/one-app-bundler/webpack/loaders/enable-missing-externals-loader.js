@@ -15,14 +15,14 @@
 const loaderUtils = require('loader-utils');
 
 function enableMissingExternalsLoader(content) {
-  const { enableMissingExternalFallbacks } = loaderUtils.getOptions(this);
+  const { enableUnlistedExternalFallbacks } = loaderUtils.getOptions(this);
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
     const newContent = `${content};
 if (!global.BROWSER) {
   ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
-    enableMissingExternalFallbacks: "${enableMissingExternalFallbacks}",
+    enableUnlistedExternalFallbacks: "${enableUnlistedExternalFallbacks}",
   });
 }
 `;

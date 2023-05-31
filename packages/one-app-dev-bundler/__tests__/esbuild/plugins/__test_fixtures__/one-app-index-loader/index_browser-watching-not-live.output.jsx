@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-const ModuleRootComponent = ({children}) => (
+const ModuleRootComponent = ({ children }) => (
   <div>
     {children}
   </div>

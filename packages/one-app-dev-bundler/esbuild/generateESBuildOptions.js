@@ -39,6 +39,17 @@ import serverStylesDispatcher from './plugins/server-styles-dispatcher.js';
 
 const { browserGlobals, nodeExternals } = getOneAppExternals();
 
+/**
+ * Generates ESBuild Options
+ * @param {object} options build options
+ * @param {boolean} options.watch enables watch mode. Defaults to `false`
+ * @param {boolean} options.useLiveReload enables live reload. Defaults to `false`
+ * @returns {Promise.<{
+ *    nodeConfig: object,
+ *    browserConfig: object,
+ *    externalsConfig: (externalName: string) => object
+ * }>} NodeJS, Browser, and Externals ESBuild configs
+ */
 const generateESBuildOptions = async ({ watch, useLiveReload }) => {
   const { packageJson, path: packageJsonPath } = readPackageUpSync();
   const { version, name } = packageJson;
@@ -130,6 +141,22 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
     external: nodeExternals,
   };
 
+  /**
+   * Generates externals config based on the provided external name
+   * @param {string} externalName External name that's being bundled/transpiled
+   * @returns ESBuild config for externals
+   */
+  const externalsConfig = (externalName) => ({
+    ...browserConfig,
+    plugins: [
+      removeWebpackLoaderSyntax,
+      bundleAssetSizeLimiter(commonConfigPluginOptions),
+      generateIntegrityManifest({ bundleName: externalName }),
+      restrictRuntimeSymbols(browserConfigPluginOptions),
+      timeBuild({ bundleName: externalName, watch }),
+    ],
+  });
+
   if (watch) {
     let reloadBrowser;
     if (useLiveReload) {
@@ -156,9 +183,9 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
   }
 
   return {
-    commonConfig,
-    browserConfig,
     nodeConfig,
+    browserConfig,
+    externalsConfig,
   };
 };
 

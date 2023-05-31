@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`enable-missing-externals-loader should append the enableMissingExternalFallbacks to the default export 1`] = `
+exports[`enable-missing-externals-loader should append the enableUnlistedExternalFallbacks to the default export 1`] = `
 "import MyComponent from './components/MyComponent';
 export default MyComponent;
 ;
 if (!global.BROWSER) {
   MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
-    enableMissingExternalFallbacks: \\"true\\",
+    enableUnlistedExternalFallbacks: \\"true\\",
   });
 }
 "
