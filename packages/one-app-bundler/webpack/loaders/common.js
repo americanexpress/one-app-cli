@@ -49,38 +49,40 @@ const reconcileSafeList = (safelist) => ({
     ? safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
     : [/:global$/],
 });
+const reconcileWhiteList = (purgecss) => {
+  const newWhiteList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
+  if (purgecss.whitelistPatterns) {
+    console.warn('Purgecss: Using depreciated property whitelistPatterns');
+    newWhiteList.aggregatedStandard = [
+      ...newWhiteList.aggregatedStandard,
+      ...purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i')),
+    ];
+  }
+  if (purgecss.whitelist) {
+    console.warn('Purgecss: Using depreciated property whitelist');
+    newWhiteList.aggregatedStandard = [...newWhiteList.aggregatedStandard, ...purgecss.whitelist];
+  }
+  if (purgecss.whitelistPatternsChildren) {
+    console.warn('Purgecss: Using depreciated property whitelistPatternsChildren');
+
+    newWhiteList.safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
+  }
+  return newWhiteList;
+};
 
 const purgeCssLoader = () => {
   const { purgecss } = getConfigOptions();
   if (purgecss.disabled) return [];
 
-  let aggregatedStandard = [];
-  let safelistDeep = [/:global$/];
+  let aggregatedWhiteList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
   let { safelist } = purgecss;
   if (purgecss.safelist && !Array.isArray(purgecss.safelist)) {
     safelist = reconcileSafeList(purgecss.safelist);
   } else {
     // aggregate the various whitelist options if safelist is not present
-    if (purgecss.whitelistPatterns) {
-      console.warn('Purgecss: Using depreciated property whitelistPatterns');
-      aggregatedStandard = [
-        ...aggregatedStandard,
-        ...purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i')),
-      ];
-    }
-    if (purgecss.whitelist) {
-      console.warn('Purgecss: Using depreciated property whitelist');
-      aggregatedStandard = [...aggregatedStandard, ...purgecss.whitelist];
-    }
-    if (purgecss.whitelistPatternsChildren) {
-      console.warn('Purgecss: Using depreciated property whitelistPatternsChildren');
-
-      safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
-    }
+    aggregatedWhiteList = reconcileWhiteList(purgecss);
   }
 
-  /* eslint-enable inclusive-language/use-inclusive-words --
-  re enable disabled */
   return [{
     loader: '@americanexpress/purgecss-loader',
     options: {
@@ -90,8 +92,8 @@ const purgeCssLoader = () => {
       keyframes: purgecss.keyframes || false,
       variables: purgecss.keyframes || false,
       safelist: safelist || {
-        standard: aggregatedStandard,
-        deep: safelistDeep,
+        standard: aggregatedWhiteList.aggregatedStandard,
+        deep: aggregatedWhiteList.safelistDeep,
         greedy: [],
         keyframes: purgecss.keyframes || false,
         variables: purgecss.keyframes || false,
@@ -101,6 +103,8 @@ const purgeCssLoader = () => {
     },
   }];
 };
+/* eslint-enable inclusive-language/use-inclusive-words --
+re enable disabled */
 
 const sassLoader = () => ({
   loader: 'sass-loader',
