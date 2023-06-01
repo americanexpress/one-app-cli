@@ -49,7 +49,7 @@ const reconcileSafeList = (safelist) => ({
     ? safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
     : [/:global$/],
 });
-const reconcileWhiteList = (purgecss) => {
+const reconcileAllowList = (purgecss) => {
   const aggregatedAllowList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
   if (purgecss.whitelistPatterns) {
     console.warn('Purgecss: Using depreciated property whitelistPatterns');
@@ -81,7 +81,7 @@ const purgeCssLoader = () => {
     safelist = reconcileSafeList(purgecss.safelist);
   } else {
     // aggregate the various whitelist options if safelist is not present
-    aggregatedAllowList = reconcileWhiteList(purgecss);
+    aggregatedAllowList = reconcileAllowList(purgecss);
   }
 
   return [{
