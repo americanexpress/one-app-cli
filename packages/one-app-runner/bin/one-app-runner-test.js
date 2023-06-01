@@ -24,7 +24,16 @@ const waitForOK = require('../utils/waitForOK');
 
   const runnerProcess = spawn(
     `one-app-runner --output-file=one-app-test.log --create-docker-network --docker-network-to-join=${process.env.NETWORK_NAME} --use-host`,
-    { shell: true, detached: true }
+    {
+      shell: true,
+      detached: true,
+      // pipe the process STDIO to the user's terminal
+      // in the event of errors that need to be diagnosed
+      //
+      // inherit also manages the streams to not keep Node.js open
+      // which would be a manual task using the default 'pipe'
+      stdio: 'inherit',
+    }
   );
 
   /*
@@ -37,10 +46,6 @@ const waitForOK = require('../utils/waitForOK');
     so we need to tell Node.js not to wait for the one-app-runner process to exit
   */
   runnerProcess.unref();
-
-  // pipe the process to the user's terminal, in the event of errors that need to be diagnosed
-  runnerProcess.stdout.pipe(process.stdout);
-  runnerProcess.stderr.pipe(process.stderr);
 
   const runnerStarted = new Promise((resolve, reject) => {
     runnerProcess
