@@ -50,37 +50,38 @@ const reconcileSafeList = (safelist) => ({
     : [/:global$/],
 });
 const reconcileWhiteList = (purgecss) => {
-  const newWhiteList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
+  const aggregatedAllowList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
   if (purgecss.whitelistPatterns) {
     console.warn('Purgecss: Using depreciated property whitelistPatterns');
-    newWhiteList.aggregatedStandard = [
-      ...newWhiteList.aggregatedStandard,
+    aggregatedAllowList.aggregatedStandard = [
+      ...aggregatedAllowList.aggregatedStandard,
       ...purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i')),
     ];
   }
   if (purgecss.whitelist) {
     console.warn('Purgecss: Using depreciated property whitelist');
-    newWhiteList.aggregatedStandard = [...newWhiteList.aggregatedStandard, ...purgecss.whitelist];
+    // eslint-disable-next-line max-len -- disable max length
+    aggregatedAllowList.aggregatedStandard = [...aggregatedAllowList.aggregatedStandard, ...purgecss.whitelist];
   }
   if (purgecss.whitelistPatternsChildren) {
     console.warn('Purgecss: Using depreciated property whitelistPatternsChildren');
 
-    newWhiteList.safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
+    aggregatedAllowList.safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
   }
-  return newWhiteList;
+  return aggregatedAllowList;
 };
 
 const purgeCssLoader = () => {
   const { purgecss } = getConfigOptions();
   if (purgecss.disabled) return [];
 
-  let aggregatedWhiteList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
+  let aggregatedAllowList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
   let { safelist } = purgecss;
   if (purgecss.safelist && !Array.isArray(purgecss.safelist)) {
     safelist = reconcileSafeList(purgecss.safelist);
   } else {
     // aggregate the various whitelist options if safelist is not present
-    aggregatedWhiteList = reconcileWhiteList(purgecss);
+    aggregatedAllowList = reconcileWhiteList(purgecss);
   }
 
   return [{
@@ -92,8 +93,8 @@ const purgeCssLoader = () => {
       keyframes: purgecss.keyframes || false,
       variables: purgecss.keyframes || false,
       safelist: safelist || {
-        standard: aggregatedWhiteList.aggregatedStandard,
-        deep: aggregatedWhiteList.safelistDeep,
+        standard: aggregatedAllowList.aggregatedStandard,
+        deep: aggregatedAllowList.safelistDeep,
         greedy: [],
         keyframes: purgecss.keyframes || false,
         variables: purgecss.keyframes || false,
