@@ -31,8 +31,6 @@ module.exports = {
       lines: 99.9,
     },
   },
-  testPathIgnorePatterns: [
-  ],
   roots: [
     'packages/eslint-plugin-one-app',
     'packages/holocron-dev-server',
