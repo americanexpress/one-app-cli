@@ -24,7 +24,6 @@ This codebase has the following packages:
 | Name                                                                | Description                                                                                                                  |
 |---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
 | **[eslint-plugin-one-app](./packages/eslint-plugin-one-app)**       | [eslint](https://eslint.org/) plugin that exports rules related to One App usage                                             
-| **[generator-one-app-module](./packages/generator-one-app-module)** | [Yeoman](https://yeoman.io/) generator for a [One App](https://github.com/americanexpress/one-app#modules) `holocron` Module |
 | **[holocron-dev-server](./packages/holocron-dev-server/README.md)** | development server for Holocron modules                                                                                      |
 | **[one-app-bundler](./packages/one-app-bundler)**                   | CLI to bundle one-app modules                                                                                                |
 | **[one-app-dev-bundler](./packages/one-app-dev-bundler)**               | An alternate ESBuild bundler for development environments. This is a sub-package of the one-app-bundler.                      |
