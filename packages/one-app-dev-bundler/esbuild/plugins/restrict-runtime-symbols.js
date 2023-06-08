@@ -129,6 +129,9 @@ const restrictRuntimeSymbols = ({ severity, bundleType }) => ({
   name: 'restrictRuntimeSymbols',
   setup(build) {
     build.onEnd(async (result) => {
+      if (!result.metafile) {
+        return;
+      }
       const fileNames = getJsFilenamesFromKeys(result.metafile.outputs);
       const isBrowser = bundleType === BUNDLE_TYPES.BROWSER;
       // eslint-disable-next-line no-restricted-syntax -- traditional for loop for looped async work

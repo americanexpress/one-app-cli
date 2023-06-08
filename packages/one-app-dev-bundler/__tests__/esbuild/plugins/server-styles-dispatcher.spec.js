@@ -70,6 +70,28 @@ describe('server styles dispatcher', () => {
 
       /* onEnd test end */
     });
+
+    it('should do nothing if there is no results metadata', async () => {
+      expect.assertions(1);
+
+      // get the hooks
+      const hooks = runSetupAndGetLifeHooks(
+        serverStylesDispatcher({ bundleType: BUNDLE_TYPES.SERVER })
+      );
+      const onEnd = hooks.onEnd[0];
+
+      // mock the bundle using mockFs
+      mockFs(
+        { [mockBundleFileName]: 'const mock = "JavaScript Content";' },
+        { createCwd: false, createTmp: false }
+      );
+      await onEnd({});
+
+      // since this test uses mockFs, and onEnd writes the file, read it to verify it is unchanged
+      const actualBundleContent = await fs.promises.readFile(mockBundleFileName, 'utf8');
+      mockFs.restore();
+      expect(actualBundleContent).toMatchInlineSnapshot('"const mock = \\"JavaScript Content\\";"');
+    });
   });
   describe('bundle type browser', () => {
     it('registers no hooks', () => {

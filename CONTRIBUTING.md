@@ -33,22 +33,10 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 3. Install the dependencies by running
 
     ```bash
-    $ yarn@^1
+    $ npx yarn@^1
     ```
 
 4. You can now run the scripts within the different [packages](./packages).
-
-### Creating a `one-app-cli` new release
-
-1. Create, checkout and push a new release branch
-2. Run `yarn lerna:version` locally from your release branch. This will push your release changes(changelog and tags) to the branch on github.
-3. Ensure that correctly formatted tags have been created for each package being versioned. Tag needs to be in the format of `@americanexpress/[package-name]@x.x.x` for example`@americanexpress/one-app-bundler@6.0.0`. This can impact future releases.
-4. Create a pull request from your branch to the `main` branch with your changes.
-5. When merging try to ensure that commit does not get squashed as this will cause the tags be against missing commits.
-6. Once merged run the [manually publish](https://github.com/americanexpress/one-app-cli/actions/workflows/publish.yml) github action workflow.
-
-One App CLI is currently not setup for pre-releases.
-In theory, if one is required, using [--conventional-prerelease](https://github.com/lerna/lerna/tree/main/commands/version#--conventional-prerelease) in step two should work. For example: `yarn lerna:version --conventional-prerelease`
 
 ## Submitting a new feature
 

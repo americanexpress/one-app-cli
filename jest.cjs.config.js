@@ -22,7 +22,6 @@ module.exports = {
     '!packages/*/bin/**',
     '!packages/*/test-utils.js',
     '!packages/*/test-results/**',
-    '!packages/generator-one-app-module/generators/app/templates/**',
   ],
   coverageThreshold: {
     global: {
@@ -32,12 +31,8 @@ module.exports = {
       lines: 99.9,
     },
   },
-  testPathIgnorePatterns: [
-    'packages/generator-one-app-module/generators/app/templates',
-  ],
   roots: [
     'packages/eslint-plugin-one-app',
-    'packages/generator-one-app-module',
     'packages/holocron-dev-server',
     'packages/one-app-bundler',
     'packages/one-app-locale-bundler',

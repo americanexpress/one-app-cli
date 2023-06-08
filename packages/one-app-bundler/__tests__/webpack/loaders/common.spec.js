@@ -23,6 +23,7 @@ const {
   cssLoader,
   purgeCssLoader,
   sassLoader,
+  reconcileSafeList,
 } = require('../../../webpack/loaders/common');
 
 jest.mock('sass', () => () => 0);
@@ -98,7 +99,7 @@ describe('Common webpack loaders', () => {
       expect(purgeCssLoader()).toMatchSnapshot();
     });
 
-    it('should include any additional configured options', () => {
+    it('should include purgecss 2 configuration in purgecss 3 format', () => {
       const purgecss = {
         paths: ['foo', 'bar'],
         extractors: [{
@@ -116,12 +117,92 @@ describe('Common webpack loaders', () => {
         /* eslint-enable -- disables require enables */
       };
       getConfigOptions.mockReturnValueOnce({ purgecss });
-      expect(purgeCssLoader()).toMatchSnapshot();
+      const configured = purgeCssLoader();
+      expect(configured[0].options.blocklist).toEqual([]);
+      expect(configured[0].options.safelist.standard).toEqual([/red/i, 'random', 'yep', 'button']);
+      expect(configured[0].options.safelist.deep).toEqual([/blue/i]);
     });
 
     it('should return an empty object when disabled', () => {
       getConfigOptions.mockReturnValueOnce({ purgecss: { disabled: true } });
       expect(purgeCssLoader()).toEqual([]);
+    });
+    it('should include purgecss 3 configuration options', () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        safelist: {
+          standard: ['random'],
+          deep: ['randomdeep'],
+          greedy: ['randomgreedy'],
+          keyframes: true,
+          variables: true,
+        },
+        blocklist: ['blockClass'],
+      };
+      getConfigOptions.mockReturnValueOnce({ purgecss });
+      const configured = purgeCssLoader();
+      expect(configured[0].options.safelist).toEqual({
+        standard: ['random'],
+        deep: [/randomdeep/i],
+        greedy: [/randomgreedy/i],
+        keyframes: true,
+        variables: true,
+      });
+      expect(configured[0].options.blocklist).toEqual(['blockClass']);
+    });
+    it('should not modify safelist if it is an array', () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        safelist: ['red'],
+        blocklist: ['blockClass'],
+      };
+      getConfigOptions.mockReturnValueOnce({ purgecss });
+      const configured = purgeCssLoader();
+      expect(configured[0].options.safelist).toEqual(['red']);
+    });
+  });
+  describe('reconcileSafeList', () => {
+    it('should insert deep and greedy defaults if not present', async () => {
+      const safelist = {
+        standard: ['random'],
+        keyframes: true,
+        variables: true,
+      };
+      const reconciledSafeList = reconcileSafeList(safelist);
+      expect(reconciledSafeList).toEqual({
+        deep: [/:global$/], greedy: [], keyframes: true, standard: ['random'], variables: true,
+      });
+    });
+    it('should not modfify safelist', async () => {
+      const purgecss = {
+        paths: ['foo', 'bar'],
+        extractors: [{
+          extractor: 'purgeJs',
+          extensions: ['js'],
+        }],
+        fontFace: true,
+        keyframes: true,
+        variables: true,
+        safelist: ['random'],
+        blocklist: ['blockClass'],
+      };
+      getConfigOptions.mockReturnValueOnce({ purgecss });
+      const configured = purgeCssLoader();
+      expect(configured[0].options.safelist).toEqual(['random']);
     });
   });
 

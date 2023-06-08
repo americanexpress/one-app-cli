@@ -115,6 +115,17 @@ describe('Esbuild plugin generateIntegrityManifest', () => {
         expect(results).toBe(mockResult);
         expect(results).toStrictEqual(mockResult);
       });
+
+      it('should do nothing if there is no results metadata', async () => {
+        expect.assertions(2);
+        const plugin = generateIntegrityManifest({ bundleName: 'mockBundleName' });
+        const hooks = runSetupAndGetLifeHooks(plugin);
+        const onEnd = hooks.onEnd[0];
+        await onEnd({});
+
+        expect(fs.promises.readFile).not.toHaveBeenCalled();
+        expect(fs.promises.writeFile).not.toHaveBeenCalled();
+      });
     });
   });
 });

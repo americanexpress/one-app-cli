@@ -39,30 +39,73 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
 
 /* eslint-disable inclusive-language/use-inclusive-words --
 config options for a third party library */
+// transform strings deep and greedy parameters into regex
+const reconcileSafeList = (safelist) => ({
+  ...safelist,
+  greedy: safelist.greedy
+    ? safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
+    : [],
+  deep: safelist.deep
+    ? safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
+    : [/:global$/],
+});
+const reconcileAllowList = (purgecss) => {
+  const aggregatedAllowList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
+  if (purgecss.whitelistPatterns) {
+    console.warn('Purgecss: Using depreciated property whitelistPatterns');
+    aggregatedAllowList.aggregatedStandard = [
+      ...aggregatedAllowList.aggregatedStandard,
+      ...purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i')),
+    ];
+  }
+  if (purgecss.whitelist) {
+    console.warn('Purgecss: Using depreciated property whitelist');
+    // eslint-disable-next-line max-len -- disable max length
+    aggregatedAllowList.aggregatedStandard = [...aggregatedAllowList.aggregatedStandard, ...purgecss.whitelist];
+  }
+  if (purgecss.whitelistPatternsChildren) {
+    console.warn('Purgecss: Using depreciated property whitelistPatternsChildren');
+
+    aggregatedAllowList.safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
+  }
+  return aggregatedAllowList;
+};
+
 const purgeCssLoader = () => {
-  const configOptions = getConfigOptions();
-  const whitelistPatterns = configOptions.purgecss.whitelistPatterns
-    ? configOptions.purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i'))
-    : [];
-  const whitelistPatternsChildren = configOptions.purgecss.whitelistPatternsChildren
-    ? configOptions.purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'))
-    : [/:global$/];
-  if (configOptions.purgecss.disabled) return [];
+  const { purgecss } = getConfigOptions();
+  if (purgecss.disabled) return [];
+
+  let aggregatedAllowList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
+  let { safelist } = purgecss;
+  if (purgecss.safelist && !Array.isArray(purgecss.safelist)) {
+    safelist = reconcileSafeList(purgecss.safelist);
+  } else {
+    // aggregate the various whitelist options if safelist is not present
+    aggregatedAllowList = reconcileAllowList(purgecss);
+  }
+
   return [{
     loader: '@americanexpress/purgecss-loader',
     options: {
-      paths: [path.join(packageRoot, 'src/**/*.{js,jsx}'), ...configOptions.purgecss.paths || []],
-      extractors: configOptions.purgecss.extractors || [],
-      fontFace: configOptions.purgecss.fontFace || false,
-      keyframes: configOptions.purgecss.keyframes || false,
-      variables: configOptions.purgecss.variables || false,
-      whitelist: configOptions.purgecss.whitelist || [],
-      whitelistPatterns,
-      whitelistPatternsChildren,
+      paths: [path.join(packageRoot, 'src/**/*.{js,jsx}'), ...purgecss.paths || []],
+      extractors: purgecss.extractors || [],
+      fontFace: purgecss.fontFace || false,
+      keyframes: purgecss.keyframes || false,
+      variables: purgecss.keyframes || false,
+      safelist: safelist || {
+        standard: aggregatedAllowList.aggregatedStandard,
+        deep: aggregatedAllowList.safelistDeep,
+        greedy: [],
+        keyframes: purgecss.keyframes || false,
+        variables: purgecss.keyframes || false,
+      },
+      blocklist: purgecss.blocklist || [],
+      //
     },
   }];
 };
-/* eslint-enable inclusive-language/use-inclusive-words -- disables require enables */
+/* eslint-enable inclusive-language/use-inclusive-words --
+re enable disabled */
 
 const sassLoader = () => ({
   loader: 'sass-loader',
@@ -85,4 +128,5 @@ module.exports = {
   cssLoader,
   purgeCssLoader,
   sassLoader,
+  reconcileSafeList,
 };

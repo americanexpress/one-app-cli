@@ -29,8 +29,25 @@ describe('Esbuild image loader', () => {
   describe('setup function', () => {
     it('should register an onLoad hook, with the right filters for all bundles', () => {
       const lifeCycleHooks = runSetupAndGetLifeHooks(fontLoader);
-      expect(lifeCycleHooks.onLoad.length).toBe(1);
-      expect(lifeCycleHooks.onLoad[0].config).toEqual({ filter: /.ttf$|.woff$|.woff2$|.jfproj$/ });
+      expect(lifeCycleHooks).toHaveProperty('onLoad.0.config.filter', expect.any(RegExp));
+      expect(lifeCycleHooks.onLoad).toHaveLength(1);
+    });
+
+    it.each([
+      ['/home/me/projects/modules/src/components/font.ttf'],
+      ['/home/me/projects/modules/src/components/font.TTF'],
+      ['/home/me/projects/modules/src/components/font.woff'],
+      ['/home/me/projects/modules/src/components/font.WOFF'],
+      ['/home/me/projects/modules/src/components/font.woff2'],
+      ['/home/me/projects/modules/src/components/font.WOFF2'],
+      ['/home/me/projects/modules/src/components/font.jfproj'],
+      ['/home/me/projects/modules/src/components/font.JFPROJ'],
+    ])('should register an onLoad hook for a resource like %s', (filePath) => {
+      const lifeCycleHooks = runSetupAndGetLifeHooks(fontLoader);
+      expect(lifeCycleHooks.onLoad).toHaveLength(1);
+      expect(lifeCycleHooks).toHaveProperty('onLoad.0.config.filter', expect.any(RegExp));
+      const { filter } = lifeCycleHooks.onLoad[0].config;
+      expect(filePath).toMatch(filter);
     });
   });
 });
