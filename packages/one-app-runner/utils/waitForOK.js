@@ -42,7 +42,7 @@ const waitForOK = ({ url, timeout, signal }) => new Promise((resolve, reject) =>
 
   const pollingHandle = setInterval(poll, 1000);
   // the interval will start after the duration between, trying now is desireable
-  setImmediate(poll, 0);
+  setImmediate(poll);
 
   const timeoutHandle = setTimeout(function pollingTimedOut() {
     clearInterval(pollingHandle);
