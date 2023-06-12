@@ -15,7 +15,7 @@
  */
 
 import glob from 'glob-all';
-import sass from 'sass';
+import { compile as sassCompile } from 'sass';
 import stylesLoader from '../../../esbuild/plugins/styles-loader';
 import { runSetupAndGetLifeHooks, runOnLoadHook } from './__plugin-testing-utils__';
 import {
@@ -29,7 +29,16 @@ jest.mock('glob-all');
 
 jest.mock('cssnano');
 
-jest.spyOn(sass, 'compile');
+// sass has different loaders for CJS and ESM, the latter does not have a "default" export
+// making `import sass from 'sass';` throw an error
+// Jest is still working on ESM mocking https://jestjs.io/docs/ecmascript-modules#module-mocking-in-esm
+// so there is a divergance from this test setup and sass versions: update this setup once the jest
+// API is stable
+jest.mock('sass', () => {
+  const sass = jest.requireActual('sass');
+  jest.spyOn(sass, 'compile');
+  return sass;
+});
 
 const mockNodeEnv = (env) => {
   let oldEnv;
@@ -93,8 +102,8 @@ describe('Esbuild plugin stylesLoader', () => {
             { mockFileName, mockFileContent }
           );
 
-          expect(sass.compile).toHaveBeenCalledTimes(1);
-          expect(sass.compile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+          expect(sassCompile).toHaveBeenCalledTimes(1);
+          expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
 
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
@@ -140,7 +149,7 @@ body > p {
             { mockFileName, mockFileContent }
           );
 
-          expect(sass.compile).toHaveBeenCalledTimes(0);
+          expect(sassCompile).toHaveBeenCalledTimes(0);
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
 "const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
@@ -186,8 +195,8 @@ body > p {
           { mockFileName, mockFileContent }
         );
 
-        expect(sass.compile).toHaveBeenCalledTimes(1);
-        expect(sass.compile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+        expect(sassCompile).toHaveBeenCalledTimes(1);
+        expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
@@ -227,7 +236,7 @@ body > p {
           { mockFileName, mockFileContent }
         );
 
-        expect(sass.compile).toHaveBeenCalledTimes(0);
+        expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
 "const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
@@ -294,7 +303,7 @@ export { css, digest };"
           additionalMockedFiles
         );
 
-        expect(sass.compile).toHaveBeenCalledTimes(0);
+        expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
 "const digest = '786f696ae19422021e0f17df7c6dd6eb43f92c9c101f7d0649b341165dda1b31';
@@ -366,7 +375,7 @@ export { css, digest };"
           additionalMockedFiles
         );
 
-        expect(sass.compile).toHaveBeenCalledTimes(0);
+        expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
 "const digest = '786f696ae19422021e0f17df7c6dd6eb43f92c9c101f7d0649b341165dda1b31';
@@ -418,8 +427,8 @@ export { css, digest };"
           { mockFileName, mockFileContent }
         );
 
-        expect(sass.compile).toHaveBeenCalledTimes(1);
-        expect(sass.compile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+        expect(sassCompile).toHaveBeenCalledTimes(1);
+        expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
@@ -469,7 +478,7 @@ body > p {
           { mockFileName, mockFileContent }
         );
 
-        expect(sass.compile).toHaveBeenCalledTimes(0);
+        expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
 "const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
