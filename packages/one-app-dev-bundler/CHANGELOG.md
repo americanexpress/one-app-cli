@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.4.0...@americanexpress/one-app-dev-bundler@1.4.2) (2023-06-13)
+
+
+### Bug Fixes
+
+* **dev-bundler:** improve error when NODE_ENV not development ([#528](https://github.com/americanexpress/one-app-cli/issues/528)) ([e1babee](https://github.com/americanexpress/one-app-cli/commit/e1babeed1ddc3f0e41f49850e9eb74bf494d0aa9))
+* **one-app-dev-bundler:** avoid default export of sass ([0d9b5b4](https://github.com/americanexpress/one-app-cli/commit/0d9b5b422a9e18cc6391fa119abe41b7d384c154))
+
+
+
+
+
 ## [1.4.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.4.0...@americanexpress/one-app-dev-bundler@1.4.1) (2023-05-15)
 
 
