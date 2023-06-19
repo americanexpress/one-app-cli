@@ -43,11 +43,11 @@ describe('bundle-module', () => {
     process.env.NODE_ENV = nodeEnv;
   });
 
-  const sleep = () => new Promise(resolve => {
+  const sleep = () => new Promise((resolve) => {
     setTimeout(() => {
-      resolve()
-    }, 100)
-  })
+      resolve();
+    }, 100);
+  });
 
   it('should call the webpack bundler with no args', async () => {
     process.argv = [];

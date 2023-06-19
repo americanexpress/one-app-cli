@@ -14,7 +14,7 @@
 
 const loaderUtils = require('loader-utils');
 
-function enableMissingExternalsLoader(content) {
+function enableUnlistedExternalFallbacksLoader(content) {
   const { enableUnlistedExternalFallbacks } = loaderUtils.getOptions(this);
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
@@ -32,4 +32,4 @@ if (!global.BROWSER) {
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use app compatibility validation');
 }
 
-module.exports = enableMissingExternalsLoader;
+module.exports = enableUnlistedExternalFallbacksLoader;

@@ -29,11 +29,11 @@ jest.mock('read-pkg-up', () => ({
   }),
 }));
 
-jest.mock('@babel/core', () => (({
+jest.mock('@babel/core', () => ({
   transformSync: () => ({
-    code: `This is CJS code`
-  })
-})));
+    code: 'This is CJS code',
+  }),
+}));
 
 describe('externals-loader', () => {
   it('should ignore the content and get the dependency from the root module', () => {

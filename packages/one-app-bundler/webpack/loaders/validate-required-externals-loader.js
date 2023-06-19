@@ -29,9 +29,9 @@ function validateRequiredExternalsLoader(content) {
     return {
       ...obj,
       [externalName]: {
+        name: externalName,
         version,
         semanticRange,
-        filename: `${externalName}.js`,
         integrity: integrityManifest[externalName],
       },
     };
@@ -46,6 +46,12 @@ if (!global.BROWSER) {
   });
 }
 `;
+
+    // NOTE: This is temporary. Since we only need 'requiredExternals' in module-config.json
+    //       we create, for now, the file right here with the data.
+    fs.writeFileSync(path.resolve(process.cwd(), 'build', packageJson.version, 'module-config.json'), JSON.stringify({
+      requiredExternals,
+    }, null, 2));
 
     return newContent;
   }

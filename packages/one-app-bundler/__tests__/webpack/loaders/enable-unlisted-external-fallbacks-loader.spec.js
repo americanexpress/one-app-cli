@@ -13,13 +13,13 @@
  */
 
 const loaderUtils = require('loader-utils');
-const enableMissingExternalsLoader = require('../../../webpack/loaders/enable-missing-externals-loader');
+const enableUnlistedExternalFallbacksLoader = require('../../../webpack/loaders/enable-unlisted-external-fallbacks-loader');
 
 jest.mock('loader-utils', () => ({
   getOptions: jest.fn(() => ({ enableUnlistedExternalFallbacks: true })),
 }));
 
-describe('enable-missing-externals-loader', () => {
+describe('enable-unlisted-external-fallbacks-loader', () => {
   it('should append the enableUnlistedExternalFallbacks to the default export', () => {
     loaderUtils.getOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });
 
@@ -27,7 +27,7 @@ describe('enable-missing-externals-loader', () => {
 import MyComponent from './components/MyComponent';
 export default MyComponent;
 `;
-    expect(enableMissingExternalsLoader(content)).toMatchSnapshot();
+    expect(enableUnlistedExternalFallbacksLoader(content)).toMatchSnapshot();
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {
@@ -36,7 +36,7 @@ export default MyComponent;
     const content = `\
 export default from './components/MyComponent';
 `;
-    expect(() => enableMissingExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    expect(() => enableUnlistedExternalFallbacksLoader(content)).toThrowErrorMatchingSnapshot();
   });
 
   it('should throw an error when the wrong syntax is used - module.exports', () => {
@@ -45,7 +45,7 @@ export default from './components/MyComponent';
     const content = `\
 module.exports = require('./components/MyComponent');
 `;
-    expect(() => enableMissingExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    expect(() => enableUnlistedExternalFallbacksLoader(content)).toThrowErrorMatchingSnapshot();
   });
 
   it('should throw an error when the wrong syntax is used - export default hoc()', () => {
@@ -56,6 +56,6 @@ import SomeComponent from './SomeComponent';
 
 export default hocChain(SomeComponent);
 `;
-    expect(() => enableMissingExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    expect(() => enableUnlistedExternalFallbacksLoader(content)).toThrowErrorMatchingSnapshot();
   });
 });
