@@ -148,7 +148,7 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
    * @returns ESBuild config for externals
    */
   const externalsConfig = (env, externalName) => ({
-    ...(env === 'browser' ? browserConfig : nodeConfig),
+    ...env === 'browser' ? browserConfig : nodeConfig,
     plugins: [
       removeWebpackLoaderSyntax,
       bundleAssetSizeLimiter(commonConfigPluginOptions),

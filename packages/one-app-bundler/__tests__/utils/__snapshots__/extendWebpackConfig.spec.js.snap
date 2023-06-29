@@ -53,7 +53,7 @@ Object {
   "test": "/path/src/index",
   "use": Array [
     Object {
-      "loader": "@americanexpress/one-app-bundler/webpack/loaders/enable-missing-externals-loader",
+      "loader": "@americanexpress/one-app-bundler/webpack/loaders/enable-unlisted-external-fallbacks-loader",
       "options": Object {
         "enableUnlistedExternalFallbacks": true,
       },

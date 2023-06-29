@@ -20,22 +20,6 @@ import { readPackageUpSync } from 'read-pkg-up';
 import { BUNDLE_TYPES } from '../constants/enums.js';
 import getModulesBundlerConfig from '../utils/get-modules-bundler-config.js';
 
-const ignoreUntil = (cond, arr = []) => {
-  if (arr.length === 0) {
-    return arr;
-  }
-
-  const value = arr[0];
-
-  if (cond(value)) {
-    return arr;
-  }
-
-  const [, ...rest] = arr;
-
-  return ignoreUntil(cond, rest);
-};
-
 const externalsLoader = ({ bundleType }) => ({
   name: 'externalsLoader',
   setup(build) {
@@ -72,22 +56,12 @@ const externalsLoader = ({ bundleType }) => ({
     // your onLoad can then just match .* within that namespace and you guarantee you target
     // every package you want.
     build.onLoad({ filter: /.*/, namespace: 'externalsLoader' }, async ({ path: externalName }) => {
-      const resolveDir = ignoreUntil(
-        (value) => value === 'node_modules',
-        require
-          .resolve(externalName)
-          .split(path.sep)
-          .reverse()
-      )
-        .reverse()
-        .join(path.sep);
       const version = readPackageUpSync({
         cwd: path.resolve(process.cwd(), 'node_modules', externalName),
       })?.packageJson.version;
 
       return {
         loader: 'js',
-        // resolveDir,
         contents: `
           try {
             const Holocron = ${bundleType === BUNDLE_TYPES.SERVER ? 'require("holocron")' : `${globalReferenceString}.Holocron`};
@@ -98,11 +72,11 @@ const externalsLoader = ({ bundleType }) => ({
             const rootModuleExternal = ${globalReferenceString}.getTenantRootModule && ${globalReferenceString}.getTenantRootModule().appConfig.providedExternals['${externalName}'];
             
             module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-              throw new Error('[${bundleType}][${packageJson.name}] External not found: ${externalName}');
+              throw new Error('[${bundleType.toString()}][${packageJson.name}] External not found: ${externalName}');
             })
           } catch (error) {
             const errorGettingExternal = new Error([
-              '[${bundleType}] Failed to get external fallback ${externalName}',
+              '[${bundleType.toString()}] Failed to get external fallback ${externalName}',
               error.message
             ].filter(Boolean).join(' :: '));
           

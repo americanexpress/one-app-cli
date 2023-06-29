@@ -21,10 +21,6 @@ import generateESBuildOptions from '../esbuild/generateESBuildOptions.js';
 
 const EXTERNAL_PREFIX = '__holocron_external';
 
-const { packageJson } = readPackageUpSync() || {};
-const { 'one-amex': { bundler = {} } } = packageJson;
-const { requiredExternals } = bundler;
-
 const getExternalLibraryName = (name, version) => [EXTERNAL_PREFIX, snakeCase(name), version.replace(/[^\d.]+/g, '').replace(/\.+/g, '_')].filter(Boolean).join('__');
 
 /**
@@ -32,6 +28,10 @@ const getExternalLibraryName = (name, version) => [EXTERNAL_PREFIX, snakeCase(na
  * It's completely independent from bundling module's code.
  */
 export const bundleExternalFallbacks = async () => {
+  const { packageJson } = readPackageUpSync();
+  const { 'one-amex': { bundler = {} } } = packageJson;
+  const { requiredExternals } = bundler;
+
   if (
     requiredExternals && Array.isArray(requiredExternals)
     && requiredExternals.length > 0
@@ -72,7 +72,7 @@ export const bundleExternalFallbacks = async () => {
           );
         }
       }).catch((error) => {
-        console.error(`Failed to build fallback for external ${externalName}`, error);
+        console.error(`Failed to build fallback for external ${externalName} for ${env}`, error);
       });
     }))
     ));

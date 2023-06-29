@@ -14,6 +14,7 @@
  * permissions and limitations under the License.
  */
 
+import { readPackageUpSync } from 'read-pkg-up';
 import externalsLoader from '../../../esbuild/plugins/externals-loader';
 import { runSetupAndGetLifeHooks, runOnLoadHook } from './__plugin-testing-utils__';
 import getModulesBundlerConfig from '../../../esbuild/utils/get-modules-bundler-config';
@@ -25,6 +26,14 @@ jest.mock('../../../esbuild/utils/get-modules-bundler-config', () => jest.fn((ke
     return ['external-package-1', 'external-package-2'];
   }
   return null;
+}));
+
+jest.mock('read-pkg-up', () => ({
+  readPackageUpSync: jest.fn(() => ({
+    packageJson: {
+      dependencies: {},
+    },
+  })),
 }));
 
 describe('Esbuild plugin externalsLoader', () => {
@@ -95,14 +104,29 @@ describe('Esbuild plugin externalsLoader', () => {
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"try {
-  module.exports = globalThis.getTenantRootModule().appConfig.providedExternals['mock/path/to/file/mock-package-name'].module;
-} catch (error) {
-  const errorGettingExternal = new Error('Failed to get external mock/path/to/file/mock-package-name from root module');
-  errorGettingExternal.shouldBlockModuleReload = false;
-  throw errorGettingExternal;
-}
 "
+          try {
+            const Holocron = globalThis.Holocron;
+            const fallbackExternal = Holocron.getExternal({
+              name: 'mock/path/to/file/mock-package-name',
+              version: 'undefined'
+            });
+            const rootModuleExternal = globalThis.getTenantRootModule && globalThis.getTenantRootModule().appConfig.providedExternals['mock/path/to/file/mock-package-name'];
+            
+            module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+              throw new Error('[Symbol(BUNDLE_TYPES-BROWSER)][undefined] External not found: mock/path/to/file/mock-package-name');
+            })
+          } catch (error) {
+            const errorGettingExternal = new Error([
+              '[Symbol(BUNDLE_TYPES-BROWSER)] Failed to get external fallback mock/path/to/file/mock-package-name',
+              error.message
+            ].filter(Boolean).join(' :: '));
+          
+            errorGettingExternal.shouldBlockModuleReload = false;
+          
+            throw errorGettingExternal;
+          }
+        "
 `);
       });
       it('should transform inputs to outputs for server', async () => {
@@ -121,16 +145,63 @@ describe('Esbuild plugin externalsLoader', () => {
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"try {
-  module.exports = global.getTenantRootModule().appConfig.providedExternals['mock/path/to/file/mock-package-name'].module;
-} catch (error) {
-  const errorGettingExternal = new Error('Failed to get external mock/path/to/file/mock-package-name from root module');
-  errorGettingExternal.shouldBlockModuleReload = false;
-  throw errorGettingExternal;
-}
 "
+          try {
+            const Holocron = require(\\"holocron\\");
+            const fallbackExternal = Holocron.getExternal({
+              name: 'mock/path/to/file/mock-package-name',
+              version: 'undefined'
+            });
+            const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['mock/path/to/file/mock-package-name'];
+            
+            module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+              throw new Error('[Symbol(BUNDLE_TYPES-SERVER)][undefined] External not found: mock/path/to/file/mock-package-name');
+            })
+          } catch (error) {
+            const errorGettingExternal = new Error([
+              '[Symbol(BUNDLE_TYPES-SERVER)] Failed to get external fallback mock/path/to/file/mock-package-name',
+              error.message
+            ].filter(Boolean).join(' :: '));
+          
+            errorGettingExternal.shouldBlockModuleReload = false;
+          
+            throw errorGettingExternal;
+          }
+        "
 `);
       });
+    });
+  });
+
+  describe('readPackageUpSync', () => {
+    it('function call could return a nullable value', () => {
+      readPackageUpSync.mockImplementationOnce(() => undefined);
+
+      const plugin = externalsLoader({ bundleType: BUNDLE_TYPES.BROWSER });
+
+      expect(() => runSetupAndGetLifeHooks(plugin)).toThrowError("Missing 'package.json'");
+    });
+
+    it('throws an error when package json is falsy', () => {
+      readPackageUpSync.mockImplementationOnce(() => ({
+        packageJson: undefined,
+      }));
+
+      const plugin = externalsLoader({ bundleType: BUNDLE_TYPES.BROWSER });
+
+      expect(() => runSetupAndGetLifeHooks(plugin)).toThrowError("Missing 'package.json'");
+    });
+
+    it('throws an error when "dependencies" is falsy', () => {
+      readPackageUpSync.mockImplementationOnce(() => ({
+        packageJson: {
+          dependencies: undefined,
+        },
+      }));
+
+      const plugin = externalsLoader({ bundleType: BUNDLE_TYPES.BROWSER });
+
+      expect(() => runSetupAndGetLifeHooks(plugin)).toThrowError("'package.json' does not have 'dependencies' key");
     });
   });
 });
