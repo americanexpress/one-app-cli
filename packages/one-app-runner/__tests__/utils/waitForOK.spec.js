@@ -67,8 +67,11 @@ describe('waitForOk', () => {
 
     const abortController = new AbortController();
     const waitingPromise = waitForOK({ url: 'http://mockurl.com', timeout: 3000, signal: abortController.signal });
+
     jest.advanceTimersByTime(2000);
-    abortController.abort();
-    await expect(waitingPromise).rejects.toMatchInlineSnapshot('[Error: AbortError: This operation was aborted]');
+
+    abortController.abort('This operation was aborted');
+
+    await expect(waitingPromise).rejects.toMatchInlineSnapshot('[Error: This operation was aborted]');
   });
 });
