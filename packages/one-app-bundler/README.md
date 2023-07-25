@@ -309,9 +309,7 @@ before enabling any of the following:
 ##### Disabling purgecss
 
 `purgecss` can be disabled for your module by adding
-`bundler.purgecss.disabled` as `true`. **This option is only to be used in
-rare instances and as a last resort, the effect of _disabling will have a
-negative impact on performance_.**
+`bundler.purgecss.disabled` as `true`. **Disabling purgecss entirely may increase your module bundle size and decrease performance.**
 
 ```json
 {
