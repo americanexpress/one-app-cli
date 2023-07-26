@@ -95,7 +95,7 @@ describe('The generateESBuildOptions function', () => {
   });
 
   it('should return the correct values for all build targets when not watching', async () => {
-    expect.assertions(4);
+    expect.assertions(6);
     const configs = await generateESBuildOptions(mockOptions);
     // When assessing these snapshots ask yourself at-least the following questions:
     // Should these changes have impacted all three configs, just two, or only one?
@@ -105,25 +105,29 @@ describe('The generateESBuildOptions function', () => {
     // Are new plugins mocked to properly show the params they are passed. Are these params correct?
     expect(configs.browserConfig).toMatchSnapshot();
     expect(configs.nodeConfig).toMatchSnapshot();
+    expect(configs.externalsConfig('browser', 'awesome')).toMatchSnapshot();
+    expect(configs.externalsConfig('server', 'awesome')).toMatchSnapshot();
 
     expect(console).not.toHaveLogs();
     expect(console).not.toHaveErrors();
   });
 
   it('should return the correct values for all build targets when watching', async () => {
-    expect.assertions(4);
+    expect.assertions(6);
     const configs = await generateESBuildOptions({ ...mockOptions, watch: true });
     // As well as asking the questions from the previous test ask your self these questions:
     // Are these changes relevant to the 'watch' flow, which should be as performant as possible?
     expect(configs.browserConfig).toMatchSnapshot();
     expect(configs.nodeConfig).toMatchSnapshot();
+    expect(configs.externalsConfig('browser', 'awesome')).toMatchSnapshot();
+    expect(configs.externalsConfig('server', 'awesome')).toMatchSnapshot();
 
     expect(console).not.toHaveLogs();
     expect(console).not.toHaveErrors();
   });
 
   it('should return the correct values for all build targets when on prod mode', async () => {
-    expect.assertions(4);
+    expect.assertions(6);
     process.env.NODE_ENV = 'production';
     const configs = await generateESBuildOptions(mockOptions);
     // As well as asking the questions from the first test ask your self these questions:
@@ -133,6 +137,8 @@ describe('The generateESBuildOptions function', () => {
     //     If they do, consider that this bundler change might require a one app major version?
     expect(configs.browserConfig).toMatchSnapshot();
     expect(configs.nodeConfig).toMatchSnapshot();
+    expect(configs.externalsConfig('browser', 'awesome')).toMatchSnapshot();
+    expect(configs.externalsConfig('server', 'awesome')).toMatchSnapshot();
 
     expect(console).not.toHaveLogs();
     expect(console).not.toHaveErrors();

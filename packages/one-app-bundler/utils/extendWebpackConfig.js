@@ -112,7 +112,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
         rules: [{
           test: indexPath,
           use: [{
-            loader: '@americanexpress/one-app-bundler/webpack/loaders/enable-missing-externals-loader',
+            loader: '@americanexpress/one-app-bundler/webpack/loaders/enable-unlisted-external-fallbacks-loader',
             options: {
               enableUnlistedExternalFallbacks,
             },

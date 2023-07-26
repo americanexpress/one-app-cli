@@ -12,6 +12,7 @@
  * under the License.
  */
 
+const fs = require('fs');
 const readPkgUp = require('read-pkg-up');
 const validateExternalsLoader = require('../../../webpack/loaders/validate-required-externals-loader');
 
@@ -23,10 +24,18 @@ jest.mock('read-pkg-up', () => ({
   sync: jest.fn(),
 }));
 
+jest.mock('fs');
+
 // eslint-disable-next-line global-require -- mocking readPkgUp needs us to require a json file
 readPkgUp.sync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
 
+fs.readFileSync = jest.fn(() => '{}');
+
 describe('validate-required-externals-loader', () => {
+  beforeEach(() => {
+    // fs.readFileSync.mockClear();
+  });
+
   it('should add versions for server side validation', () => {
     const content = `\
 import SomeComponent from './SomeComponent';
@@ -34,6 +43,7 @@ import SomeComponent from './SomeComponent';
 export default SomeComponent;
 `;
     expect(validateExternalsLoader(content)).toMatchSnapshot();
+    expect(fs.writeFileSync).toHaveBeenCalled();
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {

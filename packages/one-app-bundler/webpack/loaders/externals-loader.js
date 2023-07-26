@@ -11,57 +11,36 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-
-const path = require('path');
 const loaderUtils = require('loader-utils');
 const readPkgUp = require('read-pkg-up');
-const babel = require('@babel/core');
 
-const packageRoot = process.cwd();
 const { packageJson } = readPkgUp.sync();
 
-function externalsLoader(content) {
+function externalsLoader() {
   const { externalName, bundleTarget } = loaderUtils.getOptions(this);
-  if (bundleTarget === 'server') {
-    const babelContent = babel.transformSync(content, {
-      extends: path.join(packageRoot, '.babelrc'),
-    }).code;
-
-    return `\
-try {
-  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
-  if (rootModuleExternal && require('holocron').validateExternal({
-    providedVersion: rootModuleExternal.version,
-    requestedRange: '${packageJson.dependencies[externalName]}'
-  })) {
-    module.exports = rootModuleExternal.module;
-  } else {
-    ${babelContent}
-  }
-} catch (error) {
-  const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server', error.message);
-  errorGettingExternal.shouldBlockModuleReload = false;
-  throw errorGettingExternal;
-}
-`;
-  }
   // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
   const { version } = require(`${externalName}/package.json`);
 
-  // client
   return `\
 try {
-  const fallbackExternal = global.Holocron.getExternal({
+  const Holocron = ${bundleTarget === 'server' ? 'require("holocron")' : 'global.Holocron'};
+  const fallbackExternal = Holocron.getExternal({
     name: '${externalName}',
     version: '${version}'
   });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
+  
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-    throw new Error('External not found: ${externalName}');
-  });
+    throw new Error('[${bundleTarget}][${packageJson.name}] External not found: ${externalName}');
+  })
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');
+  const errorGettingExternal = new Error([
+    '[${bundleTarget}] Failed to get external fallback ${externalName}',
+    error.message
+  ].filter(Boolean).join(' :: '));
+
   errorGettingExternal.shouldBlockModuleReload = false;
+
   throw errorGettingExternal;
 }
 `;

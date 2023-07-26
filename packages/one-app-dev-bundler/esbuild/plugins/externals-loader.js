@@ -14,30 +14,11 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
 import path from 'path';
-import swc from '@swc/core';
-import { createRequire } from 'node:module';
 import { readPackageUpSync } from 'read-pkg-up';
 
 import { BUNDLE_TYPES } from '../constants/enums.js';
 import getModulesBundlerConfig from '../utils/get-modules-bundler-config.js';
-
-const ignoreUntil = (cond, arr = []) => {
-  if (arr.length === 0) {
-    return arr;
-  }
-
-  const value = arr[0];
-
-  if (cond(value)) {
-    return arr;
-  }
-
-  const [, ...rest] = arr;
-
-  return ignoreUntil(cond, rest);
-};
 
 const externalsLoader = ({ bundleType }) => ({
   name: 'externalsLoader',
@@ -75,73 +56,35 @@ const externalsLoader = ({ bundleType }) => ({
     // your onLoad can then just match .* within that namespace and you guarantee you target
     // every package you want.
     build.onLoad({ filter: /.*/, namespace: 'externalsLoader' }, async ({ path: externalName }) => {
-      if (bundleType === BUNDLE_TYPES.SERVER) {
-        const require = createRequire(import.meta.url);
-        const cjsCode = (await swc.transform(await fs.promises.readFile(require.resolve(externalName), 'utf8'), {
-          jsc: {
-            target: 'es5',
-          },
-        })).code;
-
-        const resolveDir = ignoreUntil(
-          (value) => value === 'node_modules',
-          require
-            .resolve(externalName)
-            .split(path.sep)
-            .reverse()
-        )
-          .reverse()
-          .join(path.sep);
-
-        return {
-          loader: 'js',
-          resolveDir,
-          contents: `\
-const rootModuleExternal = ${globalReferenceString}.getTenantRootModule && ${globalReferenceString}.getTenantRootModule().appConfig.providedExternals['${externalName}']
-
-if (rootModuleExternal && require('holocron').validateExternal({
-  providedVersion: rootModuleExternal.version,
-  requestedRange: '${dependencies[externalName]}'
-})) {
-  try {
-    module.exports = rootModuleExternal.module;
-  } catch (error) {
-    const errorGettingExternal = new Error('Failed to get external ${externalName} from root module on the server');
-    errorGettingExternal.shouldBlockModuleReload = false;
-    throw errorGettingExternal;
-  }
-} else {
-  ${cjsCode}
-}`,
-        };
-      }
       const version = readPackageUpSync({
         cwd: path.resolve(process.cwd(), 'node_modules', externalName),
       })?.packageJson.version;
 
-      if (!version) {
-        throw new Error(`'version' not found for external "${externalName}"`);
-      }
-
-      // client
       return {
         loader: 'js',
-        contents: `\
-try {
-  const fallbackExternal = ${globalReferenceString}.Holocron.getExternal({
-    name: '${externalName}',
-    version: '${version}'
-  });
-  const rootModuleExternal = ${globalReferenceString}.getTenantRootModule && ${globalReferenceString}.getTenantRootModule().appConfig.providedExternals['${externalName}'];
-
-  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-    throw new Error('External not found: ${externalName}')
-});
-} catch (error) {
-  const errorGettingExternal = new Error('Failed to get external fallback ${externalName}');
-  errorGettingExternal.shouldBlockModuleReload = false;
-  throw error;
-}`,
+        contents: `
+          try {
+            const Holocron = ${bundleType === BUNDLE_TYPES.SERVER ? 'require("holocron")' : `${globalReferenceString}.Holocron`};
+            const fallbackExternal = Holocron.getExternal({
+              name: '${externalName}',
+              version: '${version}'
+            });
+            const rootModuleExternal = ${globalReferenceString}.getTenantRootModule && ${globalReferenceString}.getTenantRootModule().appConfig.providedExternals['${externalName}'];
+            
+            module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+              throw new Error('[${bundleType.toString()}][${packageJson.name}] External not found: ${externalName}');
+            })
+          } catch (error) {
+            const errorGettingExternal = new Error([
+              '[${bundleType.toString()}] Failed to get external fallback ${externalName}',
+              error.message
+            ].filter(Boolean).join(' :: '));
+          
+            errorGettingExternal.shouldBlockModuleReload = false;
+          
+            throw errorGettingExternal;
+          }
+        `,
       };
     });
   },

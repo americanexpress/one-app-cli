@@ -21,7 +21,7 @@ import getCliOptions from './get-cli-options.js';
 
 const asyncLocaleBundler = async (watch) => localeBundler(watch);
 
-export const devBuildModule = async () => {
+const devBuildModule = async () => {
   const {
     watch,
     useLiveReload,

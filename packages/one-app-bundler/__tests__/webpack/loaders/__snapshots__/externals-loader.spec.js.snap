@@ -2,18 +2,24 @@
 
 exports[`externals-loader does not use fallback for server 1`] = `
 "try {
+  const Holocron = require(\\"holocron\\");
+  const fallbackExternal = Holocron.getExternal({
+    name: 'lodash',
+    version: '4.17.21'
+  });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
-  if (rootModuleExternal && require('holocron').validateExternal({
-    providedVersion: rootModuleExternal.version,
-    requestedRange: '^1.0.0'
-  })) {
-    module.exports = rootModuleExternal.module;
-  } else {
-    This is CJS code
-  }
+  
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('[server][undefined] External not found: lodash');
+  })
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external lodash from root module on the server', error.message);
+  const errorGettingExternal = new Error([
+    '[server] Failed to get external fallback lodash',
+    error.message
+  ].filter(Boolean).join(' :: '));
+
   errorGettingExternal.shouldBlockModuleReload = false;
+
   throw errorGettingExternal;
 }
 "
@@ -21,17 +27,24 @@ exports[`externals-loader does not use fallback for server 1`] = `
 
 exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
 "try {
-  const fallbackExternal = global.Holocron.getExternal({
+  const Holocron = global.Holocron;
+  const fallbackExternal = Holocron.getExternal({
     name: 'lodash',
     version: '4.17.21'
   });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
+  
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-    throw new Error('External not found: lodash');
-  });
+    throw new Error('[undefined][undefined] External not found: lodash');
+  })
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external fallback lodash');
+  const errorGettingExternal = new Error([
+    '[undefined] Failed to get external fallback lodash',
+    error.message
+  ].filter(Boolean).join(' :: '));
+
   errorGettingExternal.shouldBlockModuleReload = false;
+
   throw errorGettingExternal;
 }
 "

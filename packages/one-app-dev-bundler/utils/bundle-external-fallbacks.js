@@ -12,6 +12,7 @@
  * under the License.
  */
 
+import fs from 'fs';
 import path from 'path';
 import { readPackageUpSync } from 'read-pkg-up';
 import esbuild from 'esbuild';
@@ -20,10 +21,6 @@ import generateESBuildOptions from '../esbuild/generateESBuildOptions.js';
 
 const EXTERNAL_PREFIX = '__holocron_external';
 
-const { packageJson } = readPackageUpSync() || {};
-const { 'one-amex': { bundler = {} } } = packageJson;
-const { requiredExternals } = bundler;
-
 const getExternalLibraryName = (name, version) => [EXTERNAL_PREFIX, snakeCase(name), version.replace(/[^\d.]+/g, '').replace(/\.+/g, '_')].filter(Boolean).join('__');
 
 /**
@@ -31,6 +28,10 @@ const getExternalLibraryName = (name, version) => [EXTERNAL_PREFIX, snakeCase(na
  * It's completely independent from bundling module's code.
  */
 export const bundleExternalFallbacks = async () => {
+  const { packageJson } = readPackageUpSync();
+  const { 'one-amex': { bundler = {} } } = packageJson;
+  const { requiredExternals } = bundler;
+
   if (
     requiredExternals && Array.isArray(requiredExternals)
     && requiredExternals.length > 0
@@ -41,24 +42,40 @@ export const bundleExternalFallbacks = async () => {
       externalsConfig,
     } = await generateESBuildOptions({ watch: false, useLiveReload: false });
 
-    await Promise.all(requiredExternals.map((externalName) => {
+    await Promise.all(['browser', 'node'].map((env) => Promise.all(requiredExternals.map((externalName) => {
       const indexPath = path.resolve(process.cwd(), `node_modules/${externalName}`);
       const buildPath = path.resolve(process.cwd(), `build/${packageJson.version}`);
-      const externalFilename = `${externalName}.js`;
+      const externalFilename = `${externalName}.${env}.js`;
       const outfile = path.resolve(buildPath, externalFilename);
       const version = readPackageUpSync({
         cwd: path.resolve(process.cwd(), 'node_modules', externalName),
       })?.packageJson.version;
+      const envConfig = env === 'browser' ? {
+        globalName: getExternalLibraryName(externalName, version),
+      } : {};
 
       return esbuild.build({
-        ...externalsConfig(externalName),
+        ...externalsConfig(env, externalName),
         entryPoints: [indexPath],
         outfile,
-        globalName: getExternalLibraryName(externalName, version),
+        ...envConfig,
+      }).then(() => {
+        if (env === 'browser') {
+          const content = fs.readFileSync(outfile, 'utf8');
+
+          fs.writeFileSync(
+            outfile,
+            [
+              content,
+              `Holocron.registerExternal({ name: "${externalName}", version: "${version}", module: ${getExternalLibraryName(externalName, version)}});`,
+            ].join('\n')
+          );
+        }
       }).catch((error) => {
-        console.error(`Failed to build fallback for external ${externalName}`, error);
+        console.error(`Failed to build fallback for external ${externalName} for ${env}`, error);
       });
-    }));
+    }))
+    ));
   }
 };
 
