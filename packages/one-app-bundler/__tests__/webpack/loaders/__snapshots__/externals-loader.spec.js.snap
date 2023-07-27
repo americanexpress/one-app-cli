@@ -3,12 +3,12 @@
 exports[`externals-loader does not use fallback for server 1`] = `
 "try {
   const Holocron = require(\\"holocron\\");
-  const fallbackExternal = Holocron.getExternal({
+  const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
     name: 'lodash',
     version: '4.17.21'
   });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
-  
+
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
     throw new Error('[server][undefined] External not found: lodash');
   })
@@ -28,12 +28,12 @@ exports[`externals-loader does not use fallback for server 1`] = `
 exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
 "try {
   const Holocron = global.Holocron;
-  const fallbackExternal = Holocron.getExternal({
+  const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
     name: 'lodash',
     version: '4.17.21'
   });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
-  
+
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
     throw new Error('[undefined][undefined] External not found: lodash');
   })

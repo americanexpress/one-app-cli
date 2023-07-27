@@ -20,7 +20,7 @@ const getModulesBundlerConfig = (configKey) => {
   const { packageJson } = readPackageUpSync();
   const bundlerConfig = packageJson && packageJson['one-amex'] && packageJson['one-amex'].bundler;
 
-  if (configKey != null) {
+  if (configKey) {
     return bundlerConfig && bundlerConfig[configKey];
   }
 

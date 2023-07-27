@@ -24,12 +24,12 @@ function externalsLoader() {
   return `\
 try {
   const Holocron = ${bundleTarget === 'server' ? 'require("holocron")' : 'global.Holocron'};
-  const fallbackExternal = Holocron.getExternal({
+  const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
     name: '${externalName}',
     version: '${version}'
   });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
-  
+
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
     throw new Error('[${bundleTarget}][${packageJson.name}] External not found: ${externalName}');
   })
