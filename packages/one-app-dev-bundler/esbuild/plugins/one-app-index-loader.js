@@ -23,6 +23,7 @@ import ModuleMetadataInjector from './one-app-index-loader-injectors/module-meta
 import ProvidedExternalsInjector from './one-app-index-loader-injectors/provided-externals-injector.js';
 import AppCompatibilityInjector from './one-app-index-loader-injectors/app-compatibility-injector.js';
 import DevLiveReloaderInjector from './one-app-index-loader-injectors/dev-live-reloader-injector.js';
+import UnlistedExternalFallbackInjector from './one-app-index-loader-injectors/enable-unlisted-external-fallback-injector.js';
 
 // This loader is responsible for injecting everything into the index file that needs to be there
 // It is designed to be run against the index.js file of all modules for all bundles
@@ -42,6 +43,7 @@ const oneAppIndexLoader = (options) => ({
     const injectors = [
       new HolocronModuleRegisterInjector(injectorOptions),
       new ModuleMetadataInjector(injectorOptions),
+      new UnlistedExternalFallbackInjector(injectorOptions),
       new ProvidedExternalsInjector(injectorOptions),
       new AppCompatibilityInjector(injectorOptions),
       new DevLiveReloaderInjector(injectorOptions),

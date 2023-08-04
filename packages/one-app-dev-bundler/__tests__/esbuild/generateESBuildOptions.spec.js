@@ -105,8 +105,8 @@ describe('The generateESBuildOptions function', () => {
     // Are new plugins mocked to properly show the params they are passed. Are these params correct?
     expect(configs.browserConfig).toMatchSnapshot();
     expect(configs.nodeConfig).toMatchSnapshot();
-    expect(configs.externalsConfig('browser', 'awesome')).toMatchSnapshot();
-    expect(configs.externalsConfig('server', 'awesome')).toMatchSnapshot();
+    expect(configs.buildExternalsConfig('browser', 'awesome')).toMatchSnapshot();
+    expect(configs.buildExternalsConfig('server', 'awesome')).toMatchSnapshot();
 
     expect(console).not.toHaveLogs();
     expect(console).not.toHaveErrors();
@@ -119,8 +119,8 @@ describe('The generateESBuildOptions function', () => {
     // Are these changes relevant to the 'watch' flow, which should be as performant as possible?
     expect(configs.browserConfig).toMatchSnapshot();
     expect(configs.nodeConfig).toMatchSnapshot();
-    expect(configs.externalsConfig('browser', 'awesome')).toMatchSnapshot();
-    expect(configs.externalsConfig('server', 'awesome')).toMatchSnapshot();
+    expect(configs.buildExternalsConfig('browser', 'awesome')).toMatchSnapshot();
+    expect(configs.buildExternalsConfig('server', 'awesome')).toMatchSnapshot();
 
     expect(console).not.toHaveLogs();
     expect(console).not.toHaveErrors();
@@ -137,8 +137,8 @@ describe('The generateESBuildOptions function', () => {
     //     If they do, consider that this bundler change might require a one app major version?
     expect(configs.browserConfig).toMatchSnapshot();
     expect(configs.nodeConfig).toMatchSnapshot();
-    expect(configs.externalsConfig('browser', 'awesome')).toMatchSnapshot();
-    expect(configs.externalsConfig('server', 'awesome')).toMatchSnapshot();
+    expect(configs.buildExternalsConfig('browser', 'awesome')).toMatchSnapshot();
+    expect(configs.buildExternalsConfig('server', 'awesome')).toMatchSnapshot();
 
     expect(console).not.toHaveLogs();
     expect(console).not.toHaveErrors();

@@ -39,7 +39,7 @@ export const bundleExternalFallbacks = async () => {
     console.info('Bundling External Fallbacks');
 
     const {
-      externalsConfig,
+      buildExternalsConfig,
     } = await generateESBuildOptions({ watch: false, useLiveReload: false });
 
     await Promise.all(['browser', 'node'].map((env) => Promise.all(requiredExternals.map((externalName) => {
@@ -55,7 +55,7 @@ export const bundleExternalFallbacks = async () => {
       } : {};
 
       return esbuild.build({
-        ...externalsConfig(env, externalName),
+        ...buildExternalsConfig(env, externalName),
         entryPoints: [indexPath],
         outfile,
         ...envConfig,

@@ -19,27 +19,40 @@ import getModulesBundlerConfig from '../../utils/get-modules-bundler-config.js';
 import getMetaUrl from '../../utils/get-meta-url.mjs';
 import { BUNDLE_TYPES } from '../../constants/enums.js';
 
+const getLength = (arg) => (Array.isArray(arg) ? arg.length : Object.keys(arg).length);
+
 export default class ProvidedExternalsInjector {
   constructor({ bundleType, packageJson }) {
     this.moduleName = packageJson.name;
 
     const require = createRequire(getMetaUrl());
 
-    const providedExternalNames = getModulesBundlerConfig('providedExternals');
+    const providedExternals = getModulesBundlerConfig('providedExternals');
 
     // no need to inject if there are no provided externals
-    this.willInject = Array.isArray(providedExternalNames) && providedExternalNames.length > 0;
+    this.willInject = !!providedExternals && getLength(providedExternals) > 0;
 
     if (!this.willInject) {
       return;
     }
 
-    this.providedExternalsString = providedExternalNames.map((externalName) => {
-      // eslint-disable-next-line import/no-dynamic-require -- dynamic require is needed here
-      const { version } = require(`${externalName}/package.json`);
-      return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
-    }).join(',\n  ');
+    const extendedProvidedExternals = (Array.isArray(providedExternals)
+      ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
+    // eslint-disable-next-line import/no-dynamic-require -- need to require a package.json at runtime
+      const externalPkg = require(`${externalName}/package.json`);
 
+      return `
+      '${externalName}': {
+        ...${JSON.stringify({
+    fallbackEnabled: false,
+    ...providedExternals[externalName],
+  }, null, 2)},
+        version: '${externalPkg.version}',
+        module: require('${externalName}'),
+      }`;
+    }, {});
+
+    this.providedExternalsString = extendedProvidedExternals.join(',\n  ');
     this.globalReferenceString = bundleType === BUNDLE_TYPES.BROWSER ? 'globalThis' : 'global';
   }
 

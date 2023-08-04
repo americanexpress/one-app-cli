@@ -47,7 +47,7 @@ const { browserGlobals, nodeExternals } = getOneAppExternals();
  * @returns {Promise.<{
  *    nodeConfig: object,
  *    browserConfig: object,
- *    externalsConfig: (env: string, externalName: string) => object
+ *    buildExternalsConfig: (env: string, externalName: string) => object
  * }>} NodeJS, Browser, and Externals ESBuild configs
  */
 const generateESBuildOptions = async ({ watch, useLiveReload }) => {
@@ -147,7 +147,7 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
    * @param {string} externalName External name that's being bundled/transpiled
    * @returns ESBuild config for externals
    */
-  const externalsConfig = (env, externalName) => ({
+  const buildExternalsConfig = (env, externalName) => ({
     ...env === 'browser' ? browserConfig : nodeConfig,
     plugins: [
       removeWebpackLoaderSyntax,
@@ -187,7 +187,8 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
   return {
     nodeConfig,
     browserConfig,
-    externalsConfig,
+    buildExternalsConfig,
+    buildExternalsConfig,
   };
 };
 

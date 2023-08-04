@@ -33,7 +33,7 @@ jest.mock('esbuild', () => ({
 }));
 
 jest.mock('../../esbuild/generateESBuildOptions', () => jest.fn(() => ({
-  externalsConfig: (env) => ({
+  buildExternalsConfig: (env) => ({
     mocked: env,
   }),
 })));
