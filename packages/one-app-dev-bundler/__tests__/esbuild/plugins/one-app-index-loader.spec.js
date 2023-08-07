@@ -221,14 +221,21 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
       )).rejects.toThrow('one-app-bundler: Module must use `export default VariableName` syntax in index');
     });
 
-    it('throws an exception if an injector removes the default export', async () => {
+    it('should throws an exception if an injector removes the default export', async () => {
       // it doesn't matter which injector is mocked here.
+      jest.resetModules();
       jest.doMock('../../../esbuild/plugins/one-app-index-loader-injectors/module-metadata-injector', () => class BadInjector {
         // eslint-disable-next-line class-methods-use-this -- it doesnt' matter if 'this' is used for this mock
         inject = async () => 'not a default export!';
       });
 
-      const plugin = oneAppIndexLoader({ bundleType: BUNDLE_TYPES.BROWSER, watch: true });
+      // eslint-disable-next-line global-require -- required to use mocked injector
+      const oneAppIndexLoaderWithMockedInjector = require('../../../esbuild/plugins/one-app-index-loader').default;
+
+      const plugin = oneAppIndexLoaderWithMockedInjector({
+        bundleType: BUNDLE_TYPES.BROWSER, watch: true,
+      });
+
       const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
       await expect(async () => runOnLoadHook(onLoadHook,
