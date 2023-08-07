@@ -30,8 +30,7 @@ export default class ProvidedExternalsInjector {
     const providedExternals = getModulesBundlerConfig('providedExternals');
 
     // no need to inject if there are no provided externals
-    this.willInject = !!providedExternals && getLength(providedExternals) > 0;
-
+    this.willInject = !!providedExternals && typeof providedExternals === 'object' && getLength(providedExternals) > 0;
     if (!this.willInject) {
       return;
     }
@@ -41,15 +40,16 @@ export default class ProvidedExternalsInjector {
     // eslint-disable-next-line import/no-dynamic-require -- need to require a package.json at runtime
       const externalPkg = require(`${externalName}/package.json`);
 
-      return `
-      '${externalName}': {
-        ...${JSON.stringify({
-    fallbackEnabled: false,
-    ...providedExternals[externalName],
-  }, null, 2)},
-        version: '${externalPkg.version}',
-        module: require('${externalName}'),
-      }`;
+      const externalOpts = JSON.stringify({
+        fallbackEnabled: false,
+        ...providedExternals[externalName],
+      }, null, 0);
+
+      return `'${externalName}': {
+      ...${externalOpts},
+      version: '${externalPkg.version}',
+      module: require('${externalName}')
+    }`;
     }, {});
 
     this.providedExternalsString = extendedProvidedExternals.join(',\n  ');
@@ -61,7 +61,7 @@ export default class ProvidedExternalsInjector {
       return content;
     }
 
-    return `${content};
+    return `${content}
 ${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfig, {
   providedExternals: {
     ${this.providedExternalsString},
@@ -69,9 +69,9 @@ ${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfi
 });
 
 if(${this.globalReferenceString}.getTenantRootModule === undefined || (${this.globalReferenceString}.rootModuleName && ${this.globalReferenceString}.rootModuleName === '${this.moduleName}')){
-${this.globalReferenceString}.getTenantRootModule = () => ${rootComponentName};
-${this.globalReferenceString}.rootModuleName = '${this.moduleName}';
-}
+  ${this.globalReferenceString}.getTenantRootModule = () => ${rootComponentName};
+  ${this.globalReferenceString}.rootModuleName = '${this.moduleName}';
+};
 `;
   };
 }

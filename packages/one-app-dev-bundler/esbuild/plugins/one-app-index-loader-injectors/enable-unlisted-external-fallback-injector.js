@@ -30,10 +30,10 @@ export default class UnlistedExternalFallbackInjector {
     }
     console.log('UnlistedExternalFallbackInjector inject');
 
-    return `${content};
-  ${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfig, {
-    enableUnlistedExternalFallbacks: "${this.enableUnlistedExternalFallbacks}",
-  });
+    return `${content}
+${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfig, {
+  enableUnlistedExternalFallbacks: "${this.enableUnlistedExternalFallbacks}",
+});
 `;
   };
 }

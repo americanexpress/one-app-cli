@@ -27,7 +27,7 @@ export default class HolocronModuleRegisterInjector {
       return content;
     }
 
-    return `${content};
+    return `${content}
 Holocron.registerModule("${this.moduleName}", ${rootComponentName});
 `;
   };

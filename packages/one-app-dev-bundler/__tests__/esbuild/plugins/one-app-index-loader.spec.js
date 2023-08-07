@@ -221,9 +221,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
       )).rejects.toThrow('one-app-bundler: Module must use `export default VariableName` syntax in index');
     });
 
-    it('should throw an exception if an injector removes the default export', async () => {
-      expect.assertions(1);
-
+    it('throws an exception if an injector removes the default export', async () => {
       // it doesn't matter which injector is mocked here.
       jest.doMock('../../../esbuild/plugins/one-app-index-loader-injectors/module-metadata-injector', () => class BadInjector {
         // eslint-disable-next-line class-methods-use-this -- it doesnt' matter if 'this' is used for this mock

@@ -53,10 +53,10 @@ describe('The AppCompatibilityInjector', () => {
     const finalContent = await serverInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
 
     expect(finalContent).toMatchInlineSnapshot(`
-"mockContent;
-  rootComponentNameMock.appConfig = Object.assign({}, rootComponentNameMock.appConfig, {
-    appCompatibility: \\"appCompatibilityMock\\",
-  });
+"mockContent
+rootComponentNameMock.appConfig = Object.assign({}, rootComponentNameMock.appConfig, {
+  appCompatibility: \\"appCompatibilityMock\\",
+});
 "
 `);
   });
