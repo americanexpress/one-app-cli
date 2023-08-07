@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-runner",
-  "version": "6.14.5",
+  "version": "6.14.7",
   "description": "CLI for running One App locally",
   "license": "Apache-2.0",
   "contributors": [

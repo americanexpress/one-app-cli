@@ -63,10 +63,21 @@ describe('Esbuild plugin cjsCompatibilityHotpatch', () => {
         expect(fs.promises.readFile).toHaveBeenCalledTimes(1);
         expect(fs.promises.readFile).toHaveBeenCalledWith('mock/file/name.js', 'utf8');
 
-        expect(fs.promises.readFile).toHaveBeenCalledTimes(1);
+        expect(fs.promises.writeFile).toHaveBeenCalledTimes(1);
         expect(fs.promises.writeFile).toHaveBeenCalledWith('mock/file/name.js', `const mock = "JavaScript Content";
 ;module.exports = src_default;`, 'utf8');
       });
+    });
+
+    it('should do nothing if there is no results metadata', async () => {
+      expect.assertions(2);
+
+      const onEnd = runSetupAndGetLifeHooks(cjsCompatibilityHotpatch).onEnd[0];
+
+      await onEnd({});
+
+      expect(fs.promises.readFile).not.toHaveBeenCalled();
+      expect(fs.promises.writeFile).not.toHaveBeenCalled();
     });
   });
 });

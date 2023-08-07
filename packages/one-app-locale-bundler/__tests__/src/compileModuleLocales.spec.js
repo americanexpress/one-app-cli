@@ -14,7 +14,6 @@
 
 const fs = require('fs');
 
-// eslint-disable-next-line import/no-extraneous-dependencies -- erroneously thinks this is a dep, but we're in a test
 const mockFs = require('mock-fs');
 
 const modulePath = __dirname.split('/__tests__')[0];

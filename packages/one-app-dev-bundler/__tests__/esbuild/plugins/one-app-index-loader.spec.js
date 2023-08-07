@@ -84,8 +84,14 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
       const lifeCycleHooks = runSetupAndGetLifeHooks(plugin);
 
       expect(lifeCycleHooks.onLoad.length).toBe(1);
-      // eslint-disable-next-line prefer-regex-literals -- needs to match exactly
-      expect(lifeCycleHooks.onLoad[0].config).toEqual({ filter: new RegExp('[\\/]modules[\\/]src[\\/]index') });
+      expect(lifeCycleHooks.onLoad[0].config).toHaveProperty('filter', expect.any(RegExp));
+      const { filter } = lifeCycleHooks.onLoad[0].config;
+      // *nix
+      expect('/home/me/projects/modules/src/index.js').toMatch(filter);
+      expect('/home/me/projects/modules/src/components/index.js').not.toMatch(filter);
+      // Windows
+      expect('C:\\Users\\me\\projects\\modules\\src\\index.js').toMatch(filter);
+      expect('C:\\Users\\me\\projects\\modules\\src\\components\\index.js').not.toMatch(filter);
     });
   });
 
@@ -110,7 +116,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_browser-not-watching.output.jsx`).toString());
       });
 
@@ -128,7 +134,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_browser-watching-not-live.output.jsx`).toString());
       });
 
@@ -146,7 +152,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_browser-watching-live.output.jsx`).toString());
       });
 
@@ -164,7 +170,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_server-not-watching.output.jsx`).toString());
       });
 
@@ -182,7 +188,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_server-watching-not-live.output.jsx`).toString());
       });
 
@@ -200,7 +206,7 @@ describe('Esbuild plugin oneAppIndexLoader', () => {
           mockFileContent,
         });
 
-        expect(loader).toEqual('jsx');
+        expect(loader).toEqual('tsx');
         expect(contents).toEqual(fs.readFileSync(`${__dirname}/__test_fixtures__/one-app-index-loader/index_server-watching-live.output.jsx`).toString());
       });
     });

@@ -249,7 +249,7 @@ under `bundler.purgecss.paths`. The example below illustrates how we would add
 
 Additional `purgecss` options. Please refer to the [`purgecss Options Documentation`](https://github.com/FullHuman/purgecss)
 before enabling any of the following:
-
+##### Simple usage of safelist
 ```json
 {
   "one-amex": {
@@ -265,23 +265,51 @@ before enabling any of the following:
         "fontFace": false,
         "keyframes": false,
         "variables": false,
-        "whitelist": [
+        "safelist": [
           "random",
           "yep",
           "button"
         ],
-        "whitelistPatterns": ["red"],
-        "whitelistPatternsChildren": ["blue"]
+        "blocklist":["random"]
+      }
+    }
+  }
+}
+```
+##### Complex usage of safelist
+```json
+{
+  "one-amex": {
+    "bundler": {
+      "purgecss": {
+        "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"],
+        "extractors": [{
+          "extractor": "purgeJs",
+          "extensions": [
+            "js"
+          ]
+        }],
+        "fontFace": false,
+        "keyframes": false,
+        "variables": false,
+        "safelist": {
+          "standard": ["random"],
+          "deep": ["randomdeep"],
+          "greedy": ["randomgreedy"],
+          "keyframes": true,
+          "variables": true,
+        },
+        "blocklist":["random"]
       }
     }
   }
 }
 ```
 
+##### Disabling purgecss
+
 `purgecss` can be disabled for your module by adding
-`bundler.purgecss.disabled` as `true`. **This option is only to be used in
-rare instances and as a last resort, the effect of _disabling will have a
-negative impact on performance_.**
+`bundler.purgecss.disabled` as `true`. **Disabling purgecss entirely may increase your module bundle size and decrease performance.**
 
 ```json
 {
@@ -294,6 +322,8 @@ negative impact on performance_.**
   }
 }
 ```
+
+#### Legacy browser support
 
 `disableDevelopmentLegacyBundle` can be added to your bundler config and set to *true* to opt out of bundling the `legacy` assets. This will reduce bundle size and build times. This is only configured to be removed when in `development`. `production`  builds will not skip the `legacy` build.
 **Caution as this will remove legacy browser support from your module.**  
