@@ -51,7 +51,7 @@ module.exports = async function startApp({
         HTTP_METRICS_PORT: JSON.stringify(process.env.HTTP_METRICS_PORT),
       },
     };
-    return Object.keys(environmentVariablesWithProxyAdditions).reduce((accumulator, currentValue) => `${accumulator} -e ${currentValue}=${environmentVariablesWithProxyAdditions[currentValue]}`, '');
+    return Object.keys(environmentVariablesWithProxyAdditions).reduce((accumulator, currentValue) => `${accumulator} -e "${currentValue}=${environmentVariablesWithProxyAdditions[currentValue]}"`, '');
   };
 
   const generateModuleMountsArgs = (modules) => {
@@ -59,7 +59,7 @@ module.exports = async function startApp({
     if (modules && modules.length > 0) {
       args = modules.reduce((accumulator, currentValue) => {
         const moduleRootDir = path.basename(currentValue);
-        return `${accumulator} -v ${currentValue}:/opt/module-workspace/${moduleRootDir}`;
+        return `${accumulator} -v "${currentValue}:/opt/module-workspace/${moduleRootDir}"`;
       }, '');
     }
 
@@ -78,7 +78,7 @@ module.exports = async function startApp({
   const generateSetMiddlewareCommand = (pathToMiddlewareFile) => {
     if (pathToMiddlewareFile) {
       const pathArray = pathToMiddlewareFile.split(path.sep);
-      return `npm run set-middleware /opt/module-workspace/${pathArray[pathArray.length - 2]}/${pathArray[pathArray.length - 1]} &&`;
+      return `npm run set-middleware '/opt/module-workspace/${pathArray[pathArray.length - 2]}/${pathArray[pathArray.length - 1]}' &&`;
     }
     return '';
   };
@@ -86,7 +86,7 @@ module.exports = async function startApp({
   const generateSetDevEndpointsCommand = (pathToDevEndpointsFile) => {
     if (pathToDevEndpointsFile) {
       const pathArray = pathToDevEndpointsFile.split(path.sep);
-      return `npm run set-dev-endpoints /opt/module-workspace/${pathArray[pathArray.length - 2]}/${pathArray[pathArray.length - 1]} &&`;
+      return `npm run set-dev-endpoints '/opt/module-workspace/${pathArray[pathArray.length - 2]}/${pathArray[pathArray.length - 1]}' &&`;
     }
     return '';
   };
@@ -98,7 +98,7 @@ module.exports = async function startApp({
     if (modules && modules.length > 0) {
       modules.forEach((modulePath) => {
         const moduleRootDir = path.basename(modulePath);
-        command += `npm run serve-module /opt/module-workspace/${moduleRootDir} &&`;
+        command += `npm run serve-module '/opt/module-workspace/${moduleRootDir}' &&`;
       });
     }
     return command;
