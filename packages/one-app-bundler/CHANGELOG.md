@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.20.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.19.1...@americanexpress/one-app-bundler@6.20.0) (2023-06-13)
+
+
+### Features
+
+* **purgecss:** allow for backwards compatibility of purgecss 2 and 3 ([#519](https://github.com/americanexpress/one-app-cli/issues/519)) ([3ab7d58](https://github.com/americanexpress/one-app-cli/commit/3ab7d583957b02093868c104137a90f4a3e27242))
+
+
+
+
+
 ## [6.19.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.19.0...@americanexpress/one-app-bundler@6.19.1) (2023-05-15)
 
 **Note:** Version bump only for package @americanexpress/one-app-bundler
