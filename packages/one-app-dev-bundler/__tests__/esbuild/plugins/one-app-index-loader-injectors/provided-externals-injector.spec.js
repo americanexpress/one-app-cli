@@ -19,7 +19,14 @@ import ProvidedExternalsInjector
 import getModulesBundlerConfig from '../../../../esbuild/utils/get-modules-bundler-config';
 import { BUNDLE_TYPES } from '../../../../esbuild/constants/enums.js';
 
-jest.mock('../../../../esbuild/utils/get-modules-bundler-config.js', () => jest.fn(() => ['mockProvidedExternal']));
+jest.mock('../../../../esbuild/utils/get-modules-bundler-config.js', () => jest.fn(() => ({
+  mockProvidedExternal: {
+    fallbackEnabled: false,
+  },
+  mockProvidedExternal2: {
+    fallbackEnabled: true,
+  },
+})));
 
 jest.mock('../../../../esbuild/utils/get-meta-url.mjs', () => () => 'metaUrlMock');
 
@@ -55,6 +62,11 @@ rootComponentNameMock.appConfig = Object.assign({}, rootComponentNameMock.appCon
       ...{\\"fallbackEnabled\\":false},
       version: 'mockVersion',
       module: require('mockProvidedExternal')
+    },
+  'mockProvidedExternal2': {
+      ...{\\"fallbackEnabled\\":true},
+      version: 'mockVersion',
+      module: require('mockProvidedExternal2')
     },
   },
 });
@@ -111,6 +123,11 @@ rootComponentNameMock.appConfig = Object.assign({}, rootComponentNameMock.appCon
       version: 'mockVersion',
       module: require('mockProvidedExternal')
     },
+  'mockProvidedExternal2': {
+      ...{\\"fallbackEnabled\\":true},
+      version: 'mockVersion',
+      module: require('mockProvidedExternal2')
+    },
   },
 });
 
@@ -133,5 +150,21 @@ if(global.getTenantRootModule === undefined || (global.rootModuleName && global.
     const finalContent = await browserInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
 
     expect(finalContent).toBe(mockContent);
+  });
+
+  it('adds fallbackEnabled to legacy provided external api', async () => {
+    expect.assertions(1);
+    getModulesBundlerConfig.mockImplementationOnce(() => jest.fn(() => [
+      'mockProvidedExternal',
+    ]));
+
+    const browserInjector = new ProvidedExternalsInjector(
+      { bundleType: BUNDLE_TYPES.SERVER, packageJson }
+    );
+    const mockContent = 'mockContent';
+
+    const finalContent = await browserInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
+
+    expect(finalContent).toMatchInlineSnapshot('"mockContent"');
   });
 });

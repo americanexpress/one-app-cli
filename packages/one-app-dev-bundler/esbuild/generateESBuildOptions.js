@@ -188,7 +188,6 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
     nodeConfig,
     browserConfig,
     buildExternalsConfig,
-    buildExternalsConfig,
   };
 };
 
