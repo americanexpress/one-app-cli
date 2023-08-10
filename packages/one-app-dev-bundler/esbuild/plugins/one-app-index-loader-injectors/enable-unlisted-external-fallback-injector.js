@@ -21,14 +21,12 @@ export default class UnlistedExternalFallbackInjector {
   constructor({ bundleType }) {
     this.willInject = bundleType === BUNDLE_TYPES.SERVER;
     this.enableUnlistedExternalFallbacks = !!getModulesBundlerConfig('enableUnlistedExternalFallbacks');
-    console.log('UnlistedExternalFallbackInjector constructor');
   }
 
   inject = async (content, { rootComponentName }) => {
     if (!this.willInject) {
       return content;
     }
-    console.log('UnlistedExternalFallbackInjector inject');
 
     return `${content}
 ${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfig, {
