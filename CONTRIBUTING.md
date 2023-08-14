@@ -33,7 +33,7 @@ This project adheres to the American Express [Code of Conduct](./CODE_OF_CONDUCT
 3. Install the dependencies by running
 
     ```bash
-    $ yarn
+    $ npx yarn@^1
     ```
 
 4. You can now run the scripts within the different [packages](./packages).
