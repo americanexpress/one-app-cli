@@ -15,8 +15,8 @@
 /* eslint-disable import/no-dynamic-require, global-require --
 we need to load generated assets at runtime */
 
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const { hashElement } = require('folder-hash');
 const readPkgUp = require('read-pkg-up');
 const generateIntegrityManifest = require('./generateIntegrityManifest');

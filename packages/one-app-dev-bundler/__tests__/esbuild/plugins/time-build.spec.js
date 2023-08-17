@@ -14,14 +14,14 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import timeBuild from '../../../esbuild/plugins/time-build';
 import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 
 jest.spyOn(process.hrtime, 'bigint');
 jest.spyOn(console, 'log');
 
-jest.mock('fs', () => ({
+jest.mock('node:fs', () => ({
   promises: {
     writeFile: jest.fn(),
   },

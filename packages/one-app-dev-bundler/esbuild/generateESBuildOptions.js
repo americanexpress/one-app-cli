@@ -18,7 +18,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import { readPackageUpSync } from 'read-pkg-up';
-import path from 'path';
+import path from 'node:path';
 import { BUNDLE_TYPES, SEVERITY } from './constants/enums.js';
 import stylesLoader from './plugins/styles-loader.js';
 import timeBuild from './plugins/time-build.js';

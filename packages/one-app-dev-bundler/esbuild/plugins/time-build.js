@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 
 const timeBuild = ({ bundleName, watch }) => ({
   name: 'timeBuild',

@@ -30,8 +30,8 @@
   [locale] should be BCP-47 compliant
 */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const { promisify } = require('util');
 
 const jsonParseContext = require('json-parse-context');

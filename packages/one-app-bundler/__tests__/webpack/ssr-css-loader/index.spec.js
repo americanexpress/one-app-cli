@@ -14,7 +14,7 @@
 
 const SSRCSSLoader = require('../../../webpack/loaders/ssr-css-loader');
 
-jest.mock('path', () => ({
+jest.mock('node:path', () => ({
   resolve: (dir, filename) => `/path/to/one-app-bundler/webpack/ssr-css-loader/${filename}`,
 }));
 

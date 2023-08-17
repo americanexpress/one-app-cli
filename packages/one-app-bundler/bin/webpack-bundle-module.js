@@ -13,8 +13,8 @@
  */
 
 const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const localeBundler = require('@americanexpress/one-app-locale-bundler');
 
 const getConfigOptions = require('../utils/getConfigOptions');

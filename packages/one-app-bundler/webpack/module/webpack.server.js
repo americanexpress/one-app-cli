@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const path = require('path');
+const path = require('node:path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const readPkgUp = require('read-pkg-up');

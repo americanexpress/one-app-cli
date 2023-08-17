@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const path = require('path');
+const path = require('node:path');
 const merge = require('webpack-merge');
 const uniqBy = require('lodash/uniqBy');
 const getConfigOptions = require('./getConfigOptions');

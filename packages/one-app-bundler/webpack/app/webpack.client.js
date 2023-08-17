@@ -14,7 +14,7 @@
 
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const path = require('path');
+const path = require('node:path');
 const TerserPlugin = require('terser-webpack-plugin');
 const coreJsCompat = require('core-js-compat');
 const coreJsEntries = require('core-js-compat/entries');

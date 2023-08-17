@@ -18,7 +18,7 @@ import * as sass from 'sass';
 import postcss from 'postcss';
 import cssModules from 'postcss-modules';
 import crypto from 'crypto';
-import fs from 'fs';
+import fs from 'node:fs';
 import cssnano from 'cssnano';
 import purgecss from '../utils/purgecss.js';
 import getModulesBundlerConfig from '../utils/get-modules-bundler-config.js';

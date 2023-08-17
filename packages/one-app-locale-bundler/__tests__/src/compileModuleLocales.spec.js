@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const fs = require('fs');
+const fs = require('node:fs');
 
 const mockFs = require('mock-fs');
 

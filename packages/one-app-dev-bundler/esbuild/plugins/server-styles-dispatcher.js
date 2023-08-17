@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import { getJsFilenamesFromKeys } from '../utils/get-js-filenames-from-keys.js';
 import { getAggregatedStyles, emptyAggregatedStyles } from '../utils/server-style-aggregator.js';
 import { BUNDLE_TYPES } from '../constants/enums.js';

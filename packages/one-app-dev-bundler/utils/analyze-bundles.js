@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import ms from 'ms';
-import path from 'path';
+import path from 'node:path';
 import chalk from 'chalk';
 import filesize from 'filesize';
 

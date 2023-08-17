@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import path from 'path';
+import path from 'node:path';
 import { readPackageUpSync } from 'read-pkg-up';
 
 import { BUNDLE_TYPES } from '../constants/enums.js';
@@ -70,7 +70,7 @@ const externalsLoader = ({ bundleType }) => ({
               version: '${version}'
             });
             const rootModuleExternal = ${globalReferenceString}.getTenantRootModule && ${globalReferenceString}.getTenantRootModule().appConfig.providedExternals['${externalName}'];
-            
+
             module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
               throw new Error('[${bundleType.toString()}][${packageJson.name}] External not found: ${externalName}');
             })
@@ -79,9 +79,9 @@ const externalsLoader = ({ bundleType }) => ({
               '[${bundleType.toString()}] Failed to get external fallback ${externalName}',
               error.message
             ].filter(Boolean).join(' :: '));
-          
+
             errorGettingExternal.shouldBlockModuleReload = false;
-          
+
             throw errorGettingExternal;
           }
         `,

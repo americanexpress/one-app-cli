@@ -13,8 +13,8 @@
  */
 
 // explicitly requiring within each test needed in order to have independent mocks
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const childProcess = require('child_process');
 const Docker = require('dockerode');
 const makeMockSpawn = require('mock-spawn');

@@ -14,7 +14,7 @@
  * the License.
  */
 
-const path = require('path');
+const path = require('node:path');
 const pkgUp = require('pkg-up');
 const yargs = require('yargs');
 const startApp = require('../src/startApp');

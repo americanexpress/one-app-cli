@@ -14,13 +14,13 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import restrictRuntimeSymbols, { getParentNode } from '../../../esbuild/plugins/restrict-runtime-symbols';
 import { logWarnings, logErrors } from '../../../esbuild/utils/colorful-logging';
 import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 import { BUNDLE_TYPES, SEVERITY } from '../../../esbuild/constants/enums';
 
-jest.mock('fs', () => ({
+jest.mock('node:fs', () => ({
   promises: {
     readFile: jest.fn(() => 'mockFileContent'),
     writeFile: jest.fn(() => 'mockWriteFileResponse'),

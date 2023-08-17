@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const fs = require('fs');
+const fs = require('node:fs');
 const readPkgUp = require('read-pkg-up');
 const validateExternalsLoader = require('../../../webpack/loaders/validate-required-externals-loader');
 
@@ -24,7 +24,7 @@ jest.mock('read-pkg-up', () => ({
   sync: jest.fn(),
 }));
 
-jest.mock('fs');
+jest.mock('node:fs');
 
 // eslint-disable-next-line global-require -- mocking readPkgUp needs us to require a json file
 readPkgUp.sync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));

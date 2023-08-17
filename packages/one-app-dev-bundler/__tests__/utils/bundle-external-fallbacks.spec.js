@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import esbuild from 'esbuild';
 import { readPackageUpSync } from 'read-pkg-up';
 
@@ -46,7 +46,7 @@ jest.mock('read-pkg-up', () => ({
   })),
 }));
 
-jest.mock('fs');
+jest.mock('node:fs');
 
 jest.spyOn(process, 'cwd').mockImplementation(() => '/path/');
 

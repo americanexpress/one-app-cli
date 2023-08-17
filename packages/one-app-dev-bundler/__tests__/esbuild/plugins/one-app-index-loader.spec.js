@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import oneAppIndexLoader from '../../../esbuild/plugins/one-app-index-loader';
 import { runOnLoadHook, runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 import { BUNDLE_TYPES } from '../../../esbuild/constants/enums.js';

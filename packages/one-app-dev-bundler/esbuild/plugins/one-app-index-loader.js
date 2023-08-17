@@ -14,8 +14,8 @@
  * permissions and limitations under the License.
  */
 
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 
 import { readPackageUpSync } from 'read-pkg-up';
 import HolocronModuleRegisterInjector from './one-app-index-loader-injectors/holocron-module-register-injector.js';

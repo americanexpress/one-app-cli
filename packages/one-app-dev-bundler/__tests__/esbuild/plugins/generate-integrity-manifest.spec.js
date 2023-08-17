@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import generateIntegrityManifest from '../../../esbuild/plugins/generate-integrity-manifest';
 import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 
-jest.mock('fs', () => ({
+jest.mock('node:fs', () => ({
   promises: {
     readFile: jest.fn(() => 'mockFileContent'),
     writeFile: jest.fn(() => 'mockWriteFileResponse'),

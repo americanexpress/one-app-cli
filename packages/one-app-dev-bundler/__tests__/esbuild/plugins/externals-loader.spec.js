@@ -112,7 +112,7 @@ describe('Esbuild plugin externalsLoader', () => {
               version: 'undefined'
             });
             const rootModuleExternal = globalThis.getTenantRootModule && globalThis.getTenantRootModule().appConfig.providedExternals['mock/path/to/file/mock-package-name'];
-            
+
             module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
               throw new Error('[Symbol(BUNDLE_TYPES-BROWSER)][undefined] External not found: mock/path/to/file/mock-package-name');
             })
@@ -121,9 +121,9 @@ describe('Esbuild plugin externalsLoader', () => {
               '[Symbol(BUNDLE_TYPES-BROWSER)] Failed to get external fallback mock/path/to/file/mock-package-name',
               error.message
             ].filter(Boolean).join(' :: '));
-          
+
             errorGettingExternal.shouldBlockModuleReload = false;
-          
+
             throw errorGettingExternal;
           }
         "
@@ -153,7 +153,7 @@ describe('Esbuild plugin externalsLoader', () => {
               version: 'undefined'
             });
             const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['mock/path/to/file/mock-package-name'];
-            
+
             module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
               throw new Error('[Symbol(BUNDLE_TYPES-SERVER)][undefined] External not found: mock/path/to/file/mock-package-name');
             })
@@ -162,9 +162,9 @@ describe('Esbuild plugin externalsLoader', () => {
               '[Symbol(BUNDLE_TYPES-SERVER)] Failed to get external fallback mock/path/to/file/mock-package-name',
               error.message
             ].filter(Boolean).join(' :: '));
-          
+
             errorGettingExternal.shouldBlockModuleReload = false;
-          
+
             throw errorGettingExternal;
           }
         "
