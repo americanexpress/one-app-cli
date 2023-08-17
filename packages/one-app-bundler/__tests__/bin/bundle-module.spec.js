@@ -43,17 +43,19 @@ describe('bundle-module', () => {
     process.env.NODE_ENV = nodeEnv;
   });
 
-  const sleep = () => new Promise((resolve) => {
-    setTimeout(() => {
+  // bundleModule has async side effects, use this
+  // to have expectations on the next cycle of the event loop
+  const waitForNextEventLoopIteration = () => new Promise((resolve) => {
+    setImmediate(() => {
       resolve();
-    }, 100);
+    });
   });
 
   it('should call the webpack bundler with no args', async () => {
     process.argv = [];
 
     require('../../bin/bundle-module');
-    await sleep();
+    await waitForNextEventLoopIteration();
 
     // Since this is testing on-require behaviour, and there is a dynamic import, it's not possible
     // to directly assert the correct bundler was called, so instead just assert that the
@@ -67,7 +69,7 @@ describe('bundle-module', () => {
     process.env.NODE_ENV = 'development';
 
     require('../../bin/bundle-module');
-    await sleep();
+    await waitForNextEventLoopIteration();
 
     expect(console.info).toHaveBeenCalledTimes(1);
     expect(console.info).toHaveBeenCalledWith('Running dev bundler');
@@ -78,7 +80,7 @@ describe('bundle-module', () => {
     process.env.NODE_ENV = 'production';
 
     require('../../bin/bundle-module');
-    await sleep();
+    await waitForNextEventLoopIteration();
 
     expect(console.info).toHaveBeenCalledTimes(2);
     expect(console.info).toHaveBeenNthCalledWith(1, 'Ignoring `--dev` flag for NODE_ENV=production');
