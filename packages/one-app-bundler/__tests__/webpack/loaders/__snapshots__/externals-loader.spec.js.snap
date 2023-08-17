@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`externals-loader does not use fallback for server 1`] = `
+exports[`externals-loader when bundleTarget is browser does not include content, gets the dependency from root module 1`] = `
 "try {
-  const Holocron = require(\\"holocron\\");
+  const Holocron = global.Holocron;
   const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
-    name: 'lodash',
-    version: '4.17.21'
+    name: 'my-dependency',
+    version: '1.2.3'
   });
-  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['my-dependency'];
 
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-    throw new Error('[server][undefined] External not found: lodash');
+    throw new Error('[browser][undefined] External not found: my-dependency');
   })
 } catch (error) {
   const errorGettingExternal = new Error([
-    '[server] Failed to get external fallback lodash',
+    '[browser] Failed to get external fallback my-dependency',
     error.message
   ].filter(Boolean).join(' :: '));
 
@@ -25,21 +25,21 @@ exports[`externals-loader does not use fallback for server 1`] = `
 "
 `;
 
-exports[`externals-loader should ignore the content and get the dependency from the root module 1`] = `
+exports[`externals-loader when bundleTarget is server does not include content, gets the dependency from root module 1`] = `
 "try {
-  const Holocron = global.Holocron;
+  const Holocron = require(\\"holocron\\");
   const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
-    name: 'lodash',
-    version: '4.17.21'
+    name: 'my-dependency',
+    version: '1.2.3'
   });
-  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['lodash'];
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['my-dependency'];
 
   module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
-    throw new Error('[undefined][undefined] External not found: lodash');
+    throw new Error('[server][undefined] External not found: my-dependency');
   })
 } catch (error) {
   const errorGettingExternal = new Error([
-    '[undefined] Failed to get external fallback lodash',
+    '[server] Failed to get external fallback my-dependency',
     error.message
   ].filter(Boolean).join(' :: '));
 
