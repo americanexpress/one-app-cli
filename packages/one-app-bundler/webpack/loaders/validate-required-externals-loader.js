@@ -21,6 +21,7 @@ function validateRequiredExternalsLoader(content) {
   const options = loaderUtils.getOptions(this);
   const { packageJson } = readPkgUp.sync();
   const integrityManifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), 'utf-8'));
+
   const requiredExternals = options.requiredExternals.reduce((obj, externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
     const { version } = require(`${externalName}/package.json`);
@@ -36,13 +37,22 @@ function validateRequiredExternalsLoader(content) {
       },
     };
   }, {});
+
+  // NOTE: This is required to keep backwards compatibility with older versions of one-app
+  const legacyRequiredExternals = options.requiredExternals.map((externalName) => {
+    const version = packageJson.dependencies[externalName];
+    return `'${externalName}': '${version}'`;
+  });
+
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
     const newContent = `${content};
 if (!global.BROWSER) {
   ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
-    requiredExternals: ${JSON.stringify(requiredExternals, null, 2)},
+    requiredExternals: {
+      ${legacyRequiredExternals.join(',\n      ')},
+    },
   });
 }
 `;

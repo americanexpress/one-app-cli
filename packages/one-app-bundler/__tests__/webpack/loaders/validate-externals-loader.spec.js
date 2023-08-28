@@ -32,7 +32,7 @@ readPkgUp.sync.mockImplementation(() => ({ packageJson: require('../../../packag
 fs.readFileSync = jest.fn(() => '{}');
 
 describe('validate-required-externals-loader', () => {
-  it('should add versions for server side validation', () => {
+  it('should add versions for legacy server side validation', () => {
     const content = `\
 import SomeComponent from './SomeComponent';
 

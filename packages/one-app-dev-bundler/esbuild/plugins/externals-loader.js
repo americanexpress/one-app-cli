@@ -26,7 +26,7 @@ const externalsLoader = ({ bundleType }) => ({
     const requiredExternalNames = getModulesBundlerConfig('requiredExternals');
 
     if (!Array.isArray(requiredExternalNames) || requiredExternalNames.length === 0) {
-      return; // this module does not require any externals, so dont register the hooks
+      return; // this module does not require any externals, so don't register the hooks
     }
 
     const { packageJson } = readPackageUpSync() || {};
