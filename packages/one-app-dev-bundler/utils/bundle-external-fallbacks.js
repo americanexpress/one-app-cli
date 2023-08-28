@@ -43,8 +43,8 @@ export const bundleExternalFallbacks = async () => {
     } = await generateESBuildOptions({ watch: false, useLiveReload: false });
 
     await Promise.all(['browser', 'node'].map((env) => Promise.all(requiredExternals.map((externalName) => {
-      const indexPath = path.resolve(process.cwd(), `node_modules/${externalName}`);
-      const buildPath = path.resolve(process.cwd(), `build/${packageJson.version}`);
+      const indexPath = path.resolve(process.cwd(), 'node_modules', externalName);
+      const buildPath = path.resolve(process.cwd(), 'build', packageJson.version);
       const externalFilename = `${externalName}.${env}.js`;
       const outfile = path.resolve(buildPath, externalFilename);
       const version = readPackageUpSync({
