@@ -30,16 +30,46 @@ jest.mock('node:fs');
 readPkgUp.sync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
 
 fs.readFileSync = jest.fn(() => '{}');
+fs.writeFileSync = jest.fn();
 
 describe('validate-required-externals-loader', () => {
-  it('should add versions for legacy server side validation', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should add versions for legacy server side validation on appConfig', () => {
     const content = `\
 import SomeComponent from './SomeComponent';
 
 export default SomeComponent;
 `;
     expect(validateExternalsLoader(content)).toMatchSnapshot();
-    expect(fs.writeFileSync).toHaveBeenCalled();
+  });
+
+  it('adds modules required externals to module-config.json file', () => {
+    const content = `\
+import SomeComponent from './SomeComponent';
+
+export default SomeComponent;
+`;
+    validateExternalsLoader(content);
+    const [moduleConfigPath, moduleConfig] = fs.writeFileSync.mock.calls[0];
+    expect(moduleConfigPath).toMatch('module-config.json');
+    expect(moduleConfig).toMatchInlineSnapshot(`
+"{
+  \\"requiredExternals\\": {
+    \\"ajv\\": {
+      \\"name\\": \\"ajv\\",
+      \\"version\\": \\"6.12.6\\",
+      \\"semanticRange\\": \\"^6.7.0\\"
+    },
+    \\"lodash\\": {
+      \\"name\\": \\"lodash\\",
+      \\"version\\": \\"4.17.21\\",
+      \\"semanticRange\\": \\"^4.17.20\\"
+    }
+  }
+}"
+`);
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {
