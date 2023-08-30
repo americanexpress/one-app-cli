@@ -25,6 +25,46 @@ const pathToLogFile = path.join(__dirname, '..', 'fixtures', 'app.log');
 jest.mock('child_process', () => ({ spawn: jest.fn() }));
 jest.mock('dockerode');
 
+function parseCommandSegments(command) {
+  const segments = [];
+
+  let remainingToParse = command;
+  while (remainingToParse.length > 0) {
+    remainingToParse = remainingToParse.trim();
+    const nextSeparator = /(?<!\\)([\s"';]|\|\||&&)/.exec(remainingToParse);
+    if (!nextSeparator || nextSeparator.index === -1) {
+      segments.push(remainingToParse);
+      return segments;
+    }
+
+    const separator = nextSeparator[0];
+    if (["'", '"'].includes(separator)) {
+      if (nextSeparator.index !== 0) {
+        throw new Error('unknown state achieved');
+      }
+      const matcher = separator === '"' ? /^"(.+?)(?<!\\)"/ : /^'(.+?)(?<!\\)'/;
+      const quotedMatch = matcher.exec(remainingToParse);
+      if (!quotedMatch) {
+        // likely didn't end
+        segments.push(remainingToParse);
+        return segments;
+      }
+      segments.push(quotedMatch[1]);
+      remainingToParse = remainingToParse.slice(quotedMatch[1].length + 2);
+    } else if ([';', '&&', '||'].includes(separator)) {
+      if (nextSeparator.index !== 0) {
+        throw new Error('unknown state achieved');
+      }
+      segments.push(remainingToParse.slice(0, Math.max(0, nextSeparator.index + separator.length)));
+      remainingToParse = remainingToParse.slice(separator.length);
+    } else {
+      segments.push(remainingToParse.slice(0, Math.max(0, nextSeparator.index)));
+      remainingToParse = remainingToParse.slice(nextSeparator.index + 1);
+    }
+  }
+  return segments;
+}
+
 describe('startApp', () => {
   const createWriteStreamSpy = jest.spyOn(fs, 'createWriteStream');
   const stdoutSpy = jest.spyOn(process.stdout, 'write');
@@ -271,5 +311,65 @@ describe('startApp', () => {
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], useDebug: true,
     });
     expect(mockSpawn.calls[0].command).toMatchSnapshot();
+  });
+
+  it('puts arguments and commands, like file paths, in quotes', async () => {
+    expect.assertions(2);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementationOnce(mockSpawn);
+
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json',
+      rootModuleName: 'frank-lloyd-root',
+      appDockerImage: 'one-app:5.0.0',
+      modulesToServe: ['/path/to/module-a', '/path/to/module b', '/path/to/my favorite/module-c', '/path/to/my favorite/module d'],
+      devEndpointsFile: '/path/to/module b/dev.endpoints.js',
+      parrotMiddlewareFile: '/path/to/module b/dev.middleware.js',
+      envVars: { MY_VAR: '12 and 3' },
+    });
+
+    const { command } = mockSpawn.calls[0];
+    const commandSegments = parseCommandSegments(command);
+    const imageShellCommandSegment = commandSegments.pop();
+    expect(commandSegments).toStrictEqual([
+      'docker', 'pull', 'one-app:5.0.0',
+      '&&',
+      'docker', 'run',
+      '-t',
+      '-p', '3000:3000',
+      '-p', '3001:3001',
+      '-p', '3002:3002',
+      '-p', '3005:3005',
+      '-p', '9229:9229',
+      '-e', 'NODE_ENV=development',
+      '-e', 'MY_VAR=12 and 3',
+      '-v', '/path/to/module-a:/opt/module-workspace/module-a',
+      '-v', '/path/to/module b:/opt/module-workspace/module b',
+      '-v', '/path/to/my favorite/module-c:/opt/module-workspace/module-c',
+      '-v', '/path/to/my favorite/module d:/opt/module-workspace/module d',
+      'one-app:5.0.0',
+      '/bin/sh',
+      '-c',
+      // in imageShellCommandSegment, parsed and asserted immediately below
+    ]);
+    expect(parseCommandSegments(imageShellCommandSegment)).toStrictEqual([
+      'npm', 'run', 'serve-module', '/opt/module-workspace/module-a',
+      '&&',
+      'npm', 'run', 'serve-module', '/opt/module-workspace/module b',
+      '&&',
+      'npm', 'run', 'serve-module', '/opt/module-workspace/module-c',
+      '&&',
+      'npm', 'run', 'serve-module', '/opt/module-workspace/module d',
+      '&&',
+      'npm', 'run', 'set-middleware', '/opt/module-workspace/module b/dev.middleware.js',
+      '&&',
+      'npm', 'run', 'set-dev-endpoints', '/opt/module-workspace/module b/dev.endpoints.js',
+      '&&',
+      'node',
+      'lib/server/index.js',
+      '--root-module-name=frank-lloyd-root',
+      '--module-map-url=https://example.com/module-map.json',
+      '-m',
+    ]);
   });
 });
