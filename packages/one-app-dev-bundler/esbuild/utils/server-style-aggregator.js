@@ -14,14 +14,36 @@
  * permissions and limitations under the License.
  */
 
-let aggregatedStyles = '';
+let aggregatedStyles = {
+  deps: [],
+  local: [],
+};
 
-export function addStyle(style) {
-  aggregatedStyles += style;
+let sheetDigests = new Set();
+
+export function addStyle(digest, css, isDependencyFile) {
+  if (!sheetDigests.has(digest)) {
+    sheetDigests.add(digest);
+
+    aggregatedStyles[isDependencyFile ? 'deps' : 'local'].push({
+      css,
+      digest,
+    });
+  }
 }
 
-export const getAggregatedStyles = () => aggregatedStyles;
+/**
+ * Returns aggregated styles object from all parsed CSS files
+ * @returns {{deps: *[{css: string, digest: string}], local: *[{css: string, digest: string}]}}
+ */
+export const getAggregatedStyles = () => JSON.stringify(
+  [...aggregatedStyles.deps, ...aggregatedStyles.local]
+);
 
 export function emptyAggregatedStyles() {
-  aggregatedStyles = '';
+  aggregatedStyles = {
+    deps: [],
+    local: [],
+  };
+  sheetDigests = new Set();
 }
