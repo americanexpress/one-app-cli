@@ -45,5 +45,5 @@ export function emptyAggregatedStyles() {
     deps: [],
     local: [],
   };
-  sheetDigests = new Set();
+  sheetDigests.clear()
 }
