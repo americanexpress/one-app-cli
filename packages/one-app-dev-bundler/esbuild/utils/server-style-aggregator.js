@@ -19,7 +19,7 @@ let aggregatedStyles = {
   local: [],
 };
 
-let sheetDigests = new Set();
+const sheetDigests = new Set();
 
 export function addStyle(digest, css, isDependencyFile) {
   if (!sheetDigests.has(digest)) {
@@ -45,5 +45,5 @@ export function emptyAggregatedStyles() {
     deps: [],
     local: [],
   };
-  sheetDigests.clear()
+  sheetDigests.clear();
 }
