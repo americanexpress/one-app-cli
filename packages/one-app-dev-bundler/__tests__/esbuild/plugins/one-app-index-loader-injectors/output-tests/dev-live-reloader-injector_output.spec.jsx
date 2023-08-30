@@ -157,6 +157,7 @@ describe('the output from dev-websocket-injector', () => {
       'Watch Client 51993 | Connected',
       'Watch Server | Reload clients',
       'Watch Client 51993 | Successfully reloaded mock-module-name',
+      'Watch Client 51993 | Connected',
     ]);
   });
 });
