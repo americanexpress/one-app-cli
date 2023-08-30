@@ -33,8 +33,8 @@ export function addStyle(digest, css, isDependencyFile) {
 }
 
 /**
- * Returns aggregated styles object from all parsed CSS files
- * @returns {{deps: *[{css: string, digest: string}], local: *[{css: string, digest: string}]}}
+ * Returns aggregated styles object from all parsed CSS files with dependencies listed first
+ * @returns {string}
  */
 export const getAggregatedStyles = () => JSON.stringify(
   [...aggregatedStyles.deps, ...aggregatedStyles.local]
