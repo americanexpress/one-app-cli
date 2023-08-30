@@ -44,7 +44,7 @@
     "postcss-modules": "^3.2.2",
     "read-pkg-up": "^9.0.0",
     "regenerator-runtime": "^0.13.9",
-    "sass": "1.65.1",
+    "sass": "^1.54.8",
     "ssri": "^7.1.0",
     "ws": "^8.4.0"
   },
