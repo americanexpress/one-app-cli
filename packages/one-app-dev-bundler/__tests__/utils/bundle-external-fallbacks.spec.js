@@ -137,6 +137,9 @@ describe('bundle-external-fallbacks', () => {
         '/path/node_modules/awesome',
       ],
       globalName: '__holocron_external__awesome__1_0_0',
+      footer: {
+        js: 'Holocron.registerExternal({ name: "awesome", version: "1.0.0", module: __holocron_external__awesome__1_0_0});',
+      },
       mocked: 'browser',
       outfile: '/path/build/1.0.0/awesome.browser.js',
     });
@@ -144,15 +147,10 @@ describe('bundle-external-fallbacks', () => {
       entryPoints: [
         '/path/node_modules/awesome',
       ],
+      footer: {},
       mocked: 'node',
       outfile: '/path/build/1.0.0/awesome.node.js',
     });
-
-    expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
-    expect(fs.writeFileSync).toHaveBeenCalledWith('/path/build/1.0.0/awesome.browser.js', [
-      'const testing = true;',
-      'Holocron.registerExternal({ name: "awesome", version: "1.0.0", module: __holocron_external__awesome__1_0_0});',
-    ].join('\n'));
   });
 
   it('bundle fails', async () => {
@@ -190,6 +188,7 @@ describe('bundle-external-fallbacks', () => {
       ],
       globalName: '__holocron_external__awesome__1_0_0',
       mocked: 'browser',
+      footer: { js: 'Holocron.registerExternal({ name: "awesome", version: "1.0.0", module: __holocron_external__awesome__1_0_0});' },
       outfile: '/path/build/1.0.0/awesome.browser.js',
     });
     expect(esbuild.build).toHaveBeenCalledWith({
@@ -197,6 +196,7 @@ describe('bundle-external-fallbacks', () => {
         '/path/node_modules/awesome',
       ],
       mocked: 'node',
+      footer: {},
       outfile: '/path/build/1.0.0/awesome.node.js',
     });
 

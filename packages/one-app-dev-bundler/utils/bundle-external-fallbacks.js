@@ -12,7 +12,6 @@
  * under the License.
  */
 
-import fs from 'node:fs';
 import path from 'node:path';
 import { readPackageUpSync } from 'read-pkg-up';
 import esbuild from 'esbuild';
@@ -42,7 +41,7 @@ export const bundleExternalFallbacks = async () => {
       buildExternalsConfig,
     } = await generateESBuildOptions({ watch: false, useLiveReload: false });
 
-    await Promise.all(['browser', 'node'].map((env) => Promise.all(requiredExternals.map((externalName) => {
+    await Promise.all(['browser', 'node'].map((env) => Promise.all(requiredExternals.map(async (externalName) => {
       const indexPath = path.resolve(process.cwd(), 'node_modules', externalName);
       const buildPath = path.resolve(process.cwd(), 'build', packageJson.version);
       const externalFilename = `${externalName}.${env}.js`;
@@ -54,28 +53,22 @@ export const bundleExternalFallbacks = async () => {
         globalName: getExternalLibraryName(externalName, version),
       } : {};
 
-      return esbuild.build({
-        ...buildExternalsConfig(env, externalName),
-        entryPoints: [indexPath],
-        outfile,
-        ...envConfig,
-      }).then(() => {
-        if (env === 'browser') {
-          const content = fs.readFileSync(outfile, 'utf8');
+      const footer = env === 'browser' ? {
+        js: `Holocron.registerExternal({ name: "${externalName}", version: "${version}", module: ${getExternalLibraryName(externalName, version)}});`,
+      } : {};
 
-          fs.writeFileSync(
-            outfile,
-            [
-              content,
-              `Holocron.registerExternal({ name: "${externalName}", version: "${version}", module: ${getExternalLibraryName(externalName, version)}});`,
-            ].join('\n')
-          );
-        }
-      }).catch((error) => {
+      try {
+        await esbuild.build({
+          ...buildExternalsConfig(env, externalName),
+          entryPoints: [indexPath],
+          outfile,
+          footer,
+          ...envConfig,
+        });
+      } catch (error) {
         console.error(`Failed to build fallback for external ${externalName} for ${env}`, error);
-      });
-    }))
-    ));
+      }
+    }))));
   }
 };
 
