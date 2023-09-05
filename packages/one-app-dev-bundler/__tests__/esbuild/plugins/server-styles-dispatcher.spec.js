@@ -45,7 +45,7 @@ describe('server styles dispatcher', () => {
         serverStylesDispatcher({ bundleType: BUNDLE_TYPES.SERVER })
       );
       const onEnd = hooks.onEnd[0];
-      addStyle('body{background: white;}body > p{font-color: black;}');
+      addStyle('digestMock', 'body{background: white;}body > p{font-color: black;}');
 
       /* onEnd test start */
       // mock the bundle using mockFs
@@ -64,7 +64,10 @@ describe('server styles dispatcher', () => {
       expect(actualBundleContent).toMatchInlineSnapshot(`
 "const mock = \\"JavaScript Content\\";
     ;module.exports.ssrStyles = {
-      getFullSheet: () => \\"body{background: white;}body > p{font-color: black;}\\",
+      aggregatedStyles: [{\\"css\\":\\"body{background: white;}body > p{font-color: black;}\\",\\"digest\\":\\"digestMock\\"}],
+      getFullSheet: function getFullSheet() {
+  return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
+},
     };"
 `);
 

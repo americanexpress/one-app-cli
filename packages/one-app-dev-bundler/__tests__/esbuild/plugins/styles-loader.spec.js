@@ -107,7 +107,7 @@ describe('Esbuild plugin stylesLoader', () => {
 
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
-"const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
+"const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
 }
@@ -152,7 +152,7 @@ body > p {
           expect(sassCompile).toHaveBeenCalledTimes(0);
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
-"const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
+"const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
 }
@@ -200,7 +200,7 @@ body > p {
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
+"const digest = '11e1fda0219a10c2de0ad6b28c1c6519985965cbef3f5b8f8f119d16f1bafff3';
 const css = \`body {
   background: white;
 }
@@ -239,7 +239,7 @@ body > p {
         expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
+"const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
 }
@@ -306,7 +306,7 @@ export { css, digest };"
         expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"const digest = '786f696ae19422021e0f17df7c6dd6eb43f92c9c101f7d0649b341165dda1b31';
+"const digest = 'f85b3a3cf0c00eb3fd23e6d440b10077d7493cf7f127538acb994cade5bce451';
 const css = \`              ._root_1vf0l_1 {
                 background: white;
               }
@@ -378,7 +378,7 @@ export { css, digest };"
         expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"const digest = '786f696ae19422021e0f17df7c6dd6eb43f92c9c101f7d0649b341165dda1b31';
+"const digest = 'f85b3a3cf0c00eb3fd23e6d440b10077d7493cf7f127538acb994cade5bce451';
 const css = \`              ._root_1vf0l_1 {
                 background: white;
               }
@@ -432,7 +432,7 @@ export { css, digest };"
 
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"const digest = 'c0c0c0be320475d1514fe8e0c023d2780b6e23c2adab14a438a0ee2ef98369ba';
+"const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
 }
@@ -481,7 +481,7 @@ body > p {
         expect(sassCompile).toHaveBeenCalledTimes(0);
         expect(loader).toEqual('js');
         expect(contents).toMatchInlineSnapshot(`
-"const digest = '83279c4025e8b1107c3f376acaaac5656a3b68d0066ab70f2ceeb3c065a5751f';
+"const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
 }
