@@ -14,30 +14,50 @@
  * permissions and limitations under the License.
  */
 
-import { getAggregatedStyles, emptyAggregatedStyles, addStyle } from '../../../esbuild/utils/server-style-aggregator';
+import {
+  getAggregatedStyles,
+  emptyAggregatedStyles,
+  addStyle,
+} from '../../../esbuild/utils/server-style-aggregator';
 
-describe('serverSideAggirgator utilities', () => {
+describe('serverSideAggregatorStyles utilities', () => {
   beforeEach(() => {
     emptyAggregatedStyles();
-    jest.clearAllMocks();
   });
 
   describe('addStyle', () => {
-    it('should append given perameter to aggregatedStyles', () => {
-      addStyle('testing string');
-      expect(getAggregatedStyles()).toBe('testing string');
+    it('should append styles to the aggregatedStyles as an object with a digest and css key', () => {
+      addStyle('digestMock', 'cssMock', false);
+      expect(getAggregatedStyles()).toBe('[{"css":"cssMock","digest":"digestMock"}]');
+    });
+
+    it('should deduplicate styles added that share the same digest', () => {
+      addStyle('digestMock', 'cssMock', false);
+      addStyle('digestMock', 'cssMock', false);
+      addStyle('digestMock', 'cssMock', false);
+      addStyle('digestMock', 'cssMock', false);
+      expect(getAggregatedStyles()).toBe('[{"css":"cssMock","digest":"digestMock"}]');
     });
   });
-  describe('getAggrigatedStyles', () => {
-    it('should return string of any and all collected styles', () => {
-      expect(getAggregatedStyles()).toBe('');
+
+  describe('getAggregatedStyles', () => {
+    it('should return a stringified empty array when no styles have been added', () => {
+      expect(getAggregatedStyles()).toBe('[]');
+    });
+
+    it('should return a stringified array with dependency styles declared first and local styles declared last', () => {
+      addStyle('digestLocalMock', 'cssLocalMock', false);
+      addStyle('digestDepsMock', 'cssDepsMock', true);
+      expect(getAggregatedStyles()).toBe('[{"css":"cssDepsMock","digest":"digestDepsMock"},{"css":"cssLocalMock","digest":"digestLocalMock"}]');
     });
   });
-  describe('emptyAggrigatedStyles', () => {
+
+  describe('emptyAggregatedStyles', () => {
     it('should return emptied string', () => {
-      addStyle('testing string');
+      addStyle('digestMock', 'cssMock', false);
+      expect(getAggregatedStyles()).toBe('[{"css":"cssMock","digest":"digestMock"}]');
       emptyAggregatedStyles();
-      expect(getAggregatedStyles()).toBe('');
+      expect(getAggregatedStyles()).toBe('[]');
     });
   });
 });
