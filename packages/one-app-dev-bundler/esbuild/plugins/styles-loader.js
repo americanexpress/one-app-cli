@@ -67,7 +67,7 @@ const stylesLoader = (cssModulesOptions = {}, { bundleType } = {}) => ({
       });
 
       const hash = crypto.createHash('sha256');
-      hash.update(args.path);
+      hash.update(result.css);
       const digest = hash.copy().digest('hex');
 
       let injectedCode = '';
@@ -84,7 +84,8 @@ const stylesLoader = (cssModulesOptions = {}, { bundleType } = {}) => ({
 })();`;
       } else {
         // For SSR, aggregate all styles, then inject them once at the end
-        addStyle(result.css);
+        const isDependencyFile = args.path.indexOf('/node_modules/') >= 0;
+        addStyle(digest, result.css, isDependencyFile);
       }
 
       // provide useful values to the importer of this file, most importantly, the classnames

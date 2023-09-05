@@ -28,6 +28,7 @@ module.exports = {
     '!**/node_modules/**',
     '!**/build/**',
     '!packages/*/test-results/**',
+    '!packages/*/jest.esm.setup.js',
     // Despite it not being in the root, coverage reports see this package
     '!packages/one-app-locale-bundler/**',
   ],

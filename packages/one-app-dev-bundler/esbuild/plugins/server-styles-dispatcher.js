@@ -32,7 +32,10 @@ const serverStylesDispatcher = ({ bundleType }) => ({
           const initialContent = await fs.promises.readFile(fileName, 'utf8');
           const outputContent = `${initialContent}
     ;module.exports.ssrStyles = {
-      getFullSheet: () => ${JSON.stringify(getAggregatedStyles())},
+      aggregatedStyles: ${getAggregatedStyles()},
+      getFullSheet: function getFullSheet() {
+  return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
+},
     };`;
           await fs.promises.writeFile(fileName, outputContent, 'utf8');
         }));
