@@ -384,6 +384,9 @@ before enabling any of the following:
   }
 }
 ```
+### TypeScript
+
+TypeScript in One App modules needs no extra configuration within `one-app-bundler` to work. `one-app-bundler` is set up to ignore `TypeScript` features leaving `tsc` to focus on typechecking only. 
 
 #### Specify what version of One App your module is compatible with
 
