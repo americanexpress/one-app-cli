@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const path = require('path');
+const path = require('node:path');
 const chokidar = require('chokidar');
 const compileModuleLocales = require('./src/compileModuleLocales');
 

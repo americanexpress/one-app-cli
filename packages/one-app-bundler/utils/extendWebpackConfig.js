@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const path = require('path');
+const path = require('node:path');
 const merge = require('webpack-merge');
 const uniqBy = require('lodash/uniqBy');
 const getConfigOptions = require('./getConfigOptions');
@@ -29,6 +29,16 @@ function getCustomWebpackConfigPath(options, bundleTarget) {
   return false;
 }
 
+function parseProvidedExternals(providedExternals) {
+  return Array.isArray(providedExternals)
+    ? providedExternals.reduce((obj, externalName) => ({
+      ...obj,
+      [externalName]: {
+        enableFallback: false,
+      },
+    }), {}) : providedExternals;
+}
+
 function extendWebpackConfig(webpackConfig, bundleTarget) {
   const configOptions = getConfigOptions();
   const cliOptions = getCliOptions();
@@ -39,6 +49,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     requiredExternals,
     providedExternals,
     moduleName,
+    enableUnlistedExternalFallbacks,
   } = configOptions;
   const { watch } = cliOptions;
 
@@ -53,6 +64,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   const indexPath = path.join(process.cwd(), 'src', 'index');
 
   if (providedExternals) {
+    const parsedProvidedExternals = parseProvidedExternals(providedExternals);
     customWebpackConfig = merge(customWebpackConfig, {
       module: {
         rules: [{
@@ -60,7 +72,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
           use: [{
             loader: '@americanexpress/one-app-bundler/webpack/loaders/provided-externals-loader',
             options: {
-              providedExternals,
+              providedExternals: parsedProvidedExternals,
               moduleName,
             },
           }],
@@ -78,6 +90,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/externals-loader',
             options: {
               externalName,
+              bundleTarget,
             },
           }],
         })), {
@@ -86,6 +99,22 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
             loader: '@americanexpress/one-app-bundler/webpack/loaders/validate-required-externals-loader',
             options: {
               requiredExternals,
+            },
+          }],
+        }],
+      },
+    });
+  }
+
+  if (enableUnlistedExternalFallbacks) {
+    customWebpackConfig = merge(customWebpackConfig, {
+      module: {
+        rules: [{
+          test: indexPath,
+          use: [{
+            loader: '@americanexpress/one-app-bundler/webpack/loaders/enable-unlisted-external-fallbacks-loader',
+            options: {
+              enableUnlistedExternalFallbacks,
             },
           }],
         }],

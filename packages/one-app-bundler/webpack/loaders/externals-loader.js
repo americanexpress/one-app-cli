@@ -11,20 +11,39 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-
 const loaderUtils = require('loader-utils');
+const readPkgUp = require('read-pkg-up');
 
-function requiredExternalsLoader() {
-  const options = loaderUtils.getOptions(this);
+const { packageJson } = readPkgUp.sync();
+
+function externalsLoader() {
+  const { externalName, bundleTarget } = loaderUtils.getOptions(this);
+  // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
+  const { version } = require(`${externalName}/package.json`);
+
   return `\
 try {
-  module.exports = global.getTenantRootModule().appConfig.providedExternals['${options.externalName}'].module;
+  const Holocron = ${bundleTarget === 'server' ? 'require("holocron")' : 'global.Holocron'};
+  const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
+    name: '${externalName}',
+    version: '${version}'
+  });
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['${externalName}'];
+
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('[${bundleTarget}][${packageJson.name}] External not found: ${externalName}');
+  })
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external ${options.externalName} from root module');
+  const errorGettingExternal = new Error([
+    '[${bundleTarget}] Failed to get external fallback ${externalName}',
+    error.message
+  ].filter(Boolean).join(' :: '));
+
   errorGettingExternal.shouldBlockModuleReload = false;
+
   throw errorGettingExternal;
 }
 `;
 }
 
-module.exports = requiredExternalsLoader;
+module.exports = externalsLoader;

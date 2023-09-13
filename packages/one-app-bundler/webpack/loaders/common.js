@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const path = require('path');
+const path = require('node:path');
 const dartSass = require('sass');
 const getConfigOptions = require('../../utils/getConfigOptions');
 

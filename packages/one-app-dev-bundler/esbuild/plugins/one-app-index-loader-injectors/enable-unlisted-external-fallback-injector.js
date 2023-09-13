@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 American Express Travel Related Services Company, Inc.
+ * Copyright 2023 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,13 @@
  * permissions and limitations under the License.
  */
 
+import getModulesBundlerConfig from '../../utils/get-modules-bundler-config.js';
 import { BUNDLE_TYPES } from '../../constants/enums.js';
 
-const META_DATA_KEY = '__holocron_module_meta_data__';
-
-export default class ModuleMetadataInjector {
-  constructor({ bundleType, packageJson }) {
+export default class UnlistedExternalFallbackInjector {
+  constructor({ bundleType }) {
     this.willInject = bundleType === BUNDLE_TYPES.SERVER;
-    this.version = packageJson.version;
+    this.enableUnlistedExternalFallbacks = !!getModulesBundlerConfig('enableUnlistedExternalFallbacks');
   }
 
   inject = async (content, { rootComponentName }) => {
@@ -30,9 +29,9 @@ export default class ModuleMetadataInjector {
     }
 
     return `${content}
-${rootComponentName}.${META_DATA_KEY} = {
-  version: '${this.version}',
-};
+${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfig, {
+  enableUnlistedExternalFallbacks: "${this.enableUnlistedExternalFallbacks}",
+});
 `;
   };
 }

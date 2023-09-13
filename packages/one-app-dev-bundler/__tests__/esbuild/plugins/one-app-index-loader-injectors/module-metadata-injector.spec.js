@@ -51,8 +51,7 @@ describe('The ModuleMetadataInjector', () => {
     const finalContent = await serverInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
 
     expect(finalContent).toMatchInlineSnapshot(`
-"mockContent;
-
+"mockContent
 rootComponentNameMock.__holocron_module_meta_data__ = {
   version: 'versionMock',
 };

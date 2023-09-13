@@ -15,7 +15,7 @@
  */
 
 import mockFs from 'mock-fs';
-import fs from 'fs';
+import fs from 'node:fs';
 import serverStylesDispatcher from '../../../esbuild/plugins/server-styles-dispatcher';
 import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 import { emptyAggregatedStyles, addStyle } from '../../../esbuild/utils/server-style-aggregator';

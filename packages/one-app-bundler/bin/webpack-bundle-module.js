@@ -13,8 +13,8 @@
  */
 
 const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const localeBundler = require('@americanexpress/one-app-locale-bundler');
 
 const getConfigOptions = require('../utils/getConfigOptions');
@@ -27,7 +27,9 @@ const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
 
 fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
+
 localeBundler(watch);
+
 webpack(serverConfig, getWebpackCallback('node', true));
 webpack(modernClientConfig, getWebpackCallback('browser', true));
 

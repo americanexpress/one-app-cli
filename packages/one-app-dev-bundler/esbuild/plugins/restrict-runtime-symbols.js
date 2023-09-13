@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import * as acorn from 'acorn';
 import * as astWalker from 'acorn-walk';
 import { getJsFilenamesFromKeys } from '../utils/get-js-filenames-from-keys.js';

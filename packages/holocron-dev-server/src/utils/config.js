@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import path from 'path';
+import path from 'node:path';
 import readPkgUp from 'read-pkg-up';
 
 import { defaultLogLevel, errorReportingUrlFragment, oneAppDockerImageName } from '../constants';

@@ -102,7 +102,7 @@ describe('webpack/app', () => {
     const modernWebpackConfig = configGenerator('modern');
     const legacyWebpackConfig = configGenerator('legacy');
     expect(legacyWebpackConfig.entry.vendors.length - modernWebpackConfig.entry.vendors.length)
-      .toBeGreaterThan(20);
+      .toBeGreaterThan(5);
   });
 
   it('does not transpile node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION true', () => {

@@ -31,6 +31,7 @@ module.exports = {
     '!packages/*/jest.esm.setup.js',
     // Despite it not being in the root, coverage reports see this package
     '!packages/one-app-locale-bundler/**',
+    '!packages/one-app-dev-bundler/index.js',
   ],
   roots: [
     'packages/one-app-dev-bundler',

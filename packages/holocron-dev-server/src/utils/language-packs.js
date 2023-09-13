@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import path from 'path';
+import path from 'node:path';
 import jsonParse from 'json-parse-context';
 
 import { volume, ufs } from './virtual-file-system';

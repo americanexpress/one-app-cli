@@ -15,25 +15,40 @@
 const loaderUtils = require('loader-utils');
 
 function providedExternalsLoader(content) {
-  const options = loaderUtils.getOptions(this);
-  const providedExternals = options.providedExternals.map((externalName) => {
+  const { moduleName, providedExternals } = loaderUtils.getOptions(this);
+
+  const extendedProvidedExternals = (Array.isArray(providedExternals)
+    ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-    const { version } = require(`${externalName}/package.json`);
-    return `'${externalName}': { version: '${version}', module: require('${externalName}')}`;
-  });
+    const externalPkg = require(`${externalName}/package.json`);
+
+    return `
+      '${externalName}': {
+        ...${JSON.stringify({
+    fallbackEnabled: false,
+    ...providedExternals[externalName],
+  }, null, 2)},
+        version: '${externalPkg.version}',
+        module: require('${externalName}'),
+      }`;
+  }, {});
+
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
     return `${content};
 ${match[1]}.appConfig = Object.assign({}, ${match[1]}.appConfig, {
   providedExternals: {
-    ${providedExternals.join(',\n  ')},
+    ${
+  // NOTE: We need to use 'join' instead of JSON.stringify because it performs some escaping.
+  extendedProvidedExternals.join(', \n')
+}
   },
 });
 
-if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${options.moduleName}')){
+if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === '${moduleName}')){
 global.getTenantRootModule = () => ${match[1]};
-global.rootModuleName = '${options.moduleName}';
+global.rootModuleName = '${moduleName}';
 }
 `;
   }

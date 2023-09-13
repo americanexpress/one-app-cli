@@ -16,11 +16,11 @@
 
 import { readPackageUpSync } from 'read-pkg-up';
 
-const getModulesBundlerConfig = (configKey = undefined) => {
+const getModulesBundlerConfig = (configKey) => {
   const { packageJson } = readPackageUpSync();
   const bundlerConfig = packageJson && packageJson['one-amex'] && packageJson['one-amex'].bundler;
 
-  if (configKey !== undefined) {
+  if (configKey) {
     return bundlerConfig && bundlerConfig[configKey];
   }
 

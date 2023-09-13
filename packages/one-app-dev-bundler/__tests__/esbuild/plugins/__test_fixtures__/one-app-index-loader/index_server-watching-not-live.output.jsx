@@ -14,30 +14,41 @@
  * permissions and limitations under the License.
  */
 
-const ModuleRootComponent = ({children}) => (
+const ModuleRootComponent = ({ children }) => (
   <div>
     {children}
   </div>
 );
 
 export default ModuleRootComponent;
-;
-  ModuleRootComponent.appConfig = Object.assign({}, ModuleRootComponent.appConfig, {
-    appCompatibility: "mockAppCompatibility",
-  });
-;
+
+ModuleRootComponent.appConfig = Object.assign({}, ModuleRootComponent.appConfig, {
+  appCompatibility: "mockAppCompatibility",
+});
+
 ModuleRootComponent.appConfig = Object.assign({}, ModuleRootComponent.appConfig, {
   providedExternals: {
-    'external-package-1': { version: '1.2.3', module: require('external-package-1')},
-  'external-package-2': { version: '4.5.6', module: require('external-package-2')},
+    'external-package-1': {
+      ...{"fallbackEnabled":false},
+      version: '1.2.3',
+      module: require('external-package-1')
+    },
+  'external-package-2': {
+      ...{"fallbackEnabled":false},
+      version: '4.5.6',
+      module: require('external-package-2')
+    },
   },
 });
 
 if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === 'axp-mock-module-name')){
-global.getTenantRootModule = () => ModuleRootComponent;
-global.rootModuleName = 'axp-mock-module-name';
-}
-;
+  global.getTenantRootModule = () => ModuleRootComponent;
+  global.rootModuleName = 'axp-mock-module-name';
+};
+
+ModuleRootComponent.appConfig = Object.assign({}, ModuleRootComponent.appConfig, {
+  enableUnlistedExternalFallbacks: "false",
+});
 
 ModuleRootComponent.__holocron_module_meta_data__ = {
   version: 'mockModuleVersion',

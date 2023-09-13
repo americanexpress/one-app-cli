@@ -168,6 +168,25 @@ describe('extendWebpackConfig', () => {
     expect(rules[rules.length - 1]).toMatchSnapshot();
   });
 
+  it('should bundle requiredExternals designated by providedExternals with custom configuration', () => {
+    getConfigOptions.mockReturnValueOnce({
+      providedExternals: {
+        ajv: {
+          enableFallback: true,
+        },
+        chalk: {
+          enableFallback: false,
+        },
+        lodash: {},
+      },
+      moduleName: 'test-root-module',
+    });
+    const result = extendWebpackConfig(originalWebpackConfig);
+    const { rules } = result.module;
+    expect(rules).toHaveLength(originalWebpackConfig.module.rules.length + 1);
+    expect(rules[rules.length - 1]).toMatchSnapshot();
+  });
+
   it('should use the provided requiredExternals configured', () => {
     getConfigOptions.mockReturnValueOnce({ requiredExternals: ['ajv', 'lodash'] });
     const result = extendWebpackConfig(originalWebpackConfig);
@@ -196,6 +215,13 @@ describe('extendWebpackConfig', () => {
     expect(rules[rules.length - 2]).toMatchSnapshot({
       test: expect.stringMatching(/lodash\\$/),
     });
+    expect(rules[rules.length - 1]).toMatchSnapshot();
+  });
+
+  it('should enable missing external fallbacks', () => {
+    getConfigOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });
+    const result = extendWebpackConfig(originalWebpackConfig);
+    const { rules } = result.module;
     expect(rules[rules.length - 1]).toMatchSnapshot();
   });
 

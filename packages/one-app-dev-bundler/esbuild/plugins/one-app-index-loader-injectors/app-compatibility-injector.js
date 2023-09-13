@@ -29,10 +29,10 @@ export default class AppCompatibilityInjector {
       return content;
     }
 
-    return `${content};
-  ${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfig, {
-    appCompatibility: "${this.appCompatibility}",
-  });
+    return `${content}
+${rootComponentName}.appConfig = Object.assign({}, ${rootComponentName}.appConfig, {
+  appCompatibility: "${this.appCompatibility}",
+});
 `;
   };
 }

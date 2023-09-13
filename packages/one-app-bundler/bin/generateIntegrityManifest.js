@@ -13,8 +13,8 @@
  */
 
 const ssri = require('ssri');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const generateIntegrityManifest = (label, pathToBundle) => {
   const integrity = ssri.fromData(

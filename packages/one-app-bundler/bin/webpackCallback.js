@@ -13,8 +13,8 @@
  */
 
 const chalk = require('chalk');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const generateIntegrityManifest = require('./generateIntegrityManifest');
 
 module.exports = function getWebpackCallback(label, isModuleBuild) {

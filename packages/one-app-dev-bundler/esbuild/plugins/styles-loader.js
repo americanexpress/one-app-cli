@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-import { compile as sassCompile } from 'sass';
+import * as sass from 'sass';
 import postcss from 'postcss';
 import cssModules from 'postcss-modules';
 import crypto from 'crypto';
-import fs from 'fs';
+import fs from 'node:fs';
 import cssnano from 'cssnano';
 import purgecss from '../utils/purgecss.js';
 import getModulesBundlerConfig from '../utils/get-modules-bundler-config.js';
@@ -40,7 +40,7 @@ const stylesLoader = (cssModulesOptions = {}, { bundleType } = {}) => ({
       // Compile scss to css
       let cssContent;
       if (args.path.endsWith('scss')) {
-        cssContent = sassCompile(args.path, { loadPaths: ['./node_modules'] }).css.toString();
+        cssContent = sass.compile(args.path, { loadPaths: ['./node_modules'] }).css.toString();
       } else {
         cssContent = await fs.promises.readFile(args.path, 'utf8');
       }
