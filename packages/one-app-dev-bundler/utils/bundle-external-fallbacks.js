@@ -28,7 +28,7 @@ const getExternalLibraryName = (name, version) => [EXTERNAL_PREFIX, snakeCase(na
  */
 export const bundleExternalFallbacks = async () => {
   const { packageJson } = readPackageUpSync();
-  const { 'one-amex': { bundler = {} } } = packageJson;
+  const { 'one-amex': { bundler = {} } = {} } = packageJson;
   const { requiredExternals } = bundler;
 
   if (
