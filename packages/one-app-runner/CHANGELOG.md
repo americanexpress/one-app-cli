@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.15.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.14.7...@americanexpress/one-app-runner@6.15.0) (2023-09-14)
+
+
+### Bug Fixes
+
+* argument escaping ([#555](https://github.com/americanexpress/one-app-cli/issues/555)) ([902395c](https://github.com/americanexpress/one-app-cli/commit/902395c9e5c59da73399c2f3ba35063378fbf5d9))
+* **one-app-runner:** apply anonymous ip to debugger ([#559](https://github.com/americanexpress/one-app-cli/issues/559)) ([8443acc](https://github.com/americanexpress/one-app-cli/commit/8443accdb78b60a91ec9c864cd95163319168607))
+* **one-app-runner:** move placement of --inspect flag ([#556](https://github.com/americanexpress/one-app-cli/issues/556)) ([3370f3e](https://github.com/americanexpress/one-app-cli/commit/3370f3e3afb3238112a47156008bb3a701eaf900))
+
+
+### Features
+
+* external fallbacks ([#536](https://github.com/americanexpress/one-app-cli/issues/536)) ([523898d](https://github.com/americanexpress/one-app-cli/commit/523898deb9a1a4bcce6ba43915c852b02b7bb3a5))
+
+
+
+
+
 ## [6.14.7](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.14.6...@americanexpress/one-app-runner@6.14.7) (2023-06-13)
 
 

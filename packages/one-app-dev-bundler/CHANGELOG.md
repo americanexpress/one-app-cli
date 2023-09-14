@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.4.2...@americanexpress/one-app-dev-bundler@1.5.0) (2023-09-14)
+
+
+### Bug Fixes
+
+* **dev-bundler:** use semver ranges for all deps ([#550](https://github.com/americanexpress/one-app-cli/issues/550)) ([991ea3b](https://github.com/americanexpress/one-app-cli/commit/991ea3be4bea76f9a80200255a2f2e22a1180929))
+
+
+### Features
+
+* **devBundler:** aggregate styles into dependencies and local ([#557](https://github.com/americanexpress/one-app-cli/issues/557)) ([0eeee49](https://github.com/americanexpress/one-app-cli/commit/0eeee499ee9fda2eac6b2663c754c6840053d05a))
+* external fallbacks ([#536](https://github.com/americanexpress/one-app-cli/issues/536)) ([523898d](https://github.com/americanexpress/one-app-cli/commit/523898deb9a1a4bcce6ba43915c852b02b7bb3a5))
+
+
+
+
+
 ## [1.4.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.4.1...@americanexpress/one-app-dev-bundler@1.4.2) (2023-06-13)
 
 
