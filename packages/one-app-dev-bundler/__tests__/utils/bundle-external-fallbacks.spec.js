@@ -205,4 +205,13 @@ describe('bundle-external-fallbacks', () => {
     expect(console.error).toHaveBeenCalledWith('Failed to build fallback for external awesome for browser', error);
     expect(console.error).toHaveBeenCalledWith('Failed to build fallback for external awesome for node', error);
   });
+
+  it('does not fail when no one-amex config', async () => {
+    readPackageUpSync.mockImplementationOnce(() => ({
+      packageJson: {},
+    }));
+
+    await bundleExternalFallbacks();
+    expect(esbuild.build).not.toHaveBeenCalled();
+  });
 });
