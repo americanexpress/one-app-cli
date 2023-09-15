@@ -31,8 +31,8 @@ const timeBuild = ({ bundleName, watch }) => ({
 
       if (!watch) { // watch has its own logging
         console.log(`${bundleName} bundle built in ${result.durationMs}ms`);
-        // sanatize the / in scoped packages
-        await fs.promises.writeFile(`.esbuild-stats.${bundleName.split('/').join('-')}.json`, JSON.stringify({
+        const sanitizedName = bundleName.replace('/', '-');
+        await fs.promises.writeFile(`.esbuild-stats.${sanitizedName}.json`, JSON.stringify({
           ...result.metafile.outputs,
           durationMs: result.durationMs,
         }));
