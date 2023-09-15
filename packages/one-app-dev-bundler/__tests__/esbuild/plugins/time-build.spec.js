@@ -91,7 +91,28 @@ describe('Esbuild plugin timeBuild', () => {
         expect(fs.promises.writeFile).toHaveBeenCalledTimes(1);
         expect(fs.promises.writeFile).toHaveBeenCalledWith('.esbuild-stats.mockBundleName.json', '{"file.js":{},"durationMs":3}');
       });
+      it('should sanatize bundlename replacing `/` with `-`', async () => {
+        const plugin = timeBuild({ bundleName: '@scoped/mockBundleName', watch: false });
+        const hooks = runSetupAndGetLifeHooks(plugin);
+        const onStart = hooks.onStart[0];
+        const onEnd = hooks.onEnd[0];
 
+        process.hrtime.bigint.mockImplementation(() => BigInt(1000000)); // 1ms in nanoseconds
+        onStart(); // call onStart to load in the start time
+        jest.clearAllMocks();
+
+        process.hrtime.bigint.mockImplementation(() => BigInt(4000000)); // 4ms in nanoseconds
+
+        await onEnd({
+          metafile: {
+            outputs: {
+              'file.js': {},
+            },
+          },
+        });
+
+        expect(fs.promises.writeFile).toHaveBeenCalledWith('.esbuild-stats.@scoped-mockBundleName.json', '{"file.js":{},"durationMs":3}');
+      });
       it('should not log in watch mode', async () => {
         const plugin = timeBuild({ bundleName: 'mockBundleName', watch: true });
         const hooks = runSetupAndGetLifeHooks(plugin);
