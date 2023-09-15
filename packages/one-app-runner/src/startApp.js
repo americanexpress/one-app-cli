@@ -13,8 +13,8 @@
  */
 
 const { spawn } = require('child_process');
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const Docker = require('dockerode');
 
 module.exports = async function startApp({
@@ -106,7 +106,7 @@ module.exports = async function startApp({
 
   const generateModuleMap = () => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
 
-  const generateDebug = (port) => (useDebug ? `--inspect=127.0.0.1:${port}` : '');
+  const generateDebug = (port) => (useDebug ? `--inspect=0.0.0.0:${port}` : '');
 
   if (createDockerNetwork) {
     if (!dockerNetworkToJoin) {

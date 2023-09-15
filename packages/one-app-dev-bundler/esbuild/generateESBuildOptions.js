@@ -18,7 +18,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import { readPackageUpSync } from 'read-pkg-up';
-import path from 'path';
+import path from 'node:path';
 import { BUNDLE_TYPES, SEVERITY } from './constants/enums.js';
 import stylesLoader from './plugins/styles-loader.js';
 import timeBuild from './plugins/time-build.js';
@@ -39,6 +39,17 @@ import serverStylesDispatcher from './plugins/server-styles-dispatcher.js';
 
 const { browserGlobals, nodeExternals } = getOneAppExternals();
 
+/**
+ * Generates ESBuild Options
+ * @param {object} options build options
+ * @param {boolean} options.watch enables watch mode. Defaults to `false`
+ * @param {boolean} options.useLiveReload enables live reload. Defaults to `false`
+ * @returns {Promise.<{
+ *    nodeConfig: object,
+ *    browserConfig: object,
+ *    buildExternalsConfig: (env: string, externalName: string) => object
+ * }>} NodeJS, Browser, and Externals ESBuild configs
+ */
 const generateESBuildOptions = async ({ watch, useLiveReload }) => {
   const { packageJson, path: packageJsonPath } = readPackageUpSync();
   const { version, name } = packageJson;
@@ -130,6 +141,24 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
     external: nodeExternals,
   };
 
+  /**
+   * Generates externals config based on the provided external name
+   * @param {string} env Either "browser" or "node"
+   * @param {string} externalName External name that's being bundled/transpiled
+   * @returns ESBuild config for externals
+   */
+  const buildExternalsConfig = (env, externalName) => ({
+    ...env === 'browser' ? browserConfig : nodeConfig,
+    plugins: [
+      removeWebpackLoaderSyntax,
+      bundleAssetSizeLimiter(commonConfigPluginOptions),
+      env === 'browser' && legacyBundler(externalName),
+      generateIntegrityManifest({ bundleName: externalName }),
+      restrictRuntimeSymbols(browserConfigPluginOptions),
+      timeBuild({ bundleName: externalName, watch }),
+    ].filter(Boolean),
+  });
+
   if (watch) {
     let reloadBrowser;
     if (useLiveReload) {
@@ -156,8 +185,9 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
   }
 
   return {
-    browserConfig,
     nodeConfig,
+    browserConfig,
+    buildExternalsConfig,
   };
 };
 

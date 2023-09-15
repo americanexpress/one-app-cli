@@ -36,7 +36,7 @@ describe('The HolocronModuleRegisterInjector', () => {
     const finalContent = await browserInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
 
     expect(finalContent).toMatchInlineSnapshot(`
-"mockContent;
+"mockContent
 Holocron.registerModule(\\"packageNameMock\\", rootComponentNameMock);
 "
 `);

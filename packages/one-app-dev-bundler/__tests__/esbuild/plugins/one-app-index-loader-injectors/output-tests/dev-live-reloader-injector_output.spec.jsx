@@ -3,8 +3,8 @@
  */
 import { act, render, screen } from '@testing-library/react';
 import { fromJS, Map as iMap } from 'immutable';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 import React from 'react';
 import { BUNDLE_TYPES } from '../../../../../esbuild/constants/enums';
 import DevLiveReloaderInjector

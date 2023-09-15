@@ -13,22 +13,32 @@
  * under the License.
  */
 
-if (process.env.NODE_ENV !== 'production' && process.argv.includes('--dev')) {
-  console.info('Running dev bundler');
-  import('@americanexpress/one-app-dev-bundler').then(({ default: esbuildBundleModule }) => {
-    if (esbuildBundleModule) {
-      esbuildBundleModule().catch((error) => {
+const bundleModule = async () => {
+  const {
+    devBuildModule,
+    bundleExternalFallbacks,
+  } = await import('@americanexpress/one-app-dev-bundler');
+
+  await bundleExternalFallbacks();
+
+  if (process.env.NODE_ENV !== 'production' && process.argv.includes('--dev')) {
+    console.info('Running dev bundler');
+
+    if (devBuildModule) {
+      devBuildModule().catch((error) => {
         console.error(`Build failed with error ${error.message}`);
         console.error(error);
         throw error;
       });
     }
-  });
-} else {
-  if (process.argv.includes('--dev')) {
-    console.info('Ignoring `--dev` flag for NODE_ENV=production');
+  } else {
+    if (process.argv.includes('--dev')) {
+      console.info('Ignoring `--dev` flag for NODE_ENV=production');
+    }
+    console.info('Running production bundler');
+    // eslint-disable-next-line global-require -- Only require the bundler when it runs
+    require('./webpack-bundle-module');
   }
-  console.info('Running production bundler');
-  // eslint-disable-next-line global-require -- Only require the bundler when it runs
-  require('./webpack-bundle-module');
-}
+};
+
+bundleModule();

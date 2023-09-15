@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import { getJsFilenamesFromKeys } from '../utils/get-js-filenames-from-keys.js';
 import { getAggregatedStyles, emptyAggregatedStyles } from '../utils/server-style-aggregator.js';
 import { BUNDLE_TYPES } from '../constants/enums.js';
@@ -32,7 +32,10 @@ const serverStylesDispatcher = ({ bundleType }) => ({
           const initialContent = await fs.promises.readFile(fileName, 'utf8');
           const outputContent = `${initialContent}
     ;module.exports.ssrStyles = {
-      getFullSheet: () => ${JSON.stringify(getAggregatedStyles())},
+      aggregatedStyles: ${getAggregatedStyles()},
+      getFullSheet: function getFullSheet() {
+  return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
+},
     };`;
           await fs.promises.writeFile(fileName, outputContent, 'utf8');
         }));

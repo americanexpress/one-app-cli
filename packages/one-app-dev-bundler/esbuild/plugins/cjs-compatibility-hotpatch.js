@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import { getJsFilenamesFromKeys } from '../utils/get-js-filenames-from-keys.js';
 
 // TODO: (When this bundler is being assessed for production bundling use)

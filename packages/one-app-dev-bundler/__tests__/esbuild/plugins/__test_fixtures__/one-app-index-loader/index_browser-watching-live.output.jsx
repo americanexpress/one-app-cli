@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-const ModuleRootComponent = ({children}) => (
+const ModuleRootComponent = ({ children }) => (
   <div>
     {children}
   </div>
@@ -114,17 +114,25 @@ LiveModuleContainer.LiveWrappedModule = ModuleRootComponent;
 // finally export the LiveModuleContainer instead of the ModuleContainer
 export default LiveModuleContainer;
 
-;
+
 LiveModuleContainer.appConfig = Object.assign({}, LiveModuleContainer.appConfig, {
   providedExternals: {
-    'external-package-1': { version: '1.2.3', module: require('external-package-1')},
-  'external-package-2': { version: '4.5.6', module: require('external-package-2')},
+    'external-package-1': {
+      ...{"fallbackEnabled":false},
+      version: '1.2.3',
+      module: require('external-package-1')
+    },
+  'external-package-2': {
+      ...{"fallbackEnabled":false},
+      version: '4.5.6',
+      module: require('external-package-2')
+    },
   },
 });
 
 if(globalThis.getTenantRootModule === undefined || (globalThis.rootModuleName && globalThis.rootModuleName === 'axp-mock-module-name')){
-globalThis.getTenantRootModule = () => LiveModuleContainer;
-globalThis.rootModuleName = 'axp-mock-module-name';
-}
-;
+  globalThis.getTenantRootModule = () => LiveModuleContainer;
+  globalThis.rootModuleName = 'axp-mock-module-name';
+};
+
 Holocron.registerModule("axp-mock-module-name", LiveModuleContainer);

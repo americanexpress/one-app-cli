@@ -15,11 +15,14 @@
  */
 const Joi = require('joi');
 
-const externalsSchema = Joi.array().items(Joi.string().required()).messages({
-  'array.base': 'Externals must be an array',
-  'array.includesRequiredUnknowns': 'Externals must have at least one entry',
-  'string.base': 'Externals must contain strings',
-});
+const externalsSchema = Joi.alternatives().try(
+  Joi.array().items(Joi.string().required()).messages({
+    'array.base': 'Externals must be an array',
+    'array.includesRequiredUnknowns': 'Externals must have at least one entry',
+    'string.base': 'Externals must contain strings',
+  }),
+  Joi.object().pattern(/^/, Joi.object({ fallbackEnabled: Joi.boolean() }))
+);
 
 const webpackConfigSchema = Joi.string().messages({
   'string.base': 'Webpack Configs must be a string',
@@ -59,6 +62,7 @@ const purgecssSchema = Joi.object({
 });
 
 const optionsSchema = Joi.object({
+  enableUnlistedExternalFallbacks: Joi.boolean(),
   providedExternals: externalsSchema,
   requiredExternals: externalsSchema,
   performanceBudget: performanceBudgetSchema,

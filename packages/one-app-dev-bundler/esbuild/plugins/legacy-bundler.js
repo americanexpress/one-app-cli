@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import swc from '@swc/core';
 
 import { getJsFilenamesFromKeys } from '../utils/get-js-filenames-from-keys.js';

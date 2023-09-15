@@ -14,12 +14,12 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import analyzeBundles from '../../utils/analyze-bundles.js';
 
-jest.mock('fs', () => ({
+jest.mock('node:fs', () => ({
   promises: {
     readFile: jest.fn(),
     writeFile: jest.fn(),

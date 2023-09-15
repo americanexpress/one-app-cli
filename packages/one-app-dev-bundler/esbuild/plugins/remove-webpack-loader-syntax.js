@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import path from 'path';
+import path from 'node:path';
 
 const removeWebpackLoaderSyntax = {
   name: 'removeWebpackLoaderSyntax',

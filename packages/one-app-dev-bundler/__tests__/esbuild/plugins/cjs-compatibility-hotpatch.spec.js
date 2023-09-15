@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 import cjsCompatibilityHotpatch from '../../../esbuild/plugins/cjs-compatibility-hotpatch';
 import { runSetupAndGetLifeHooks } from './__plugin-testing-utils__';
 
-jest.mock('fs', () => ({
+jest.mock('node:fs', () => ({
   promises: {
     readFile: jest.fn(() => 'const mock = "JavaScript Content";'),
     writeFile: jest.fn(),

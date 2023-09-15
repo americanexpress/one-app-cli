@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const path = require('path');
+const path = require('node:path');
 
 // stringify handles win32 path slashes too
 // so `C:\path\node_modules` doesn't turn into something with a newline

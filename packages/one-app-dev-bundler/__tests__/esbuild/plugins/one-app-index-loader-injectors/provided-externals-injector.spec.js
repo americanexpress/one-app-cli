@@ -19,7 +19,14 @@ import ProvidedExternalsInjector
 import getModulesBundlerConfig from '../../../../esbuild/utils/get-modules-bundler-config';
 import { BUNDLE_TYPES } from '../../../../esbuild/constants/enums.js';
 
-jest.mock('../../../../esbuild/utils/get-modules-bundler-config.js', () => jest.fn(() => ['mockProvidedExternal']));
+jest.mock('../../../../esbuild/utils/get-modules-bundler-config.js', () => jest.fn(() => ({
+  mockProvidedExternal: {
+    fallbackEnabled: false,
+  },
+  mockProvidedExternal2: {
+    fallbackEnabled: true,
+  },
+})));
 
 jest.mock('../../../../esbuild/utils/get-meta-url.mjs', () => () => 'metaUrlMock');
 
@@ -48,26 +55,33 @@ describe('The ProvidedExternalsInjector', () => {
     const finalContent = await browserInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
 
     expect(finalContent).toMatchInlineSnapshot(`
-"mockContent;
+"mockContent
 rootComponentNameMock.appConfig = Object.assign({}, rootComponentNameMock.appConfig, {
   providedExternals: {
-    'mockProvidedExternal': { version: 'mockVersion', module: require('mockProvidedExternal')},
+    'mockProvidedExternal': {
+      ...{\\"fallbackEnabled\\":false},
+      version: 'mockVersion',
+      module: require('mockProvidedExternal')
+    },
+  'mockProvidedExternal2': {
+      ...{\\"fallbackEnabled\\":true},
+      version: 'mockVersion',
+      module: require('mockProvidedExternal2')
+    },
   },
 });
 
 if(globalThis.getTenantRootModule === undefined || (globalThis.rootModuleName && globalThis.rootModuleName === 'packageNameMock')){
-globalThis.getTenantRootModule = () => rootComponentNameMock;
-globalThis.rootModuleName = 'packageNameMock';
-}
+  globalThis.getTenantRootModule = () => rootComponentNameMock;
+  globalThis.rootModuleName = 'packageNameMock';
+};
 "
 `);
   });
 
   it('should inject nothing in the browser if there are no externals', async () => {
     expect.assertions(1);
-    getModulesBundlerConfig.mockImplementationOnce(() => ({
-      providedExternals: [],
-    }));
+    getModulesBundlerConfig.mockImplementationOnce(() => []);
     const browserInjector = new ProvidedExternalsInjector(
       { bundleType: BUNDLE_TYPES.BROWSER, packageJson }
     );
@@ -80,7 +94,7 @@ globalThis.rootModuleName = 'packageNameMock';
 
   it('should inject nothing in the browser if the externals key does not exist', async () => {
     expect.assertions(1);
-    getModulesBundlerConfig.mockImplementationOnce(() => ({}));
+    getModulesBundlerConfig.mockImplementationOnce(() => undefined);
     const browserInjector = new ProvidedExternalsInjector(
       { bundleType: BUNDLE_TYPES.BROWSER, packageJson }
     );
@@ -101,26 +115,33 @@ globalThis.rootModuleName = 'packageNameMock';
     const finalContent = await browserInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
 
     expect(finalContent).toMatchInlineSnapshot(`
-"mockContent;
+"mockContent
 rootComponentNameMock.appConfig = Object.assign({}, rootComponentNameMock.appConfig, {
   providedExternals: {
-    'mockProvidedExternal': { version: 'mockVersion', module: require('mockProvidedExternal')},
+    'mockProvidedExternal': {
+      ...{\\"fallbackEnabled\\":false},
+      version: 'mockVersion',
+      module: require('mockProvidedExternal')
+    },
+  'mockProvidedExternal2': {
+      ...{\\"fallbackEnabled\\":true},
+      version: 'mockVersion',
+      module: require('mockProvidedExternal2')
+    },
   },
 });
 
 if(global.getTenantRootModule === undefined || (global.rootModuleName && global.rootModuleName === 'packageNameMock')){
-global.getTenantRootModule = () => rootComponentNameMock;
-global.rootModuleName = 'packageNameMock';
-}
+  global.getTenantRootModule = () => rootComponentNameMock;
+  global.rootModuleName = 'packageNameMock';
+};
 "
 `);
   });
 
   it('should inject nothing in the server if there are no externals', async () => {
     expect.assertions(1);
-    getModulesBundlerConfig.mockImplementationOnce(() => ({
-      providedExternals: [],
-    }));
+    getModulesBundlerConfig.mockImplementationOnce(() => []);
     const browserInjector = new ProvidedExternalsInjector(
       { bundleType: BUNDLE_TYPES.SERVER, packageJson }
     );
@@ -129,5 +150,21 @@ global.rootModuleName = 'packageNameMock';
     const finalContent = await browserInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
 
     expect(finalContent).toBe(mockContent);
+  });
+
+  it('adds fallbackEnabled to legacy provided external api', async () => {
+    expect.assertions(1);
+    getModulesBundlerConfig.mockImplementationOnce(() => jest.fn(() => [
+      'mockProvidedExternal',
+    ]));
+
+    const browserInjector = new ProvidedExternalsInjector(
+      { bundleType: BUNDLE_TYPES.SERVER, packageJson }
+    );
+    const mockContent = 'mockContent';
+
+    const finalContent = await browserInjector.inject(mockContent, { rootComponentName: 'rootComponentNameMock' });
+
+    expect(finalContent).toMatchInlineSnapshot('"mockContent"');
   });
 });

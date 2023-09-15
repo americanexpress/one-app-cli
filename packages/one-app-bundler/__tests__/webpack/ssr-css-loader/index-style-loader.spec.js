@@ -14,7 +14,7 @@
 
 const indexStyleLoader = require('../../../webpack/loaders/ssr-css-loader/index-style-loader');
 
-jest.mock('path', () => ({
+jest.mock('node:path', () => ({
   resolve: (dir, filename) => `/path/to/one-app-bundler/webpack/ssr-css-loader/${filename}`,
 }));
 

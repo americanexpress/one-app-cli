@@ -15,7 +15,7 @@
  */
 
 import ssri from 'ssri';
-import fs from 'fs';
+import fs from 'node:fs';
 import { getJsFilenamesFromKeys } from '../utils/get-js-filenames-from-keys.js';
 
 async function writeIntegrityFragment(bundleName, integrityString, fileName) {

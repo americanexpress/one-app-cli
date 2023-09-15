@@ -29,8 +29,7 @@ export default class ModuleMetadataInjector {
       return content;
     }
 
-    return `${content};
-
+    return `${content}
 ${rootComponentName}.${META_DATA_KEY} = {
   version: '${this.version}',
 };

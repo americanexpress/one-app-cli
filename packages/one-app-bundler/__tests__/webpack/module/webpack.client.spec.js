@@ -13,7 +13,7 @@
  */
 
 const { sync } = require('read-pkg-up');
-const path = require('path');
+const path = require('node:path');
 const { validateWebpackConfig } = require('../../../test-utils');
 const getConfigOptions = require('../../../utils/getConfigOptions');
 const configGenerator = require('../../../webpack/module/webpack.client');

@@ -25,10 +25,16 @@ function validateOptions(options) {
 
   if (options.requiredExternals || options.providedExternals) {
     const intersection = Object.keys(commonConfig.externals)
-      .filter((externalName) =>
-        // eslint-disable-next-line implicit-arrow-linebreak -- without the linebreak the line fails max-len
-        (options.requiredExternals || options.providedExternals).includes(externalName)
-      );
+      .filter((externalName) => {
+        if (options.providedExternals) {
+          const providedExternals = Array.isArray(options.providedExternals)
+            ? options.providedExternals
+            : Object.keys(options.providedExternals);
+          return providedExternals.includes(externalName);
+        }
+        return options.requiredExternals.includes(externalName);
+      });
+
     if (intersection.length > 0) {
       throw new Error(`@americanexpress/one-app-bundler: Attempted to bundle ${intersection.join(', ')}, but modules cannot provide externals that One App includes.`);
     }

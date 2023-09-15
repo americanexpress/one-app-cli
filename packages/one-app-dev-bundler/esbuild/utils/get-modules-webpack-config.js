@@ -15,7 +15,7 @@
  */
 
 import { createRequire } from 'module';
-import path from 'path';
+import path from 'node:path';
 import getModulesBundlerConfig from './get-modules-bundler-config.js';
 import getMetaUrl from './get-meta-url.mjs';
 

@@ -12,8 +12,8 @@
  * under the License.
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { Union } from 'unionfs';
 import { Volume, createFsFromVolume } from 'memfs';
 

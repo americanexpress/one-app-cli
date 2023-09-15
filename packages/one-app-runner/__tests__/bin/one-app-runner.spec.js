@@ -15,7 +15,7 @@
 /* eslint-disable global-require --
 testing `on import` behaviour needs requires directly in tests */
 // explicitly requiring within each test needed in order to have independent mocks
-const path = require('path');
+const path = require('node:path');
 
 const originalProcessExit = process.exit;
 const originalProcessArgv = process.argv;

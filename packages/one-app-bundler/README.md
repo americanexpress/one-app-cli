@@ -113,17 +113,39 @@ In order to avoid duplicate code in your One App instance, you may want to
 share a dependency across all your modules that is not already provided by One
 App. These dependencies can be provided to your modules by your root
 module. The root module should include in its configuration
-`providedExternals`, which is an array of external dependencies to be bundled
-with it and provided to other modules.
+`providedExternals`. This will include and make the listed dependencies
+available to be consumed by child modules. Child modules will use `requiredExternals`
+to consume dependencies provided by the root modules `providedExternals`, this will also remove
+the dependency from the child modules bundle.
 
 Modules shouldn't configure both `providedExternals` and `requiredExternals`.
-Remember `providedExternals` are dependencies which your root module will make available to child modules. `requiredExternals` are a list of dependencies the child module will need to be made available by the root module.
+Remember `providedExternals` are dependencies which your root module will make available to child modules.
+`requiredExternals` are a list of dependencies the child module will need to be made available by the root module.
 
-All modules `requiredExternals` are validated at runtime against the root modules list of `providedExternals`. If the external dependency is not provided One App will throw an error. This will either result in the One App server not starting or, if it is already running, One App will not load that module. For example, if your child module requires `^2.1.0` of a dependency but your root module provides `2.0.0`, this will result in One App not loading that child module as the provided dependencies version does not satisfy the required semantic range.
+All modules `requiredExternals` are validated at runtime against the root modules list of `providedExternals`.
+By default if the external dependency is not provided One App will throw an error. This will either result in the
+One App server not starting or, if it is already running, One App will not load that module. For example, if your
+child module requires `^2.1.0` of a dependency but your root module provides `2.0.0`, this will result in One App
+not loading that child module as the provided dependencies version does not satisfy the required semantic range.
 
-This ensures that all of the listed dependencies features potentially required by the child module to work will be provided which could result in hard to debug bugs.
+This ensures that all of the listed dependencies features, potentially required by the child module to work, will be provided which could result in hard to debug bugs.
 
 If you attempt to include one of the [dependencies](https://github.com/americanexpress/one-app-cli/blob/main/packages/one-app-bundler/webpack/webpack.common.js#L102-L155) provided by One App in your `providedExternals` or `requiredExternals`, your build will fail.
+
+
+##### Externals Fallbacks
+
+External fallbacks were added to help reduce the impact of some of the cons listed below.
+For each dependency listed in `requiredExternals` fallback bundles(browser and server) will
+be created. If the root module permits these fallbacks will be used to enable that child
+module to load when there is no valid provided external dependency. This can be helpful when
+transitioning between major versions of a externals dependency.
+
+To enable fallbacks the root module will need to set the `fallbackEnabled` option to `true` for each
+provided external and the `enableUnlistedExternalFallbacks` to allow fallbacks for unlisted
+dependencies.
+
+##### Usage
 
 First make sure to add your dependency to your module's `package.json`:
 
@@ -137,7 +159,14 @@ Then configure `one-app-bundler` to provide that dependency (and any others) as 
 {
   "one-amex": {
     "bundler": {
-      "providedExternals": ["some-dependency", "another-dependency"]
+      "providedExternals": {
+        "some-dependency": {
+          "fallbackEnabled": true
+        },
+        "another-dependency": {
+          "fallbackEnabled": false
+        }
+      }
     }
   }
 }
@@ -178,6 +207,24 @@ npm install some-dependency
   * For example, adding something like lodash as an external when only a small part of the library is used could result in the client having to download more than if the tree shaken versions were bundled with the module.
 * Couples your child and root module together
 * Increases complexity when managing updates to the provided and required dependency
+
+
+#### `enableUnlistedExternalFallbacks`
+
+To allow child modules to load when a `requiredExternal` is not listed as a `providedExternal` use the `enableUnlistedExternalFallbacks` option.
+The child module must provide a fallback bundle for the missing required external to load when this option is set.
+
+`enableUnlistedExternalFallbacks` defaults to false if unset.
+
+```json
+{
+  "one-amex": {
+    "bundler": {
+      "enableUnlistedExternalFallbacks": true
+    }
+  }
+}
+```
 
 #### `performanceBudget`
 
@@ -326,7 +373,7 @@ before enabling any of the following:
 #### Legacy browser support
 
 `disableDevelopmentLegacyBundle` can be added to your bundler config and set to *true* to opt out of bundling the `legacy` assets. This will reduce bundle size and build times. This is only configured to be removed when in `development`. `production`  builds will not skip the `legacy` build.
-**Caution as this will remove legacy browser support from your module.**  
+**Caution as this will remove legacy browser support from your module.**
 
 ```json
 {
@@ -337,6 +384,9 @@ before enabling any of the following:
   }
 }
 ```
+### TypeScript
+
+TypeScript in One App modules needs no extra configuration within `one-app-bundler` to work. `one-app-bundler` is set up to ignore `TypeScript` features leaving `tsc` to focus on typechecking only. 
 
 #### Specify what version of One App your module is compatible with
 

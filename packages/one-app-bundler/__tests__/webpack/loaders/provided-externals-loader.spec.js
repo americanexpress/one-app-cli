@@ -12,6 +12,7 @@
  * under the License.
  */
 
+const loaderUtils = require('loader-utils');
 const providedExternalsLoader = require('../../../webpack/loaders/provided-externals-loader');
 
 jest.mock('loader-utils', () => ({
@@ -20,6 +21,18 @@ jest.mock('loader-utils', () => ({
 
 describe('provided-externals-loader', () => {
   it('should append the providedExternals to the default export', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+
+    const content = `\
+import MyComponent from './components/MyComponent';
+export default MyComponent;
+`;
+    expect(providedExternalsLoader(content)).toMatchSnapshot();
+  });
+
+  it('accepts an object', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: { ajv: {}, lodash: {} } });
+
     const content = `\
 import MyComponent from './components/MyComponent';
 export default MyComponent;
@@ -28,6 +41,8 @@ export default MyComponent;
   });
 
   it('should throw an error when the wrong syntax is used - export from', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+
     const content = `\
 export default from './components/MyComponent';
 `;
@@ -35,6 +50,8 @@ export default from './components/MyComponent';
   });
 
   it('should throw an error when the wrong syntax is used - module.exports', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+
     const content = `\
 module.exports = require('./components/MyComponent');
 `;
@@ -42,6 +59,8 @@ module.exports = require('./components/MyComponent');
   });
 
   it('should throw an error when the wrong syntax is used - export default hoc()', () => {
+    loaderUtils.getOptions.mockReturnValueOnce({ providedExternals: ['ajv', 'lodash'] });
+
     const content = `\
 import SomeComponent from './SomeComponent';
 

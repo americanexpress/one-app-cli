@@ -1,11 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['externals-loader should ignore the content and get the dependency from the root module 1'] = `
+exports[`externals-loader when bundleTarget is browser does not include content, gets the dependency from root module 1`] = `
 "try {
-  module.exports = global.getTenantRootModule().appConfig.providedExternals['my-dependency'].module;
+  const Holocron = global.Holocron;
+  const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
+    name: 'my-dependency',
+    version: '1.2.3'
+  });
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['my-dependency'];
+
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('[browser][undefined] External not found: my-dependency');
+  })
 } catch (error) {
-  const errorGettingExternal = new Error('Failed to get external my-dependency from root module');
+  const errorGettingExternal = new Error([
+    '[browser] Failed to get external fallback my-dependency',
+    error.message
+  ].filter(Boolean).join(' :: '));
+
   errorGettingExternal.shouldBlockModuleReload = false;
+
+  throw errorGettingExternal;
+}
+"
+`;
+
+exports[`externals-loader when bundleTarget is server does not include content, gets the dependency from root module 1`] = `
+"try {
+  const Holocron = require(\\"holocron\\");
+  const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
+    name: 'my-dependency',
+    version: '1.2.3'
+  });
+  const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['my-dependency'];
+
+  module.exports = fallbackExternal || (rootModuleExternal ? rootModuleExternal.module : () => {
+    throw new Error('[server][undefined] External not found: my-dependency');
+  })
+} catch (error) {
+  const errorGettingExternal = new Error([
+    '[server] Failed to get external fallback my-dependency',
+    error.message
+  ].filter(Boolean).join(' :: '));
+
+  errorGettingExternal.shouldBlockModuleReload = false;
+
   throw errorGettingExternal;
 }
 "

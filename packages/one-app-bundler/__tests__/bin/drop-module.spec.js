@@ -15,9 +15,9 @@
 /* eslint-disable global-require --
 testing `on import` functionality needs 'require' in every tests */
 
-let fs = require('fs');
+let fs = require('node:fs');
 
-jest.mock('fs');
+jest.mock('node:fs');
 jest.mock('yargs', () => ({
   argv: { _: ['my-module-name'] },
 }));
@@ -28,7 +28,7 @@ describe('drop-module', () => {
   beforeEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
-    fs = require('fs');
+    fs = require('node:fs');
   });
 
   it('should throw an error if it cannot access the module map', () => {
