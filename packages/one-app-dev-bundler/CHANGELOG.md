@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.0...@americanexpress/one-app-dev-bundler@1.5.1) (2023-09-15)
+
+
+### Bug Fixes
+
+* **externals:** sanatize external name ([#563](https://github.com/americanexpress/one-app-cli/issues/563)) ([4be6f3b](https://github.com/americanexpress/one-app-cli/commit/4be6f3be3ae1838cf09d0438b051382a9c206747))
+
+
+
+
+
 # [1.5.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.4.2...@americanexpress/one-app-dev-bundler@1.5.0) (2023-09-14)
 
 
