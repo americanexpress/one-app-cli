@@ -65,7 +65,7 @@ const externalsLoader = ({ bundleType }) => ({
         contents: `
           try {
             const Holocron = ${bundleType === BUNDLE_TYPES.SERVER ? 'require("holocron")' : `${globalReferenceString}.Holocron`};
-            const fallbackExternal = Holocron.getExternal({
+            const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
               name: '${externalName}',
               version: '${version}'
             });
