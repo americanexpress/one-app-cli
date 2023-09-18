@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.1...@americanexpress/one-app-dev-bundler@1.5.2) (2023-09-18)
+
+
+### Bug Fixes
+
+* **devBundler:** check for Holocron.getExternal ([#565](https://github.com/americanexpress/one-app-cli/issues/565)) ([93ea82b](https://github.com/americanexpress/one-app-cli/commit/93ea82be391a7041af830052f6c4d2685a34c9fc))
+
+
+
+
+
 ## [1.5.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.0...@americanexpress/one-app-dev-bundler@1.5.1) (2023-09-15)
 
 
