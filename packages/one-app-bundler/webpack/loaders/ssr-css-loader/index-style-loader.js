@@ -12,15 +12,17 @@
  * under the License.
  */
 
-const path = require('node:path');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 // stringify handles win32 path slashes too
 // so `C:\path\node_modules` doesn't turn into something with a newline
-const cssBasePath = JSON.stringify(path.resolve(__dirname, 'css-base.js'));
+const cssBasePath = JSON.stringify(path.resolve(dirname, 'css-base.js'));
 
-module.exports = function indexStyleLoader(content) {
+export default function indexStyleLoader(content) {
   return `
   ${content}
-  __webpack_exports__.default.ssrStyles = require(${cssBasePath})();
+  __webpack_exports__.default.ssrStyles = require(${cssBasePath})['default']();
   `;
 };

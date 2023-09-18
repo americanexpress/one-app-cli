@@ -12,12 +12,12 @@
  * under the License.
  */
 
-const path = require('node:path');
-const merge = require('webpack-merge');
-const uniqBy = require('lodash/uniqBy');
-const getConfigOptions = require('./getConfigOptions');
-const getCliOptions = require('./getCliOptions');
-const createResolver = require('../webpack/createResolver');
+import path from 'node:path';
+import { merge, mergeWithCustomize } from 'webpack-merge';
+import uniqBy from 'lodash/uniqBy.js';
+import getConfigOptions from './getConfigOptions.js';
+import getCliOptions from './getCliOptions.js';
+import createResolver from '../webpack/createResolver.js';
 
 function getCustomWebpackConfigPath(options, bundleTarget) {
   const { webpackConfigPath, webpackClientConfigPath, webpackServerConfigPath } = options;
@@ -148,7 +148,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     });
   }
 
-  return merge({
+  return mergeWithCustomize({
     customizeArray(defaultConfig, customConfig, key) {
       if (key === 'plugins') {
         const merged = [...customConfig, ...defaultConfig];
@@ -161,4 +161,4 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   })(webpackConfig, customWebpackConfig);
 }
 
-module.exports = extendWebpackConfig;
+export default extendWebpackConfig;

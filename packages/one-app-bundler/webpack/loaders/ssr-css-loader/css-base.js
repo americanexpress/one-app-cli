@@ -28,7 +28,7 @@ function getFullSheet() {
     .join('\n');
 }
 
-module.exports = function getCssBase(/* useSourceMap */) {
+export default function getCssBase(/* useSourceMap */) {
   return {
     push: push,
     getFullSheet: getFullSheet,

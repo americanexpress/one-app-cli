@@ -12,32 +12,28 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const path = require('node:path');
-const merge = require('webpack-merge');
-const readPkgUp = require('read-pkg-up');
-const WebpackDynamicPublicPathPlugin = require('webpack-dynamic-public-path');
-const WebpackCustomChunkIdPlugin = require('webpack-custom-chunk-id-plugin');
-const HolocronModuleRegisterPlugin = require('holocron-module-register-webpack-plugin');
-const SriPlugin = require('webpack-subresource-integrity');
-
-const extendWebpackConfig = require('../../utils/extendWebpackConfig');
-const commonConfig = require('../webpack.common');
-const getConfigOptions = require('../../utils/getConfigOptions');
-require('../../utils/patchedCryptoHash');
-const {
-  babelLoader,
-  cssLoader,
-  purgeCssLoader,
-  sassLoader,
-} = require('../loaders/common');
+import webpack from 'webpack';
+import path from 'node:path';
+import { merge } from 'webpack-merge';
+import { readPackageUpSync } from 'read-pkg-up';
+import WebpackDynamicPublicPathPlugin from 'webpack-dynamic-public-path';
+import WebpackCustomChunkIdPlugin from 'webpack-custom-chunk-id-plugin';
+import HolocronModuleRegisterPlugin from 'holocron-module-register-webpack-plugin';
+import { SubresourceIntegrityPlugin as SriPlugin } from 'webpack-subresource-integrity';
+import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
+import commonConfig from '../webpack.common.js';
+import getConfigOptions from '../../utils/getConfigOptions.js';
+import '../../utils/patchedCryptoHash.js';
+import {
+  babelLoader, cssLoader, purgeCssLoader, sassLoader,
+} from '../loaders/common.js';
 
 const packageRoot = process.cwd();
-const { packageJson } = readPkgUp.sync();
+const { packageJson } = readPackageUpSync();
 const { version, name } = packageJson;
 
 const holocronModuleName = `holocronModule_${name.replace(/-/g, '_')}`;
-module.exports = (babelEnv) => {
+const webpackClient = (babelEnv) => {
   const configOptions = getConfigOptions();
 
   return extendWebpackConfig(merge(
@@ -57,8 +53,12 @@ module.exports = (babelEnv) => {
         mainFields: ['browser', 'module', 'main'],
         modules: [packageRoot, 'node_modules'],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        fallback: {
+          fs: false,
+          module: false,
+          net: false,
+        },
       },
-      node: { module: 'empty', net: 'empty', fs: 'empty' },
       performance: {
         maxAssetSize: configOptions.performanceBudget || 250e3,
         maxEntrypointSize: configOptions.performanceBudget || 250e3,
@@ -102,3 +102,5 @@ module.exports = (babelEnv) => {
     }
   ), 'client');
 };
+
+export default webpackClient;

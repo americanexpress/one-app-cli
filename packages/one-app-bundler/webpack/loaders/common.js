@@ -12,13 +12,13 @@
  * under the License.
  */
 
-const path = require('node:path');
-const dartSass = require('sass');
-const getConfigOptions = require('../../utils/getConfigOptions');
+import path from 'node:path';
+import dartSass from 'sass';
+import getConfigOptions from '../../utils/getConfigOptions.js';
 
 const packageRoot = process.cwd();
 
-const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
+export const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
   loader: 'css-loader',
   options: {
     importLoaders,
@@ -40,7 +40,7 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
 /* eslint-disable inclusive-language/use-inclusive-words --
 config options for a third party library */
 // transform strings deep and greedy parameters into regex
-const reconcileSafeList = (safelist) => ({
+export const reconcileSafeList = (safelist) => ({
   ...safelist,
   greedy: safelist.greedy
     ? safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
@@ -71,7 +71,7 @@ const reconcileAllowList = (purgecss) => {
   return aggregatedAllowList;
 };
 
-const purgeCssLoader = () => {
+export const purgeCssLoader = () => {
   const { purgecss } = getConfigOptions();
   if (purgecss.disabled) return [];
 
@@ -107,14 +107,14 @@ const purgeCssLoader = () => {
 /* eslint-enable inclusive-language/use-inclusive-words --
 re enable disabled */
 
-const sassLoader = () => ({
+export const sassLoader = () => ({
   loader: 'sass-loader',
   options: {
     implementation: dartSass,
   },
 });
 
-const babelLoader = (babelEnv) => ({
+export const babelLoader = (babelEnv) => ({
   loader: 'babel-loader',
   options: {
     extends: path.join(packageRoot, '.babelrc'),
@@ -122,11 +122,3 @@ const babelLoader = (babelEnv) => ({
     cacheDirectory: path.join(packageRoot, '.build-cache'),
   },
 });
-
-module.exports = {
-  babelLoader,
-  cssLoader,
-  purgeCssLoader,
-  sassLoader,
-  reconcileSafeList,
-};

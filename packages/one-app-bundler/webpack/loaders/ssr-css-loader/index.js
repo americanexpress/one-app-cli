@@ -12,11 +12,13 @@
  * under the License.
  */
 
-const path = require('node:path');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 // stringify handles win32 path slashes too
 // so `C:\path\node_modules` doesn't turn into something with a newline
-const cssBasePathString = JSON.stringify(path.resolve(__dirname, 'css-base.js'));
+const cssBasePathString = JSON.stringify(path.resolve(dirname, 'css-base.js'));
 
 const CSS_LOADER_FINDER = /var ___CSS_LOADER_API_IMPORT___ = (__webpack_){0,1}require(__){0,1}\([\s\w!*./-]*"[\w./]+\/css-loader\/dist\/runtime\/api.js"\);\n\s*exports = ___CSS_LOADER_API_IMPORT___\((undefined|false)?\);/;
 
@@ -27,7 +29,7 @@ const CSS_RUNTIME_FINDER = /var ___CSS_LOADER_API_IMPORT___ = (__webpack_){0,1}r
 
 const CSS_EXPORTS_FINDER = /exports = ___CSS_LOADER_API_IMPORT___\((undefined|false)?\);/;
 
-module.exports = function ssrCssLoader(content) {
+export default function ssrCssLoader(content) {
   if (!CSS_RUNTIME_FINDER.test(content) || !CSS_EXPORTS_FINDER.test(content)) {
     throw new Error(`could not find the css-loader in\n${content}`);
   }

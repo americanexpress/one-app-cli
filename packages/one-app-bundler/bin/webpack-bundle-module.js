@@ -12,16 +12,17 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const path = require('node:path');
-const fs = require('node:fs');
-const localeBundler = require('@americanexpress/one-app-locale-bundler');
+import webpack from 'webpack';
+import path from 'node:path';
+import fs from 'node:fs';
+import localeBundler from '@americanexpress/one-app-locale-bundler';
+import getConfigOptions from '../utils/getConfigOptions.js';
+import getWebpackCallback from './webpackCallback.js';
+import utils from '../utils/getCliOptions.js';
+import clientConfig from '../webpack/module/webpack.client.js';
+import serverConfig from '../webpack/module/webpack.server.js';
 
-const getConfigOptions = require('../utils/getConfigOptions');
-const clientConfig = require('../webpack/module/webpack.client');
-const serverConfig = require('../webpack/module/webpack.server');
-const getWebpackCallback = require('./webpackCallback');
-const { watch } = require('../utils/getCliOptions')();
+const { watch } = utils();
 
 const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');

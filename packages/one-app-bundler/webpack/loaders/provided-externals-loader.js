@@ -12,10 +12,8 @@
  * under the License.
  */
 
-const loaderUtils = require('loader-utils');
-
 function providedExternalsLoader(content) {
-  const { moduleName, providedExternals } = loaderUtils.getOptions(this);
+  const { moduleName, providedExternals } = this.getOptions();
 
   const extendedProvidedExternals = (Array.isArray(providedExternals)
     ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
@@ -56,4 +54,4 @@ global.rootModuleName = '${moduleName}';
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use providedExternals');
 }
 
-module.exports = providedExternalsLoader;
+export default providedExternalsLoader;

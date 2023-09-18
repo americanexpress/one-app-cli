@@ -12,14 +12,15 @@
  * under the License.
  */
 
-const fs = require('node:fs');
-const path = require('node:path');
-const loaderUtils = require('loader-utils');
-const readPkgUp = require('read-pkg-up');
+import fs from 'node:fs';
+
+import path from 'node:path';
+
+import { readPackageUpSync } from 'read-pkg-up';
 
 function validateRequiredExternalsLoader(content) {
-  const options = loaderUtils.getOptions(this);
-  const { packageJson } = readPkgUp.sync();
+  const options = this.getOptions();
+  const { packageJson } = readPackageUpSync();
   const integrityManifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), 'utf-8'));
 
   const requiredExternals = options.requiredExternals.reduce((obj, externalName) => {
@@ -69,4 +70,4 @@ if (!global.BROWSER) {
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use requiredExternals');
 }
 
-module.exports = validateRequiredExternalsLoader;
+export default validateRequiredExternalsLoader;

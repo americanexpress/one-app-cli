@@ -11,13 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-const loaderUtils = require('loader-utils');
-const readPkgUp = require('read-pkg-up');
+import { readPackageUpSync } from 'read-pkg-up';
 
-const { packageJson } = readPkgUp.sync();
+const { packageJson } = readPackageUpSync();
 
 function externalsLoader() {
-  const { externalName, bundleTarget } = loaderUtils.getOptions(this);
+  const { externalName, bundleTarget } = this.getOptions();
   // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
   const { version } = require(`${externalName}/package.json`);
 
@@ -46,4 +45,4 @@ try {
 `;
 }
 
-module.exports = externalsLoader;
+export default externalsLoader;
