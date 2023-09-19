@@ -8835,9 +8835,10 @@ hoist-non-react-statics@^3.2.1, hoist-non-react-statics@^3.3.0, hoist-non-react-
   dependencies:
     react-is "^16.7.0"
 
-holocron-module-register-webpack-plugin@../../../holocron-for-webpack-five/packages/holocron-module-register-webpack-plugin/holocron-module-register-webpack-plugin-2.0.0-alpha-004.tgz:
-  version "2.0.0-alpha-004"
-  resolved "../../../holocron-for-webpack-five/packages/holocron-module-register-webpack-plugin/holocron-module-register-webpack-plugin-2.0.0-alpha-004.tgz#93e293685cd4e7c5b605d13fd6935a3c61e62e82"
+holocron-module-register-webpack-plugin@2.0.0-alpha-004.0:
+  version "2.0.0-alpha-004.0"
+  resolved "https://registry.yarnpkg.com/holocron-module-register-webpack-plugin/-/holocron-module-register-webpack-plugin-2.0.0-alpha-004.0.tgz#dcd93672b3a47a38ded8a74d19e61dadfeeda4cf"
+  integrity sha512-yl6iTG93d7zO5FYTLPk4T5SU0z7Atn8706Ez9FKmsQmT27qmyuf2MvfYGKe7M50W7huJ4Iqxe1j0+WSNgx1ilw==
   dependencies:
     webpack "^5.88.2"
     webpack-sources "^3.2.3"
