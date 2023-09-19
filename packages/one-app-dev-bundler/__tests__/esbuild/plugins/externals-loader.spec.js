@@ -107,7 +107,7 @@ describe('Esbuild plugin externalsLoader', () => {
 "
           try {
             const Holocron = globalThis.Holocron;
-            const fallbackExternal = Holocron.getExternal({
+            const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
               name: 'mock/path/to/file/mock-package-name',
               version: 'undefined'
             });
@@ -148,7 +148,7 @@ describe('Esbuild plugin externalsLoader', () => {
 "
           try {
             const Holocron = require(\\"holocron\\");
-            const fallbackExternal = Holocron.getExternal({
+            const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
               name: 'mock/path/to/file/mock-package-name',
               version: 'undefined'
             });
