@@ -60,4 +60,4 @@ export default function getWebpackCallback(label, isModuleBuild) {
       throw stats.compilation.errors[0];
     }
   };
-};
+}

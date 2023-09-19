@@ -14,8 +14,9 @@
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import getMetaUrl from '../../../utils/get-meta-url.mjs';
 
-const dirname = path.dirname(fileURLToPath(import.meta.url));
+const dirname = path.dirname(fileURLToPath(getMetaUrl()));
 // stringify handles win32 path slashes too
 // so `C:\path\node_modules` doesn't turn into something with a newline
 const cssBasePath = JSON.stringify(path.resolve(dirname, 'css-base.js'));
@@ -25,4 +26,4 @@ export default function indexStyleLoader(content) {
   ${content}
   __webpack_exports__.default.ssrStyles = require(${cssBasePath})['default']();
   `;
-};
+}

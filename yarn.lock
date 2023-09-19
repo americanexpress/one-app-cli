@@ -10,6 +10,81 @@
     abort-controller "^3.0.0"
     tough-cookie "^4.0.0"
 
+"@americanexpress/one-app-bundler@^6.21.1":
+  version "6.21.2"
+  resolved "https://registry.yarnpkg.com/@americanexpress/one-app-bundler/-/one-app-bundler-6.21.2.tgz#98f028cf1dfebbfbfd952f0724b577ada3d03d0c"
+  integrity sha512-+3Mu9ViEoO6XqtysvXdHv5gkPBo3Khbn5f6oScpQLTi7eBAphY40PgD/4gZfFv9t1nxdZab/gO8SjnU87GdrIw==
+  dependencies:
+    "@americanexpress/eslint-plugin-one-app" "^6.13.5"
+    "@americanexpress/one-app-dev-bundler" "^1.5.2"
+    "@americanexpress/one-app-locale-bundler" "^6.6.0"
+    "@americanexpress/purgecss-loader" "4.0.0"
+    "@babel/core" "^7.17.5"
+    "@babel/eslint-parser" "^7.17.0"
+    ajv "^6.7.0"
+    babel-loader "^8.0.6"
+    babel-preset-amex "^3.2.0"
+    chalk "^2.4.2"
+    core-js-compat "^3.4.2"
+    css-loader "3.4.2"
+    enhanced-resolve "^4.1.0"
+    eslint-loader "^4.0.2"
+    expose-loader "^0.7.5"
+    file-loader "^6.0.0"
+    folder-hash "^3.3.0"
+    glob "^7.1.3"
+    holocron-module-register-webpack-plugin "^1.2.3"
+    html-webpack-plugin "^4.5.2"
+    joi "^17.1.1"
+    loader-utils "^1.2.3"
+    lodash "^4.17.20"
+    mkdirp "^0.5.1"
+    read-pkg-up "^7.0.1"
+    rimraf "^3.0.2"
+    sass "^1.22.12"
+    sass-loader "^9.0.2"
+    source-map "^0.7.3"
+    ssri "^7.1.0"
+    style-loader "^1.0.0"
+    terser-webpack-plugin "^4.2.3"
+    url-loader "^4.1.0"
+    webpack "4.46.0"
+    webpack-custom-chunk-id-plugin "^1.0.3"
+    webpack-dynamic-public-path "^1.0.4"
+    webpack-merge "^4.2.1"
+    webpack-sources "^3.2.3"
+    webpack-subresource-integrity "^1.3.4"
+    yargs "^16.2.0"
+
+"@americanexpress/one-app-dev-bundler@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@americanexpress/one-app-dev-bundler/-/one-app-dev-bundler-1.5.2.tgz#99835d8f4fc8417d0b37c32d95d1cdcc739106b0"
+  integrity sha512-nuL/7Z7VZDeOSxgij4VDnxCgQ0/mzcjnsq3rbxysTTy0YPgD32R/O32MJrnDdbn4jWuSGxXLIhWXOISahsKmjw==
+  dependencies:
+    "@americanexpress/one-app-locale-bundler" "^6.6.0"
+    "@esbuild-plugins/node-globals-polyfill" "^0.1.1"
+    "@esbuild-plugins/node-modules-polyfill" "^0.2.2"
+    "@fal-works/esbuild-plugin-global-externals" "^2.1.2"
+    "@fullhuman/postcss-purgecss" "^3.0.0"
+    "@swc/core" "^1.2.196"
+    acorn "^8.8.0"
+    acorn-walk "^8.2.0"
+    chalk "^4.1.2"
+    cssnano "^5.1.15"
+    esbuild "^0.15.9"
+    esbuild-plugin-svgr "^1.0.1"
+    filesize "^9.0.1"
+    glob-all "^3.3.0"
+    lodash.snakecase "^4.1.1"
+    ms "^2.1.3"
+    postcss "^7.0.32"
+    postcss-modules "^3.2.2"
+    read-pkg-up "^9.0.0"
+    regenerator-runtime "^0.13.9"
+    sass "^1.54.8"
+    ssri "^7.1.0"
+    ws "^8.4.0"
+
 "@americanexpress/one-app-ducks@*", "@americanexpress/one-app-ducks@^4.1.1":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@americanexpress/one-app-ducks/-/one-app-ducks-4.3.3.tgz#ea3cf01157a2acaa447ad2959fa0016cc59aa7fd"
@@ -5852,7 +5927,7 @@ core-js-pure@^3.20.2, core-js-pure@^3.8.1:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.20.3.tgz#6cc4f36da06c61d95254efc54024fe4797fd5d02"
   integrity sha512-Q2H6tQ5MtPtcC7f3HxJ48i4Q7T9ybPKgvWyuH7JXIoNa2pm0KuBnycsET/qw1SLLZYfbsbrZQNMeIOClb+6WIA==
 
-core-js@^3.0.1, core-js@^3.2.1, core-js@^3.8.3:
+core-js@^3.0.1, core-js@^3.8.3:
   version "3.20.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.20.3.tgz#c710d0a676e684522f3db4ee84e5e18a9d11d69a"
   integrity sha512-vVl8j8ph6tRS3B8qir40H7yw7voy17xL0piAjlbBUsH7WIfzoedL/ZOr1OV9FyZQLWXsayOJyV4tnRyXR85/ag==
@@ -13724,7 +13799,7 @@ regenerate@^1.4.2:
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.2.tgz#b9346d8827e8f5a32f7ba29637d398b69014848a"
   integrity sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==
 
-regenerator-runtime@^0.13.3, regenerator-runtime@^0.13.4, regenerator-runtime@^0.13.7, regenerator-runtime@^0.13.9:
+regenerator-runtime@^0.13.4, regenerator-runtime@^0.13.7, regenerator-runtime@^0.13.9:
   version "0.13.9"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
   integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==

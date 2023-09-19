@@ -12,14 +12,14 @@
  * under the License.
  */
 
+import webpackConfig from '../../../webpack/module/webpack.server.js';
+import { validateWebpackConfig } from '../../../test-utils.js';
+
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 
 jest.mock('read-pkg-up', () => ({
-  sync: jest.fn(() => ({ packageJson: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
+  readPackageUpSync: jest.fn(() => ({ packageJson: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
 }));
-
-const webpackConfig = require('../../../webpack/module/webpack.server');
-const { validateWebpackConfig } = require('../../../test-utils');
 
 describe('webpack/module.server', () => {
   it('should export valid webpack config', () => {

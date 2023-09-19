@@ -33,6 +33,6 @@ export default function getCssBase(/* useSourceMap */) {
     push: push,
     getFullSheet: getFullSheet,
   };
-};
+}
 
 /* eslint-enable prefer-arrow-callback, object-shorthand -- disables require enables */

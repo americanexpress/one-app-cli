@@ -12,18 +12,10 @@
  * under the License.
  */
 
-const loaderUtils = require('loader-utils');
-const externalsLoader = require('../../../webpack/loaders/externals-loader');
-
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({
-    externalName: 'my-dependency',
-    bundleTarget: 'browser',
-  })),
-}));
+import unboundExternalsLoader from '../../../webpack/loaders/externals-loader.js';
 
 jest.mock('read-pkg-up', () => ({
-  sync: () => ({
+  readPackageUpSync: () => ({
     packageJson: {
       dependencies: {
         'my-dependency': '^1.0.0',
@@ -38,6 +30,19 @@ jest.mock('my-dependency/package.json', () => ({
 }), { virtual: true });
 
 describe('externals-loader', () => {
+  let externalsLoader;
+  let mockGetOptions;
+
+  beforeEach(() => {
+    mockGetOptions = jest.fn(() => ({
+      externalName: 'my-dependency',
+      bundleTarget: 'browser',
+    }));
+    externalsLoader = unboundExternalsLoader.bind({
+      getOptions: mockGetOptions,
+    });
+  });
+
   describe('when bundleTarget is browser', () => {
     it('does not include content, gets the dependency from root module', () => {
       const content = 'This is some content!';
@@ -55,7 +60,7 @@ describe('externals-loader', () => {
 
   describe('when bundleTarget is server', () => {
     it('does not include content, gets the dependency from root module', () => {
-      loaderUtils.getOptions.mockReturnValueOnce({
+      mockGetOptions.mockReturnValueOnce({
         externalName: 'my-dependency',
         bundleTarget: 'server',
       });
@@ -67,7 +72,7 @@ describe('externals-loader', () => {
     });
 
     it('requires Holocron', () => {
-      loaderUtils.getOptions.mockReturnValueOnce({
+      mockGetOptions.mockReturnValueOnce({
         externalName: 'my-dependency',
         bundleTarget: 'server',
       });

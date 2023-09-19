@@ -100,8 +100,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "overrides": {
-    "webpack": "5.88.2"
   }
 }

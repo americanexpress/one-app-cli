@@ -12,14 +12,23 @@
  * under the License.
  */
 
-const { sync } = require('read-pkg-up');
-const path = require('node:path');
-const { validateWebpackConfig } = require('../../../test-utils');
-const getConfigOptions = require('../../../utils/getConfigOptions');
-const configGenerator = require('../../../webpack/module/webpack.client');
+import { readPackageUpSync } from 'read-pkg-up';
+import path from 'node:path';
+import { validateWebpackConfig } from '../../../test-utils.js';
+import getConfigOptions from '../../../utils/getConfigOptions.js';
+import configGenerator from '../../../webpack/module/webpack.client.js';
 
 jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split(`${path.sep}__tests__`)[0]);
+
+jest.mock('read-pkg-up', () => ({
+  readPackageUpSync: jest.fn(() => ({
+    packageJson: {
+      name: 'package-name-mock',
+      version: '1.2.3-version-mock',
+    },
+  })),
+}));
 
 describe('webpack/module.client', () => {
   let originalNodeEnv;
@@ -82,7 +91,7 @@ describe('webpack/module.client', () => {
   });
 
   it('should append holocronModule with name', () => {
-    const { packageJson: { name } } = sync();
+    const { packageJson: { name } } = readPackageUpSync();
     const webpackConfig = configGenerator();
     expect(webpackConfig.output.library).toBe(`holocronModule_${name.replace(/-/g, '_')}`);
   });

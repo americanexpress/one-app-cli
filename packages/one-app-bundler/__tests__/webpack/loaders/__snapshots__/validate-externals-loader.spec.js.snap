@@ -8,8 +8,8 @@ export default SomeComponent;
 if (!global.BROWSER) {
   SomeComponent.appConfig = Object.assign({}, SomeComponent.appConfig, {
     requiredExternals: {
-      'ajv': '^6.7.0',
-      'lodash': '^4.17.20',
+      'ajv': '^8.12.0',
+      'lodash': '^4.17.21',
     },
   });
 }

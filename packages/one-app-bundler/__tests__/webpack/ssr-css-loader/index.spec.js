@@ -12,11 +12,17 @@
  * under the License.
  */
 
-const SSRCSSLoader = require('../../../webpack/loaders/ssr-css-loader');
+import SSRCSSLoader from '../../../webpack/loaders/ssr-css-loader/index.js';
 
 jest.mock('node:path', () => ({
   resolve: (dir, filename) => `/path/to/one-app-bundler/webpack/ssr-css-loader/${filename}`,
+  dirname: (dir) => `/dirname/for/${dir}`,
 }));
+jest.mock('node:url', () => ({
+  fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
+}));
+
+jest.mock('../../../utils/get-meta-url.mjs', () => () => 'metaUrlMock');
 
 describe('SSR CSS loader', () => {
   const consoleSpy = jest.spyOn(console, 'log');

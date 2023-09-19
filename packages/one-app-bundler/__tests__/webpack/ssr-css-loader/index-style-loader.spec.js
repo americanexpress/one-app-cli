@@ -12,11 +12,17 @@
  * under the License.
  */
 
-const indexStyleLoader = require('../../../webpack/loaders/ssr-css-loader/index-style-loader');
+import indexStyleLoader from '../../../webpack/loaders/ssr-css-loader/index-style-loader.js';
 
 jest.mock('node:path', () => ({
   resolve: (dir, filename) => `/path/to/one-app-bundler/webpack/ssr-css-loader/${filename}`,
+  dirname: (dir) => `/dirname/for/${dir}`,
 }));
+jest.mock('node:url', () => ({
+  fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
+}));
+
+jest.mock('../../../utils/get-meta-url.mjs', () => () => 'metaUrlMock');
 
 describe('index-style-loader', () => {
   it('should add an ssrStyles export', () => {

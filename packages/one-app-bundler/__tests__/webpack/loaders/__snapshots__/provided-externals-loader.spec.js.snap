@@ -11,7 +11,7 @@ MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
         ...{
   \\"fallbackEnabled\\": false
 },
-        version: '6.12.6',
+        version: '8.12.0',
         module: require('ajv'),
       }, 
 
@@ -43,7 +43,7 @@ MyComponent.appConfig = Object.assign({}, MyComponent.appConfig, {
         ...{
   \\"fallbackEnabled\\": false
 },
-        version: '6.12.6',
+        version: '8.12.0',
         module: require('ajv'),
       }, 
 

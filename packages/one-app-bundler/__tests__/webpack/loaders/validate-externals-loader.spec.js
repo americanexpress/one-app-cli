@@ -12,29 +12,30 @@
  * under the License.
  */
 
-const fs = require('node:fs');
-const readPkgUp = require('read-pkg-up');
-const validateExternalsLoader = require('../../../webpack/loaders/validate-required-externals-loader');
-
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ requiredExternals: ['ajv', 'lodash'] })),
-}));
+import fs from 'node:fs';
+import readPkgUp from 'read-pkg-up';
+import unboundValidateExternalsLoader from '../../../webpack/loaders/validate-required-externals-loader.js';
 
 jest.mock('read-pkg-up', () => ({
-  sync: jest.fn(),
+  readPackageUpSync: jest.fn(),
 }));
 
 jest.mock('node:fs');
 
 // eslint-disable-next-line global-require -- mocking readPkgUp needs us to require a json file
-readPkgUp.sync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
+readPkgUp.readPackageUpSync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
 
 fs.readFileSync = jest.fn(() => '{}');
 fs.writeFileSync = jest.fn();
 
 describe('validate-required-externals-loader', () => {
+  let validateExternalsLoader;
+
   beforeEach(() => {
     jest.clearAllMocks();
+    validateExternalsLoader = unboundValidateExternalsLoader.bind({
+      getOptions: jest.fn(() => ({ requiredExternals: ['ajv', 'lodash'] })),
+    });
   });
   it('should add versions for legacy server side validation on appConfig', () => {
     const content = `\
@@ -59,13 +60,13 @@ export default SomeComponent;
   \\"requiredExternals\\": {
     \\"ajv\\": {
       \\"name\\": \\"ajv\\",
-      \\"version\\": \\"6.12.6\\",
-      \\"semanticRange\\": \\"^6.7.0\\"
+      \\"version\\": \\"8.12.0\\",
+      \\"semanticRange\\": \\"^8.12.0\\"
     },
     \\"lodash\\": {
       \\"name\\": \\"lodash\\",
       \\"version\\": \\"4.17.21\\",
-      \\"semanticRange\\": \\"^4.17.20\\"
+      \\"semanticRange\\": \\"^4.17.21\\"
     }
   }
 }"

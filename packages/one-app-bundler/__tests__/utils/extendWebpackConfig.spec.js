@@ -11,18 +11,18 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-const webpack = require('webpack');
-const HolocronModuleRegisterPlugin = require('holocron-module-register-webpack-plugin');
+import webpack from 'webpack';
+import HolocronModuleRegisterPlugin from 'holocron-module-register-webpack-plugin';
 
-const extendWebpackConfig = require('../../utils/extendWebpackConfig');
-const getConfigOptions = require('../../utils/getConfigOptions');
-const getCliOptions = require('../../utils/getCliOptions');
+import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
+import getConfigOptions from '../../utils/getConfigOptions.js';
+import getCliOptions from '../../utils/getCliOptions.js';
 
 const mockOverridingHolocronModuleRegisterPlugin = () => new HolocronModuleRegisterPlugin('my-new-holocron-module');
 const mockOverridingWebpackDefinePlugin = () => new webpack.DefinePlugin({ 'global.BROWSER': JSON.stringify(true) });
 
-jest.mock('read-pkg-up', () => ({
-  sync: jest.fn(() => ({ pkg: { name: 'test-module', version: '1.0.0' } })),
+jest.mock('read-pkg-up', () => () => ({
+  readPackageUpSync: jest.fn(() => ({ pkg: { name: 'test-module', version: '1.0.0' } })),
 }));
 
 jest.mock('/path/webpack.config.js', () => ({
