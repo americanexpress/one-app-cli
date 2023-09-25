@@ -17,64 +17,58 @@ const path = require('node:path');
 const fs = require('node:fs');
 const Docker = require('dockerode');
 
-async function dockerPull(imageReference) {
+async function spawnAndPipe(command, args, logStream) {
   return new Promise((resolve, reject) => {
-    const pullProcess = spawn('docker', ['pull', imageReference]);
-    pullProcess.stdout.pipe(process.stdout);
-    pullProcess.stderr.pipe(process.stderr);
-    pullProcess.on('close', (code) => {
+    const spawnedProcess = spawn(command, args);
+
+    spawnedProcess.on('close', (code) => {
       if (code !== 0) {
         return reject(code);
       }
       return resolve(code);
     });
+
+    if (logStream) {
+      spawnedProcess.stdout.pipe(logStream, { end: false });
+      spawnedProcess.stderr.pipe(logStream, { end: false });
+    } else {
+      spawnedProcess.stdout.pipe(process.stdout);
+      spawnedProcess.stderr.pipe(process.stderr);
+    }
   });
+}
+
+async function dockerPull(imageReference, logStream) {
+  return spawnAndPipe('docker', ['pull', imageReference], logStream);
 }
 
 async function startAppContainer({
   imageReference,
   containerShellCommand,
-  ports=[],
-  envVars = new Map(),
-  mounts = new Map(),
+  ports /* = [] */,
+  envVars /* = new Map() */,
+  mounts /* = new Map() */,
   name,
   network,
-  outputFile,
+  logStream,
 }) {
-  return new Promise((resolve, reject) => {
-    const runProcess = spawn(
-      'docker',
-      [
-        'run',
-        '-t',
-        ...ports.map((port) => `-p=${port}:${port}`),
-        ...[...envVars.entries()].map(([envVarName, envVarValue]) => `-e=${envVarName}=${envVarValue}`),
-        ...[...mounts.entries()].map(([hostPath, containerPath]) => `-v=${hostPath}:${containerPath}`),
-        name ? `--name=${name}` : null,
-        network ? `--network=${network}` : null,
-        imageReference,
-        '/bin/sh',
-        '-c',
-        containerShellCommand,
-      ].filter(Boolean)
-    );
-
-    runProcess.on('close', (code) => {
-      if (code !== 0) {
-        return reject(code);
-      }
-      return resolve(code);
-    });
-
-    if (outputFile) {
-      const logFileStream = fs.createWriteStream(outputFile);
-      runProcess.stdout.pipe(logFileStream);
-      runProcess.stderr.pipe(logFileStream);
-    } else {
-      runProcess.stdout.pipe(process.stdout);
-      runProcess.stderr.pipe(process.stderr);
-    }
-  });
+  return spawnAndPipe(
+    'docker',
+    [
+      'run',
+      '-t',
+      ...ports.map((port) => `-p=${port}:${port}`),
+      ...[...envVars.entries()].map(([envVarName, envVarValue]) => `-e=${envVarName}=${envVarValue}`),
+      ...[...mounts.entries()].map(([hostPath, containerPath]) => `-v=${hostPath}:${containerPath}`),
+      name ? `--name=${name}` : null,
+      network ? `--network=${network}` : null,
+      imageReference,
+      '/bin/sh',
+      '-c',
+      containerShellCommand,
+    ].filter(Boolean),
+    logStream
+  );
 }
 
 function generateEnvironmentVariableArgs(envVars) {
@@ -210,9 +204,11 @@ module.exports = async function startApp({
     generateUseHostFlag()
   }`;
 
+  const logFileStream = outputFile ? fs.createWriteStream(outputFile) : null;
+
   try {
     if (!offline) {
-      await dockerPull(appDockerImage);
+      await dockerPull(appDockerImage, logFileStream);
     }
     await startAppContainer({
       imageReference: appDockerImage,
@@ -222,13 +218,17 @@ module.exports = async function startApp({
       containerShellCommand,
       name: containerName,
       network: dockerNetworkToJoin,
-      outputFile,
+      logStream: logFileStream,
     });
   } catch (error) {
     throw new Error(
       'Error running docker. Are you sure you have it installed? For installation and setup details see https://www.docker.com/products/docker-desktop',
       { cause: error }
     );
+  } finally {
+    if (logFileStream) {
+      logFileStream.end();
+    }
   }
 
   [
