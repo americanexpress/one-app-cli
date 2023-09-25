@@ -177,7 +177,7 @@ module.exports = async function startApp({
   const containerEnvVars = generateEnvironmentVariableArgs(envVars);
 
   const mounts = new Map([
-    ...(modulesToServe || []).map((currentValue) => [currentValue, `/opt/module-workspace/${path.basename(currentValue)}`]),
+    ...(modulesToServe || []).map((moduleToServe) => [moduleToServe, `/opt/module-workspace/${path.basename(moduleToServe)}`]),
   ]);
 
   const hostNodeExtraCaCerts = envVars.NODE_EXTRA_CA_CERTS || process.env.NODE_EXTRA_CA_CERTS;
