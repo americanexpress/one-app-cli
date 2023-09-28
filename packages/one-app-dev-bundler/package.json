@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-dev-bundler",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "A development bundler focussed on speed and modern features.",
   "main": "index.js",
   "bin": {
