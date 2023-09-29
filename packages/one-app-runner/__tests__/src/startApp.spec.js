@@ -372,7 +372,7 @@ describe('startApp', () => {
     );
   });
 
-  it('ensures the user\s One App directory exists', async () => {
+  it('ensures the user\'s One App directory exists', async () => {
     expect.assertions(1);
 
     const mockSpawn = makeMockSpawn();
@@ -386,7 +386,7 @@ describe('startApp', () => {
     expect(fs.promises.mkdir.mock.calls[0]).toEqual(['/home/user/.one-app']);
   });
 
-  it('mounts the user\s One App directory', async () => {
+  it('mounts the user\'s One App directory', async () => {
     expect.assertions(1);
 
     const mockSpawn = makeMockSpawn();
@@ -402,7 +402,7 @@ describe('startApp', () => {
     ]);
   });
 
-  it('shows a warning when there was an error creating the user\s One App directory', async () => {
+  it('shows a warning when there was an error creating the user\'s One App directory', async () => {
     expect.assertions(2);
 
     const mockSpawn = makeMockSpawn();
@@ -432,7 +432,7 @@ describe('startApp', () => {
     `);
   });
 
-  it('does not mount the user\s One App directory when there was an error creating it', async () => {
+  it('does not mount the user\'s One App directory when there was an error creating it', async () => {
     expect.assertions(1);
 
     const mockSpawn = makeMockSpawn();
@@ -456,7 +456,7 @@ describe('startApp', () => {
     expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v=/home/user/.one-app'))).toEqual([]);
   });
 
-  it('does not show a warning when the user\s One App directory already exists', async () => {
+  it('does not show a warning when the user\'s One App directory already exists', async () => {
     expect.assertions(1);
 
     const mockSpawn = makeMockSpawn();
@@ -481,7 +481,7 @@ describe('startApp', () => {
     expect(console.warn).not.toHaveBeenCalled();
   });
 
-  it('mounts the user\s One App directory when it already exists', async () => {
+  it('mounts the user\'s One App directory when it already exists', async () => {
     expect.assertions(1);
 
     const mockSpawn = makeMockSpawn();
