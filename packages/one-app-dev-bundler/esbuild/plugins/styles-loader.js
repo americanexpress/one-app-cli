@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import * as sass from 'sass';
+import { compile as sassCompile } from 'sass';
 import postcss from 'postcss';
 import cssModules from 'postcss-modules';
 import crypto from 'crypto';
@@ -40,7 +40,7 @@ const stylesLoader = (cssModulesOptions = {}, { bundleType } = {}) => ({
       // Compile scss to css
       let cssContent;
       if (args.path.endsWith('scss')) {
-        cssContent = sass.compile(args.path, { loadPaths: ['./node_modules'] }).css.toString();
+        cssContent = sassCompile(args.path, { loadPaths: ['./node_modules'] }).css.toString();
       } else {
         cssContent = await fs.promises.readFile(args.path, 'utf8');
       }
