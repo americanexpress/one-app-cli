@@ -17,6 +17,7 @@ const path = require('node:path');
 const fs = require('node:fs');
 const childProcess = require('child_process');
 const { Writable } = require('node:stream');
+const os = require('node:os');
 const Docker = require('dockerode');
 const makeMockSpawn = require('mock-spawn');
 const startApp = require('../../src/startApp');
@@ -30,6 +31,9 @@ describe('startApp', () => {
   const createWriteStreamSpy = jest.spyOn(fs, 'createWriteStream');
   const stdoutSpy = jest.spyOn(process.stdout, 'write');
   const stderrSpy = jest.spyOn(process.stderr, 'write');
+  jest.spyOn(fs.promises, 'mkdir');
+  jest.spyOn(os, 'homedir');
+  jest.spyOn(console, 'warn');
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -42,6 +46,9 @@ describe('startApp', () => {
     delete process.env.HTTP_METRICS_PORT;
     delete process.env.NODE_EXTRA_CA_CERTS;
     delete process.env.HTTP_ONE_APP_DEBUG_PORT;
+
+    os.homedir.mockImplementation(() => '/home/user');
+    fs.promises.mkdir.mockImplementation(() => {});
   });
 
   it('pulls one app docker image and starts one app', async () => {
@@ -67,12 +74,13 @@ describe('startApp', () => {
         "-p=3005:3005",
         "-p=9229:9229",
         "-e=NODE_ENV=development",
+        "-v=/home/user/.one-app:/home/node/.one-app",
         "one-app:5.0.0",
         "/bin/sh",
         "-c",
         "   node  lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  ",
       ]
-      `);
+    `);
   });
 
   it('runs docker run with environment variables', async () => {
@@ -128,6 +136,7 @@ describe('startApp', () => {
     expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v'))).toEqual([
       '-v=/path/to/module-a:/opt/module-workspace/module-a',
       '-v=/path/to-module-b:/opt/module-workspace/to-module-b',
+      '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot(
       '"npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' &&   node  lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  "'
@@ -144,6 +153,7 @@ describe('startApp', () => {
     expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v'))).toEqual([
       '-v=/path/to/module-a:/opt/module-workspace/module-a',
       '-v=/path/to-module-b:/opt/module-workspace/to-module-b',
+      '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot(
       '"npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' &&   node  lib/server/index.js --root-module-name=frank-lloyd-root   "'
@@ -315,6 +325,7 @@ describe('startApp', () => {
     ]);
     expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v='))).toEqual([
       '-v=/process/env/location/extra_certs.pem:/opt/certs.pem',
+      '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
   });
 
@@ -331,6 +342,7 @@ describe('startApp', () => {
     ]);
     expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v='))).toEqual([
       '-v=/envVar/location/cert.pem:/opt/certs.pem',
+      '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
   });
 
@@ -358,5 +370,140 @@ describe('startApp', () => {
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
       '--inspect=0.0.0.0:9221'
     );
+  });
+
+  it('ensures the user\s One App directory exists', async () => {
+    expect.assertions(1);
+
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json',
+      rootModuleName: 'frank-lloyd-root',
+      appDockerImage: 'one-app:5.0.0',
+      modulesToServe: ['/path/to/module-a'],
+    });
+    expect(fs.promises.mkdir.mock.calls[0]).toEqual(['/home/user/.one-app']);
+  });
+
+  it('mounts the user\s One App directory', async () => {
+    expect.assertions(1);
+
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json',
+      rootModuleName: 'frank-lloyd-root',
+      appDockerImage: 'one-app:5.0.0',
+      modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v=/home/user/.one-app'))).toEqual([
+      '-v=/home/user/.one-app:/home/node/.one-app',
+    ]);
+  });
+
+  it('shows a warning when there was an error creating the user\s One App directory', async () => {
+    expect.assertions(2);
+
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    fs.promises.mkdir.mockImplementation(() => {
+      throw Object.assign(
+        new Error('EROFS: read-only file system, mkdir \'/home/user/.one-app\''),
+        {
+          errno: -30,
+          code: 'EROFS',
+          syscall: 'mkdir',
+          path: '/home/user/.one-app',
+        });
+    });
+    console.warn.mockClear();
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json',
+      rootModuleName: 'frank-lloyd-root',
+      appDockerImage: 'one-app:5.0.0',
+      modulesToServe: ['/path/to/module-a'],
+    });
+    expect(console.warn).toHaveBeenCalled();
+    expect(console.warn.mock.calls[0]).toMatchInlineSnapshot(`
+      Array [
+        "Unable to ensure ~/.one-app exists, the module cache will not be used (EROFS: read-only file system, mkdir '/home/user/.one-app')",
+      ]
+    `);
+  });
+
+  it('does not mount the user\s One App directory when there was an error creating it', async () => {
+    expect.assertions(1);
+
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    fs.promises.mkdir.mockImplementation(() => {
+      throw Object.assign(
+        new Error('EROFS: read-only file system, mkdir \'/home/user/.one-app\''),
+        {
+          errno: -30,
+          code: 'EROFS',
+          syscall: 'mkdir',
+          path: '/home/user/.one-app',
+        });
+    });
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json',
+      rootModuleName: 'frank-lloyd-root',
+      appDockerImage: 'one-app:5.0.0',
+      modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v=/home/user/.one-app'))).toEqual([]);
+  });
+
+  it('does not show a warning when the user\s One App directory already exists', async () => {
+    expect.assertions(1);
+
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    fs.promises.mkdir.mockImplementation(() => {
+      throw Object.assign(
+        new Error('EEXIST: file already exists, mkdir \'/home/user/.one-app\''),
+        {
+          errno: -17,
+          code: 'EEXIST',
+          syscall: 'mkdir',
+          path: '/home/user/.one-app',
+        });
+    });
+    console.warn.mockClear();
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json',
+      rootModuleName: 'frank-lloyd-root',
+      appDockerImage: 'one-app:5.0.0',
+      modulesToServe: ['/path/to/module-a'],
+    });
+    expect(console.warn).not.toHaveBeenCalled();
+  });
+
+  it('mounts the user\s One App directory when it already exists', async () => {
+    expect.assertions(1);
+
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    fs.promises.mkdir.mockImplementation(() => {
+      throw Object.assign(
+        new Error('EEXIST: file already exists, mkdir \'/home/user/.one-app\''),
+        {
+          errno: -17,
+          code: 'EEXIST',
+          syscall: 'mkdir',
+          path: '/home/user/.one-app',
+        });
+    });
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json',
+      rootModuleName: 'frank-lloyd-root',
+      appDockerImage: 'one-app:5.0.0',
+      modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-v=/home/user/.one-app'))).toEqual([
+      '-v=/home/user/.one-app:/home/node/.one-app',
+    ]);
   });
 });

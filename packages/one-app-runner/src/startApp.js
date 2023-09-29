@@ -15,6 +15,7 @@
 const { spawn } = require('child_process');
 const path = require('node:path');
 const fs = require('node:fs');
+const os = require('node:os');
 const Docker = require('dockerode');
 
 async function spawnAndPipe(command, args, logStream) {
@@ -205,6 +206,17 @@ module.exports = async function startApp({
   }`;
 
   const logFileStream = outputFile ? fs.createWriteStream(outputFile) : null;
+
+  const hostOneAppDirectoryPath = path.resolve(os.homedir(), '.one-app');
+  mounts.set(hostOneAppDirectoryPath, '/home/node/.one-app');
+  try {
+    await fs.promises.mkdir(hostOneAppDirectoryPath);
+  } catch (errorCreatingOneAppDirectory) {
+    if (errorCreatingOneAppDirectory.code !== 'EEXIST') {
+      mounts.delete(hostOneAppDirectoryPath);
+      console.warn(`Unable to ensure ~/.one-app exists, the module cache will not be used (${errorCreatingOneAppDirectory.message})`);
+    }
+  }
 
   try {
     if (!offline) {
