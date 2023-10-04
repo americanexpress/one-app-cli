@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.4](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.3...@americanexpress/one-app-dev-bundler@1.5.4) (2023-10-04)
+
+
+### Bug Fixes
+
+* **one-app-dev-bundler:** sass style loader ([#577](https://github.com/americanexpress/one-app-cli/issues/577)) ([6559915](https://github.com/americanexpress/one-app-cli/commit/655991594a5161afce533e5966c5ad77fc7774f1))
+
+
+
+
+
 ## [1.5.3](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.2...@americanexpress/one-app-dev-bundler@1.5.3) (2023-09-28)
 
 

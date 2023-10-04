@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.21.4](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.3...@americanexpress/one-app-bundler@6.21.4) (2023-10-04)
+
+**Note:** Version bump only for package @americanexpress/one-app-bundler
+
+
+
+
+
 ## [6.21.3](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.2...@americanexpress/one-app-bundler@6.21.3) (2023-09-28)
 
 **Note:** Version bump only for package @americanexpress/one-app-bundler
