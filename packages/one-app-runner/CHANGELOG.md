@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.16.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.15.0...@americanexpress/one-app-runner@6.16.0) (2023-10-03)
+
+
+### Bug Fixes
+
+* **one-app-runner:** avoid shell usage ([#569](https://github.com/americanexpress/one-app-cli/issues/569)) ([c2bdd0b](https://github.com/americanexpress/one-app-cli/commit/c2bdd0b8ee03cdc5f2a304cd307216a7beae8f00))
+
+
+### Features
+
+* **one-app-runner:** mount ~/.one-app to enable module cache persistence ([43b204f](https://github.com/americanexpress/one-app-cli/commit/43b204f17c144a46f727cf9d795280092e962fee))
+
+
+
+
+
 # [6.15.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.14.7...@americanexpress/one-app-runner@6.15.0) (2023-09-14)
 
 
