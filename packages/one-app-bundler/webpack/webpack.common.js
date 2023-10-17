@@ -15,10 +15,9 @@
 /**
  * Webpack Base Configuration
  */
-
-const webpack = require('webpack');
-const TerserPlugin = require('terser-webpack-plugin');
-const validateNodeEnvironment = require('../utils/validateNodeEnv');
+import webpack from 'webpack';
+import TerserPlugin from 'terser-webpack-plugin';
+import validateNodeEnvironment from '../utils/validateNodeEnv.js';
 
 validateNodeEnvironment();
 
@@ -38,7 +37,7 @@ const plugins = [
   ...nodeEnvironmentIsProduction ? productionPlugins : [],
 ];
 
-module.exports = {
+export default {
   profile: true,
   devtool: nodeEnvironmentIsProduction ? false : 'source-map',
   optimization: {

@@ -5,7 +5,7 @@ exports[`externals-loader when bundleTarget is browser does not include content,
   const Holocron = global.Holocron;
   const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
     name: 'my-dependency',
-    version: '1.2.3'
+    version: '1.2.3-version-mock'
   });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['my-dependency'];
 
@@ -30,7 +30,7 @@ exports[`externals-loader when bundleTarget is server does not include content, 
   const Holocron = require(\\"holocron\\");
   const fallbackExternal = Holocron.getExternal && Holocron.getExternal({
     name: 'my-dependency',
-    version: '1.2.3'
+    version: '1.2.3-version-mock'
   });
   const rootModuleExternal = global.getTenantRootModule && global.getTenantRootModule().appConfig.providedExternals['my-dependency'];
 

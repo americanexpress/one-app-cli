@@ -19,7 +19,10 @@ jest.mock('@americanexpress/one-app-dev-bundler', () => ({
   devBuildModule: async () => undefined,
   bundleExternalFallbacks: async () => undefined,
 }));
-jest.mock('../../bin/webpack-bundle-module', () => jest.fn());
+
+jest.mock('../../bin/webpack-bundle-module', () => ({
+  webpackBundleModule: jest.fn(),
+}));
 
 jest.spyOn(console, 'info');
 

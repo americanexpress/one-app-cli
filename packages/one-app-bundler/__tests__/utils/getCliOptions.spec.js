@@ -12,10 +12,7 @@
  * under the License.
  */
 
-/* eslint-disable global-require --
-testing `on import` functionality needs 'require' in every tests */
-
-jest.mock('read-pkg-up', () => ({ sync: jest.fn(() => ({ pkg: {} })) }));
+jest.mock('read-pkg-up', () => () => ({ readPackageUpSync: jest.fn(() => ({ pkg: {} })) }));
 
 describe('getCliOptions', () => {
   const originalArgv = process.argv;
@@ -28,17 +25,17 @@ describe('getCliOptions', () => {
     process.argv = originalArgv;
   });
 
-  it('should set watch to true when the flag is included', () => {
+  it('should set watch to true when the flag is included', async () => {
+    expect.assertions(1);
     process.argv = ['bundle-module', ' ', '--watch'];
-    const getCliOptions = require('../../utils/getCliOptions');
+    const getCliOptions = (await import('../../utils/getCliOptions.js')).default;
     expect(getCliOptions()).toMatchObject({ watch: true });
   });
 
-  it('should set watch to false when the flag is not included', () => {
+  it('should set watch to false when the flag is not included', async () => {
+    expect.assertions(1);
     process.argv = ['bundle-module'];
-    const getCliOptions = require('../../utils/getCliOptions');
+    const getCliOptions = (await import('../../utils/getCliOptions.js')).default;
     expect(getCliOptions()).toMatchObject({ watch: false });
   });
 });
-
-/* eslint-enable global-require -- disables require enables */

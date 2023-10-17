@@ -12,46 +12,54 @@
  * under the License.
  */
 
-const fs = require('node:fs');
-const readPkgUp = require('read-pkg-up');
-const validateExternalsLoader = require('../../../webpack/loaders/validate-required-externals-loader');
-
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ requiredExternals: ['ajv', 'lodash'] })),
-}));
+import fs from 'node:fs';
+import readPkgUp from 'read-pkg-up';
+import unboundValidateExternalsLoader from '../../../webpack/loaders/validate-required-externals-loader.js';
 
 jest.mock('read-pkg-up', () => ({
-  sync: jest.fn(),
+  readPackageUpSync: jest.fn(),
 }));
+
+jest.mock('../../../utils/loadExternalsPackageJson.js', () => jest.fn((externalName) => ({
+  name: externalName,
+  version: '1.2.3-version-mock',
+})));
 
 jest.mock('node:fs');
 
 // eslint-disable-next-line global-require -- mocking readPkgUp needs us to require a json file
-readPkgUp.sync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
+readPkgUp.readPackageUpSync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
 
 fs.readFileSync = jest.fn(() => '{}');
 fs.writeFileSync = jest.fn();
 
 describe('validate-required-externals-loader', () => {
+  let validateExternalsLoader;
+
   beforeEach(() => {
     jest.clearAllMocks();
+    validateExternalsLoader = unboundValidateExternalsLoader.bind({
+      getOptions: jest.fn(() => ({ requiredExternals: ['ajv', 'lodash'] })),
+    });
   });
-  it('should add versions for legacy server side validation on appConfig', () => {
+  it('should add versions for legacy server side validation on appConfig', async () => {
+    expect.assertions(1);
     const content = `\
 import SomeComponent from './SomeComponent';
 
 export default SomeComponent;
 `;
-    expect(validateExternalsLoader(content)).toMatchSnapshot();
+    expect(await validateExternalsLoader(content)).toMatchSnapshot();
   });
 
-  it('adds modules required externals to module-config.json file', () => {
+  it('adds modules required externals to module-config.json file', async () => {
+    expect.assertions(2);
     const content = `\
 import SomeComponent from './SomeComponent';
 
 export default SomeComponent;
 `;
-    validateExternalsLoader(content);
+    await validateExternalsLoader(content);
     const [moduleConfigPath, moduleConfig] = fs.writeFileSync.mock.calls[0];
     expect(moduleConfigPath).toMatch('module-config.json');
     expect(moduleConfig).toMatchInlineSnapshot(`
@@ -59,39 +67,48 @@ export default SomeComponent;
   \\"requiredExternals\\": {
     \\"ajv\\": {
       \\"name\\": \\"ajv\\",
-      \\"version\\": \\"6.12.6\\",
-      \\"semanticRange\\": \\"^6.7.0\\"
+      \\"version\\": \\"1.2.3-version-mock\\",
+      \\"semanticRange\\": \\"^8.12.0\\"
     },
     \\"lodash\\": {
       \\"name\\": \\"lodash\\",
-      \\"version\\": \\"4.17.21\\",
-      \\"semanticRange\\": \\"^4.17.20\\"
+      \\"version\\": \\"1.2.3-version-mock\\",
+      \\"semanticRange\\": \\"^4.17.21\\"
     }
   }
 }"
 `);
   });
 
-  it('should throw an error when the wrong syntax is used - export from', () => {
+  it('should throw an error when the wrong syntax is used - export from', async () => {
+    expect.assertions(1);
     const content = `\
 export default from './components/MyComponent';
 `;
-    expect(() => validateExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    await expect(
+      async () => validateExternalsLoader(content)
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('should throw an error when the wrong syntax is used - module.exports', () => {
+  it('should throw an error when the wrong syntax is used - module.exports', async () => {
+    expect.assertions(1);
     const content = `\
 module.exports = require('./components/MyComponent');
 `;
-    expect(() => validateExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    await expect(
+      async () => validateExternalsLoader(content)
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  it('should throw an error when the wrong syntax is used - export default hoc()', () => {
+  it('should throw an error when the wrong syntax is used - export default hoc()', async () => {
+    expect.assertions(1);
     const content = `\
 import SomeComponent from './SomeComponent';
 
 export default hocChain(SomeComponent);
 `;
-    expect(() => validateExternalsLoader(content)).toThrowErrorMatchingSnapshot();
+    await expect(
+      async () => validateExternalsLoader(content)
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

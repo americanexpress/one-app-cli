@@ -11,18 +11,21 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-const crypto = require('crypto');
+
+import crypto from 'crypto';
 
 const createHashSpy = jest.spyOn(crypto, 'createHash');
 
 describe('patchedCryptoHash', () => {
-  it('should replace md4 with sha256 as default hash algo', () => {
-    require('../../utils/patchedCryptoHash');
+  it('should replace md4 with sha256 as default hash algo', async () => {
+    expect.assertions(1);
+    await import('../../utils/patchedCryptoHash');
     crypto.createHash('md4');
     expect(createHashSpy).toHaveBeenCalledWith('sha256');
   });
-  it('should keep hash if different than md4', () => {
-    require('../../utils/patchedCryptoHash');
+  it('should keep hash if different than md4', async () => {
+    expect.assertions(1);
+    await import('../../utils/patchedCryptoHash');
     crypto.createHash('sha512');
     expect(createHashSpy).toHaveBeenCalledWith('sha512');
   });

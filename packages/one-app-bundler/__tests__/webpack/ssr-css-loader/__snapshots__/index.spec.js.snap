@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 1'] = '""';
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 1`] = `""`;
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 2'] = '""';
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 2`] = `""`;
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 3'] = '""';
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 3`] = `""`;
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 4'] = '""';
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 4`] = `""`;
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 5'] = `
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 5`] = `
 "
       // Imports
       
       // Module
-      require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/css-base.js\\")().push([module.i, \\".my-root__ErrorLayout__ErrorLayout___2B91F {
+      require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/../webpack/loaders/ssr-css-loader/css-base.js\\").default().push([module.i, \\".my-root__ErrorLayout__ErrorLayout___2B91F {
   margin: 0 auto;
 }
 
@@ -24,24 +24,24 @@ exports['SSR CSS loader should remove css-loader\'s css-base, replace its push a
   padding: 10px;
 }\\", \\"\\"]);
       // Exports
-      exports = module.exports = {
+      ___CSS_LOADER_EXPORT___ = {
       	\\"ErrorLayout\\": \\"my-root__ErrorLayout__ErrorLayout___2B91F\\",
       	\\"main\\": \\"my-root__ErrorLayout__main___2IftH\\"
       };
-      module.exports = exports;
+      export ___CSS_LOADER_EXPORT___;
     "
 `;
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 6'] = '""';
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 6`] = `""`;
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 7'] = '""';
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 7`] = `""`;
 
-exports['SSR CSS loader should remove css-loader\'s css-base, replace its push and export the locals 8'] = `
+exports[`SSR CSS loader should remove css-loader's css-base, replace its push and export the locals 8`] = `
 "
       // Imports
       
       // Module
-      require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/css-base.js\\")().push([module.i, \\".my-root__ErrorLayout__ErrorLayout___2B91F {
+      require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/../webpack/loaders/ssr-css-loader/css-base.js\\").default().push([module.i, \\".my-root__ErrorLayout__ErrorLayout___2B91F {
   margin: 0 auto;
 }
 
@@ -52,39 +52,39 @@ exports['SSR CSS loader should remove css-loader\'s css-base, replace its push a
   padding: 10px;
 }\\", \\"\\"]);
       // Exports
-      exports = module.exports = {
+      ___CSS_LOADER_EXPORT___ = {
       	\\"ErrorLayout\\": \\"my-root__ErrorLayout__ErrorLayout___2B91F\\",
       	\\"main\\": \\"my-root__ErrorLayout__main___2IftH\\"
       };
-      module.exports = exports;
+      export ___CSS_LOADER_EXPORT___;
     "
 `;
 
-exports['SSR CSS loader should throw an error when the css-loader is not present 1'] = `
+exports[`SSR CSS loader should throw an error when the css-loader is not present 1`] = `
 "could not find the css-loader in
 no css-loader here!"
 `;
 
-exports['SSR CSS loader should throw an error when the css-loader is not present 2'] = `
+exports[`SSR CSS loader should throw an error when the css-loader is not present 2`] = `
 "could not find the css-loader in
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! css-loader/dist/runtime/api.js */ \\"css-loader/dist/runtime/api.js\\");
-    exports = ___CSS_LOADER_API_IMPORT___();"
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___();"
 `;
 
-exports['SSR CSS loader should throw an error when the css-loader is not present 3'] = `
+exports[`SSR CSS loader should throw an error when the css-loader is not present 3`] = `
 "could not find the css-loader in
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ \\"../../css-loader/dist/runtime/api.js\\");
-    exports = ___CSS_LOADER_API_IMPORT___(true);"
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(true);"
 `;
 
-exports['SSR CSS loader should throw an error when the css-loader is not present 4'] = `
+exports[`SSR CSS loader should throw an error when the css-loader is not present 4`] = `
 "could not find the css-loader in
 
     // Imports
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../see-ess-ess-loader/lib/see-ess-ess-base.js */ \\"../../see-ess-ess-loader/lib/see-ess-ess-base.js\\");
-    exports = ___CSS_LOADER_API_IMPORT___(undefined);
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(undefined);
     // Module
-    exports.push([module.i, \\".my-root__ErrorLayout__ErrorLayout___2B91F {
+    ___CSS_LOADER_EXPORT___.push([module.i, \\".my-root__ErrorLayout__ErrorLayout___2B91F {
   margin: 0 auto;
 }
 
@@ -95,10 +95,10 @@ exports['SSR CSS loader should throw an error when the css-loader is not present
   padding: 10px;
 }\\", \\"\\"]);
     // Exports
-    exports.locals = {
+    ___CSS_LOADER_EXPORT___.locals = {
     	\\"ErrorLayout\\": \\"my-root__ErrorLayout__ErrorLayout___2B91F\\",
     	\\"main\\": \\"my-root__ErrorLayout__main___2IftH\\"
     };
-    module.exports = exports;
+    export ___CSS_LOADER_EXPORT___;
     "
 `;

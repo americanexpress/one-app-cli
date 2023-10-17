@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 American Express Travel Related Services Company, Inc.
+ * Copyright 2023 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -12,8 +12,11 @@
  * under the License.
  */
 
-const watch = process.argv.includes('--watch');
-const options = { watch };
+function publicPathLoader(content) {
+  const options = this.getOptions();
+  console.log(content, options);
+  return `__webpack_public_path__ = ${options.externalPublicPath};
+${content}`;
+}
 
-const getCliOptions = () => options;
-export default getCliOptions;
+export default publicPathLoader;

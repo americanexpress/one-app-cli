@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const getCssBase = require('../../../webpack/loaders/ssr-css-loader/css-base');
+import getCssBase from '../../../webpack/loaders/ssr-css-loader/css-base.js';
 
 describe('CSS base', () => {
   it('should return a function that returns an object of functions', () => {

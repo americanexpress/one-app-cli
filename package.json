@@ -26,6 +26,7 @@
     "lerna:publish": "lerna publish from-package --yes"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-import-assertions": "^7.22.5",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@testing-library/jest-dom": "5.0.0",

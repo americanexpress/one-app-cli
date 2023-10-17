@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validate-required-externals-loader should prefix the file content with an assignment to the webpack public path variable 1`] = `
+"__webpack_public_path__ = exampleValue['module-name-root'].baseUrl;
+import SomeComponent from './SomeComponent';
+
+export default SomeComponent;
+"
+`;
+
+exports[`validate-required-externals-loader should prefix the file content with an assignment to the webpack public path variable 2`] = `
+"__webpack_public_path__ = exampleValue['module-name-root'].baseUrl;
+"
+`;

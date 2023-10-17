@@ -12,23 +12,24 @@
  * under the License.
  */
 
-const fs = require('node:fs');
-const path = require('node:path');
-const loaderUtils = require('loader-utils');
-const readPkgUp = require('read-pkg-up');
+import fs from 'node:fs';
 
-function validateRequiredExternalsLoader(content) {
-  const options = loaderUtils.getOptions(this);
-  const { packageJson } = readPkgUp.sync();
+import path from 'node:path';
+
+import { readPackageUpSync } from 'read-pkg-up';
+import loadExternalsPackageJson from '../../utils/loadExternalsPackageJson.js';
+
+async function validateRequiredExternalsLoader(content) {
+  const options = this.getOptions();
+  const { packageJson } = readPackageUpSync();
   const integrityManifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), 'utf-8'));
 
-  const requiredExternals = options.requiredExternals.reduce((obj, externalName) => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-    const { version } = require(`${externalName}/package.json`);
+  const requiredExternals = await options.requiredExternals.reduce(async (obj, externalName) => {
+    const { version } = await loadExternalsPackageJson(externalName);
     const semanticRange = packageJson.dependencies[externalName];
 
     return {
-      ...obj,
+      ...await obj,
       [externalName]: {
         name: externalName,
         version,
@@ -36,7 +37,7 @@ function validateRequiredExternalsLoader(content) {
         integrity: integrityManifest[externalName],
       },
     };
-  }, {});
+  }, Promise.resolve({}));
 
   // NOTE: This is required to keep backwards compatibility with older versions of one-app
   const legacyRequiredExternals = options.requiredExternals.map((externalName) => {
@@ -65,8 +66,8 @@ if (!global.BROWSER) {
 
     return newContent;
   }
-
+  console.log('MRP 1', content);
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use requiredExternals');
 }
 
-module.exports = validateRequiredExternalsLoader;
+export default validateRequiredExternalsLoader;

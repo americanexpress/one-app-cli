@@ -1,0 +1,8 @@
+{
+  "extends": "amex",
+  "rules": {
+    "no-console": 0,
+    "import/extensions": 0, // ECMAscript modules explicitly require all extensions for relative imports
+    "unicorn/import-index": 0 // ECMAscript modules explicitly require no folder imports
+  }
+}

@@ -12,15 +12,14 @@
  * under the License.
  */
 
-const loaderUtils = require('loader-utils');
+import loadExternalsPackageJson from '../../utils/loadExternalsPackageJson.js';
 
-function providedExternalsLoader(content) {
-  const { moduleName, providedExternals } = loaderUtils.getOptions(this);
+async function providedExternalsLoader(content) {
+  const { moduleName, providedExternals } = this.getOptions();
 
-  const extendedProvidedExternals = (Array.isArray(providedExternals)
-    ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-    const externalPkg = require(`${externalName}/package.json`);
+  const extendedProvidedExternals = await Promise.all((Array.isArray(providedExternals)
+    ? providedExternals : Object.keys(providedExternals)).map(async (externalName) => {
+    const externalPkg = await loadExternalsPackageJson(externalName);
 
     return `
       '${externalName}': {
@@ -31,7 +30,7 @@ function providedExternalsLoader(content) {
         version: '${externalPkg.version}',
         module: require('${externalName}'),
       }`;
-  }, {});
+  }, {}));
 
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
@@ -56,4 +55,4 @@ global.rootModuleName = '${moduleName}';
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use providedExternals');
 }
 
-module.exports = providedExternalsLoader;
+export default providedExternalsLoader;

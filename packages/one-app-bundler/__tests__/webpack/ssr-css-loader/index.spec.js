@@ -12,11 +12,17 @@
  * under the License.
  */
 
-const SSRCSSLoader = require('../../../webpack/loaders/ssr-css-loader');
+import SSRCSSLoader from '../../../webpack/loaders/ssr-css-loader/index.js';
 
 jest.mock('node:path', () => ({
   resolve: (dir, filename) => `/path/to/one-app-bundler/webpack/ssr-css-loader/${filename}`,
+  dirname: (dir) => `/dirname/for/${dir}`,
 }));
+jest.mock('node:url', () => ({
+  fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
+}));
+
+jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
 
 describe('SSR CSS loader', () => {
   const consoleSpy = jest.spyOn(console, 'log');
@@ -26,62 +32,62 @@ describe('SSR CSS loader', () => {
   it('should throw an error when the css-loader is not present', () => {
     expect(() => SSRCSSLoader('no css-loader here!')).toThrowErrorMatchingSnapshot();
     expect(() => SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! css-loader/dist/runtime/api.js */ "css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___();`)).toThrowErrorMatchingSnapshot();
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___();`)).toThrowErrorMatchingSnapshot();
     expect(() => SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "../../css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___(true);`)).toThrowErrorMatchingSnapshot();
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(true);`)).toThrowErrorMatchingSnapshot();
     expect(() => SSRCSSLoader(`
     // Imports
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../see-ess-ess-loader/lib/see-ess-ess-base.js */ "../../see-ess-ess-loader/lib/see-ess-ess-base.js");
-    exports = ___CSS_LOADER_API_IMPORT___(undefined);
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(undefined);
     // Module
-    exports.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
+    ___CSS_LOADER_EXPORT___.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
     // Exports
-    exports.locals = {
+    ___CSS_LOADER_EXPORT___.locals = {
     \t"ErrorLayout": "my-root__ErrorLayout__ErrorLayout___2B91F",
     \t"main": "my-root__ErrorLayout__main___2IftH"
     };
-    module.exports = exports;
+    export ___CSS_LOADER_EXPORT___;
     `)).toThrowErrorMatchingSnapshot();
   });
 
   it('should remove css-loader\'s css-base, replace its push and export the locals', () => {
-    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("../../node_modules/css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___(undefined);`)).toMatchSnapshot();
-    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("../../css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___();`)).toMatchSnapshot();
-    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("./css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___();`)).toMatchSnapshot();
-    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("./css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___(undefined);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`import ___CSS_LOADER_API_IMPORT___ from "../../node_modules/css-loader/dist/runtime/api.js";
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_SOURCEMAP_IMPORT___);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`import ___CSS_LOADER_API_IMPORT___ from "../../css-loader/dist/runtime/api.js";
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`import ___CSS_LOADER_API_IMPORT___ from "./css-loader/dist/runtime/api.js";
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`import ___CSS_LOADER_API_IMPORT___ from "./css-loader/dist/runtime/api.js";
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_SOURCEMAP_IMPORT___);`)).toMatchSnapshot();
     expect(SSRCSSLoader(`
       // Imports
-      var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-      exports = ___CSS_LOADER_API_IMPORT___(undefined);
+      import ___CSS_LOADER_API_IMPORT___ from "./node_modules/css-loader/dist/runtime/api.js";
+      ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(undefined);
       // Module
-      exports.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
+      ___CSS_LOADER_EXPORT___.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
       // Exports
-      exports.locals = {
+      ___CSS_LOADER_EXPORT___.locals = {
       \t"ErrorLayout": "my-root__ErrorLayout__ErrorLayout___2B91F",
       \t"main": "my-root__ErrorLayout__main___2IftH"
       };
-      module.exports = exports;
+      export ___CSS_LOADER_EXPORT___;
     `)).toMatchSnapshot();
-    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("../../node_modules/css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___(false);`)).toMatchSnapshot();
-    expect(SSRCSSLoader(`var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("./css-loader/dist/runtime/api.js");
-    exports = ___CSS_LOADER_API_IMPORT___(false);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`import ___CSS_LOADER_API_IMPORT___ from "../../node_modules/css-loader/dist/runtime/api.js";
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(false);`)).toMatchSnapshot();
+    expect(SSRCSSLoader(`import ___CSS_LOADER_API_IMPORT___ from "./css-loader/dist/runtime/api.js";
+    ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(false);`)).toMatchSnapshot();
     expect(SSRCSSLoader(`
       // Imports
-      var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "../../css-loader/dist/runtime/api.js");
-      exports = ___CSS_LOADER_API_IMPORT___(false);
+      import ___CSS_LOADER_API_IMPORT___ from "../../css-loader/dist/runtime/api.js";
+      ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(false);
       // Module
-      exports.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
+      ___CSS_LOADER_EXPORT___.push([module.i, ".my-root__ErrorLayout__ErrorLayout___2B91F {\n  margin: 0 auto;\n}\n\n.my-root__ErrorLayout__main___2IftH {\n  max-width: 1000px;\n  width: 100%;\n  margin: 0 auto;\n  padding: 10px;\n}", ""]);
       // Exports
-      exports.locals = {
+      ___CSS_LOADER_EXPORT___.locals = {
       \t"ErrorLayout": "my-root__ErrorLayout__ErrorLayout___2B91F",
       \t"main": "my-root__ErrorLayout__main___2IftH"
       };
-      module.exports = exports;
+      export ___CSS_LOADER_EXPORT___;
     `)).toMatchSnapshot();
   });
 });

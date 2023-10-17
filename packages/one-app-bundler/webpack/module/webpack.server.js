@@ -12,25 +12,21 @@
  * under the License.
  */
 
-const path = require('node:path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const readPkgUp = require('read-pkg-up');
-
-const extendWebpackConfig = require('../../utils/extendWebpackConfig');
-const commonConfig = require('../webpack.common');
-const {
-  babelLoader,
-  cssLoader,
-  purgeCssLoader,
-  sassLoader,
-} = require('../loaders/common');
+import path from 'node:path';
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import { readPackageUpSync } from 'read-pkg-up';
+import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
+import commonConfig from '../webpack.common.js';
+import {
+  babelLoader, cssLoader, purgeCssLoader, sassLoader,
+} from '../loaders/common.js';
 
 const packageRoot = process.cwd();
-const { packageJson } = readPkgUp.sync();
+const { packageJson } = readPackageUpSync();
 const { version, name } = packageJson;
 
-module.exports = extendWebpackConfig(merge(
+const webpackServer = extendWebpackConfig(merge(
   commonConfig,
   {
     entry: './src/index.js',
@@ -87,3 +83,5 @@ module.exports = extendWebpackConfig(merge(
     ],
   }
 ), 'server');
+
+export default webpackServer;

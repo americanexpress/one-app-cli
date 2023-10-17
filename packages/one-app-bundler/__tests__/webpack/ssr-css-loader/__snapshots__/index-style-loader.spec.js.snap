@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['index-style-loader should add an ssrStyles export 1'] = `
+exports[`index-style-loader should add an ssrStyles export 1`] = `
 "
   some content
-  __webpack_exports__.default.ssrStyles = require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/css-base.js\\")();
+  __webpack_exports__.default.ssrStyles = require(\\"/path/to/one-app-bundler/webpack/ssr-css-loader/../webpack/loaders/ssr-css-loader/css-base.js\\")['default']();
   "
 `;

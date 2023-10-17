@@ -36,8 +36,8 @@ const bundleModule = async () => {
       console.info('Ignoring `--dev` flag for NODE_ENV=production');
     }
     console.info('Running production bundler');
-    // eslint-disable-next-line global-require -- Only require the bundler when it runs
-    require('./webpack-bundle-module');
+    const { webpackBundleModule } = await import('./webpack-bundle-module.js');
+    await webpackBundleModule();
   }
 };
 
