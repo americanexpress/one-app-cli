@@ -6,16 +6,6 @@ one-app-team-review-requested:
 eslint-plugin-one-app:
   - packages/eslint-plugin-one-app/*
 
-# Add 'generator-one-app-module' label to any file changes
-# in the generator-one-app-module package
-generator-one-app-module:
-  - packages/generator-one-app-module/*
-
-# Add 'holocron-dev-server' label to any file changes
-# in the holocron-dev-server package
-holocron-dev-server:
-  - packages/holocron-dev-server/*
-
 # Add 'one-app-bundler' label to any file changes
 # in the one-app-bundler package
 one-app-bundler:
