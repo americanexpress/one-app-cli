@@ -13,17 +13,18 @@
  * under the License.
  */
 
-const { promisify } = require('util');
-const webpack = promisify(require('webpack'));
-const chalk = require('chalk');
+import { promisify } from 'util';
+import webpackDefault from 'webpack';
+import chalk from 'chalk';
+import config from '../webpack/app/webpack.client.js';
+import getWebpackCallback from './webpackCallback.js';
+import postProcessOneAppBundle from './postProcessOneAppBundle.js';
 
-const config = require('../webpack/app/webpack.client');
-const getWebpackCallback = require('./webpackCallback');
-const postProcessOneAppBundle = require('./postProcessOneAppBundle');
+const webpack = promisify(webpackDefault);
 
 Promise.all([
-  webpack(config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)),
-  webpack(config('legacy')).then((stats) => getWebpackCallback('legacyBrowser', false)(undefined, stats)),
+  webpack(await config('modern')).then((stats) => getWebpackCallback('browser', false)(undefined, stats)),
+  webpack(await config('legacy')).then((stats) => getWebpackCallback('legacyBrowser', false)(undefined, stats)),
 ]).then(postProcessOneAppBundle).catch((err) => {
   console.log(chalk.red(err), chalk.red(err.stack));
 });

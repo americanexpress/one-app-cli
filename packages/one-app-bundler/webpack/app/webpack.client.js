@@ -12,32 +12,31 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const path = require('node:path');
-const TerserPlugin = require('terser-webpack-plugin');
-const coreJsCompat = require('core-js-compat');
-const coreJsEntries = require('core-js-compat/entries');
-const { browserList, legacyBrowserList } = require('babel-preset-amex/browserlist');
-const createResolver = require('../createResolver');
-const { externals: moduleExternals, ...common } = require('../webpack.common');
-const {
-  babelLoader,
-  cssLoader,
-  sassLoader,
-} = require('../loaders/common');
-require('../../utils/patchedCryptoHash');
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import path from 'node:path';
+import TerserPlugin from 'terser-webpack-plugin';
+import coreJsCompat from 'core-js-compat';
+import { browserList, legacyBrowserList } from 'babel-preset-amex/browserlist.js';
+import createResolver from '../createResolver.js';
+import common from '../webpack.common.js';
+import { babelLoader, cssLoader, sassLoader } from '../loaders/common.js';
+import '../../utils/patchedCryptoHash.js';
+import loadJsonWithImport from '../../utils/loadJsonWithImport.js';
 
+const { externals: moduleExternals } = common;
 const mainFields = ['browser', 'module', 'main'];
 const resolve = createResolver({ mainFields });
 
 const exposeModuleExternals = Object
   .entries(moduleExternals)
-  .map(([externalName, externalConfig]) => ({
+  .map(([externalName, externalConfig]) => (console.log('MRP 7', resolve(externalName)),{
     test: resolve(externalName),
     use: [{
       loader: 'expose-loader',
-      options: externalConfig.var,
+      options: {
+        exposes: externalConfig.var,
+      },
     }],
   }));
 
@@ -47,16 +46,17 @@ if (process.env.NODE_ENV === 'production' || process.env.DANGEROUSLY_DISABLE_DEP
   pathsToTranspile = pathsToTranspile.concat(path.resolve(packageRoot, 'node_modules'));
 }
 
-const getCoreJsModulePaths = (targets) => {
+const getCoreJsModulePaths = async (targets) => {
   const filter = /^es\.|web\./;
   const moduleNames = coreJsCompat({ filter, targets }).list;
+  const coreJsEntries = await loadJsonWithImport('core-js-compat/entries.json');
   return Object.keys(coreJsEntries)
     .filter((entry) => entry.startsWith('core-js/stable'))
     .filter((entry) => coreJsEntries[entry]
       .filter((moduleName) => moduleNames.includes(moduleName)).length);
 };
 
-module.exports = (babelEnv) => merge(
+const appClientConfig = async (babelEnv) => merge(
   common,
   {
     output: {
@@ -67,7 +67,7 @@ module.exports = (babelEnv) => merge(
       app: './src/client/client',
       vendors: [
         ...babelEnv !== 'modern' ? ['cross-fetch/polyfill', 'url-polyfill', 'abort-controller/polyfill'] : [],
-        ...(babelEnv !== 'modern' ? getCoreJsModulePaths(legacyBrowserList) : getCoreJsModulePaths(browserList)).map(resolve),
+        ...(babelEnv !== 'modern' ? await getCoreJsModulePaths(legacyBrowserList) : await getCoreJsModulePaths(browserList)).map(resolve),
         resolve('regenerator-runtime/runtime'),
         ...Object.keys(moduleExternals).map(resolve),
       ],
@@ -79,6 +79,7 @@ module.exports = (babelEnv) => merge(
       extensions: ['.js', '.jsx'],
       mainFields,
       modules: [packageRoot, 'node_modules'],
+      fallback: { url: resolve('url/'), util: resolve('util/') },
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -126,3 +127,5 @@ module.exports = (babelEnv) => merge(
     },
   }
 );
+
+export default appClientConfig;

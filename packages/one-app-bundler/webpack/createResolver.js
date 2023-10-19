@@ -24,16 +24,17 @@ const { CachedInputFileSystem, ResolverFactory } = enhancedResolve;
 // lib had a module or browser field in addition to the main field in its
 // package.json.
 
-export default function createResolver({ mainFields }) {
+export default function createResolver({ mainFields, resolveToContext = false }) {
   const enhancedResolver = ResolverFactory.createResolver({
     fileSystem: new CachedInputFileSystem(fs, 4000),
     useSyncFileSystemCalls: true,
     extensions: ['.js', '.jsx', '.json'],
     mainFields,
-    resolveToContext: true,
+    resolveToContext,
   });
 
   const trailingSlash = process.platform === 'win32' ? '\\' : '/';
   const dirname = path.join(path.dirname(fileURLToPath(getMetaUrl())), '../webpack');
-  return (request) => `${enhancedResolver.resolveSync({}, dirname, request)}${trailingSlash}`;
+  // if resolveToContext add a trailing slash to indicate the value is a folder rather than a file
+  return (request) => `${enhancedResolver.resolveSync({}, dirname, request)}${resolveToContext ? trailingSlash : ''}`;
 }

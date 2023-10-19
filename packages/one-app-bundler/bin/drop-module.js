@@ -13,15 +13,15 @@
  * under the License.
  */
 
-const fs = require('node:fs');
-const path = require('node:path');
-const { argv } = require('yargs');
+import fs from 'node:fs';
+import path from 'node:path';
+import yargs from 'yargs';
 
 const publicPath = path.join(process.cwd(), 'static');
 const symModulesPath = path.join(publicPath, 'modules');
 const moduleMapPath = path.join(publicPath, 'module-map.json');
 
-argv._.forEach((moduleName) => {
+yargs().argv._.forEach((moduleName) => {
   try {
     fs.accessSync(moduleMapPath);
   } catch (e) {

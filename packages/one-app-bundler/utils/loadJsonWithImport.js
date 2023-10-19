@@ -14,8 +14,6 @@
  * permissions and limitations under the License.
  */
 
-import loadJsonWithImport from './loadJsonWithImport.js';
+const loadJsonWithImport = async (fileName) => (await import(fileName, { assert: { type: "json" } })).default;
 
-const loadExternalsPackageJson = async (externalName) => loadJsonWithImport(`${externalName}/package.json`);
-
-export default loadExternalsPackageJson;
+export default loadJsonWithImport;

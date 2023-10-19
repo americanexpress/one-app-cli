@@ -2,7 +2,7 @@
   "name": "@americanexpress/one-app-bundler",
   "version": "7.0.0-alpha-028",
   "description": "A command line interface(CLI) tool for bundling One App and its modules.",
-  "main": "index.js",
+  "main": "index.cjs",
   "module": "true",
   "type": "module",
   "bin": {
@@ -72,7 +72,9 @@
     "ssri": "^10.0.5",
     "style-loader": "^3.3.3",
     "terser-webpack-plugin": "^5.3.9",
+    "url": "^0.11.3",
     "url-loader": "^4.1.1",
+    "util": "^0.12.5",
     "webpack": "5.88.2",
     "webpack-custom-chunk-id-plugin": "^1.0.3",
     "webpack-merge": "^5.9.0",

@@ -13,20 +13,18 @@
  * under the License.
  */
 
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const { argv } = require('yargs');
-const rimraf = require('rimraf');
-
-const getConfigOptions = require('../utils/getConfigOptions');
+import fs from 'fs';
+import path from 'path';
+import { mkdirpSync } from 'mkdirp';
+import yargs from 'yargs';
+import { sync } from 'rimraf';
+import getConfigOptions from '../utils/getConfigOptions.js';
 
 const publicPath = path.join(process.cwd(), 'static');
 const symModulesPath = path.join(publicPath, 'modules');
 
-mkdirp.sync(symModulesPath);
-
-argv._.forEach((modulePath) => {
+mkdirpSync(symModulesPath);
+yargs().argv._.forEach((modulePath) => {
   const pkg = JSON.parse(fs.readFileSync(path.join(modulePath, 'package.json')));
   const absoluteModulePath = modulePath.startsWith('/')
     ? modulePath : path.join(process.cwd(), modulePath);
@@ -42,8 +40,8 @@ argv._.forEach((modulePath) => {
   }
 
   // enforce only one version of a module being served at once
-  rimraf.sync(path.join(symModulesPath, moduleName));
-  mkdirp.sync(path.join(symModulesPath, moduleName));
+  sync(path.join(symModulesPath, moduleName));
+  mkdirpSync(path.join(symModulesPath, moduleName));
 
   const sourceBundlePath = path.join(absoluteModulePath, 'build', version);
   const symBundlePath = path.join(symModulesPath, moduleName, version);

@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/holocron-dev-server",
-  "version": "0.2.4",
+  "version": "7.0.0-alpha-016",
   "description": "A micro-frontend dev server for Holocron Modules",
   "license": "Apache-2.0",
   "keywords": [

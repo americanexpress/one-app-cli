@@ -12,20 +12,18 @@
  * under the License.
  */
 
-/* eslint-disable import/no-dynamic-require, global-require --
-we need to load generated assets at runtime */
+import path from 'node:path';
+import fs from 'node:fs';
+import { hashElement } from 'folder-hash';
+import { readPackageUpSync } from 'read-pkg-up';
+import generateIntegrityManifest from './generateIntegrityManifest.js';
+import loadJsonWithImport from '../utils/loadJsonWithImport.js';
 
-const path = require('node:path');
-const fs = require('node:fs');
-const { hashElement } = require('folder-hash');
-const readPkgUp = require('read-pkg-up');
-const generateIntegrityManifest = require('./generateIntegrityManifest');
-
-const { packageJson, path: pkgPath } = readPkgUp.sync();
+const { packageJson, path: pkgPath } = readPackageUpSync();
 const { version } = packageJson;
 const tmpPath = path.resolve(pkgPath, '../build/app/tmp');
 
-module.exports = async function postProcessBuild() {
+async function postProcessBuild() {
   const endsWithJS = (fileName) => fileName.endsWith('.js');
   const legacyPath = path.join(tmpPath, 'legacy');
   const jsFileNames = fs.readdirSync(tmpPath).filter(endsWithJS);
@@ -39,9 +37,9 @@ module.exports = async function postProcessBuild() {
   };
   const { hash } = await hashElement(tmpPath, options);
   const buildVersion = `${version}-${hash.slice(0, 8)}`;
-  const modernBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.browser.json')).assetsByChunkName;
-  const legacyBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.legacyBrowser.json')).assetsByChunkName;
-
+  const modernBrowserChunkAssets = (await loadJsonWithImport(path.resolve(pkgPath, '../.webpack-stats.browser.json'))).assetsByChunkName;
+  const legacyBrowserChunkAssets = (await loadJsonWithImport(path.resolve(pkgPath, '../.webpack-stats.legacyBrowser.json'))).assetsByChunkName;
+console.log('MRP', modernBrowserChunkAssets)
   fs.renameSync(tmpPath, path.resolve(tmpPath, `../${buildVersion}`));
   const metaFilePath = path.resolve(pkgPath, '../.build-meta.json');
   if (fs.existsSync(metaFilePath)) fs.unlinkSync(metaFilePath);
@@ -53,6 +51,7 @@ module.exports = async function postProcessBuild() {
       2
     )
   );
-};
+}
 
-/* eslint-enable import/no-dynamic-require, global-require -- disables require enables */
+export default postProcessBuild;
+
