@@ -31,8 +31,7 @@ jest.mock('../../esbuild/plugins/one-app-index-loader.js', () => (...params) => 
 jest.mock('../../esbuild/plugins/generate-integrity-manifest.js', () => (...params) => `esbuild_plugin_for(generate-integrity-manifest)(${JSON.stringify(params)})`);
 jest.mock('../../esbuild/plugins/legacy-bundler.js', () => (...params) => `esbuild_plugin_for(legacy-bundler)(${JSON.stringify(params)})`);
 jest.mock('@fal-works/esbuild-plugin-global-externals', () => ({ globalExternals: (...params) => `esbuild_plugin_for(esbuild-plugin-global-externals)(${JSON.stringify(params)})` }));
-jest.mock('@esbuild-plugins/node-globals-polyfill', () => ({ NodeGlobalsPolyfillPlugin: (...params) => `esbuild_plugin_for(node-globals-polyfill)(${JSON.stringify(params)})` }));
-jest.mock('@esbuild-plugins/node-modules-polyfill', () => ({ NodeModulesPolyfillPlugin: (...params) => `esbuild_plugin_for(node-modules-polyfill)(${JSON.stringify(params)})` }));
+jest.mock('esbuild-plugin-polyfill-node', () => ({ polyfillNode: (...params) => `esbuild_plugin_for(polyfill-node)(${JSON.stringify(params)})` }));
 jest.mock('esbuild-plugin-svgr', () => (...params) => `esbuild_plugin_for(esbuild-plugin-svgr)(${JSON.stringify(params)})`);
 jest.mock('../../esbuild/plugins/restrict-runtime-symbols.js', () => (...params) => `esbuild_plugin_for(restrict-runtime-symbols)(${JSON.stringify(params)})`);
 
