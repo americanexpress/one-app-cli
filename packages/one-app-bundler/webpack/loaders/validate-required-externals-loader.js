@@ -66,7 +66,6 @@ if (!global.BROWSER) {
 
     return newContent;
   }
-  console.log('MRP 1', content);
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use requiredExternals');
 }
 
