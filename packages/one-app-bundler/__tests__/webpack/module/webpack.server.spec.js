@@ -19,8 +19,6 @@ jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__'
 
 jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
 
-jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
-
 jest.mock('node:url', () => ({
   fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
 }));
