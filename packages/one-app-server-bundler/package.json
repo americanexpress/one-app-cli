@@ -1,0 +1,102 @@
+{
+  "name": "@americanexpress/one-app-server-bundler",
+  "version": "1.0.0",
+  "description": "A command line interface(CLI) tool for bundling One App and its modules.",
+  "main": "index.js",
+  "bin": {
+    "serve-module": "bin/serve-module.js",
+    "drop-module": "bin/drop-module.js",
+    "bundle-one-app": "bin/bundle-one-app.js",
+    "bundle-module": "bin/bundle-module.js"
+  },
+  "repository": {
+    "url": "https://github.com/americanexpress/one-app-cli.git",
+    "directory": "packages/one-app-server-bundler"
+  },
+  "homepage": "https://github.com/americanexpress/one-app-cli",
+  "bugs": {
+    "url": "https://github.com/americanexpress/one-app-cli/issues"
+  },
+  "keywords": [
+    "one",
+    "amex",
+    "bundler",
+    "react",
+    "webpack"
+  ],
+  "contributors": [
+    "Andres Escobar <Andres.Escobar@aexp.com> (https://github.com/anescobar1991)",
+    "James Singleton <James.Singleton1@aexp.com> (https://github.com/JamesSingleton)",
+    "Jamie King  <Jamie.King@aexp.com> (https://github.com/10xLaCroixDrinker)",
+    "Jonathan Adshead <Jonathan.Adshead@aexp.com> (https://github.com/JAdshead)",
+    "Michael Tobia <Michael.M.Tobia@aexp.com> (https://github.com/Francois-Esquire)",
+    "Michael Tomcal <Michael.A.Tomcal@aexp.com> (https://github.com/mtomcal)",
+    "Stephanie Coates  <Stephanie.Coates1@aexp.com> (https://github.com/stephaniecoates)",
+    "Nelly Kiboi <Nelly.J.Kiboi@aexp.com> (https://github.com/nellyk)",
+    "Nickolas Oliver <nickolas.oliver@aexp.com> (https://github.com/PixnBits)",
+    "Ruben Casas <ruben@infoxication.net> (https://github.com/infoxicator)"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@americanexpress/eslint-plugin-one-app": "^6.13.5",
+    "@americanexpress/one-app-locale-bundler": "^6.6.0",
+    "@babel/core": "^7.17.5",
+    "@babel/eslint-parser": "^7.17.0",
+    "ajv": "^6.7.0",
+    "babel-loader": "^8.0.6",
+    "babel-preset-amex": "^3.2.0",
+    "chalk": "^2.4.2",
+    "core-js-compat": "^3.4.2",
+    "css-loader": "3.4.2",
+    "enhanced-resolve": "^4.1.0",
+    "eslint-loader": "^4.0.2",
+    "expose-loader": "^0.7.5",
+    "file-loader": "^6.0.0",
+    "folder-hash": "^3.3.0",
+    "glob": "^7.1.3",
+    "html-webpack-plugin": "^4.5.2",
+    "joi": "^17.1.1",
+    "loader-utils": "^1.2.3",
+    "lodash": "^4.17.20",
+    "mkdirp": "^0.5.1",
+    "read-pkg-up": "^7.0.1",
+    "rimraf": "^3.0.2",
+    "sass": "^1.22.12",
+    "sass-loader": "^9.0.2",
+    "source-map": "^0.7.3",
+    "ssri": "^7.1.0",
+    "style-loader": "^1.0.0",
+    "terser-webpack-plugin": "^4.2.3",
+    "url-loader": "^4.1.0",
+    "webpack": "4.46.0",
+    "webpack-custom-chunk-id-plugin": "^1.0.3",
+    "webpack-dynamic-public-path": "^1.0.4",
+    "webpack-merge": "^4.2.1",
+    "webpack-sources": "^3.2.3",
+    "webpack-subresource-integrity": "^1.3.4",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "@americanexpress/one-app-ducks": "*",
+    "@americanexpress/one-app-router": "*",
+    "core-js": "^3.2.1",
+    "create-shared-react-context": "*",
+    "holocron": "*",
+    "holocron-module-route": "*",
+    "immutable": "*",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-helmet": "*",
+    "react-immutable-proptypes": "*",
+    "react-redux": "*",
+    "redux": "*",
+    "regenerator-runtime": "^0.13.3",
+    "reselect": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "overrides": {
+    "webpack": "4.46.0"
+  }
+}

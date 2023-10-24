@@ -35,6 +35,7 @@ module.exports = {
     'packages/eslint-plugin-one-app',
     'packages/holocron-dev-server',
     'packages/one-app-locale-bundler',
+    'packages/one-app-server-bundler',
     'packages/one-app-runner',
   ],
 };
