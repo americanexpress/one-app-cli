@@ -14,7 +14,6 @@
 
 function publicPathLoader(content) {
   const options = this.getOptions();
-  console.log(content, options);
   return `__webpack_public_path__ = ${options.externalPublicPath};
 ${content}`;
 }
