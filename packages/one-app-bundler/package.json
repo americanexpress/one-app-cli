@@ -58,7 +58,7 @@
     "file-loader": "^6.2.0",
     "folder-hash": "^4.0.4",
     "glob": "^10.3.4",
-    "holocron-module-register-webpack-plugin": "../../../holocron-for-webpack-five/packages/holocron-module-register-webpack-plugin/holocron-module-register-webpack-plugin-2.0.0-alpha-005.tgz",
+    "holocron-module-register-webpack-plugin": "^2.1.0",
     "html-webpack-plugin": "^5.5.3",
     "joi": "^17.10.2",
     "loader-utils": "^3.2.1",
