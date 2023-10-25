@@ -15,8 +15,8 @@
  */
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+// eslint-disable-next-line import/no-unresolved -- false positive due to package not have main field in package.json
+import { polyfillNode } from 'esbuild-plugin-polyfill-node';
 import { readPackageUpSync } from 'read-pkg-up';
 import path from 'node:path';
 import { BUNDLE_TYPES, SEVERITY } from './constants/enums.js';
@@ -95,10 +95,7 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
     plugins: [
       ...commonConfig.plugins,
       // TODO make these opt in, this would be a breaking change as webpack always includes them
-      NodeGlobalsPolyfillPlugin({
-        buffer: true,
-      }),
-      NodeModulesPolyfillPlugin(),
+      polyfillNode(),
       bundleAssetSizeLimiter(commonConfigPluginOptions),
       externalsLoader(browserConfigPluginOptions),
       oneAppIndexLoader(browserConfigPluginOptions),
