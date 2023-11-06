@@ -14,10 +14,9 @@
  * permissions and limitations under the License.
  */
 
-import fs from 'node:fs';
 import esbuild from 'esbuild';
 import { readPackageUpSync } from 'read-pkg-up';
-
+import writeToModuleConfig from '../../utils/write-to-module-config';
 import { bundleExternalFallbacks } from '../../utils/bundle-external-fallbacks.js';
 
 jest.mock('esbuild', () => ({
@@ -46,7 +45,17 @@ jest.mock('read-pkg-up', () => ({
   })),
 }));
 
-jest.mock('node:fs');
+// mock reading integrity manifest
+jest.mock('node:fs', () => ({
+  readFileSync: jest.fn(() => JSON.stringify({
+    'awesome.browser': 'sha-awesome-browser',
+    'awesome.node': 'sha-awesome-node',
+    node: 'shaNode',
+    browser: 'shaBrowser',
+  })),
+}));
+
+jest.mock('../../utils/write-to-module-config');
 
 jest.spyOn(process, 'cwd').mockImplementation(() => '/path/');
 
@@ -115,18 +124,19 @@ describe('bundle-external-fallbacks', () => {
             requiredExternals: ['awesome'],
           },
         },
+        dependencies: {
+          awesome: '^1.2.3',
+        },
       },
     }));
 
     const readPackageUpSyncMock = jest.fn(() => ({
       packageJson: {
-        version: '1.0.0',
+        version: '1.2.3',
       },
     }));
 
     readPackageUpSync.mockImplementationOnce(readPackageUpSyncMock);
-
-    fs.readFileSync.mockImplementationOnce(() => 'const testing = true;');
 
     await bundleExternalFallbacks();
 
@@ -136,9 +146,9 @@ describe('bundle-external-fallbacks', () => {
       entryPoints: [
         '/path/node_modules/awesome',
       ],
-      globalName: '__holocron_external__awesome__1_0_0',
+      globalName: '__holocron_external__awesome__1_2_3',
       footer: {
-        js: 'Holocron.registerExternal({ name: "awesome", version: "1.0.0", module: __holocron_external__awesome__1_0_0});',
+        js: 'Holocron.registerExternal({ name: "awesome", version: "1.2.3", module: __holocron_external__awesome__1_2_3});',
       },
       mocked: 'browser',
       outfile: '/path/build/1.0.0/awesome.browser.js',
@@ -162,18 +172,19 @@ describe('bundle-external-fallbacks', () => {
             requiredExternals: ['awesome'],
           },
         },
+        dependencies: {
+          awesome: '^2.0.0',
+        },
       },
     }));
 
     const readPackageUpSyncMock = jest.fn(() => ({
       packageJson: {
-        version: '1.0.0',
+        version: '2.1.0',
       },
     }));
 
     readPackageUpSync.mockImplementationOnce(readPackageUpSyncMock);
-
-    fs.readFileSync.mockImplementationOnce(() => 'const testing = true;');
 
     const error = new Error('Testing');
 
@@ -186,9 +197,9 @@ describe('bundle-external-fallbacks', () => {
       entryPoints: [
         '/path/node_modules/awesome',
       ],
-      globalName: '__holocron_external__awesome__1_0_0',
+      globalName: '__holocron_external__awesome__2_1_0',
       mocked: 'browser',
-      footer: { js: 'Holocron.registerExternal({ name: "awesome", version: "1.0.0", module: __holocron_external__awesome__1_0_0});' },
+      footer: { js: 'Holocron.registerExternal({ name: "awesome", version: "2.1.0", module: __holocron_external__awesome__2_1_0});' },
       outfile: '/path/build/1.0.0/awesome.browser.js',
     });
     expect(esbuild.build).toHaveBeenCalledWith({
@@ -200,7 +211,6 @@ describe('bundle-external-fallbacks', () => {
       outfile: '/path/build/1.0.0/awesome.node.js',
     });
 
-    expect(fs.writeFileSync).not.toHaveBeenCalled();
     expect(console.error).toHaveBeenCalledTimes(2);
     expect(console.error).toHaveBeenCalledWith('Failed to build fallback for external awesome for browser', error);
     expect(console.error).toHaveBeenCalledWith('Failed to build fallback for external awesome for node', error);
@@ -213,5 +223,42 @@ describe('bundle-external-fallbacks', () => {
 
     await bundleExternalFallbacks();
     expect(esbuild.build).not.toHaveBeenCalled();
+  });
+
+  it('writes to module config', async () => {
+    readPackageUpSync.mockImplementationOnce(() => ({
+      packageJson: {
+        version: '1.0.0',
+        'one-amex': {
+          bundler: {
+            requiredExternals: ['awesome'],
+          },
+        },
+        dependencies: {
+          awesome: '^1.2.3',
+        },
+      },
+    }));
+
+    readPackageUpSync.mockImplementation(() => ({
+      packageJson: {
+        version: '1.2.3',
+      },
+    }));
+
+    await bundleExternalFallbacks();
+
+    expect(writeToModuleConfig).toHaveBeenCalledWith({
+      requiredExternals: {
+        awesome: {
+          name: 'awesome',
+          version: '1.2.3',
+          integrity: 'sha-awesome-browser',
+          semanticRange: '^1.2.3',
+          browserIntegrity: 'sha-awesome-browser',
+          nodeIntegrity: 'sha-awesome-node',
+        },
+      },
+    });
   });
 });

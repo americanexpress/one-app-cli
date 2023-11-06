@@ -16,7 +16,9 @@ import path from 'node:path';
 import { readPackageUpSync } from 'read-pkg-up';
 import esbuild from 'esbuild';
 import snakeCase from 'lodash.snakecase';
+import fs from 'node:fs';
 import generateESBuildOptions from '../esbuild/generateESBuildOptions.js';
+import writeToModuleConfig from './write-to-module-config.js';
 
 const EXTERNAL_PREFIX = '__holocron_external';
 
@@ -69,6 +71,27 @@ export const bundleExternalFallbacks = async () => {
         console.error(`Failed to build fallback for external ${externalName} for ${env}`, error);
       }
     }))));
+
+    const integrityManifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), 'utf-8'));
+    const requiredExternalsData = requiredExternals.reduce((obj, externalName) => {
+      const version = readPackageUpSync({
+        cwd: path.resolve(process.cwd(), 'node_modules', externalName),
+      })?.packageJson.version;
+      const semanticRange = packageJson.dependencies[externalName];
+      return {
+        ...obj,
+        [externalName]: {
+          name: externalName,
+          version,
+          semanticRange,
+          integrity: integrityManifest[`${externalName}.browser`], // prevent breaking change
+          browserIntegrity: integrityManifest[`${externalName}.browser`],
+          nodeIntegrity: integrityManifest[`${externalName}.node`],
+        },
+      };
+    }, {});
+
+    writeToModuleConfig({ requiredExternals: requiredExternalsData });
   }
 };
 

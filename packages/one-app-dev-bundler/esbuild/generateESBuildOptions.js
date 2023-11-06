@@ -148,11 +148,9 @@ const generateESBuildOptions = async ({ watch, useLiveReload }) => {
     ...env === 'browser' ? browserConfig : nodeConfig,
     plugins: [
       removeWebpackLoaderSyntax,
-      bundleAssetSizeLimiter(commonConfigPluginOptions),
-      env === 'browser' && legacyBundler(externalName),
-      generateIntegrityManifest({ bundleName: externalName }),
+      generateIntegrityManifest({ bundleName: `${externalName}.${env}` }),
       restrictRuntimeSymbols(browserConfigPluginOptions),
-      timeBuild({ bundleName: externalName, watch }),
+      timeBuild({ bundleName: `${externalName}.${env}`, watch }),
     ].filter(Boolean),
   });
 

@@ -13,8 +13,7 @@
  */
 
 const webpack = require('webpack');
-const path = require('node:path');
-const fs = require('node:fs');
+
 const localeBundler = require('@americanexpress/one-app-locale-bundler');
 
 const getConfigOptions = require('../utils/getConfigOptions');
@@ -25,8 +24,6 @@ const { watch } = require('../utils/getCliOptions')();
 
 const modernClientConfig = clientConfig('modern');
 const legacyClientConfig = clientConfig('legacy');
-
-fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 
 localeBundler(watch);
 
