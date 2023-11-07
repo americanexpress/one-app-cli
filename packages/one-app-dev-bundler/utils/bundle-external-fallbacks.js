@@ -84,7 +84,6 @@ export const bundleExternalFallbacks = async () => {
           name: externalName,
           version,
           semanticRange,
-          integrity: integrityManifest[`${externalName}.browser`], // prevent breaking change
           browserIntegrity: integrityManifest[`${externalName}.browser`],
           nodeIntegrity: integrityManifest[`${externalName}.node`],
         },

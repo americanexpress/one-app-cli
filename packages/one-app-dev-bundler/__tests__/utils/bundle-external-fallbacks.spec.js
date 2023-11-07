@@ -253,7 +253,6 @@ describe('bundle-external-fallbacks', () => {
         awesome: {
           name: 'awesome',
           version: '1.2.3',
-          integrity: 'sha-awesome-browser',
           semanticRange: '^1.2.3',
           browserIntegrity: 'sha-awesome-browser',
           nodeIntegrity: 'sha-awesome-node',
