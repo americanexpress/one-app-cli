@@ -106,11 +106,9 @@ Object {
   "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.browser.js",
   "plugins": Array [
     "esbuild_plugin_for(remove-webpack-loader-syntax)",
-    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
-    "esbuild_plugin_for(legacy-bundler)([\\"awesome\\"])",
-    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome.browser\\"}])",
     "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
-    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome\\",\\"watch\\":false}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome.browser\\",\\"watch\\":false}])",
   ],
   "sourcemap": true,
   "target": Array [
@@ -152,10 +150,9 @@ Object {
   "platform": "node",
   "plugins": Array [
     "esbuild_plugin_for(remove-webpack-loader-syntax)",
-    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
-    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome.server\\"}])",
     "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
-    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome\\",\\"watch\\":false}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome.server\\",\\"watch\\":false}])",
   ],
   "target": Array [
     "node12",
@@ -270,11 +267,9 @@ Object {
   "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.browser.js",
   "plugins": Array [
     "esbuild_plugin_for(remove-webpack-loader-syntax)",
-    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\"}])",
-    "esbuild_plugin_for(legacy-bundler)([\\"awesome\\"])",
-    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome.browser\\"}])",
     "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
-    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome\\",\\"watch\\":false}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome.browser\\",\\"watch\\":false}])",
   ],
   "sourcemap": false,
   "target": Array [
@@ -316,10 +311,9 @@ Object {
   "platform": "node",
   "plugins": Array [
     "esbuild_plugin_for(remove-webpack-loader-syntax)",
-    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\"}])",
-    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome.server\\"}])",
     "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":false,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(ERROR)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
-    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome\\",\\"watch\\":false}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome.server\\",\\"watch\\":false}])",
   ],
   "target": Array [
     "node12",
@@ -440,11 +434,9 @@ Object {
   "outfile": "/path/to/package/mock/build/versionMock/packageNameMock.browser.js",
   "plugins": Array [
     "esbuild_plugin_for(remove-webpack-loader-syntax)",
-    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
-    "esbuild_plugin_for(legacy-bundler)([\\"awesome\\"])",
-    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome.browser\\"}])",
     "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
-    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome\\",\\"watch\\":true}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome.browser\\",\\"watch\\":true}])",
   ],
   "sourcemap": true,
   "target": Array [
@@ -489,10 +481,9 @@ Object {
   "platform": "node",
   "plugins": Array [
     "esbuild_plugin_for(remove-webpack-loader-syntax)",
-    "esbuild_plugin_for(bundle-asset-size-limiter)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\"}])",
-    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome\\"}])",
+    "esbuild_plugin_for(generate-integrity-manifest)([{\\"bundleName\\":\\"awesome.server\\"}])",
     "esbuild_plugin_for(restrict-runtime-symbols)([{\\"watch\\":true,\\"useLiveReload\\":false,\\"severity\\":\\"SymbolMock(WARNING)\\",\\"bundleType\\":\\"SymbolMock(BROWSER)\\"}])",
-    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome\\",\\"watch\\":true}])",
+    "esbuild_plugin_for(time-build)([{\\"bundleName\\":\\"awesome.server\\",\\"watch\\":true}])",
   ],
   "target": Array [
     "node12",
