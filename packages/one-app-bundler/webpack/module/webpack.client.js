@@ -21,7 +21,6 @@ import { SubresourceIntegrityPlugin as SriPlugin } from 'webpack-subresource-int
 import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
 import commonConfig from '../webpack.common.js';
 import getConfigOptions from '../../utils/getConfigOptions.js';
-import '../../utils/patchedCryptoHash.js';
 import {
   babelLoader, cssLoader, purgeCssLoader, sassLoader,
 } from '../loaders/common.js';

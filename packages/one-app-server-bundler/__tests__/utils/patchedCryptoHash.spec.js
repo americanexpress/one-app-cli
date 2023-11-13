@@ -15,6 +15,7 @@ const crypto = require('crypto');
 
 const createHashSpy = jest.spyOn(crypto, 'createHash');
 
+/* eslint-disable global-require -- testing on-require functionality */
 describe('patchedCryptoHash', () => {
   it('should replace md4 with sha256 as default hash algo', () => {
     require('../../utils/patchedCryptoHash');
@@ -27,3 +28,4 @@ describe('patchedCryptoHash', () => {
     expect(createHashSpy).toHaveBeenCalledWith('sha512');
   });
 });
+/* eslint-enable global-require -- testing on-require functionality */

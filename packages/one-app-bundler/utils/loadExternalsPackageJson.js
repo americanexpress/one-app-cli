@@ -16,6 +16,6 @@
 
 // Because this file uses very modern node features, it may not be parsed by every IDE.
 // As long as eslint and jest are happy when they are run by yarn, all is ok.
-const loadExternalsPackageJson = async (externalName) => (await import(`${externalName}/package.json`, { assert: { type: "json" } })).default;
+const loadExternalsPackageJson = async (externalName) => (await import(`${externalName}/package.json`, { assert: { type: 'json' } })).default;
 
 export default loadExternalsPackageJson;

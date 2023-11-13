@@ -56,8 +56,8 @@ describe('webpack/module.client', () => {
     expect.assertions(2);
     const modernWebpackConfig = await configGenerator('modern');
     const legacyWebpackConfig = await configGenerator('legacy');
-    expect(modernWebpackConfig.module.rules[4].use[0].options.envName).toBe('modern');
-    expect(legacyWebpackConfig.module.rules[4].use[0].options.envName).toBe('legacy');
+    expect(modernWebpackConfig.module.rules[3].use[0].options.envName).toBe('modern');
+    expect(legacyWebpackConfig.module.rules[3].use[0].options.envName).toBe('legacy');
   });
 
   it('should warn for perf budget violations in development', async () => {

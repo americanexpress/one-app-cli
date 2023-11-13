@@ -38,7 +38,6 @@ jest.mock('../../esbuild/generateESBuildOptions', () => jest.fn(() => ({
   nodeConfig: 'mockNodeConfig',
 })));
 
-// eslint-disable-next-line react/display-name -- not react component
 jest.mock('../../esbuild/utils/get-modules-bundler-config', () => () => null);
 
 jest.mock('../../utils/get-cli-options', () => jest.fn(() => { }));

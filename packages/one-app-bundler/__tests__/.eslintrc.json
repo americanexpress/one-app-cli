@@ -5,6 +5,12 @@
     "unicorn/no-process-exit": 0, // CLI's are allowed to exit
     "unicorn/prefer-spread": 0, // Spread is not always semantically identical
     "import/extensions": 0, // ECMAscript modules explicitly require all extensions for relative imports
-    "unicorn/import-index": 0 // ECMAscript modules explicitly require no folder imports
+    "unicorn/import-index": 0, // ECMAscript modules explicitly require no folder imports
+    "jest/no-large-snapshots": [ // The snapshot for the common config is now this long
+      "error",
+      {
+        "maxSize": 58
+      }
+    ]
   }
 }
