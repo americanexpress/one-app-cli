@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.21.5](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.3...@americanexpress/one-app-bundler@6.21.5) (2023-11-13)
+
+
+### Bug Fixes
+
+* **fallback-integrity:** ensure node & browser integrity in module config ([#584](https://github.com/americanexpress/one-app-cli/issues/584)) ([e14fc4f](https://github.com/americanexpress/one-app-cli/commit/e14fc4f7d4110cd038379ac759fc54fcb6797ce2))
+
+
+
+
+
 ## [6.21.4](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.3...@americanexpress/one-app-bundler@6.21.4) (2023-10-04)
 
 **Note:** Version bump only for package @americanexpress/one-app-bundler
