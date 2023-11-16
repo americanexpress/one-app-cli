@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.5](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.3...@americanexpress/one-app-dev-bundler@1.5.5) (2023-11-13)
+
+
+### Bug Fixes
+
+* **fallback-integrity:** ensure node & browser integrity in module config ([#584](https://github.com/americanexpress/one-app-cli/issues/584)) ([e14fc4f](https://github.com/americanexpress/one-app-cli/commit/e14fc4f7d4110cd038379ac759fc54fcb6797ce2))
+* **one-app-dev-bundler:** replace depreacted node polyfill plugin ([#582](https://github.com/americanexpress/one-app-cli/issues/582)) ([2f7fa3c](https://github.com/americanexpress/one-app-cli/commit/2f7fa3c0f337f05c9fea75e49600e5c9e6f3eb80))
+* **one-app-dev-bundler:** sass style loader ([#577](https://github.com/americanexpress/one-app-cli/issues/577)) ([6559915](https://github.com/americanexpress/one-app-cli/commit/655991594a5161afce533e5966c5ad77fc7774f1))
+
+
+
+
+
 ## [1.5.4](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.3...@americanexpress/one-app-dev-bundler@1.5.4) (2023-10-04)
 
 

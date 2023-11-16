@@ -13,8 +13,6 @@
  */
 
 import webpack from 'webpack';
-import path from 'node:path';
-import fs from 'node:fs';
 import localeBundler from '@americanexpress/one-app-locale-bundler';
 import getConfigOptions from '../utils/getConfigOptions.js';
 import getWebpackCallback from './webpackCallback.js';
@@ -27,8 +25,6 @@ export const webpackBundleModule = async () => {
 
   const modernClientConfig = await clientConfig('modern');
   const legacyClientConfig = await clientConfig('legacy');
-
-  fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 
   localeBundler(watch);
 

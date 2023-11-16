@@ -18,17 +18,18 @@ import ssri from 'ssri';
 import fs from 'node:fs';
 import { getJsFilenamesFromKeys } from '../utils/get-js-filenames-from-keys.js';
 
-async function writeIntegrityFragment(bundleName, integrityString, fileName) {
+// NOTE:: This needs to be synchronous to avoid race condition resulting in
+// missing integrity manifest entries
+function writeIntegrityFragment(bundleName, integrityString, fileName) {
   let integrityObject = {};
   try {
-    integrityObject = JSON.parse(await fs.promises.readFile(fileName, 'utf8'));
+    integrityObject = JSON.parse(fs.readFileSync(fileName, 'utf8'));
   } catch (e) {
     // empty catch in case file does not exist
   }
 
   integrityObject[bundleName] = integrityString;
-
-  return fs.promises.writeFile(fileName, JSON.stringify(integrityObject, null, 2));
+  return fs.writeFileSync(fileName, JSON.stringify(integrityObject, null, 2));
 }
 
 const generateIntegrityManifest = ({ bundleName }) => ({
@@ -48,7 +49,7 @@ const generateIntegrityManifest = ({ bundleName }) => ({
         { algorithms: ['sha256', 'sha384'] }
       ).toString();
 
-      await writeIntegrityFragment(bundleName, integrityString, './bundle.integrity.manifest.json');
+      writeIntegrityFragment(bundleName, integrityString, './bundle.integrity.manifest.json');
 
       return result;
     });

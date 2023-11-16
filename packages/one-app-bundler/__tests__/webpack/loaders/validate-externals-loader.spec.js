@@ -12,7 +12,6 @@
  * under the License.
  */
 
-import fs from 'node:fs';
 import readPkgUp from 'read-pkg-up';
 import unboundValidateExternalsLoader from '../../../webpack/loaders/validate-required-externals-loader.js';
 
@@ -25,13 +24,8 @@ jest.mock('../../../utils/loadExternalsPackageJson.js', () => jest.fn((externalN
   version: '1.2.3-version-mock',
 })));
 
-jest.mock('node:fs');
-
 // eslint-disable-next-line global-require -- mocking readPkgUp needs us to require a json file
 readPkgUp.readPackageUpSync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
-
-fs.readFileSync = jest.fn(() => '{}');
-fs.writeFileSync = jest.fn();
 
 describe('validate-required-externals-loader', () => {
   let validateExternalsLoader;
@@ -50,34 +44,6 @@ import SomeComponent from './SomeComponent';
 export default SomeComponent;
 `;
     expect(await validateExternalsLoader(content)).toMatchSnapshot();
-  });
-
-  it('adds modules required externals to module-config.json file', async () => {
-    expect.assertions(2);
-    const content = `\
-import SomeComponent from './SomeComponent';
-
-export default SomeComponent;
-`;
-    await validateExternalsLoader(content);
-    const [moduleConfigPath, moduleConfig] = fs.writeFileSync.mock.calls[0];
-    expect(moduleConfigPath).toMatch('module-config.json');
-    expect(moduleConfig).toMatchInlineSnapshot(`
-"{
-  \\"requiredExternals\\": {
-    \\"ajv\\": {
-      \\"name\\": \\"ajv\\",
-      \\"version\\": \\"1.2.3-version-mock\\",
-      \\"semanticRange\\": \\"^8.12.0\\"
-    },
-    \\"lodash\\": {
-      \\"name\\": \\"lodash\\",
-      \\"version\\": \\"1.2.3-version-mock\\",
-      \\"semanticRange\\": \\"^4.17.21\\"
-    }
-  }
-}"
-`);
   });
 
   it('should throw an error when the wrong syntax is used - export from', async () => {

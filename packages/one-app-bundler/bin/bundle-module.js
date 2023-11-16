@@ -12,12 +12,16 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
+import path from 'node:path';
+import fs from 'node:fs';
 
 const bundleModule = async () => {
   const {
     devBuildModule,
     bundleExternalFallbacks,
   } = await import('@americanexpress/one-app-dev-bundler');
+
+  fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 
   await bundleExternalFallbacks();
 

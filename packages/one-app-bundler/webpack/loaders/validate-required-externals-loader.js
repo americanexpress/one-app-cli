@@ -12,34 +12,12 @@
  * under the License.
  */
 
-import fs from 'node:fs';
-
-import path from 'node:path';
-
 import { readPackageUpSync } from 'read-pkg-up';
-import loadExternalsPackageJson from '../../utils/loadExternalsPackageJson.js';
 
+// NOTE: this only exists to support legacy one app versions
 async function validateRequiredExternalsLoader(content) {
   const options = this.getOptions();
   const { packageJson } = readPackageUpSync();
-  const integrityManifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), 'utf-8'));
-
-  const requiredExternals = await options.requiredExternals.reduce(async (obj, externalName) => {
-    const { version } = await loadExternalsPackageJson(externalName);
-    const semanticRange = packageJson.dependencies[externalName];
-
-    return {
-      ...await obj,
-      [externalName]: {
-        name: externalName,
-        version,
-        semanticRange,
-        integrity: integrityManifest[externalName],
-      },
-    };
-  }, Promise.resolve({}));
-
-  // NOTE: This is required to keep backwards compatibility with older versions of one-app
   const legacyRequiredExternals = options.requiredExternals.map((externalName) => {
     const version = packageJson.dependencies[externalName];
     return `'${externalName}': '${version}'`;
@@ -57,13 +35,6 @@ if (!global.BROWSER) {
   });
 }
 `;
-
-    // NOTE: This is temporary. Since we only need 'requiredExternals' in module-config.json
-    //       we create, for now, the file right here with the data.
-    fs.writeFileSync(path.resolve(process.cwd(), 'build', packageJson.version, 'module-config.json'), JSON.stringify({
-      requiredExternals,
-    }, null, 2));
-
     return newContent;
   }
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use requiredExternals');
