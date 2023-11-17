@@ -195,7 +195,7 @@ module.exports = async function startApp({
     generateSetMiddlewareCommand(parrotMiddlewareFile)
   } ${
     generateSetDevEndpointsCommand(devEndpointsFile)
-  } node ${
+  } node --dns-result-order=ipv4first --no-experimental-fetch ${
     generateDebug(debugPort, useDebug)
   } lib/server/index.js --root-module-name=${rootModuleName} ${
     generateModuleMap(moduleMapUrl)
