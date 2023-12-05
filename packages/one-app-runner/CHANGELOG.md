@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.16.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.16.0...@americanexpress/one-app-runner@6.16.1) (2023-11-17)
+
+
+### Bug Fixes
+
+* disable native fetch in node ([#586](https://github.com/americanexpress/one-app-cli/issues/586)) ([4938125](https://github.com/americanexpress/one-app-cli/commit/49381256250c22e6a43585127d3fc304fe5a8d47))
+
+
+
+
+
 # [6.16.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.15.0...@americanexpress/one-app-runner@6.16.0) (2023-10-03)
 
 

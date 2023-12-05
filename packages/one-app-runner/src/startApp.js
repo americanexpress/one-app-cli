@@ -110,6 +110,8 @@ const generateSetDevEndpointsCommand = (pathToDevEndpointsFile) => {
 
 const generateUseMocksFlag = (shouldUseMocks) => (shouldUseMocks ? '-m' : '');
 
+const generateNpmConfigCommands = () => 'npm config set update-notifier false &&';
+
 const generateServeModuleCommands = (modules) => {
   let command = '';
   if (modules && modules.length > 0) {
@@ -190,12 +192,14 @@ module.exports = async function startApp({
   }
 
   const containerShellCommand = `${
+    generateNpmConfigCommands()
+  } ${
     generateServeModuleCommands(modulesToServe)
   } ${
     generateSetMiddlewareCommand(parrotMiddlewareFile)
   } ${
     generateSetDevEndpointsCommand(devEndpointsFile)
-  } node ${
+  } node --dns-result-order=ipv4first --no-experimental-fetch ${
     generateDebug(debugPort, useDebug)
   } lib/server/index.js --root-module-name=${rootModuleName} ${
     generateModuleMap(moduleMapUrl)
