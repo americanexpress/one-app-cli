@@ -43,7 +43,7 @@ describe('analyze-bundles', () => {
     jest.clearAllMocks();
   });
 
-  it('reports the analysis comparting webpack vs esbuild', async () => {
+  it('reports the analysis comparing webpack vs esbuild', async () => {
     fs.promises.readFile.mockImplementation((absolutePath) => {
       const fileName = absolutePath.split(path.sep).reverse()[0];
 

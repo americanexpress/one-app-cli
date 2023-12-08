@@ -39,8 +39,11 @@ module.exports = async function postProcessBuild() {
   };
   const { hash } = await hashElement(tmpPath, options);
   const buildVersion = `${version}-${hash.slice(0, 8)}`;
-  const modernBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.browser.json')).assetsByChunkName;
-  const legacyBrowserChunkAssets = require(path.resolve(pkgPath, '../.webpack-stats.legacyBrowser.json')).assetsByChunkName;
+  if (!fs.existsSync(path.resolve(pkgPath, '../.build-stats'))) {
+    fs.mkdirSync(path.resolve(pkgPath, '../.build-stats'));
+  }
+  const modernBrowserChunkAssets = require(path.resolve(pkgPath, '../.build-stats/.webpack-stats.browser.json')).assetsByChunkName;
+  const legacyBrowserChunkAssets = require(path.resolve(pkgPath, '../.build-stats/.webpack-stats.legacyBrowser.json')).assetsByChunkName;
 
   fs.renameSync(tmpPath, path.resolve(tmpPath, `../${buildVersion}`));
   const metaFilePath = path.resolve(pkgPath, '../.build-meta.json');
