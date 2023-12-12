@@ -13,13 +13,16 @@
  */
 const loaderUtils = require('loader-utils');
 const readPkgUp = require('read-pkg-up');
+const path = require('node:path');
 
 const { packageJson } = readPkgUp.sync();
 
 function externalsLoader() {
   const { externalName, bundleTarget } = loaderUtils.getOptions(this);
-  // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-  const { version } = require(`${externalName}/package.json`);
+
+  const version = readPkgUp.sync({
+    cwd: path.resolve(process.cwd(), 'node_modules', externalName),
+  })?.packageJson.version;
 
   return `\
 try {

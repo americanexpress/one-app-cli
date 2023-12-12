@@ -13,14 +13,17 @@
  */
 
 const loaderUtils = require('loader-utils');
+const readPkgUp = require('read-pkg-up');
+const path = require('node:path');
 
 function providedExternalsLoader(content) {
   const { moduleName, providedExternals } = loaderUtils.getOptions(this);
 
   const extendedProvidedExternals = (Array.isArray(providedExternals)
     ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require -- need to require a package.json at runtime
-    const externalPkg = require(`${externalName}/package.json`);
+    const version = readPkgUp.sync({
+      cwd: path.resolve(process.cwd(), 'node_modules', externalName),
+    })?.packageJson.version;
 
     return `
       '${externalName}': {
@@ -28,7 +31,7 @@ function providedExternalsLoader(content) {
     fallbackEnabled: false,
     ...providedExternals[externalName],
   }, null, 2)},
-        version: '${externalPkg.version}',
+        version: '${version}',
         module: require('${externalName}'),
       }`;
   }, {});
