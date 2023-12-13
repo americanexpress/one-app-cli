@@ -17,10 +17,9 @@ import unboundProvidedExternalsLoader from '../../../webpack/loaders/provided-ex
 jest.mock('loader-utils', () => ({
 }));
 
-jest.mock('../../../utils/loadExternalsPackageJson.js', () => jest.fn((externalName) => ({
-  name: externalName,
-  version: '1.2.3-version-mock',
-})));
+jest.mock('read-pkg-up', () => ({
+  readPackageUpSync: jest.fn((externalName) => ({ name: externalName, packageJson: { version: '1.2.3' } })),
+}));
 
 describe('provided-externals-loader', () => {
   let providedExternalsLoader;

@@ -27,11 +27,6 @@ jest.mock('read-pkg-up', () => ({
   }),
 }));
 
-jest.mock('../../../utils/loadExternalsPackageJson.js', () => jest.fn((externalName) => ({
-  name: externalName,
-  version: '1.2.3-version-mock',
-})));
-
 describe('externals-loader', () => {
   let externalsLoader;
   let mockGetOptions;

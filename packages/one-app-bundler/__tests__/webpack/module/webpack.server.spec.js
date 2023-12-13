@@ -23,11 +23,6 @@ jest.mock('node:url', () => ({
   fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
 }));
 
-jest.mock('../../../utils/loadExternalsPackageJson.js', () => jest.fn((externalName) => ({
-  name: externalName,
-  version: '1.2.3-version-mock',
-})));
-
 jest.mock('read-pkg-up', () => ({
   readPackageUpSync: jest.fn(() => ({ packageJson: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
 }));

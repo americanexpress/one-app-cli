@@ -60,11 +60,6 @@ jest.mock('node:url', () => ({
   fileURLToPath: jest.fn(() => __dirname),
 }));
 
-jest.mock('../../utils/loadExternalsPackageJson.js', () => jest.fn((externalName) => ({
-  name: externalName,
-  version: '1.2.3-version-mock',
-})));
-
 describe('extendWebpackConfig', () => {
   let originalWebpackConfig = {};
 

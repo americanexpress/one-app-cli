@@ -12,13 +12,15 @@
  * under the License.
  */
 import { readPackageUpSync } from 'read-pkg-up';
-import loadExternalsPackageJson from '../../utils/loadExternalsPackageJson.js';
+import path from 'node:path';
 
 const { packageJson } = readPackageUpSync();
 
 async function externalsLoader() {
   const { externalName, bundleTarget } = this.getOptions();
-  const { version } = await loadExternalsPackageJson(externalName);
+  const version = readPackageUpSync({
+    cwd: path.resolve(process.cwd(), 'node_modules', externalName),
+  })?.packageJson.version;
 
   return `\
 try {

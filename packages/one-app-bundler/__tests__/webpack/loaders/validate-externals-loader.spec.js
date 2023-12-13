@@ -19,11 +19,6 @@ jest.mock('read-pkg-up', () => ({
   readPackageUpSync: jest.fn(),
 }));
 
-jest.mock('../../../utils/loadExternalsPackageJson.js', () => jest.fn((externalName) => ({
-  name: externalName,
-  version: '1.2.3-version-mock',
-})));
-
 // eslint-disable-next-line global-require -- mocking readPkgUp needs us to require a json file
 readPkgUp.readPackageUpSync.mockImplementation(() => ({ packageJson: require('../../../package.json') }));
 
