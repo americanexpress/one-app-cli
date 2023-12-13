@@ -77,7 +77,7 @@ describe('webpack/one-amex.base', () => {
     expect.assertions(2);
     process.env.NODE_ENV = 'development';
     const webpackConfig = (await import('../../webpack/webpack.common.js')).default;
-    expect(webpackConfig.plugins).toHaveLength(2);
+    expect(webpackConfig.plugins).toHaveLength(1);
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
 
@@ -85,7 +85,7 @@ describe('webpack/one-amex.base', () => {
     expect.assertions(2);
     process.env.NODE_ENV = 'production';
     const webpackConfig = (await import('../../webpack/webpack.common.js')).default;
-    expect(webpackConfig.plugins).toHaveLength(3);
+    expect(webpackConfig.plugins).toHaveLength(2);
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
 });

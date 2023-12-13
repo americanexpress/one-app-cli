@@ -17,7 +17,6 @@
  */
 import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
 import validateNodeEnvironment from '../utils/validateNodeEnv.js';
 
 validateNodeEnvironment();
@@ -35,26 +34,6 @@ const plugins = [
   new webpack.EnvironmentPlugin([
     'NODE_ENV',
   ]),
-  new ESLintPlugin({
-    allowInlineConfig: false,
-    ignore: false,
-    failOnError: true,
-    useEslintrc: false,
-    overrideConfig: {
-      parserOptions: {
-        ecmaVersion: 6,
-        sourceType: 'module',
-        ecmaFeatures: { modules: true },
-      },
-      rules: {
-        'no-restricted-modules': ['error', 'create-react-class'],
-        'no-restricted-imports': ['error', 'create-react-class'],
-        '@americanexpress/one-app/no-app-config-on-client': 'error',
-      },
-      plugins: ['@americanexpress/one-app'],
-      parser: '@babel/eslint-parser',
-    },
-  }),
   ...nodeEnvironmentIsProduction ? productionPlugins : [],
 ];
 

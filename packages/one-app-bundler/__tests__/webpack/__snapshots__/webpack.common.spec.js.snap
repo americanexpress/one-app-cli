@@ -8,46 +8,6 @@ Array [
       "NODE_ENV",
     ],
   },
-  ESLintWebpackPlugin {
-    "key": "ESLintWebpackPlugin",
-    "options": Object {
-      "allowInlineConfig": false,
-      "cache": true,
-      "cacheLocation": "node_modules/.cache/eslint-webpack-plugin/.eslintcache",
-      "emitError": true,
-      "emitWarning": true,
-      "extensions": "js",
-      "failOnError": true,
-      "ignore": false,
-      "overrideConfig": Object {
-        "parser": "@babel/eslint-parser",
-        "parserOptions": Object {
-          "ecmaFeatures": Object {
-            "modules": true,
-          },
-          "ecmaVersion": 6,
-          "sourceType": "module",
-        },
-        "plugins": Array [
-          "@americanexpress/one-app",
-        ],
-        "rules": Object {
-          "@americanexpress/one-app/no-app-config-on-client": "error",
-          "no-restricted-imports": Array [
-            "error",
-            "create-react-class",
-          ],
-          "no-restricted-modules": Array [
-            "error",
-            "create-react-class",
-          ],
-        },
-      },
-      "resourceQueryExclude": Array [],
-      "useEslintrc": false,
-    },
-    "run": [Function],
-  },
   LoaderOptionsPlugin {
     "options": Object {
       "debug": false,
@@ -67,46 +27,6 @@ Array [
     "keys": Array [
       "NODE_ENV",
     ],
-  },
-  ESLintWebpackPlugin {
-    "key": "ESLintWebpackPlugin",
-    "options": Object {
-      "allowInlineConfig": false,
-      "cache": true,
-      "cacheLocation": "node_modules/.cache/eslint-webpack-plugin/.eslintcache",
-      "emitError": true,
-      "emitWarning": true,
-      "extensions": "js",
-      "failOnError": true,
-      "ignore": false,
-      "overrideConfig": Object {
-        "parser": "@babel/eslint-parser",
-        "parserOptions": Object {
-          "ecmaFeatures": Object {
-            "modules": true,
-          },
-          "ecmaVersion": 6,
-          "sourceType": "module",
-        },
-        "plugins": Array [
-          "@americanexpress/one-app",
-        ],
-        "rules": Object {
-          "@americanexpress/one-app/no-app-config-on-client": "error",
-          "no-restricted-imports": Array [
-            "error",
-            "create-react-class",
-          ],
-          "no-restricted-modules": Array [
-            "error",
-            "create-react-class",
-          ],
-        },
-      },
-      "resourceQueryExclude": Array [],
-      "useEslintrc": false,
-    },
-    "run": [Function],
   },
 ]
 `;

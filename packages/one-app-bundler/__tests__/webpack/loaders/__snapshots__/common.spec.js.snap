@@ -148,6 +148,16 @@ Object {
   "loader": "sass-loader",
   "options": Object {
     "implementation": [Function],
+    "sassOptions": Object {
+      "includePaths": Array [
+        "/current/dir/src",
+        "/current/dir/node_modules",
+      ],
+      "loadPaths": Array [
+        "/current/dir/src",
+        "/current/dir/node_modules",
+      ],
+    },
   },
 }
 `;

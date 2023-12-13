@@ -111,6 +111,10 @@ export const sassLoader = () => ({
   loader: 'sass-loader',
   options: {
     implementation: dartSass,
+    sassOptions: {
+      loadPaths: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
+      includePaths: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
+    },
   },
 });
 
