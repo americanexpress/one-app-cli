@@ -27,7 +27,7 @@ async function providedExternalsLoader(content) {
     fallbackEnabled: false,
     ...providedExternals[externalName],
   }, null, 2)},
-        version: '${externalPkg.version}',
+        version: '${version}',
         module: require('${externalName}'),
       }`;
   }, {}));

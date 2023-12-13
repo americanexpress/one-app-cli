@@ -1,3 +1,15 @@
+# This repo has switched to independent versioning
+
+Each package now contains their own CHANGELOG:
+
+* [one-app-bundler](https://github.com/americanexpress/one-app-cli/blob/main/packages/one-app-bundler/CHANGELOG.md)
+* [eslint-plugin-one-app](https://github.com/americanexpress/one-app-cli/blob/main/packages/eslint-plugin-one-app/CHANGELOG.md)
+* [one-app-dev-bundler](https://github.com/americanexpress/one-app-cli/blob/main/packages/one-app-dev-bundler/CHANGELOG.md)
+* [one-app-locale-bundler](https://github.com/americanexpress/one-app-cli/blob/main/packages/one-app-locale-bundler/CHANGELOG.md)
+* [one-app-runner](https://github.com/americanexpress/one-app-cli/blob/main/packages/one-app-runner/CHANGELOG.md)
+* holocron-dev-server - Deprecated
+* generator-one-app-module - Deprecated
+
 # [](https://github.com/americanexpress/one-app-cli/compare/v6.9.0...v) (2020-08-28)
 
 

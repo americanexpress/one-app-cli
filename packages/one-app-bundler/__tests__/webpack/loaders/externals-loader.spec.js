@@ -17,9 +17,12 @@ import unboundExternalsLoader from '../../../webpack/loaders/externals-loader.js
 jest.mock('read-pkg-up', () => ({
   readPackageUpSync: () => ({
     packageJson: {
+      // this is used for the first call for modules package.json
       dependencies: {
         'my-dependency': '^1.0.0',
       },
+      // this is used on second call for the dependency package.json
+      version: '1.2.3',
     },
   }),
 }));
