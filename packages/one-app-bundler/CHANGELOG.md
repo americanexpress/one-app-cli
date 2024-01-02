@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.21.6](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.5...@americanexpress/one-app-bundler@6.21.6) (2024-01-02)
+
+
+### Bug Fixes
+
+* **one-app-bundler:** packages don't include package.json in exports ([#594](https://github.com/americanexpress/one-app-cli/issues/594)) ([fcf1567](https://github.com/americanexpress/one-app-cli/commit/fcf1567d0f875aed51858ac86b658e3ad87c5733))
+
+
+
+
+
 ## [6.21.5](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.3...@americanexpress/one-app-bundler@6.21.5) (2023-11-13)
 
 
