@@ -87,7 +87,7 @@ const purgeCssLoader = () => {
   return [{
     loader: '@americanexpress/purgecss-loader',
     options: {
-      paths: [path.join(packageRoot, 'src/**/*.{js,jsx}'), ...purgecss.paths || []],
+      paths: [path.join(packageRoot, 'src/**/*.{js,jsx,ts,tsx}'), ...purgecss.paths || []],
       extractors: purgecss.extractors || [],
       fontFace: purgecss.fontFace || false,
       keyframes: purgecss.keyframes || false,
