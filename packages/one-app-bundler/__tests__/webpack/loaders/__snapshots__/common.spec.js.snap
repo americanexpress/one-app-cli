@@ -97,7 +97,7 @@ Array [
       "fontFace": false,
       "keyframes": false,
       "paths": Array [
-        "/current/dir/src/**/*.{js,jsx}",
+        "/current/dir/src/**/*.{js,jsx,ts,tsx}",
         "foo",
         "bar",
       ],
@@ -126,7 +126,7 @@ Array [
       "fontFace": false,
       "keyframes": false,
       "paths": Array [
-        "/current/dir/src/**/*.{js,jsx}",
+        "/current/dir/src/**/*.{js,jsx,ts,tsx}",
       ],
       "safelist": Object {
         "deep": Array [
