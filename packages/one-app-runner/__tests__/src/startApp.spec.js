@@ -78,7 +78,7 @@ describe('startApp', () => {
         "one-app:5.0.0",
         "/bin/sh",
         "-c",
-        "   node --dns-result-order=ipv4first --no-experimental-fetch  lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  ",
+        "npm config set update-notifier false &&    node   lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  ",
       ]
     `);
   });
@@ -139,7 +139,7 @@ describe('startApp', () => {
       '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot(
-      '"npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' &&   node --dns-result-order=ipv4first --no-experimental-fetch  lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  "'
+      '"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' &&   node   lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  "'
     );
   });
 
@@ -156,7 +156,7 @@ describe('startApp', () => {
       '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot(
-      '"npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' &&   node --dns-result-order=ipv4first --no-experimental-fetch  lib/server/index.js --root-module-name=frank-lloyd-root   "'
+      '"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' &&   node   lib/server/index.js --root-module-name=frank-lloyd-root   "'
     );
   });
 
@@ -168,7 +168,7 @@ describe('startApp', () => {
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], parrotMiddlewareFile: '/path/to/module-a/dev.middleware.js',
     });
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot(
-      '"npm run serve-module \'/opt/module-workspace/module-a\' && npm run set-middleware \'/opt/module-workspace/module-a/dev.middleware.js\' &&  node --dns-result-order=ipv4first --no-experimental-fetch  lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json -m "'
+      '"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' && npm run set-middleware \'/opt/module-workspace/module-a/dev.middleware.js\' &&  node   lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json -m "'
     );
   });
 
@@ -180,7 +180,7 @@ describe('startApp', () => {
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], devEndpointsFile: '/path/to/module-a/dev.endpoints.js',
     });
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot(
-      '"npm run serve-module \'/opt/module-workspace/module-a\' &&  npm run set-dev-endpoints \'/opt/module-workspace/module-a/dev.endpoints.js\' && node --dns-result-order=ipv4first --no-experimental-fetch  lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  "'
+      '"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' &&  npm run set-dev-endpoints \'/opt/module-workspace/module-a/dev.endpoints.js\' && node   lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  "'
     );
   });
 
@@ -346,6 +346,18 @@ describe('startApp', () => {
     ]);
   });
 
+  it('suppresses npm update notifications', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], dockerNetworkToJoin: 'one-test-environment-1234',
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      'npm config set update-notifier false'
+    );
+  });
+
   it('applies inspect mode to node process when useDebug is passed', async () => {
     expect.assertions(1);
     const mockSpawn = makeMockSpawn();
@@ -370,6 +382,38 @@ describe('startApp', () => {
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
       '--inspect=0.0.0.0:9221'
     );
+  });
+
+  it('adds node flags when one-app version is greater than 5.13.0', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.14.0', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      '--dns-result-order=ipv4first --no-experimental-fetch'
+    );
+  });
+  it('adds node flags when one-app version is greater than 5.13.0 but only major specified', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      '--dns-result-order=ipv4first --no-experimental-fetch'
+    );
+  });
+  it('does NOT add node flags when one-app version is less than 5.13.0', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.12.0', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot('"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' &&   node   lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json  "');
   });
 
   it('ensures the user\'s One App directory exists', async () => {

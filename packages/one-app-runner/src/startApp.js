@@ -110,6 +110,8 @@ const generateSetDevEndpointsCommand = (pathToDevEndpointsFile) => {
 
 const generateUseMocksFlag = (shouldUseMocks) => (shouldUseMocks ? '-m' : '');
 
+const generateNpmConfigCommands = () => 'npm config set update-notifier false &&';
+
 const generateServeModuleCommands = (modules) => {
   let command = '';
   if (modules && modules.length > 0) {
@@ -124,6 +126,21 @@ const generateServeModuleCommands = (modules) => {
 const generateModuleMap = (moduleMapUrl) => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
 
 const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}` : '');
+
+// Node 12 does not support --dns-result-order or --no-experimental-fetch
+// So we have to remove those flags if the one-app version is less than 5.13.0
+// 5.13.0 is when node 16 was introduced.
+const generateNodeFlags = (appVersion) => {
+  const versionArray = appVersion.split('.');
+  if (versionArray.length > 1) {
+    const majorVersion = Number.parseInt(versionArray[0], 10);
+    const minorVersion = Number.parseInt(versionArray[1], 10);
+    if (majorVersion === 5 && minorVersion < 13) {
+      return '';
+    }
+  }
+  return '--dns-result-order=ipv4first --no-experimental-fetch';
+};
 
 module.exports = async function startApp({
   moduleMapUrl,
@@ -189,13 +206,17 @@ module.exports = async function startApp({
     containerEnvVars.set('NODE_EXTRA_CA_CERTS', mountPath);
   }
 
+  const appVersion = appDockerImage.split(':')[1];
+
   const containerShellCommand = `${
+    generateNpmConfigCommands()
+  } ${
     generateServeModuleCommands(modulesToServe)
   } ${
     generateSetMiddlewareCommand(parrotMiddlewareFile)
   } ${
     generateSetDevEndpointsCommand(devEndpointsFile)
-  } node --dns-result-order=ipv4first --no-experimental-fetch ${
+  } node ${generateNodeFlags(appVersion)} ${
     generateDebug(debugPort, useDebug)
   } lib/server/index.js --root-module-name=${rootModuleName} ${
     generateModuleMap(moduleMapUrl)

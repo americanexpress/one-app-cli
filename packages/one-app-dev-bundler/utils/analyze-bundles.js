@@ -25,7 +25,7 @@ const BUNDLERS = ['webpack', 'esbuild'];
 
 const readStatsFile = async (fileName) => {
   try {
-    const content = await fs.promises.readFile(path.resolve(process.cwd(), fileName), 'utf-8');
+    const content = await fs.promises.readFile(path.resolve(process.cwd(), '.build-stats', fileName), 'utf-8');
 
     return content;
   } catch (error) {

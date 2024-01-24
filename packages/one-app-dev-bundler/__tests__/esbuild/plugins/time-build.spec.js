@@ -24,7 +24,9 @@ jest.spyOn(console, 'log');
 jest.mock('node:fs', () => ({
   promises: {
     writeFile: jest.fn(),
+    mkdir: jest.fn(),
   },
+  existsSync: jest.fn(() => true),
 }));
 
 describe('Esbuild plugin timeBuild', () => {
@@ -89,8 +91,35 @@ describe('Esbuild plugin timeBuild', () => {
         expect(console.log).toHaveBeenCalledTimes(1);
         expect(console.log).toHaveBeenCalledWith('mockBundleName bundle built in 3ms');
         expect(fs.promises.writeFile).toHaveBeenCalledTimes(1);
-        expect(fs.promises.writeFile).toHaveBeenCalledWith('.esbuild-stats.mockBundleName.json', '{"file.js":{},"durationMs":3}');
+        expect(fs.promises.writeFile).toHaveBeenCalledWith('./.build-stats/.esbuild-stats.mockBundleName.json', '{"file.js":{},"durationMs":3}');
       });
+
+      it('creates .build-stats directory if it does not exist', async () => {
+        fs.existsSync.mockReturnValue(false);
+
+        const plugin = timeBuild({ bundleName: 'mockBundleName', watch: false });
+        const hooks = runSetupAndGetLifeHooks(plugin);
+        const onStart = hooks.onStart[0];
+        const onEnd = hooks.onEnd[0];
+
+        process.hrtime.bigint.mockImplementation(() => BigInt(1000000)); // 1ms in nanoseconds
+        onStart(); // call onStart to load in the start time
+        jest.clearAllMocks();
+
+        process.hrtime.bigint.mockImplementation(() => BigInt(4000000)); // 4ms in nanoseconds
+
+        await onEnd({
+          metafile: {
+            outputs: {
+              'file.js': {},
+            },
+          },
+        });
+
+        expect(fs.promises.mkdir).toHaveBeenCalledTimes(1);
+        expect(fs.promises.mkdir).toHaveBeenCalledWith('.build-stats');
+      });
+
       it('should sanatize bundlename replacing `/` with `-`', async () => {
         const plugin = timeBuild({ bundleName: '@scoped/mockBundleName', watch: false });
         const hooks = runSetupAndGetLifeHooks(plugin);
@@ -111,7 +140,7 @@ describe('Esbuild plugin timeBuild', () => {
           },
         });
 
-        expect(fs.promises.writeFile).toHaveBeenCalledWith('.esbuild-stats.@scoped-mockBundleName.json', '{"file.js":{},"durationMs":3}');
+        expect(fs.promises.writeFile).toHaveBeenCalledWith('./.build-stats/.esbuild-stats.@scoped-mockBundleName.json', '{"file.js":{},"durationMs":3}');
       });
       it('should not log in watch mode', async () => {
         const plugin = timeBuild({ bundleName: 'mockBundleName', watch: true });

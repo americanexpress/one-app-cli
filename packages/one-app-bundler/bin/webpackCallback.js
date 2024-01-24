@@ -42,7 +42,12 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
       });
     }
 
-    fs.writeFileSync(path.join(process.cwd(), `.webpack-stats.${label}.json`), JSON.stringify(jsonStats));
+    const buildStatsPath = path.join(process.cwd(), '.build-stats');
+    if (!fs.existsSync(buildStatsPath)) {
+      fs.mkdirSync(buildStatsPath);
+    }
+
+    fs.writeFileSync(path.join(buildStatsPath, `.webpack-stats.${label}.json`), JSON.stringify(jsonStats));
 
     if (isModuleBuild) {
       generateIntegrityManifest(
