@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.21.7](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.6...@americanexpress/one-app-bundler@6.21.7) (2024-01-29)
+
+
+### Bug Fixes
+
+* **build-stats:** esbuild and webpack stats under build-stats dir ([#595](https://github.com/americanexpress/one-app-cli/issues/595)) ([5b9701b](https://github.com/americanexpress/one-app-cli/commit/5b9701b2518a4d9e88443790125af75ddee53af1))
+* **webpack:** include typescript files in purgecss loader ([#601](https://github.com/americanexpress/one-app-cli/issues/601)) ([a078627](https://github.com/americanexpress/one-app-cli/commit/a078627fb6f3ea89603182d43b5917efd861cdef))
+
+
+
+
+
 ## [6.21.6](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.5...@americanexpress/one-app-bundler@6.21.6) (2024-01-02)
 
 
