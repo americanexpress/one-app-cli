@@ -19,8 +19,10 @@ import { readPackageUpSync } from 'read-pkg-up';
 import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
 import commonConfig from '../webpack.common.js';
 import {
-  babelLoader, cssLoader, purgeCssLoader, sassLoader,
+  babelLoader,
 } from '../loaders/common.js';
+import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
+import ServerSsrStylesInjectorPlugin from '../plugins/server-ssr-styles-injector.js';
 
 const packageRoot = process.cwd();
 const { packageJson } = readPackageUpSync();
@@ -49,22 +51,34 @@ const webpackServer = extendWebpackConfig(merge(
           include: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
           use: [babelLoader()],
         },
+        // {
+        //   test: /\.(sa|sc|c)ss$/,
+        //   use: [
+        //     {
+        //       loader: '@americanexpress/one-app-bundler/webpack/loaders/ssr-css-loader', options: { name },
+        //     },
+        //     cssLoader({ name }),
+        //     ...purgeCssLoader(),
+        //     sassLoader(),
+        //   ],
+        // },
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
             {
-              loader: '@americanexpress/one-app-bundler/webpack/loaders/ssr-css-loader', options: { name },
+              loader: '@americanexpress/one-app-bundler/webpack/loaders/styles-loader',
+              options: {
+                cssModulesOptions: {},
+                bundleType: BUNDLE_TYPES.SERVER,
+              },
             },
-            cssLoader({ name }),
-            ...purgeCssLoader(),
-            sassLoader(),
           ],
         },
         {
           test: path.join(packageRoot, 'src', 'index'),
           use: [
             {
-              loader: '@americanexpress/one-app-bundler/webpack/loaders/ssr-css-loader/index-style-loader',
+              loader: '@americanexpress/one-app-bundler/webpack/loaders/index-server-ssr-styles-placeholder-loader',
             },
             {
               loader: '@americanexpress/one-app-bundler/webpack/loaders/meta-data-loader',
@@ -74,6 +88,7 @@ const webpackServer = extendWebpackConfig(merge(
       ],
     },
     plugins: [
+      new ServerSsrStylesInjectorPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
       }),

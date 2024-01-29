@@ -12,18 +12,17 @@
  * under the License.
  */
 
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import getMetaUrl from '../../../utils/getMetaUrl.mjs';
+export const stylesPlaceholderUUID = '2574b873-59dc-4da6-8692-d767a2484dac';
 
-const dirname = path.dirname(fileURLToPath(getMetaUrl()));
-// stringify handles win32 path slashes too
-// so `C:\path\node_modules` doesn't turn into something with a newline
-const cssBasePath = JSON.stringify(path.resolve(dirname, '../webpack/loaders/ssr-css-loader/css-base.js'));
+export default function indexServerSsrStylesPlaceholderLoader(content) {
+  const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
-export default function indexStyleLoader(content) {
-  return `
+  if (match) {
+    return `
   ${content}
-  __webpack_exports__.default.ssrStyles = require(${cssBasePath})['default']();
+    ;${match[1]}.ssrStyles = '${stylesPlaceholderUUID}'
   `;
+  }
+
+  throw new Error('one-app-bundler: Module must use `export default VariableName` syntax in index');
 }

@@ -22,6 +22,7 @@ let aggregatedStyles = {
 const sheetDigests = new Set();
 
 export function addStyle(digest, css, isDependencyFile) {
+  console.log('ADDING STYLE')
   if (!sheetDigests.has(digest)) {
     sheetDigests.add(digest);
 
@@ -40,10 +41,11 @@ export const getAggregatedStyles = () => JSON.stringify(
   [...aggregatedStyles.deps, ...aggregatedStyles.local]
 );
 
-export function emptyAggregatedStyles() {
+export const emptyAggregatedStyles = () => {
+  console.log('CLEARING STYLES')
   aggregatedStyles = {
     deps: [],
     local: [],
   };
   sheetDigests.clear();
-}
+};

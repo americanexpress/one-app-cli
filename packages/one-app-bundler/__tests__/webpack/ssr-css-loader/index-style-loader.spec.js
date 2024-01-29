@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import indexStyleLoader from '../../../webpack/loaders/ssr-css-loader/index-style-loader.js';
+import indexServerSsrStylesLoader from '../../../webpack/loaders/index-server-ssr-styles-loader.js';
 
 jest.mock('node:path', () => ({
   resolve: (dir, filename) => `/path/to/one-app-bundler/webpack/ssr-css-loader/${filename}`,
@@ -26,6 +26,6 @@ jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
 
 describe('index-style-loader', () => {
   it('should add an ssrStyles export', () => {
-    expect(indexStyleLoader('some content')).toMatchSnapshot();
+    expect(indexServerSsrStylesLoader('some content')).toMatchSnapshot();
   });
 });

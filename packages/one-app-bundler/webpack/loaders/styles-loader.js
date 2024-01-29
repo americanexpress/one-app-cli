@@ -12,27 +12,11 @@
  * under the License.
  */
 
-/* eslint-disable prefer-arrow-callback, object-shorthand --
-uglifyjs expects ES5, disable newer syntax/features */
+import { loadStyles } from '@americanexpress/one-app-dev-bundler';
 
-const styleList = [];
-
-// css-loader gets an array of [module.id, style string]
-function push(s) {
-  styleList.push(s);
+function stylesLoader(content) {
+  console.log(content, this.resourcePath, this.getOptions());
+  return loadStyles({ path: this.resourcePath, ...this.getOptions() });
 }
 
-function getFullSheet() {
-  return styleList
-    .map(function stylesEntry(s) { return s[1]; })
-    .join('\n');
-}
-
-export default function getCssBase(/* useSourceMap */) {
-  return {
-    push: push,
-    getFullSheet: getFullSheet,
-  };
-}
-
-/* eslint-enable prefer-arrow-callback, object-shorthand -- disables require enables */
+export default stylesLoader;
