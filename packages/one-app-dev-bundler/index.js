@@ -15,6 +15,11 @@
  */
 
 import _devBuildModule from './utils/dev-build-module.js';
+import _loadStyles from './esbuild/utils/load-styles.js';
+
+export { BUNDLE_TYPES } from './esbuild/constants/enums.js';
+export const loadStyles = _loadStyles;
+export { getAggregatedStyles, emptyAggregatedStyles } from './esbuild/utils/server-style-aggregator.js';
 
 export { bundleExternalFallbacks } from './utils/bundle-external-fallbacks.js';
 
