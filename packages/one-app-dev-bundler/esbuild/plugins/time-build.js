@@ -32,7 +32,10 @@ const timeBuild = ({ bundleName, watch }) => ({
       if (!watch) { // watch has its own logging
         console.log(`${bundleName} bundle built in ${result.durationMs}ms`);
         const sanitizedName = bundleName.replace('/', '-');
-        await fs.promises.writeFile(`.esbuild-stats.${sanitizedName}.json`, JSON.stringify({
+        if (!fs.existsSync('.build-stats')) {
+          await fs.promises.mkdir('.build-stats');
+        }
+        await fs.promises.writeFile(`./.build-stats/.esbuild-stats.${sanitizedName}.json`, JSON.stringify({
           ...result.metafile.outputs,
           durationMs: result.durationMs,
         }));

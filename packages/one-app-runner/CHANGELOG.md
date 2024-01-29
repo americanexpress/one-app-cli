@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.16.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.16.0...@americanexpress/one-app-runner@6.16.2) (2024-01-02)
+
+
+### Bug Fixes
+
+* disable native fetch in node ([#586](https://github.com/americanexpress/one-app-cli/issues/586)) ([4938125](https://github.com/americanexpress/one-app-cli/commit/49381256250c22e6a43585127d3fc304fe5a8d47))
+* **one-app-runner:** suppress npm update notifications ([#589](https://github.com/americanexpress/one-app-cli/issues/589)) ([e769426](https://github.com/americanexpress/one-app-cli/commit/e76942600ccf3bcf3e723fc79afd7468022bf715))
+* runner failed to start with node 12 images ([#597](https://github.com/americanexpress/one-app-cli/issues/597)) ([0a65c2f](https://github.com/americanexpress/one-app-cli/commit/0a65c2fdf53a8535622fe38450319c628fb76c07))
+
+
+
+
+
 ## [6.16.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.16.0...@americanexpress/one-app-runner@6.16.1) (2023-11-17)
 
 
