@@ -15,7 +15,7 @@
  */
 
 import _devBuildModule from './utils/dev-build-module.js';
-import _loadStyles from './esbuild/utils/loadStyles.js';
+import _loadStyles from './esbuild/utils/load-styles.js';
 
 export { BUNDLE_TYPES } from './esbuild/constants/enums.js';
 export const loadStyles = _loadStyles;

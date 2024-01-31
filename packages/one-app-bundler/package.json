@@ -40,7 +40,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@americanexpress/one-app-dev-bundler": "^1.5.5",
+    "@americanexpress/one-app-dev-bundler": "^1.6.1-rc.1",
     "@americanexpress/one-app-locale-bundler": "^6.6.0",
     "@americanexpress/purgecss-loader": "4.0.0",
     "@babel/core": "^7.22.20",
@@ -63,8 +63,6 @@
     "mkdirp": "^3.0.1",
     "read-pkg-up": "^10.1.0",
     "rimraf": "^5.0.1",
-    "sass": "^1.67.0",
-    "sass-loader": "^13.3.2",
     "source-map": "^0.7.4",
     "ssri": "^10.0.5",
     "style-loader": "^3.3.3",

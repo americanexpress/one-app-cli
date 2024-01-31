@@ -18,6 +18,8 @@ import { validateWebpackConfig } from '../../../test-utils.js';
 import getConfigOptions from '../../../utils/getConfigOptions.js';
 import configGenerator from '../../../webpack/module/webpack.client.js';
 
+jest.mock('@americanexpress/one-app-dev-bundler', () => ({ BUNDLE_TYPES: { BROWSER: 'BROWSER_BUILD_TYPE', SERVER: 'SERVER_BUILD_TYPE' } }));
+
 jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split(`${path.sep}__tests__`)[0]);
 
@@ -100,7 +102,7 @@ describe('webpack/module.client', () => {
     expect.assertions(2);
     const webpackConfig = await configGenerator();
     expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
-    expect(webpackConfig.plugins).toContainEqual({ definitions: { 'global.BROWSER': 'true' } });
+    expect(webpackConfig.plugins).toContainEqual({ definitions: { global: 'globalThis', 'global.BROWSER': 'true' } });
   });
 
   it('should append holocronModule with name', async () => {

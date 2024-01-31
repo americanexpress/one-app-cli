@@ -30,10 +30,9 @@ export default function createResolver({ mainFields }) {
     useSyncFileSystemCalls: true,
     extensions: ['.js', '.jsx', '.json'],
     mainFields,
-    resolveToContext: true,
+    conditionNames: ['require'],
   });
 
-  const trailingSlash = process.platform === 'win32' ? '\\' : '/';
   const dirname = path.join(path.dirname(fileURLToPath(getMetaUrl())), '../webpack');
-  return (request) => `${enhancedResolver.resolveSync({}, dirname, request)}${trailingSlash}`;
+  return (request) => `${enhancedResolver.resolveSync({}, dirname, request)}`;
 }

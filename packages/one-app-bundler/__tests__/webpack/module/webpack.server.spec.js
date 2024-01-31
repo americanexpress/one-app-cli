@@ -15,6 +15,8 @@
 import webpackConfig from '../../../webpack/module/webpack.server.js';
 import { validateWebpackConfig } from '../../../test-utils.js';
 
+jest.mock('@americanexpress/one-app-dev-bundler', () => ({ BUNDLE_TYPES: { BROWSER: 'BROWSER_BUILD_TYPE', SERVER: 'SERVER_BUILD_TYPE' } }));
+
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 
 jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
@@ -36,6 +38,6 @@ describe('webpack/module.server', () => {
   it('should define global.BROWSER to be false', async () => {
     expect.assertions(2);
     expect(await webpackConfig).toHaveProperty('plugins', expect.any(Array));
-    expect((await webpackConfig).plugins).toContainEqual({ definitions: { 'global.BROWSER': 'false' } });
+    expect((await webpackConfig).plugins).toContainEqual({ definitions: { global: 'globalThis', 'global.BROWSER': 'false' } });
   });
 });

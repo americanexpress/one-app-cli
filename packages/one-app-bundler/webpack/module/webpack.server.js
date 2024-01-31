@@ -16,12 +16,12 @@ import path from 'node:path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import { readPackageUpSync } from 'read-pkg-up';
+import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
 import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
 import commonConfig from '../webpack.common.js';
 import {
   babelLoader,
 } from '../loaders/common.js';
-import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
 import ServerSsrStylesInjectorPlugin from '../plugins/server-ssr-styles-injector.js';
 
 const packageRoot = process.cwd();
@@ -51,17 +51,6 @@ const webpackServer = extendWebpackConfig(merge(
           include: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
           use: [babelLoader()],
         },
-        // {
-        //   test: /\.(sa|sc|c)ss$/,
-        //   use: [
-        //     {
-        //       loader: '@americanexpress/one-app-bundler/webpack/loaders/ssr-css-loader', options: { name },
-        //     },
-        //     cssLoader({ name }),
-        //     ...purgeCssLoader(),
-        //     sassLoader(),
-        //   ],
-        // },
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
@@ -94,6 +83,7 @@ const webpackServer = extendWebpackConfig(merge(
       }),
       new webpack.DefinePlugin({
         'global.BROWSER': JSON.stringify(false),
+        global: 'globalThis',
       }),
     ],
   }

@@ -18,13 +18,13 @@ import { merge } from 'webpack-merge';
 import { readPackageUpSync } from 'read-pkg-up';
 import HolocronModuleRegisterPlugin from 'holocron-module-register-webpack-plugin';
 import { SubresourceIntegrityPlugin as SriPlugin } from 'webpack-subresource-integrity';
+import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
 import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
 import commonConfig from '../webpack.common.js';
 import getConfigOptions from '../../utils/getConfigOptions.js';
 import {
   babelLoader,
 } from '../loaders/common.js';
-import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
 
 const packageRoot = process.cwd();
 const { packageJson } = readPackageUpSync();
@@ -80,15 +80,6 @@ const webpackClient = async (babelEnv) => {
             include: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
             use: [babelLoader(babelEnv)],
           },
-          // {
-          //   test: /\.(sa|sc|c)ss$/,
-          //   use: [
-          //     { loader: 'style-loader' },
-          //     cssLoader({ name }),
-          //     ...purgeCssLoader(),
-          //     sassLoader(),
-          //   ],
-          // },
           {
             test: /\.(sa|sc|c)ss$/,
             use: [
@@ -107,6 +98,7 @@ const webpackClient = async (babelEnv) => {
         new HolocronModuleRegisterPlugin(name, holocronModuleName),
         new webpack.DefinePlugin({
           'global.BROWSER': JSON.stringify(true),
+          global: 'globalThis',
         }),
         new SriPlugin({
           hashFuncNames: ['sha256', 'sha384'],

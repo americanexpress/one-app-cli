@@ -24,6 +24,9 @@ import getModulesBundlerConfig from './get-modules-bundler-config.js';
 import { BUNDLE_TYPES } from '../constants/enums.js';
 import { addStyle } from './server-style-aggregator.js';
 
+// This function can generically take a css or scss file,
+// and 'load it'. Meaning it can be called from either
+// esbuild or webpack based bundlers.
 const loadStyles = async ({
   path,
   cssModulesOptions,

@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-dev-bundler",
-  "version": "1.5.5",
+  "version": "1.6.1-rc.1",
   "description": "A development bundler focussed on speed and modern features.",
   "main": "index.js",
   "bin": {
@@ -32,7 +32,7 @@
     "acorn": "^8.8.0",
     "acorn-walk": "^8.2.0",
     "chalk": "^4.1.2",
-    "cssnano": "^5.1.15",
+    "cssnano": "^6.0.3",
     "esbuild": "^0.15.9",
     "esbuild-plugin-polyfill-node": "^0.3.0",
     "esbuild-plugin-svgr": "^1.0.1",
@@ -40,8 +40,8 @@
     "glob-all": "^3.3.0",
     "lodash.snakecase": "^4.1.1",
     "ms": "^2.1.3",
-    "postcss": "^7.0.32",
-    "postcss-modules": "^3.2.2",
+    "postcss": "^8.4.33",
+    "postcss-modules": "^6.0.0",
     "read-pkg-up": "^9.0.0",
     "regenerator-runtime": "^0.13.9",
     "sass": "^1.68.0",

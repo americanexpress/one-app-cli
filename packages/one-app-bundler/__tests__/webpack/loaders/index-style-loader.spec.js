@@ -12,20 +12,13 @@
  * under the License.
  */
 
-import getCssBase from '../../../webpack/loaders/ssr-css-loader/css-base.js';
+import indexServerSsrStylesPlaceholderLoader from '../../../webpack/loaders/index-server-ssr-styles-placeholder-loader';
 
-describe('CSS base', () => {
-  it('should return a function that returns an object of functions', () => {
-    expect(getCssBase()).toEqual(expect.objectContaining({
-      push: expect.any(Function),
-      getFullSheet: expect.any(Function),
-    }));
+describe('index-style-loader', () => {
+  it('should add an ssrStyles export with a uuid placeholder', () => {
+    expect(indexServerSsrStylesPlaceholderLoader('export default SomeModuleName;')).toMatchSnapshot();
   });
-
-  it('should push styles to a private array that can be retreived as a string', () => {
-    const { push, getFullSheet } = getCssBase();
-    push([1, '.highlight { background:yellow; }']);
-    push([2, 'h1 { font-size: 3em; }']);
-    expect(getFullSheet()).toMatchSnapshot();
+  it('should throw with a reasonable error message if the default export is not there', () => {
+    expect(() => indexServerSsrStylesPlaceholderLoader('no export')).toThrow('one-app-bundler: Module must use `export default VariableName` syntax in index');
   });
 });

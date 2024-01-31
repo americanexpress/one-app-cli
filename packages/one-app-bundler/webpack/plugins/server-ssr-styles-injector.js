@@ -7,15 +7,19 @@ class ServerSsrStylesInjectorPlugin {
   apply(compiler) {
     compiler.hooks.assetEmitted.tap('ServerSsrStylesInjectorPlugin', async (file, { targetPath }) => {
       if (targetPath.endsWith('.node.js')) {
-        console.log('here');
         const initialContent = await fs.promises.readFile(targetPath, 'utf8');
 
-        const outputContent = initialContent.replace(`'${stylesPlaceholderUUID}'`, `{
-    aggregatedStyles: ${getAggregatedStyles()},
-    getFullSheet: function getFullSheet() {
-return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
-},
-  };`);
+        const replacementString = `{
+aggregatedStyles: ${getAggregatedStyles()},
+getFullSheet: function getFullSheet() {
+  return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
+  },
+};`;
+
+        // replace both for `'` and `"` since the production bundler changes between those
+        const outputContent = initialContent
+          .replace(`'${stylesPlaceholderUUID}'`, replacementString)
+          .replace(`"${stylesPlaceholderUUID}"`, replacementString);
         await fs.promises.writeFile(targetPath, outputContent, 'utf8');
         emptyAggregatedStyles();
       }

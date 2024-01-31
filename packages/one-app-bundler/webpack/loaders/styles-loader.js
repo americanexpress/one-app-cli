@@ -14,9 +14,10 @@
 
 import { loadStyles } from '@americanexpress/one-app-dev-bundler';
 
-function stylesLoader(content) {
-  console.log(content, this.resourcePath, this.getOptions());
-  return loadStyles({ path: this.resourcePath, ...this.getOptions() });
+function stylesLoader() {
+  const options = { ...this.getOptions() };
+  options.cssModulesOptions.generateScopedName = this.resourcePath.includes('node_modules') ? '[local]' : '[local]_[hash:base64:5]';
+  return loadStyles({ path: this.resourcePath, ...options });
 }
 
 export default stylesLoader;

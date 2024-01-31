@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-import loadStyles from '../utils/loadStyles.js';
+import loadStyles from '../utils/load-styles.js';
 
 // the styles loader currently supports
 // scss to css conversion

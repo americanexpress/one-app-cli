@@ -1,6 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`CSS base should push styles to a private array that can be retreived as a string 1`] = `
-".highlight { background:yellow; }
-h1 { font-size: 3em; }"
-`;
