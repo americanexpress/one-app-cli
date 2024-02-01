@@ -14,7 +14,7 @@ class ServerSsrStylesInjectorPlugin {
   getFullSheet: function getFullSheet() {
     return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
   },
-};`;
+}`;
 
         // replace both for `'` and `"` since the production bundler changes between those
         const outputContent = initialContent
