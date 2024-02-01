@@ -5,9 +5,9 @@ import { stylesPlaceholderUUID } from '../loaders/index-server-ssr-styles-placeh
 class ServerSsrStylesInjectorPlugin {
   // eslint-disable-next-line class-methods-use-this -- no need for this
   apply(compiler) {
-    compiler.hooks.assetEmitted.tap('ServerSsrStylesInjectorPlugin', async (file, { targetPath }) => {
+    compiler.hooks.assetEmitted.tap('ServerSsrStylesInjectorPlugin', (file, { targetPath }) => {
       if (targetPath.endsWith('.node.js')) {
-        const initialContent = await fs.promises.readFile(targetPath, 'utf8');
+        const initialContent = fs.readFileSync(targetPath, 'utf8');
 
         const replacementString = `{
   aggregatedStyles: ${getAggregatedStyles()},
@@ -20,7 +20,7 @@ class ServerSsrStylesInjectorPlugin {
         const outputContent = initialContent
           .replace(`'${stylesPlaceholderUUID}'`, replacementString)
           .replace(`"${stylesPlaceholderUUID}"`, replacementString);
-        await fs.promises.writeFile(targetPath, outputContent, 'utf8');
+        fs.writeFileSync(targetPath, outputContent, 'utf8');
         emptyAggregatedStyles();
       }
     });

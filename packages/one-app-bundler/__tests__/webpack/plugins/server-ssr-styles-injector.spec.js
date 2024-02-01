@@ -28,8 +28,7 @@ jest.mock('@americanexpress/one-app-dev-bundler', () => (
 
 const mockStylesPlaceholderUUID = stylesPlaceholderUUID;
 jest.mock('node:fs', () => ({
-  promises: {
-    readFile: jest.fn(async () => `
+  readFileSync: jest.fn(() => `
     // replaced
     ssrStyles = '${mockStylesPlaceholderUUID}'
     
@@ -43,8 +42,7 @@ jest.mock('node:fs', () => ({
     // not replaced
     ssrStyles = ${mockStylesPlaceholderUUID}
     `),
-    writeFile: jest.fn(),
-  },
+  writeFileSync: jest.fn(),
 }));
 
 describe('ServerSsrStylesInjectorPlugin', () => {
@@ -68,8 +66,7 @@ describe('ServerSsrStylesInjectorPlugin', () => {
     expect(mockCompiler.hooks.assetEmitted.tap.mock.calls[0][0]).toBe('ServerSsrStylesInjectorPlugin');
   });
 
-  it('The registered function should inject the aggregated styles into the placeholder for .node.js files', async () => {
-    expect.assertions(7);
+  it('The registered function should inject the aggregated styles into the placeholder for .node.js files', () => {
     const plugin = new ServerSsrStylesInjectorPlugin();
 
     let registeredFn;
@@ -87,20 +84,19 @@ describe('ServerSsrStylesInjectorPlugin', () => {
 
     expect(registeredFn).not.toBe(undefined);
 
-    await registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.node.js' });
+    registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.node.js' });
 
-    expect(fs.promises.readFile).toHaveBeenCalledTimes(1);
-    expect(fs.promises.writeFile).toHaveBeenCalledTimes(1);
+    expect(fs.readFileSync).toHaveBeenCalledTimes(1);
+    expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
 
-    expect(fs.promises.writeFile.mock.calls[0][1]).toMatchSnapshot();
+    expect(fs.writeFileSync.mock.calls[0][1]).toMatchSnapshot();
 
     expect(mockCompiler.hooks.assetEmitted.tap.mock.calls[0][0]).toBe('ServerSsrStylesInjectorPlugin');
 
     expect(getAggregatedStyles).toHaveBeenCalledTimes(1);
     expect(emptyAggregatedStyles).toHaveBeenCalledTimes(1);
   });
-  it('The registered function should do nothing for non .node.js files', async () => {
-    expect.assertions(5);
+  it('The registered function should do nothing for non .node.js files', () => {
     const plugin = new ServerSsrStylesInjectorPlugin();
 
     let registeredFn;
@@ -118,13 +114,13 @@ describe('ServerSsrStylesInjectorPlugin', () => {
 
     expect(registeredFn).not.toBe(undefined);
 
-    await registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.note.js' });
-    await registeredFn('fileNameMock.node.js', { targetPath: 'target/Path/Mock.browser.js' });
-    await registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.legacyBrowser.js' });
-    await registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.something.js' });
+    registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.note.js' });
+    registeredFn('fileNameMock.node.js', { targetPath: 'target/Path/Mock.browser.js' });
+    registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.legacyBrowser.js' });
+    registeredFn('fileNameMock', { targetPath: 'target/Path/Mock.something.js' });
 
-    expect(fs.promises.readFile).toHaveBeenCalledTimes(0);
-    expect(fs.promises.writeFile).toHaveBeenCalledTimes(0);
+    expect(fs.readFileSync).toHaveBeenCalledTimes(0);
+    expect(fs.writeFileSync).toHaveBeenCalledTimes(0);
 
     expect(getAggregatedStyles).toHaveBeenCalledTimes(0);
     expect(emptyAggregatedStyles).toHaveBeenCalledTimes(0);
