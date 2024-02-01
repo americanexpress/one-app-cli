@@ -14,13 +14,11 @@
 
 import path from 'node:path';
 
-const packageRoot = process.cwd();
-
 export const babelLoader = (babelEnv) => ({
   loader: 'babel-loader',
   options: {
-    extends: path.join(packageRoot, '.babelrc'),
+    extends: path.join(process.cwd(), '.babelrc'),
     envName: babelEnv,
-    cacheDirectory: path.join(packageRoot, '.build-cache'),
+    cacheDirectory: path.join(process.cwd(), '.build-cache'),
   },
 });

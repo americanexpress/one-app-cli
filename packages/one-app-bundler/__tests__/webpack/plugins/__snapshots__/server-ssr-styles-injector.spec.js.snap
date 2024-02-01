@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServerSsrStylesInjectorPlugin The registered function should inject the aggregated styles into the placeholder for .node.js files 1`] = `
+"
+    // replaced
+    ssrStyles = {
+  aggregatedStyles: [{\\"css\\":\\"* {color: red}\\",\\"digest\\":\\"digest1Mock\\"},{\\"css\\":\\"* {color: green}\\",\\"digest\\":\\"digest2Mock\\"}],
+  getFullSheet: function getFullSheet() {
+    return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
+  },
+};
+    
+    =====
+    
+    // replaced
+    ssrStyles = {
+  aggregatedStyles: [{\\"css\\":\\"* {color: red}\\",\\"digest\\":\\"digest1Mock\\"},{\\"css\\":\\"* {color: green}\\",\\"digest\\":\\"digest2Mock\\"}],
+  getFullSheet: function getFullSheet() {
+    return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
+  },
+};
+    
+    =====
+    
+    // not replaced
+    ssrStyles = 2574b873-59dc-4da6-8692-d767a2484dac
+    "
+`;

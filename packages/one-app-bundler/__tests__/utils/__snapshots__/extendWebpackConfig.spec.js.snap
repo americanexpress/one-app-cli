@@ -62,9 +62,9 @@ Object {
 }
 `;
 
-exports[`extendWebpackConfig should use the correct trailing slash on windows 1`] = `
+exports[`extendWebpackConfig should use the provided requiredExternals configured, resolved to the js file 1`] = `
 Object {
-  "test": StringMatching /ajv\\\\\\\\\\$/,
+  "test": StringMatching /ajv\\.js\\$/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
@@ -77,9 +77,9 @@ Object {
 }
 `;
 
-exports[`extendWebpackConfig should use the correct trailing slash on windows 2`] = `
+exports[`extendWebpackConfig should use the provided requiredExternals configured, resolved to the js file 2`] = `
 Object {
-  "test": StringMatching /lodash\\\\\\\\\\$/,
+  "test": StringMatching /lodash\\.js\\$/,
   "use": Array [
     Object {
       "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
@@ -92,54 +92,7 @@ Object {
 }
 `;
 
-exports[`extendWebpackConfig should use the correct trailing slash on windows 3`] = `
-Object {
-  "test": "/path/src/index",
-  "use": Array [
-    Object {
-      "loader": "@americanexpress/one-app-bundler/webpack/loaders/validate-required-externals-loader",
-      "options": Object {
-        "requiredExternals": Array [
-          "ajv",
-          "lodash",
-        ],
-      },
-    },
-  ],
-}
-`;
-
-exports[`extendWebpackConfig should use the provided requiredExternals configured 1`] = `
-Object {
-  "test": StringMatching /ajv\\\\/\\$/,
-  "use": Array [
-    Object {
-      "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
-      "options": Object {
-        "bundleTarget": undefined,
-        "externalName": "ajv",
-      },
-    },
-  ],
-}
-`;
-
-exports[`extendWebpackConfig should use the provided requiredExternals configured 2`] = `
-Object {
-  "test": StringMatching /lodash\\\\/\\$/,
-  "use": Array [
-    Object {
-      "loader": "@americanexpress/one-app-bundler/webpack/loaders/externals-loader",
-      "options": Object {
-        "bundleTarget": undefined,
-        "externalName": "lodash",
-      },
-    },
-  ],
-}
-`;
-
-exports[`extendWebpackConfig should use the provided requiredExternals configured 3`] = `
+exports[`extendWebpackConfig should use the provided requiredExternals configured, resolved to the js file 3`] = `
 Object {
   "test": "/path/src/index",
   "use": Array [

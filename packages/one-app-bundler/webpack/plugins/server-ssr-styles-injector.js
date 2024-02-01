@@ -10,9 +10,9 @@ class ServerSsrStylesInjectorPlugin {
         const initialContent = await fs.promises.readFile(targetPath, 'utf8');
 
         const replacementString = `{
-aggregatedStyles: ${getAggregatedStyles()},
-getFullSheet: function getFullSheet() {
-  return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
+  aggregatedStyles: ${getAggregatedStyles()},
+  getFullSheet: function getFullSheet() {
+    return this.aggregatedStyles.reduce((acc, { css }) => acc + css, '');
   },
 };`;
 

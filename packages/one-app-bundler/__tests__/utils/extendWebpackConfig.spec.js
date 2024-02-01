@@ -201,6 +201,22 @@ describe('extendWebpackConfig', () => {
     expect(rules[rules.length - 1]).toMatchSnapshot();
   });
 
+  it('should use the provided requiredExternals configured, resolved to the js file', async () => {
+    expect.assertions(4);
+    getConfigOptions.mockReturnValueOnce({ requiredExternals: ['ajv', 'lodash'] });
+    const result = await extendWebpackConfig(originalWebpackConfig);
+    const { rules } = result.module;
+
+    expect(rules).toHaveLength(originalWebpackConfig.module.rules.length + 3);
+    expect(rules[rules.length - 3]).toMatchSnapshot({
+      test: expect.stringMatching(/ajv.js$/),
+    });
+    expect(rules[rules.length - 2]).toMatchSnapshot({
+      test: expect.stringMatching(/lodash.js$/),
+    });
+    expect(rules[rules.length - 1]).toMatchSnapshot();
+  });
+
   it('should enable missing external fallbacks', async () => {
     expect.assertions(1);
     getConfigOptions.mockReturnValueOnce({ enableUnlistedExternalFallbacks: true });

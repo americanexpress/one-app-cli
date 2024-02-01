@@ -14,7 +14,7 @@
 
 import indexServerSsrStylesPlaceholderLoader from '../../../webpack/loaders/index-server-ssr-styles-placeholder-loader';
 
-describe('index-style-loader', () => {
+describe('index-server-ssr-styles-placeholder-loader', () => {
   it('should add an ssrStyles export with a uuid placeholder', () => {
     expect(indexServerSsrStylesPlaceholderLoader('export default SomeModuleName;')).toMatchSnapshot();
   });
