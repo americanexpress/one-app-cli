@@ -16,7 +16,8 @@ import { loadStyles } from '@americanexpress/one-app-dev-bundler';
 
 function stylesLoader() {
   const options = { ...this.getOptions() };
-  options.cssModulesOptions.generateScopedName = this.resourcePath.includes('node_modules') ? '[local]' : '[local]_[hash:base64:5]';
+  // use default for directly imported, dont scope for node_module
+  options.cssModulesOptions.generateScopedName = this.resourcePath.includes('node_modules') ? '[local]' : undefined;
   return loadStyles({ path: this.resourcePath, ...options });
 }
 

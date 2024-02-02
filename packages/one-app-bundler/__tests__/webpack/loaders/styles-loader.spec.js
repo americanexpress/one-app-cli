@@ -38,7 +38,7 @@ describe('styles-loader', () => {
   it('should call the loadStyles util with the correct params, for non-node_modules', () => {
     expect(stylesLoader()).toBe('let mockJsContent = "helloMockContent"');
     expect(loadStyles).toHaveBeenCalledTimes(1);
-    expect(loadStyles).toHaveBeenCalledWith({ bundleType: BUNDLE_TYPES.BROWSER, cssModulesOptions: { generateScopedName: '[local]_[hash:base64:5]' }, path: 'style/path/mock.scss' });
+    expect(loadStyles).toHaveBeenCalledWith({ bundleType: BUNDLE_TYPES.BROWSER, cssModulesOptions: { generateScopedName: undefined }, path: 'style/path/mock.scss' });
   });
   it('should call the loadStyles util with the correct params, for node_modules', () => {
     stylesLoader = unboundStylesLoader.bind({
