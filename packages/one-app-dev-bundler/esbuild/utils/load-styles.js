@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 American Express Travel Related Services Company, Inc.
+ * Copyright 2024 American Express Travel Related Services Company, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@ import getModulesBundlerConfig from './get-modules-bundler-config.js';
 import { BUNDLE_TYPES } from '../constants/enums.js';
 import { addStyle } from './server-style-aggregator.js';
 
-// This function can generically take a css or scss file,
-// and 'load it'. Meaning it can be called from either
-// esbuild or webpack based bundlers.
+// This function can generically take css or scss content,
+// and 'load it', turning it into js. Meaning it can be called
+// from either esbuild or webpack based bundlers.
 const loadStyles = async ({
   path,
   cssModulesOptions,

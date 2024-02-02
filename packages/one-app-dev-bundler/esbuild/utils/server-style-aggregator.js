@@ -21,7 +21,7 @@ let aggregatedStyles = {
 
 const sheetDigests = new Set();
 
-export function addStyle(digest, css, isDependencyFile) {
+export const addStyle = (digest, css, isDependencyFile) => {
   if (!sheetDigests.has(digest)) {
     sheetDigests.add(digest);
 
@@ -30,7 +30,7 @@ export function addStyle(digest, css, isDependencyFile) {
       digest,
     });
   }
-}
+};
 
 /**
  * Returns aggregated styles object from all parsed CSS files with dependencies listed first

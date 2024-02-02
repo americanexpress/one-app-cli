@@ -24,7 +24,6 @@ const stylesLoader = (cssModulesOptions = {}, { bundleType } = {}) => ({
   name: 'stylesLoader',
   setup(build) {
     build.onLoad({ filter: /.s?css$/ }, async (args) => {
-      // Compile scss to css
       const jsContent = await loadStyles({ path: args.path, cssModulesOptions, bundleType });
 
       return {

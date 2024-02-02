@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.5...@americanexpress/one-app-dev-bundler@1.6.0) (2024-01-29)
+
+
+### Bug Fixes
+
+* **build-stats:** esbuild and webpack stats under build-stats dir ([#595](https://github.com/americanexpress/one-app-cli/issues/595)) ([5b9701b](https://github.com/americanexpress/one-app-cli/commit/5b9701b2518a4d9e88443790125af75ddee53af1))
+
+
+### Features
+
+* **devBundler:** expose css loading system for reuse ([#604](https://github.com/americanexpress/one-app-cli/issues/604)) ([1c7f4a6](https://github.com/americanexpress/one-app-cli/commit/1c7f4a61ca0d34c22e69cdb683695a851da67116))
+
+
+
+
+
 ## [1.5.5](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.3...@americanexpress/one-app-dev-bundler@1.5.5) (2023-11-13)
 
 
