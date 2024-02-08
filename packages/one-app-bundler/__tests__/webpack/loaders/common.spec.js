@@ -16,13 +16,11 @@ const {
 } = require('../../../webpack/loaders/common');
 
 jest.mock('sass', () => () => 0);
-
-jest.spyOn(process, 'cwd');
+jest.mock('node:path', () => ({
+  resolve: jest.fn((file) => `/mock/path/${file}`),
+}));
 
 describe('Common webpack loaders', () => {
-  beforeEach(() => {
-    process.cwd.mockImplementation(() => '/mock/path/');
-  });
   describe('babel-loader', () => {
     it('should return a config that extends the project\'s babelrc', () => {
       expect(babelLoader('modern')).toMatchSnapshot();

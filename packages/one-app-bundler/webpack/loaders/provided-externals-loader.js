@@ -18,8 +18,8 @@ import path from 'node:path';
 async function providedExternalsLoader(content) {
   const { moduleName, providedExternals } = this.getOptions();
 
-  const extendedProvidedExternals = await Promise.all((Array.isArray(providedExternals)
-    ? providedExternals : Object.keys(providedExternals)).map(async (externalName) => {
+  const extendedProvidedExternals = (Array.isArray(providedExternals)
+    ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
     const version = readPackageUpSync({
       cwd: path.resolve(process.cwd(), 'node_modules', externalName),
     })?.packageJson.version;
@@ -33,7 +33,7 @@ async function providedExternalsLoader(content) {
         version: '${version}',
         module: require('${externalName}'),
       }`;
-  }, {}));
+  }, {});
 
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 

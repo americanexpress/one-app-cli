@@ -17,8 +17,8 @@ import path from 'node:path';
 export const babelLoader = (babelEnv) => ({
   loader: 'babel-loader',
   options: {
-    extends: path.join(process.cwd(), '.babelrc'),
+    extends: path.resolve('.babelrc'),
     envName: babelEnv,
-    cacheDirectory: path.join(process.cwd(), '.build-cache'),
+    cacheDirectory: path.resolve('.build-cache'),
   },
 });
