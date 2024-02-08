@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 import constants from '../../index.js';
 
 const { META_DATA_KEY } = constants;

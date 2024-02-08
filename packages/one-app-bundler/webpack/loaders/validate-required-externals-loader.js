@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 
 // NOTE: this only exists to support legacy one app versions
 async function validateRequiredExternalsLoader(content) {

@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 import path from 'node:path';
 
 async function providedExternalsLoader(content) {

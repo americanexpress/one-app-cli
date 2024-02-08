@@ -15,7 +15,7 @@
 import path from 'node:path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
 import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
 import commonConfig from '../webpack.common.js';

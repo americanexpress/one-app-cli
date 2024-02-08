@@ -15,7 +15,7 @@
 /* eslint-disable global-require --
 testing `on import` functionality needs 'require' in every tests */
 
-jest.mock('read-pkg-up', () => ({ readPackageUpSync: jest.fn(() => ({ pkg: {} })) }));
+jest.mock('read-package-up', () => ({ readPackageUpSync: jest.fn(() => ({ pkg: {} })) }));
 const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => 0);
 
 describe('getConfigOptions', () => {
@@ -24,7 +24,7 @@ describe('getConfigOptions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetModules();
-    readPkgUp = require('read-pkg-up');
+    readPkgUp = require('read-package-up');
   });
 
   it('should handle missing one-amex config', async () => {

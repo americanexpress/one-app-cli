@@ -14,7 +14,7 @@
 
 import unboundExternalsLoader from '../../../webpack/loaders/externals-loader.js';
 
-jest.mock('read-pkg-up', () => ({
+jest.mock('read-package-up', () => ({
   readPackageUpSync: () => ({
     packageJson: {
       // this is used for the first call for modules package.json

@@ -12,7 +12,7 @@
  * under the License.
  */
 
-jest.mock('read-pkg-up', () => () => ({ readPackageUpSync: jest.fn(() => ({ pkg: {} })) }));
+jest.mock('read-package-up', () => () => ({ readPackageUpSync: jest.fn(() => ({ pkg: {} })) }));
 
 describe('getCliOptions', () => {
   const originalArgv = process.argv;

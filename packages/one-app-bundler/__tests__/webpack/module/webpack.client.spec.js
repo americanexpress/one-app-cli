@@ -12,7 +12,7 @@
  * under the License.
  */
 
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 import path from 'node:path';
 import { validateWebpackConfig } from '../../../test-utils.js';
 import getConfigOptions from '../../../utils/getConfigOptions.js';
@@ -29,7 +29,7 @@ jest.mock('node:url', () => ({
   fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
 }));
 
-jest.mock('read-pkg-up', () => ({
+jest.mock('read-package-up', () => ({
   readPackageUpSync: jest.fn(() => ({
     packageJson: {
       name: 'package-name-mock',

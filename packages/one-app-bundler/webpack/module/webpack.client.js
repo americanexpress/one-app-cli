@@ -15,7 +15,7 @@
 import webpack from 'webpack';
 import path from 'node:path';
 import { merge } from 'webpack-merge';
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 import HolocronModuleRegisterPlugin from 'holocron-module-register-webpack-plugin';
 import { SubresourceIntegrityPlugin as SriPlugin } from 'webpack-subresource-integrity';
 import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';

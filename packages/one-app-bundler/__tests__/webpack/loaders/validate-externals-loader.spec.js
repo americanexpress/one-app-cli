@@ -12,10 +12,10 @@
  * under the License.
  */
 
-import readPkgUp from 'read-pkg-up';
+import readPkgUp from 'read-package-up';
 import unboundValidateExternalsLoader from '../../../webpack/loaders/validate-required-externals-loader.js';
 
-jest.mock('read-pkg-up', () => ({
+jest.mock('read-package-up', () => ({
   readPackageUpSync: jest.fn(),
 }));
 

@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 import get from 'lodash/get.js';
 import commonConfig from '../webpack/webpack.common.js';
 

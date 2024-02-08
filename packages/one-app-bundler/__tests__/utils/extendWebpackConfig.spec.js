@@ -21,7 +21,7 @@ import getCliOptions from '../../utils/getCliOptions.js';
 const mockOverridingHolocronModuleRegisterPlugin = () => new HolocronModuleRegisterPlugin('my-new-holocron-module');
 const mockOverridingWebpackDefinePlugin = () => new webpack.DefinePlugin({ 'global.BROWSER': JSON.stringify(true) });
 
-jest.mock('read-pkg-up', () => () => ({
+jest.mock('read-package-up', () => () => ({
   readPackageUpSync: jest.fn(() => ({ pkg: { name: 'test-module', version: '1.0.0' } })),
 }));
 

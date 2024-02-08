@@ -11,11 +11,11 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-import readPkgUp from 'read-pkg-up';
+import readPkgUp from 'read-package-up';
 
 import validateExternalsLoader from '../../../webpack/loaders/meta-data-loader.js';
 
-jest.mock('read-pkg-up', () => ({
+jest.mock('read-package-up', () => ({
   readPackageUpSync: jest.fn(),
 }));
 

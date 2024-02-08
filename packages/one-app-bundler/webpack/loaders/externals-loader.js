@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-import { readPackageUpSync } from 'read-pkg-up';
+import { readPackageUpSync } from 'read-package-up';
 import path from 'node:path';
 
 const { packageJson } = readPackageUpSync();
