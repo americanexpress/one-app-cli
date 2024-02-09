@@ -12,18 +12,10 @@
  * under the License.
  */
 
-const loaderUtils = require('loader-utils');
-const externalsLoader = require('../../../webpack/loaders/externals-loader');
+import unboundExternalsLoader from '../../../webpack/loaders/externals-loader.js';
 
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({
-    externalName: 'my-dependency',
-    bundleTarget: 'browser',
-  })),
-}));
-
-jest.mock('read-pkg-up', () => ({
-  sync: () => ({
+jest.mock('read-package-up', () => ({
+  readPackageUpSync: () => ({
     packageJson: {
       // this is used for the first call for modules package.json
       dependencies: {
@@ -35,46 +27,58 @@ jest.mock('read-pkg-up', () => ({
   }),
 }));
 
-// mock for the fake external dependency package.json
-jest.mock('my-dependency/package.json', () => ({
-  version: '1.2.3',
-}), { virtual: true });
-
 describe('externals-loader', () => {
+  let externalsLoader;
+  let mockGetOptions;
+
+  beforeEach(() => {
+    mockGetOptions = jest.fn(() => ({
+      externalName: 'my-dependency',
+      bundleTarget: 'browser',
+    }));
+    externalsLoader = unboundExternalsLoader.bind({
+      getOptions: mockGetOptions,
+    });
+  });
+
   describe('when bundleTarget is browser', () => {
-    it('does not include content, gets the dependency from root module', () => {
+    it('does not include content, gets the dependency from root module', async () => {
+      expect.assertions(3);
       const content = 'This is some content!';
-      const loadedExternalContent = externalsLoader(content);
+      const loadedExternalContent = await externalsLoader(content);
       expect(content).toMatch(/This is some content/);
       expect(loadedExternalContent).not.toMatch(/This is some content/);
       expect(loadedExternalContent).toMatchSnapshot();
     });
 
-    it('uses global.Holocron', () => {
-      const loadedExternalContent = externalsLoader('This is some content!');
+    it('uses global.Holocron', async () => {
+      expect.assertions(1);
+      const loadedExternalContent = await externalsLoader('This is some content!');
       expect(loadedExternalContent).toMatch(/global\.Holocron/);
     });
   });
 
   describe('when bundleTarget is server', () => {
-    it('does not include content, gets the dependency from root module', () => {
-      loaderUtils.getOptions.mockReturnValueOnce({
+    it('does not include content, gets the dependency from root module', async () => {
+      expect.assertions(3);
+      mockGetOptions.mockReturnValueOnce({
         externalName: 'my-dependency',
         bundleTarget: 'server',
       });
       const content = 'This is some content!';
-      const loadedExternalContent = externalsLoader(content);
+      const loadedExternalContent = await externalsLoader(content);
       expect(content).toMatch(/This is some content/);
       expect(loadedExternalContent).not.toMatch(/This is some content/);
       expect(loadedExternalContent).toMatchSnapshot();
     });
 
-    it('requires Holocron', () => {
-      loaderUtils.getOptions.mockReturnValueOnce({
+    it('requires Holocron', async () => {
+      expect.assertions(1);
+      mockGetOptions.mockReturnValueOnce({
         externalName: 'my-dependency',
         bundleTarget: 'server',
       });
-      const loadedExternalContent = externalsLoader('This is some content!');
+      const loadedExternalContent = await externalsLoader('This is some content!');
       expect(loadedExternalContent).toMatch(/require\("holocron"\)/);
     });
   });

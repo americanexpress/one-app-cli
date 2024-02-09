@@ -12,16 +12,15 @@
  * under the License.
  */
 
-const loaderUtils = require('loader-utils');
-const readPkgUp = require('read-pkg-up');
-const path = require('node:path');
+import { readPackageUpSync } from 'read-package-up';
+import path from 'node:path';
 
-function providedExternalsLoader(content) {
-  const { moduleName, providedExternals } = loaderUtils.getOptions(this);
+async function providedExternalsLoader(content) {
+  const { moduleName, providedExternals } = this.getOptions();
 
   const extendedProvidedExternals = (Array.isArray(providedExternals)
     ? providedExternals : Object.keys(providedExternals)).map((externalName) => {
-    const version = readPkgUp.sync({
+    const version = readPackageUpSync({
       cwd: path.resolve(process.cwd(), 'node_modules', externalName),
     })?.packageJson.version;
 
@@ -59,4 +58,4 @@ global.rootModuleName = '${moduleName}';
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use providedExternals');
 }
 
-module.exports = providedExternalsLoader;
+export default providedExternalsLoader;

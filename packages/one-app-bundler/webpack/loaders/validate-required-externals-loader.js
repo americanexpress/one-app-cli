@@ -12,13 +12,12 @@
  * under the License.
  */
 
-const loaderUtils = require('loader-utils');
-const readPkgUp = require('read-pkg-up');
+import { readPackageUpSync } from 'read-package-up';
 
 // NOTE: this only exists to support legacy one app versions
-function validateRequiredExternalsLoader(content) {
-  const options = loaderUtils.getOptions(this);
-  const { packageJson } = readPkgUp.sync();
+async function validateRequiredExternalsLoader(content) {
+  const options = this.getOptions();
+  const { packageJson } = readPackageUpSync();
   const legacyRequiredExternals = options.requiredExternals.map((externalName) => {
     const version = packageJson.dependencies[externalName];
     return `'${externalName}': '${version}'`;
@@ -38,8 +37,7 @@ if (!global.BROWSER) {
 `;
     return newContent;
   }
-
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use requiredExternals');
 }
 
-module.exports = validateRequiredExternalsLoader;
+export default validateRequiredExternalsLoader;

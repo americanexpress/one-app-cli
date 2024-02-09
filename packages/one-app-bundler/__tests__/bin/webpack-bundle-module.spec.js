@@ -46,16 +46,20 @@ describe('bundle-module', () => {
     process.argv = argv;
   });
 
-  it('should bundle language packs', () => {
+  it('should bundle language packs', async () => {
+    expect.assertions(2);
     process.argv = [];
-    require('../../bin/webpack-bundle-module');
+    const { webpackBundleModule } = require('../../bin/webpack-bundle-module');
+    await webpackBundleModule();
     expect(localeBundler).toHaveBeenCalledTimes(1);
     expect(localeBundler).toHaveBeenCalledWith(false);
   });
 
-  it('should bundle the module for the server', () => {
+  it('should bundle the module for the server', async () => {
+    expect.assertions(4);
     process.argv = [];
-    require('../../bin/webpack-bundle-module');
+    const { webpackBundleModule } = require('../../bin/webpack-bundle-module');
+    await webpackBundleModule();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(serverConfig, 'cb(node, true)');
@@ -63,9 +67,11 @@ describe('bundle-module', () => {
     expect(webpack.mock.calls[0][0]).not.toHaveProperty('watchOptions');
   });
 
-  it('should bundle the module for modern browsers', () => {
+  it('should bundle the module for modern browsers', async () => {
+    expect.assertions(4);
     process.argv = [];
-    require('../../bin/webpack-bundle-module');
+    const { webpackBundleModule } = require('../../bin/webpack-bundle-module');
+    await webpackBundleModule();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(clientConfig('modern'), 'cb(browser, true)');
@@ -73,9 +79,11 @@ describe('bundle-module', () => {
     expect(webpack.mock.calls[1][0]).not.toHaveProperty('watchOptions');
   });
 
-  it('should bundle the module for legacy browsers', () => {
+  it('should bundle the module for legacy browsers', async () => {
+    expect.assertions(4);
     process.argv = [];
-    require('../../bin/webpack-bundle-module');
+    const { webpackBundleModule } = require('../../bin/webpack-bundle-module');
+    await webpackBundleModule();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
@@ -83,27 +91,33 @@ describe('bundle-module', () => {
     expect(webpack.mock.calls[2][0]).not.toHaveProperty('watchOptions');
   });
 
-  it('should use the locale bundler\'s watch mode', () => {
+  it('should use the locale bundler\'s watch mode', async () => {
+    expect.assertions(2);
     process.argv = ['--watch'];
-    require('../../bin/webpack-bundle-module');
+    const { webpackBundleModule } = require('../../bin/webpack-bundle-module');
+    await webpackBundleModule();
     expect(localeBundler).toHaveBeenCalledTimes(1);
     expect(localeBundler).toHaveBeenCalledWith(true);
   });
 
-  it('should bundle module for legacy browsers when disableDevelopmentLegacyBundle is false', () => {
+  it('should bundle module for legacy browsers when disableDevelopmentLegacyBundle is false', async () => {
+    expect.assertions(2);
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
     process.argv = [];
-    require('../../bin/webpack-bundle-module');
+    const { webpackBundleModule } = require('../../bin/webpack-bundle-module');
+    await webpackBundleModule();
 
     expect(webpack).toHaveBeenCalledTimes(3);
     expect(webpack).toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');
   });
 
-  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', () => {
+  it('should not bundle module for legacy browsers when disableDevelopmentLegacyBundle is true', async () => {
+    expect.assertions(2);
     process.env.NODE_ENV = 'development';
     jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
     process.argv = [];
-    require('../../bin/webpack-bundle-module');
+    const { webpackBundleModule } = require('../../bin/webpack-bundle-module');
+    await webpackBundleModule();
 
     expect(webpack).toHaveBeenCalledTimes(2);
     expect(webpack).not.toHaveBeenCalledWith(clientConfig('legacy'), 'cb(legacyBrowser, true)');

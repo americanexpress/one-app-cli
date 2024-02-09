@@ -13,9 +13,9 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-const Joi = require('joi');
+import Joi from 'joi';
 
-const externalsSchema = Joi.alternatives().try(
+export const externalsSchema = Joi.alternatives().try(
   Joi.array().items(Joi.string().required()).messages({
     'array.base': 'Externals must be an array',
     'array.includesRequiredUnknowns': 'Externals must have at least one entry',
@@ -24,17 +24,17 @@ const externalsSchema = Joi.alternatives().try(
   Joi.object().pattern(/^/, Joi.object({ fallbackEnabled: Joi.boolean() }))
 );
 
-const webpackConfigSchema = Joi.string().messages({
+export const webpackConfigSchema = Joi.string().messages({
   'string.base': 'Webpack Configs must be a string',
 });
 
-const performanceBudgetSchema = Joi.number().strict();
+export const performanceBudgetSchema = Joi.number().strict();
 
-const appSchema = Joi.object().keys({
+export const appSchema = Joi.object().keys({
   compatibility: Joi.string(),
 });
 
-const purgecssSchema = Joi.object({
+export const purgecssSchema = Joi.object({
   paths: Joi.array().items(Joi.string().required()),
   extractors: Joi.array().items(Joi.object().keys({
     extractor: Joi.string(),
@@ -84,15 +84,6 @@ function validateSchema(schema, validationTarget) {
   return value;
 }
 
-function validateBundler(options) {
+export function validateBundler(options) {
   return validateSchema(optionsSchema, options);
 }
-
-module.exports = {
-  externalsSchema,
-  webpackConfigSchema,
-  performanceBudgetSchema,
-  appSchema,
-  purgecssSchema,
-  validateBundler,
-};

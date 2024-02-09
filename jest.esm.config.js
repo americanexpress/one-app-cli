@@ -27,6 +27,8 @@ module.exports = {
     '!**/__test_fixtures__/**',
     '!**/node_modules/**',
     '!**/build/**',
+    '!packages/*/bin/**',
+    '!packages/*/test-utils.js',
     '!packages/*/test-results/**',
     '!packages/*/jest.esm.setup.js',
     // Despite it not being in the root, coverage reports see this package
@@ -35,5 +37,6 @@ module.exports = {
   ],
   roots: [
     'packages/one-app-dev-bundler',
+    'packages/one-app-bundler',
   ],
 };
