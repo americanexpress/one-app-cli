@@ -14,5 +14,4 @@
 
 module.exports = {
   presets: ['amex'],
-  plugins: ['@babel/plugin-syntax-import-assertions'],
 };
