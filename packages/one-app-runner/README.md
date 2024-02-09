@@ -408,6 +408,55 @@ Or in `package.json`
 }
 ```
 
+### log-format [Optional]
+
+Presentation of log entries. Valid options include `friendly`, `verbose`, and `machine`. The default value in a development environment is `friendly`.
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --log-format machine
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.x.x",
+    "logFormat": "machine"
+  }
+}
+```
+
+### log-level [Optional]
+
+Lowest level of log entries to write. Valid options include `error`, `warn`, `log`, `info`, & `trace`. The default value in a development environment is `log`.
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --log-evel info
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "oneAppVersion": "5.x.x",
+    "logLevel": "info"
+  }
+}
+```
+
+
 #### HTTP_ONE_APP_DEBUG_PORT
 
 If `HTTP_ONE_APP_DEBUG_PORT` is set, it will be used as the port for the debugger. Defaults to `9229`.

@@ -63,6 +63,16 @@ const createYargsConfig = () => {
         return value;
       },
     })
+    .option('log-format', {
+      describe: 'Presentation of log entries',
+      type: 'string',
+      choices: ['friendly', 'verbose', 'machine'],
+    })
+    .option('log-level', {
+      describe: 'Lowest level of log entries to show',
+      type: 'string',
+      choices: ['error', 'warn', 'log', 'info', 'trace'],
+    })
     .option('parrot-middleware', {
       describe: 'path to parrot dev middleware file for One App to use for Parrot mocking',
       type: 'string',
@@ -174,6 +184,8 @@ try {
     offline: argv.offline,
     containerName: argv.containerName,
     useDebug: argv.useDebug,
+    logLevel: argv.logLevel,
+    logFormat: argv.logFormat,
   });
 } catch (error) {
   console.log();

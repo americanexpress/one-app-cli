@@ -125,6 +125,10 @@ const generateServeModuleCommands = (modules) => {
 
 const generateModuleMap = (moduleMapUrl) => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
 
+const generateLogLevel = (logLevel) => (logLevel ? `--log-level=${logLevel}` : '');
+
+const generateLogFormat = (logFormat) => (logFormat ? `--log-format=${logFormat}` : '');
+
 const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}` : '');
 
 // Node 12 does not support --dns-result-order or --no-experimental-fetch
@@ -157,6 +161,8 @@ module.exports = async function startApp({
   offline,
   containerName,
   useDebug,
+  logLevel,
+  logFormat,
 }) {
   if (createDockerNetwork) {
     if (!dockerNetworkToJoin) {
@@ -224,7 +230,11 @@ module.exports = async function startApp({
     generateUseMocksFlag(parrotMiddlewareFile)
   } ${
     generateUseHostFlag()
-  }`;
+  } ${
+    generateLogLevel(logLevel)
+  } ${
+    generateLogFormat(logFormat)
+  }`.replace(/\s+/g, ' ').trim();
 
   const logFileStream = outputFile ? fs.createWriteStream(outputFile) : null;
 
