@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.6.0...@americanexpress/one-app-dev-bundler@1.7.0) (2024-02-09)
+
+
+### Features
+
+* **oneAppBundler:** Migrate to Webpack v5 ([c9ab840](https://github.com/americanexpress/one-app-cli/commit/c9ab840b4306a49f1c929c89a7898d5467d7575f))
+
+
+
+
+
 # [1.6.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.5.5...@americanexpress/one-app-dev-bundler@1.6.0) (2024-01-29)
 
 
