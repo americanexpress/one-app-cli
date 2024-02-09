@@ -401,19 +401,3 @@ You can specify which version of One App you module is compatible with by simply
   }
 }
 ```
-
-### Other Available Scripts
-
-The following scripts are provided by `one-app-bundler` and used by `one-app`.
-
-**`npm run build:bundle`**
-
-This would bundle one app.
-
-**`npm run serve-module ../path-to-your-one-app-module`**
-
-This would serve your module locally.
-
-**`npm run drop-module ../path-to-your-one-app-module`**
-
-This would stop serving your module locally.

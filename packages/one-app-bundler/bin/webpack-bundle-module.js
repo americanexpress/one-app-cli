@@ -12,22 +12,24 @@
  * under the License.
  */
 
-const webpack = require('webpack');
+import webpack from 'webpack';
+import localeBundler from '@americanexpress/one-app-locale-bundler';
+import getConfigOptions from '../utils/getConfigOptions.js';
+import getWebpackCallback from './webpackCallback.js';
+import utils from '../utils/getCliOptions.js';
+import clientConfig from '../webpack/module/webpack.client.js';
+import serverConfig from '../webpack/module/webpack.server.js';
 
-const localeBundler = require('@americanexpress/one-app-locale-bundler');
+export const webpackBundleModule = async () => {
+  const { watch } = utils();
 
-const getConfigOptions = require('../utils/getConfigOptions');
-const clientConfig = require('../webpack/module/webpack.client');
-const serverConfig = require('../webpack/module/webpack.server');
-const getWebpackCallback = require('./webpackCallback');
-const { watch } = require('../utils/getCliOptions')();
+  const modernClientConfig = await clientConfig('modern');
+  const legacyClientConfig = await clientConfig('legacy');
 
-const modernClientConfig = clientConfig('modern');
-const legacyClientConfig = clientConfig('legacy');
+  localeBundler(watch);
 
-localeBundler(watch);
+  webpack(await serverConfig, getWebpackCallback('node', true));
+  webpack(modernClientConfig, getWebpackCallback('browser', true));
 
-webpack(serverConfig, getWebpackCallback('node', true));
-webpack(modernClientConfig, getWebpackCallback('browser', true));
-
-if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+  if (!getConfigOptions().disableDevelopmentLegacyBundle) webpack(legacyClientConfig, getWebpackCallback('legacyBrowser', true));
+};

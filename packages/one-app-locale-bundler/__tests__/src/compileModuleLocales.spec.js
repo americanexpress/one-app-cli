@@ -43,9 +43,9 @@ describe('compileModuleLocales', () => {
   const pkgVersion = '0.1.0-post';
   const consoleLogSpy = jest.spyOn(console, 'log');
 
-  beforeEach(jest.clearAllMocks);
+  beforeEach(() => jest.clearAllMocks());
 
-  afterAll(mockFs.restore);
+  afterAll(() => mockFs.restore());
 
   it('builds locale that is a JSON file', () => {
     expect.assertions(8);

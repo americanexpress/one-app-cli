@@ -15,10 +15,9 @@
 /**
  * Webpack Base Configuration
  */
-
-const webpack = require('webpack');
-const TerserPlugin = require('terser-webpack-plugin');
-const validateNodeEnvironment = require('../utils/validateNodeEnv');
+import webpack from 'webpack';
+import TerserPlugin from 'terser-webpack-plugin';
+import validateNodeEnvironment from '../utils/validateNodeEnv.js';
 
 validateNodeEnvironment();
 
@@ -38,7 +37,7 @@ const plugins = [
   ...nodeEnvironmentIsProduction ? productionPlugins : [],
 ];
 
-module.exports = {
+export default {
   profile: true,
   devtool: nodeEnvironmentIsProduction ? false : 'source-map',
   optimization: {
@@ -74,30 +73,6 @@ module.exports = {
             mimetype: 'application/font-woff',
           },
         }],
-      },
-      {
-        enforce: 'pre',
-        test: /\.[jt]sx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          allowInlineConfig: false,
-          ignore: false,
-          useEslintrc: false,
-          failOnError: true,
-          plugins: ['@americanexpress/one-app'],
-          parser: '@babel/eslint-parser',
-          parserOptions: {
-            ecmaVersion: 6,
-            sourceType: 'module',
-            ecmaFeatures: { modules: true },
-          },
-          rules: {
-            'no-restricted-modules': ['error', 'create-react-class'],
-            'no-restricted-imports': ['error', 'create-react-class'],
-            '@americanexpress/one-app/no-app-config-on-client': 'error',
-          },
-        },
       },
     ],
   },

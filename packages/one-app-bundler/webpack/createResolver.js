@@ -11,28 +11,28 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
+import fs from 'node:fs';
+import enhancedResolve from 'enhanced-resolve';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import getMetaUrl from '../utils/getMetaUrl.mjs';
 
-const {
-  NodeJsInputFileSystem,
-  CachedInputFileSystem,
-  ResolverFactory,
-} = require('enhanced-resolve');
+const { CachedInputFileSystem, ResolverFactory } = enhancedResolve;
 
 // This enhanced resolver ensures that the code for a lib that is exposed is the
 // same code that is used within the bundle. This bug would happen if an exposed
 // lib had a module or browser field in addition to the main field in its
 // package.json.
 
-module.exports = function createResolver({ mainFields, resolveToContext = false }) {
+export default function createResolver({ mainFields }) {
   const enhancedResolver = ResolverFactory.createResolver({
-    fileSystem: new CachedInputFileSystem(new NodeJsInputFileSystem(), 4000),
+    fileSystem: new CachedInputFileSystem(fs, 4000),
     useSyncFileSystemCalls: true,
     extensions: ['.js', '.jsx', '.json'],
     mainFields,
-    resolveToContext,
+    conditionNames: ['require'],
   });
 
-  const trailingSlash = process.platform === 'win32' ? '\\' : '/';
-  // if resolveToContext add a trailing slash to indicate the value is a folder rather than  a file
-  return (request) => `${enhancedResolver.resolveSync({}, __dirname, request)}${resolveToContext ? trailingSlash : ''}`;
-};
+  const dirname = path.join(path.dirname(fileURLToPath(getMetaUrl())), '../webpack');
+  return (request) => `${enhancedResolver.resolveSync({}, dirname, request)}`;
+}

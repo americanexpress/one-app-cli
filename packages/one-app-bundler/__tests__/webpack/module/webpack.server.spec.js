@@ -12,22 +12,32 @@
  * under the License.
  */
 
+import webpackConfig from '../../../webpack/module/webpack.server.js';
+import { validateWebpackConfig } from '../../../test-utils.js';
+
+jest.mock('@americanexpress/one-app-dev-bundler', () => ({ BUNDLE_TYPES: { BROWSER: 'BROWSER_BUILD_TYPE', SERVER: 'SERVER_BUILD_TYPE' } }));
+
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split('/__tests__')[0]);
 
-jest.mock('read-pkg-up', () => ({
-  sync: jest.fn(() => ({ packageJson: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
+jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
+
+jest.mock('node:url', () => ({
+  fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
 }));
 
-const webpackConfig = require('../../../webpack/module/webpack.server');
-const { validateWebpackConfig } = require('../../../test-utils');
+jest.mock('read-package-up', () => ({
+  readPackageUpSync: jest.fn(() => ({ packageJson: { name: '@americanexpress/one-app-bundler', version: '6.8.0' } })),
+}));
 
 describe('webpack/module.server', () => {
-  it('should export valid webpack config', () => {
-    expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
+  it('should export valid webpack config', async () => {
+    expect.assertions(1);
+    await expect(async () => validateWebpackConfig(await webpackConfig)).not.toThrow();
   });
 
-  it('should define global.BROWSER to be false', () => {
-    expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
-    expect(webpackConfig.plugins).toContainEqual({ definitions: { 'global.BROWSER': 'false' } });
+  it('should define global.BROWSER to be false', async () => {
+    expect.assertions(2);
+    expect(await webpackConfig).toHaveProperty('plugins', expect.any(Array));
+    expect((await webpackConfig).plugins).toContainEqual({ definitions: { global: 'globalThis', 'global.BROWSER': 'false' } });
   });
 });

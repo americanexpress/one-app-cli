@@ -33,8 +33,8 @@ module.exports = {
   },
   roots: [
     'packages/eslint-plugin-one-app',
-    'packages/one-app-bundler',
     'packages/one-app-locale-bundler',
+    'packages/one-app-server-bundler',
     'packages/one-app-runner',
   ],
 };

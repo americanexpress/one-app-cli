@@ -12,8 +12,8 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-const path = require('node:path');
-const fs = require('node:fs');
+import path from 'node:path';
+import fs from 'node:fs';
 
 const bundleModule = async () => {
   const {
@@ -40,8 +40,8 @@ const bundleModule = async () => {
       console.info('Ignoring `--dev` flag for NODE_ENV=production');
     }
     console.info('Running production bundler');
-    // eslint-disable-next-line global-require -- Only require the bundler when it runs
-    require('./webpack-bundle-module');
+    const { webpackBundleModule } = await import('./webpack-bundle-module.js');
+    await webpackBundleModule();
   }
 };
 

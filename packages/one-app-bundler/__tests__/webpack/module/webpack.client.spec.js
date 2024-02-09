@@ -12,62 +12,85 @@
  * under the License.
  */
 
-const { sync } = require('read-pkg-up');
-const path = require('node:path');
-const { validateWebpackConfig } = require('../../../test-utils');
-const getConfigOptions = require('../../../utils/getConfigOptions');
-const configGenerator = require('../../../webpack/module/webpack.client');
+import { readPackageUpSync } from 'read-package-up';
+import path from 'node:path';
+import { validateWebpackConfig } from '../../../test-utils.js';
+import getConfigOptions from '../../../utils/getConfigOptions.js';
+import configGenerator from '../../../webpack/module/webpack.client.js';
+
+jest.mock('@americanexpress/one-app-dev-bundler', () => ({ BUNDLE_TYPES: { BROWSER: 'BROWSER_BUILD_TYPE', SERVER: 'SERVER_BUILD_TYPE' } }));
 
 jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split(`${path.sep}__tests__`)[0]);
+
+jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
+
+jest.mock('node:url', () => ({
+  fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
+}));
+
+jest.mock('read-package-up', () => ({
+  readPackageUpSync: jest.fn(() => ({
+    packageJson: {
+      name: 'package-name-mock',
+      version: '1.2.3-version-mock',
+    },
+  })),
+}));
 
 describe('webpack/module.client', () => {
   let originalNodeEnv;
   beforeAll(() => { originalNodeEnv = process.env.NODE_ENV; });
   afterAll(() => { process.env.NODE_ENV = originalNodeEnv; });
 
-  it('should export valid webpack config', () => {
-    const webpackConfig = configGenerator();
+  it('should export valid webpack config', async () => {
+    expect.assertions(1);
+    const webpackConfig = await configGenerator();
     expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
   });
 
-  it('should provide the envName to babel', () => {
-    const modernWebpackConfig = configGenerator('modern');
-    const legacyWebpackConfig = configGenerator('legacy');
+  it('should provide the envName to babel', async () => {
+    expect.assertions(2);
+    const modernWebpackConfig = await configGenerator('modern');
+    const legacyWebpackConfig = await configGenerator('legacy');
     expect(modernWebpackConfig.module.rules[3].use[0].options.envName).toBe('modern');
     expect(legacyWebpackConfig.module.rules[3].use[0].options.envName).toBe('legacy');
   });
 
-  it('should warn for perf budget violations in development', () => {
+  it('should warn for perf budget violations in development', async () => {
+    expect.assertions(1);
     process.env.NODE_ENV = 'development';
-    const webpackConfig = configGenerator();
+    const webpackConfig = await configGenerator();
     expect(webpackConfig.performance).toMatchObject({
       maxAssetSize: 250e3,
       hints: 'warning',
     });
   });
 
-  it('does not warn for perf budget violations for legacy', () => {
-    const webpackConfig = configGenerator('legacy');
+  it('does not warn for perf budget violations for legacy', async () => {
+    expect.assertions(1);
+    const webpackConfig = await configGenerator('legacy');
     expect(webpackConfig.performance).toMatchObject({
       maxAssetSize: 250e3,
       hints: false,
     });
   });
 
-  it('should error for perf budget violations in production', () => {
+  it('should error for perf budget violations in production', async () => {
+    expect.assertions(1);
     process.env.NODE_ENV = 'production';
-    const webpackConfig = configGenerator();
+    const webpackConfig = await configGenerator();
     expect(webpackConfig.performance).toMatchObject({
       maxAssetSize: 250e3,
       hints: 'error',
     });
   });
 
-  it('should accept a custom perf budget', () => {
+  it('should accept a custom perf budget', async () => {
+    expect.assertions(1);
     process.env.NODE_ENV = 'production';
     getConfigOptions.mockReturnValueOnce({ performanceBudget: 4103, purgecss: {} });
-    const webpackConfig = configGenerator();
+    const webpackConfig = await configGenerator();
     expect(webpackConfig.performance).toMatchObject({
       maxAssetSize: 4103,
       maxEntrypointSize: 4103,
@@ -75,15 +98,17 @@ describe('webpack/module.client', () => {
     });
   });
 
-  it('should define global.BROWSER to be true', () => {
-    const webpackConfig = configGenerator();
+  it('should define global.BROWSER to be true', async () => {
+    expect.assertions(2);
+    const webpackConfig = await configGenerator();
     expect(webpackConfig).toHaveProperty('plugins', expect.any(Array));
-    expect(webpackConfig.plugins).toContainEqual({ definitions: { 'global.BROWSER': 'true' } });
+    expect(webpackConfig.plugins).toContainEqual({ definitions: { global: 'globalThis', 'global.BROWSER': 'true' } });
   });
 
-  it('should append holocronModule with name', () => {
-    const { packageJson: { name } } = sync();
-    const webpackConfig = configGenerator();
+  it('should append holocronModule with name', async () => {
+    expect.assertions(1);
+    const { packageJson: { name } } = readPackageUpSync();
+    const webpackConfig = await configGenerator();
     expect(webpackConfig.output.library).toBe(`holocronModule_${name.replace(/-/g, '_')}`);
   });
 });

@@ -12,12 +12,12 @@
  * under the License.
  */
 
-const chalk = require('chalk');
-const fs = require('node:fs');
-const path = require('node:path');
-const generateIntegrityManifest = require('./generateIntegrityManifest');
+import chalk from 'chalk';
+import fs from 'node:fs';
+import path from 'node:path';
+import generateIntegrityManifest from './generateIntegrityManifest.js';
 
-module.exports = function getWebpackCallback(label, isModuleBuild) {
+export default function getWebpackCallback(label, isModuleBuild) {
   if (typeof label !== 'string' || !label) {
     throw new Error('`getWebpackCallback` requires a label for its metadata files.');
   }
@@ -65,4 +65,4 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
       throw stats.compilation.errors[0];
     }
   };
-};
+}

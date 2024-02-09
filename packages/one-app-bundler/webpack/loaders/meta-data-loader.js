@@ -12,11 +12,13 @@
  * under the License.
  */
 
-const readPkgUp = require('read-pkg-up');
-const { META_DATA_KEY } = require('../..');
+import { readPackageUpSync } from 'read-package-up';
+import constants from '../../index.js';
+
+const { META_DATA_KEY } = constants;
 
 function metaDataLoader(content) {
-  const { packageJson: { version } } = readPkgUp.sync();
+  const { packageJson: { version } } = readPackageUpSync();
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
@@ -30,4 +32,4 @@ ${match[1]}.${META_DATA_KEY} = {
   throw new Error('one-app-bundler: Module must use `export default VariableName` syntax in index');
 }
 
-module.exports = metaDataLoader;
+export default metaDataLoader;

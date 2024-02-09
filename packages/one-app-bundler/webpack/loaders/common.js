@@ -12,121 +12,13 @@
  * under the License.
  */
 
-const path = require('node:path');
-const dartSass = require('sass');
-const getConfigOptions = require('../../utils/getConfigOptions');
+import path from 'node:path';
 
-const packageRoot = process.cwd();
-
-const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
-  loader: 'css-loader',
-  options: {
-    importLoaders,
-    modules: {
-      localIdentName: `${name && `${name}__`}[name]__[local]___[hash:base64:5]`,
-      // getLocalIdent is a function that allows you to specify a function to generate the classname
-      // The documentation can be found here:
-      // https://github.com/webpack-contrib/css-loader#getlocalident
-
-      // The below function returns the classnames as is if the resourcePath includes node_modules
-      // if it doesn't it returns null allowing localIdentName to define the classname
-      getLocalIdent: (loaderContext, localIdentName, localName) => (
-        loaderContext.resourcePath.includes('node_modules') ? localName : null
-      ),
-    },
-  },
-});
-
-/* eslint-disable inclusive-language/use-inclusive-words --
-config options for a third party library */
-// transform strings deep and greedy parameters into regex
-const reconcileSafeList = (safelist) => ({
-  ...safelist,
-  greedy: safelist.greedy
-    ? safelist.greedy.map((pattern) => new RegExp(pattern, 'i'))
-    : [],
-  deep: safelist.deep
-    ? safelist.deep.map((pattern) => new RegExp(pattern, 'i'))
-    : [/:global$/],
-});
-const reconcileAllowList = (purgecss) => {
-  const aggregatedAllowList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
-  if (purgecss.whitelistPatterns) {
-    console.warn('Purgecss: Using depreciated property whitelistPatterns');
-    aggregatedAllowList.aggregatedStandard = [
-      ...aggregatedAllowList.aggregatedStandard,
-      ...purgecss.whitelistPatterns.map((pattern) => new RegExp(pattern, 'i')),
-    ];
-  }
-  if (purgecss.whitelist) {
-    console.warn('Purgecss: Using depreciated property whitelist');
-    // eslint-disable-next-line max-len -- disable max length
-    aggregatedAllowList.aggregatedStandard = [...aggregatedAllowList.aggregatedStandard, ...purgecss.whitelist];
-  }
-  if (purgecss.whitelistPatternsChildren) {
-    console.warn('Purgecss: Using depreciated property whitelistPatternsChildren');
-
-    aggregatedAllowList.safelistDeep = purgecss.whitelistPatternsChildren.map((pattern) => new RegExp(pattern, 'i'));
-  }
-  return aggregatedAllowList;
-};
-
-const purgeCssLoader = () => {
-  const { purgecss } = getConfigOptions();
-  if (purgecss.disabled) return [];
-
-  let aggregatedAllowList = { aggregatedStandard: [], safelistDeep: [/:global$/] };
-  let { safelist } = purgecss;
-  if (purgecss.safelist && !Array.isArray(purgecss.safelist)) {
-    safelist = reconcileSafeList(purgecss.safelist);
-  } else {
-    // aggregate the various whitelist options if safelist is not present
-    aggregatedAllowList = reconcileAllowList(purgecss);
-  }
-
-  return [{
-    loader: '@americanexpress/purgecss-loader',
-    options: {
-      paths: [path.join(packageRoot, 'src/**/*.{js,jsx,ts,tsx}'), ...purgecss.paths || []],
-      extractors: purgecss.extractors || [],
-      fontFace: purgecss.fontFace || false,
-      keyframes: purgecss.keyframes || false,
-      variables: purgecss.keyframes || false,
-      safelist: safelist || {
-        standard: aggregatedAllowList.aggregatedStandard,
-        deep: aggregatedAllowList.safelistDeep,
-        greedy: [],
-        keyframes: purgecss.keyframes || false,
-        variables: purgecss.keyframes || false,
-      },
-      blocklist: purgecss.blocklist || [],
-      //
-    },
-  }];
-};
-/* eslint-enable inclusive-language/use-inclusive-words --
-re enable disabled */
-
-const sassLoader = () => ({
-  loader: 'sass-loader',
-  options: {
-    implementation: dartSass,
-  },
-});
-
-const babelLoader = (babelEnv) => ({
+export const babelLoader = (babelEnv) => ({
   loader: 'babel-loader',
   options: {
-    extends: path.join(packageRoot, '.babelrc'),
+    extends: path.resolve('.babelrc'),
     envName: babelEnv,
-    cacheDirectory: path.join(packageRoot, '.build-cache'),
+    cacheDirectory: path.resolve('.build-cache'),
   },
 });
-
-module.exports = {
-  babelLoader,
-  cssLoader,
-  purgeCssLoader,
-  sassLoader,
-  reconcileSafeList,
-};
