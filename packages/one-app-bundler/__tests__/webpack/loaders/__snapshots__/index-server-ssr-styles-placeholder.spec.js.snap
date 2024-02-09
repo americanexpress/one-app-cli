@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index-server-ssr-styles-placeholder-loader should add an ssrStyles export with a uuid placeholder 1`] = `
+"
+  export default SomeModuleName;
+    ;SomeModuleName.ssrStyles = '2574b873-59dc-4da6-8692-d767a2484dac'
+  "
+`;

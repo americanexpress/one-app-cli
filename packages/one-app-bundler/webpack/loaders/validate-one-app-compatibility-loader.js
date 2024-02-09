@@ -12,10 +12,8 @@
  * under the License.
  */
 
-const loaderUtils = require('loader-utils');
-
 function validateOneAppCompatabilityLoader(content) {
-  const { appCompatibility } = loaderUtils.getOptions(this);
+  const { appCompatibility } = this.getOptions();
   const match = content.match(/export\s+default\s+(?!from)(\w+);$/m);
 
   if (match) {
@@ -33,4 +31,4 @@ if (!global.BROWSER) {
   throw new Error('@americanexpress/one-app-bundler: Module must use `export default VariableName` in index syntax to use app compatibility validation');
 }
 
-module.exports = validateOneAppCompatabilityLoader;
+export default validateOneAppCompatabilityLoader;

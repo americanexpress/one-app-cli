@@ -12,6 +12,6 @@
  * under the License.
  */
 
-module.exports = {
+export default {
   META_DATA_KEY: '__holocron_module_meta_data__',
 };

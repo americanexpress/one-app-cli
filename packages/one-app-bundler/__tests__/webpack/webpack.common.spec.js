@@ -12,9 +12,6 @@
  * under the License.
  */
 
-/* eslint-disable global-require --
-testing `on import` functionality needs requires in each test */
-
 jest.mock('../../utils/validateNodeEnv');
 
 describe('webpack/one-amex.base', () => {
@@ -33,15 +30,17 @@ describe('webpack/one-amex.base', () => {
     process.env.NODE_ENV = nodeEnv;
   });
 
-  it('should validate the NODE_ENV', () => {
-    const validateNodeEnv = require('../../utils/validateNodeEnv');
-    require('../../webpack/webpack.common');
+  it('should validate the NODE_ENV', async () => {
+    expect.assertions(1);
+    const validateNodeEnv = (await import('../../utils/validateNodeEnv.js')).default;
+    await import('../../webpack/webpack.common.js').default;
     expect(validateNodeEnv).toHaveBeenCalled();
   });
 
-  it('should add some plugins and set the profile and minimize flags to true', () => {
+  it('should add some plugins and set the profile and minimize flags to true', async () => {
+    expect.assertions(1);
     process.env.NODE_ENV = 'production';
-    const webpackConfig = require('../../webpack/webpack.common');
+    const webpackConfig = (await import('../../webpack/webpack.common.js')).default;
     expect(webpackConfig).toEqual({
       devtool: false,
       profile: true,
@@ -56,9 +55,10 @@ describe('webpack/one-amex.base', () => {
     });
   });
 
-  it('should enable source maps in development', () => {
+  it('should enable source maps in development', async () => {
+    expect.assertions(1);
     process.env.NODE_ENV = 'development';
-    const webpackConfig = require('../../webpack/webpack.common');
+    const webpackConfig = (await import('../../webpack/webpack.common.js')).default;
     expect(webpackConfig).toEqual({
       devtool: 'source-map',
       profile: true,
@@ -73,18 +73,19 @@ describe('webpack/one-amex.base', () => {
     });
   });
 
-  it('should only include the EnvironmentPlugin in development', () => {
+  it('should only include the EnvironmentPlugin in development', async () => {
+    expect.assertions(2);
     process.env.NODE_ENV = 'development';
-    const webpackConfig = require('../../webpack/webpack.common');
+    const webpackConfig = (await import('../../webpack/webpack.common.js')).default;
     expect(webpackConfig.plugins).toHaveLength(1);
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
 
-  it('should add loader options plugin in production', () => {
+  it('should add loader options plugin in production', async () => {
+    expect.assertions(2);
     process.env.NODE_ENV = 'production';
-    const webpackConfig = require('../../webpack/webpack.common');
+    const webpackConfig = (await import('../../webpack/webpack.common.js')).default;
     expect(webpackConfig.plugins).toHaveLength(2);
     expect(webpackConfig.plugins).toMatchSnapshot();
   });
 });
-/* eslint-enable  global-require -- disables require enables */

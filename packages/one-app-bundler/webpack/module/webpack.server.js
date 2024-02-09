@@ -12,25 +12,23 @@
  * under the License.
  */
 
-const path = require('node:path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const readPkgUp = require('read-pkg-up');
-
-const extendWebpackConfig = require('../../utils/extendWebpackConfig');
-const commonConfig = require('../webpack.common');
-const {
+import path from 'node:path';
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import { readPackageUpSync } from 'read-package-up';
+import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
+import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
+import commonConfig from '../webpack.common.js';
+import {
   babelLoader,
-  cssLoader,
-  purgeCssLoader,
-  sassLoader,
-} = require('../loaders/common');
+} from '../loaders/common.js';
+import ServerSsrStylesInjectorPlugin from '../plugins/server-ssr-styles-injector.js';
 
 const packageRoot = process.cwd();
-const { packageJson } = readPkgUp.sync();
+const { packageJson } = readPackageUpSync();
 const { version, name } = packageJson;
 
-module.exports = extendWebpackConfig(merge(
+const webpackServer = extendWebpackConfig(merge(
   commonConfig,
   {
     entry: './src/index.js',
@@ -57,18 +55,19 @@ module.exports = extendWebpackConfig(merge(
           test: /\.(sa|sc|c)ss$/,
           use: [
             {
-              loader: '@americanexpress/one-app-bundler/webpack/loaders/ssr-css-loader', options: { name },
+              loader: '@americanexpress/one-app-bundler/webpack/loaders/styles-loader',
+              options: {
+                cssModulesOptions: {},
+                bundleType: BUNDLE_TYPES.SERVER,
+              },
             },
-            cssLoader({ name }),
-            ...purgeCssLoader(),
-            sassLoader(),
           ],
         },
         {
           test: path.join(packageRoot, 'src', 'index'),
           use: [
             {
-              loader: '@americanexpress/one-app-bundler/webpack/loaders/ssr-css-loader/index-style-loader',
+              loader: '@americanexpress/one-app-bundler/webpack/loaders/index-server-ssr-styles-placeholder-loader',
             },
             {
               loader: '@americanexpress/one-app-bundler/webpack/loaders/meta-data-loader',
@@ -78,12 +77,16 @@ module.exports = extendWebpackConfig(merge(
       ],
     },
     plugins: [
+      new ServerSsrStylesInjectorPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
       }),
       new webpack.DefinePlugin({
         'global.BROWSER': JSON.stringify(false),
+        global: 'globalThis',
       }),
     ],
   }
 ), 'server');
+
+export default webpackServer;

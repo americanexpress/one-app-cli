@@ -12,9 +12,9 @@
  * under the License.
  */
 
-const ssri = require('ssri');
-const fs = require('node:fs');
-const path = require('node:path');
+import ssri from 'ssri';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const generateIntegrityManifest = (label, pathToBundle) => {
   const integrity = ssri.fromData(
@@ -30,4 +30,4 @@ const generateIntegrityManifest = (label, pathToBundle) => {
   }, null, 2));
 };
 
-module.exports = generateIntegrityManifest;
+export default generateIntegrityManifest;

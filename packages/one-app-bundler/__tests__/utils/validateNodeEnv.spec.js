@@ -12,7 +12,7 @@
  * under the License.
  */
 
-const validateNodeEnv = require('../../utils/validateNodeEnv');
+import validateNodeEnv from '../../utils/validateNodeEnv.js';
 
 describe('validateNodeEnv', () => {
   let originalNodeEnv;

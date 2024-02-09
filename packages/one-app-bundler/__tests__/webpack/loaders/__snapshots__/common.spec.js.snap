@@ -4,9 +4,9 @@ exports[`Common webpack loaders babel-loader should return a config that extends
 Object {
   "loader": "babel-loader",
   "options": Object {
-    "cacheDirectory": "/current/dir/.build-cache",
+    "cacheDirectory": "/mock/path/.build-cache",
     "envName": "modern",
-    "extends": "/current/dir/.babelrc",
+    "extends": "/mock/path/.babelrc",
   },
 }
 `;
@@ -15,139 +15,9 @@ exports[`Common webpack loaders babel-loader should return a config with the exp
 Object {
   "loader": "babel-loader",
   "options": Object {
-    "cacheDirectory": "/current/dir/.build-cache",
+    "cacheDirectory": "/mock/path/.build-cache",
     "envName": "legacy",
-    "extends": "/current/dir/.babelrc",
-  },
-}
-`;
-
-exports[`Common webpack loaders css-loader should still return a good localIdentName when not given a chunk name 1`] = `
-Object {
-  "loader": "css-loader",
-  "options": Object {
-    "importLoaders": 2,
-    "modules": Object {
-      "getLocalIdent": [Function],
-      "localIdentName": "[name]__[local]___[hash:base64:5]",
-    },
-  },
-}
-`;
-
-exports[`Common webpack loaders css-loader should still return localName from getLocalIdent if resourcePath includes node_modules 1`] = `
-Object {
-  "loader": "css-loader",
-  "options": Object {
-    "importLoaders": 2,
-    "modules": Object {
-      "getLocalIdent": [Function],
-      "localIdentName": "[name]__[local]___[hash:base64:5]",
-    },
-  },
-}
-`;
-
-exports[`Common webpack loaders css-loader should still return null from getLocalIdent if resourcePath does not include node_modules 1`] = `
-Object {
-  "loader": "css-loader",
-  "options": Object {
-    "importLoaders": 2,
-    "modules": Object {
-      "getLocalIdent": [Function],
-      "localIdentName": "[name]__[local]___[hash:base64:5]",
-    },
-  },
-}
-`;
-
-exports[`Common webpack loaders css-loader should use the chunk name in the localIdentName when given 1`] = `
-Object {
-  "loader": "css-loader",
-  "options": Object {
-    "importLoaders": 2,
-    "modules": Object {
-      "getLocalIdent": [Function],
-      "localIdentName": "my-chunk__[name]__[local]___[hash:base64:5]",
-    },
-  },
-}
-`;
-
-exports[`Common webpack loaders css-loader should use the css-loader 1`] = `
-Object {
-  "loader": "css-loader",
-  "options": Object {
-    "importLoaders": 2,
-    "modules": Object {
-      "getLocalIdent": [Function],
-      "localIdentName": "[name]__[local]___[hash:base64:5]",
-    },
-  },
-}
-`;
-
-exports[`Common webpack loaders purgecss-loader should include any additional configured paths 1`] = `
-Array [
-  Object {
-    "loader": "@americanexpress/purgecss-loader",
-    "options": Object {
-      "blocklist": Array [],
-      "extractors": Array [],
-      "fontFace": false,
-      "keyframes": false,
-      "paths": Array [
-        "/current/dir/src/**/*.{js,jsx,ts,tsx}",
-        "foo",
-        "bar",
-      ],
-      "safelist": Object {
-        "deep": Array [
-          /:global\\$/,
-        ],
-        "greedy": Array [],
-        "keyframes": false,
-        "standard": Array [],
-        "variables": false,
-      },
-      "variables": false,
-    },
-  },
-]
-`;
-
-exports[`Common webpack loaders purgecss-loader should return a config that accounts for the src dir 1`] = `
-Array [
-  Object {
-    "loader": "@americanexpress/purgecss-loader",
-    "options": Object {
-      "blocklist": Array [],
-      "extractors": Array [],
-      "fontFace": false,
-      "keyframes": false,
-      "paths": Array [
-        "/current/dir/src/**/*.{js,jsx,ts,tsx}",
-      ],
-      "safelist": Object {
-        "deep": Array [
-          /:global\\$/,
-        ],
-        "greedy": Array [],
-        "keyframes": false,
-        "standard": Array [],
-        "variables": false,
-      },
-      "variables": false,
-    },
-  },
-]
-`;
-
-exports[`Common webpack loaders sass-loader should return a config using dart sass 1`] = `
-Object {
-  "loader": "sass-loader",
-  "options": Object {
-    "implementation": [Function],
+    "extends": "/mock/path/.babelrc",
   },
 }
 `;

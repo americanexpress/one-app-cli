@@ -12,16 +12,15 @@
  * under the License.
  */
 
-const webpackOptionsSchema = require('webpack/schemas/WebpackOptions.json');
-const validateSchema = require('webpack/lib/validateSchema');
+import webpackOptionsSchema from 'webpack/schemas/WebpackOptions.json';
 
-function validateWebpackConfig(config) {
+import validateSchema from 'webpack/lib/validateSchema';
+
+export function validateWebpackConfig(config) {
   const errors = validateSchema(webpackOptionsSchema, config);
-  if (errors.length > 0) {
+  if (errors && errors.length > 0) {
     const message = 'Webpack schema was invalid';
     const errorMessages = errors.map((err) => `config${err.dataPath} ${err.message}`);
     throw new Error(`${message}\n  ${errorMessages.join('\n  ')}`);
   }
 }
-
-module.exports = { validateWebpackConfig };

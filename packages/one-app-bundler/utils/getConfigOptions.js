@@ -11,12 +11,11 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
+import { readPackageUpSync } from 'read-package-up';
+import get from 'lodash/get.js';
+import commonConfig from '../webpack/webpack.common.js';
 
-const readPkgUp = require('read-pkg-up');
-// eslint-disable-next-line you-dont-need-lodash-underscore/get -- continue to support es5 for now
-const get = require('lodash/get');
-const commonConfig = require('../webpack/webpack.common');
-const { validateBundler } = require('./validation');
+import { validateBundler } from './validation/index.js';
 
 function validateOptions(options) {
   if (options.requiredExternals && options.providedExternals) {
@@ -56,7 +55,7 @@ function logConfigurationWarnings(options) {
   }
 }
 
-const { packageJson } = readPkgUp.sync();
+const { packageJson } = readPackageUpSync();
 const options = get(packageJson, ['one-amex', 'bundler'], {});
 validateBundler(options);
 options.appCompatibility = get(packageJson, ['one-amex', 'app', 'compatibility']);
@@ -66,4 +65,5 @@ options.disableDevelopmentLegacyBundle = (process.env.NODE_ENV === 'development'
 validateOptions(options);
 logConfigurationWarnings(options);
 
-module.exports = () => options;
+const getConfigOptions = () => options;
+export default getConfigOptions;

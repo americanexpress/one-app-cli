@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['getConfigOptions should throw when a user attempts to provide an app provided external 1'] = '"@americanexpress/one-app-bundler: Attempted to bundle @americanexpress/one-app-ducks, but modules cannot provide externals that One App includes."';
+exports[`getConfigOptions should throw when a user attempts to provide an app provided external 1`] = `"@americanexpress/one-app-bundler: Attempted to bundle @americanexpress/one-app-ducks, but modules cannot provide externals that One App includes."`;
 
-exports['getConfigOptions should throw when a user attempts to use an app provided external from the root module 1'] = '"@americanexpress/one-app-bundler: Attempted to bundle @americanexpress/one-app-router, but modules cannot provide externals that One App includes."';
+exports[`getConfigOptions should throw when a user attempts to use an app provided external from the root module 1`] = `"@americanexpress/one-app-bundler: Attempted to bundle @americanexpress/one-app-router, but modules cannot provide externals that One App includes."`;
 
-exports['getConfigOptions should throw when a user includes both requiredExternals and providedExternals configs 1'] = '"@americanexpress/one-app-bundler: Modules cannot configure both requiredExternals and providedExternals. See README for details."';
+exports[`getConfigOptions should throw when a user includes both requiredExternals and providedExternals configs 1`] = `"@americanexpress/one-app-bundler: Modules cannot configure both requiredExternals and providedExternals. See README for details."`;

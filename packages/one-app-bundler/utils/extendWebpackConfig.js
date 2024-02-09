@@ -12,12 +12,12 @@
  * under the License.
  */
 
-const path = require('node:path');
-const merge = require('webpack-merge');
-const uniqBy = require('lodash/uniqBy');
-const getConfigOptions = require('./getConfigOptions');
-const getCliOptions = require('./getCliOptions');
-const createResolver = require('../webpack/createResolver');
+import path from 'node:path';
+import { merge, mergeWithCustomize } from 'webpack-merge';
+import uniqBy from 'lodash/uniqBy.js';
+import getConfigOptions from './getConfigOptions.js';
+import getCliOptions from './getCliOptions.js';
+import createResolver from '../webpack/createResolver.js';
 
 function getCustomWebpackConfigPath(options, bundleTarget) {
   const { webpackConfigPath, webpackClientConfigPath, webpackServerConfigPath } = options;
@@ -39,7 +39,7 @@ function parseProvidedExternals(providedExternals) {
     }), {}) : providedExternals;
 }
 
-function extendWebpackConfig(webpackConfig, bundleTarget) {
+async function extendWebpackConfig(webpackConfig, bundleTarget) {
   const configOptions = getConfigOptions();
   const cliOptions = getCliOptions();
   const { mainFields } = webpackConfig.resolve;
@@ -57,8 +57,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   let customWebpackConfig = {};
 
   if (customWebpackConfigPath) {
-    // eslint-disable-next-line global-require, import/no-dynamic-require -- Dynamic require is needed here for loading custom config
-    customWebpackConfig = require(path.join(process.cwd(), customWebpackConfigPath));
+    customWebpackConfig = (await import(path.join(process.cwd(), customWebpackConfigPath))).default;
   }
 
   const indexPath = path.join(process.cwd(), 'src', 'index');
@@ -148,7 +147,7 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
     });
   }
 
-  return merge({
+  return mergeWithCustomize({
     customizeArray(defaultConfig, customConfig, key) {
       if (key === 'plugins') {
         const merged = [...customConfig, ...defaultConfig];
@@ -161,4 +160,4 @@ function extendWebpackConfig(webpackConfig, bundleTarget) {
   })(webpackConfig, customWebpackConfig);
 }
 
-module.exports = extendWebpackConfig;
+export default extendWebpackConfig;

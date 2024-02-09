@@ -11,19 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
+import readPkgUp from 'read-package-up';
 
-const readPkgUp = require('read-pkg-up');
-const validateExternalsLoader = require('../../../webpack/loaders/meta-data-loader');
+import validateExternalsLoader from '../../../webpack/loaders/meta-data-loader.js';
 
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ moduleVersion: '1.0.0' })),
+jest.mock('read-package-up', () => ({
+  readPackageUpSync: jest.fn(),
 }));
 
-jest.mock('read-pkg-up', () => ({
-  sync: jest.fn(),
-}));
-
-readPkgUp.sync.mockImplementation(() => ({ packageJson: { version: '1.0.0' } }));
+readPkgUp.readPackageUpSync.mockImplementation(() => ({ packageJson: { version: '1.0.0' } }));
 
 describe('validate-required-externals-loader', () => {
   it('should add versions for server side validation', () => {

@@ -12,32 +12,26 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const path = require('node:path');
-const merge = require('webpack-merge');
-const readPkgUp = require('read-pkg-up');
-const WebpackDynamicPublicPathPlugin = require('webpack-dynamic-public-path');
-const WebpackCustomChunkIdPlugin = require('webpack-custom-chunk-id-plugin');
-const HolocronModuleRegisterPlugin = require('holocron-module-register-webpack-plugin');
-const SriPlugin = require('webpack-subresource-integrity');
-
-const extendWebpackConfig = require('../../utils/extendWebpackConfig');
-const commonConfig = require('../webpack.common');
-const getConfigOptions = require('../../utils/getConfigOptions');
-require('../../utils/patchedCryptoHash');
-const {
+import webpack from 'webpack';
+import path from 'node:path';
+import { merge } from 'webpack-merge';
+import { readPackageUpSync } from 'read-package-up';
+import HolocronModuleRegisterPlugin from 'holocron-module-register-webpack-plugin';
+import { SubresourceIntegrityPlugin as SriPlugin } from 'webpack-subresource-integrity';
+import { BUNDLE_TYPES } from '@americanexpress/one-app-dev-bundler';
+import extendWebpackConfig from '../../utils/extendWebpackConfig.js';
+import commonConfig from '../webpack.common.js';
+import getConfigOptions from '../../utils/getConfigOptions.js';
+import {
   babelLoader,
-  cssLoader,
-  purgeCssLoader,
-  sassLoader,
-} = require('../loaders/common');
+} from '../loaders/common.js';
 
 const packageRoot = process.cwd();
-const { packageJson } = readPkgUp.sync();
+const { packageJson } = readPackageUpSync();
 const { version, name } = packageJson;
 
 const holocronModuleName = `holocronModule_${name.replace(/-/g, '_')}`;
-module.exports = (babelEnv) => {
+const webpackClient = async (babelEnv) => {
   const configOptions = getConfigOptions();
 
   return extendWebpackConfig(merge(
@@ -57,8 +51,12 @@ module.exports = (babelEnv) => {
         mainFields: ['browser', 'module', 'main'],
         modules: [packageRoot, 'node_modules'],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        fallback: {
+          fs: false,
+          module: false,
+          net: false,
+        },
       },
-      node: { module: 'empty', net: 'empty', fs: 'empty' },
       performance: {
         maxAssetSize: configOptions.performanceBudget || 250e3,
         maxEntrypointSize: configOptions.performanceBudget || 250e3,
@@ -67,6 +65,17 @@ module.exports = (babelEnv) => {
       module: {
         rules: [
           {
+            test: path.join(packageRoot, 'src', 'index'),
+            use: [
+              {
+                loader: '@americanexpress/one-app-bundler/webpack/loaders/public-path-loader',
+                options: {
+                  externalPublicPath: `__CLIENT_HOLOCRON_MODULE_MAP__.modules['${name}'].baseUrl`,
+                },
+              },
+            ],
+          },
+          {
             test: /[jt]sx?$/,
             include: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
             use: [babelLoader(babelEnv)],
@@ -74,10 +83,13 @@ module.exports = (babelEnv) => {
           {
             test: /\.(sa|sc|c)ss$/,
             use: [
-              { loader: 'style-loader' },
-              cssLoader({ name }),
-              ...purgeCssLoader(),
-              sassLoader(),
+              {
+                loader: '@americanexpress/one-app-bundler/webpack/loaders/styles-loader',
+                options: {
+                  cssModulesOptions: {},
+                  bundleType: BUNDLE_TYPES.BROWSER,
+                },
+              },
             ],
           },
         ],
@@ -86,19 +98,15 @@ module.exports = (babelEnv) => {
         new HolocronModuleRegisterPlugin(name, holocronModuleName),
         new webpack.DefinePlugin({
           'global.BROWSER': JSON.stringify(true),
-        }),
-        new WebpackDynamicPublicPathPlugin({
-          externalPublicPath: `__CLIENT_HOLOCRON_MODULE_MAP__.modules['${name}'].baseUrl`,
+          global: 'globalThis',
         }),
         new SriPlugin({
           hashFuncNames: ['sha256', 'sha384'],
           enabled: true,
         }),
-        new WebpackCustomChunkIdPlugin({
-          hash: true,
-          append: `.${name}`,
-        }),
       ],
     }
   ), 'client');
 };
+
+export default webpackClient;

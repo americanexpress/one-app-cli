@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports['webpack/one-amex.base should add loader options plugin in production 1'] = `
+Array [
+  EnvironmentPlugin {
+    "defaultValues": Object {},
+    "keys": Array [
+      "NODE_ENV",
+    ],
+  },
+  LoaderOptionsPlugin {
+    "options": Object {
+      "debug": false,
+      "minimize": true,
+      "test": Object {
+        "test": [Function],
+      },
+    },
+  },
+]
+`;
+
+exports['webpack/one-amex.base should only include the EnvironmentPlugin in development 1'] = `
+Array [
+  EnvironmentPlugin {
+    "defaultValues": Object {},
+    "keys": Array [
+      "NODE_ENV",
+    ],
+  },
+]
+`;

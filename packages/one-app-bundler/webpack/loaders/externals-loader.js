@@ -11,16 +11,14 @@
  * or implied. See the License for the specific language governing permissions and limitations
  * under the License.
  */
-const loaderUtils = require('loader-utils');
-const readPkgUp = require('read-pkg-up');
-const path = require('node:path');
+import { readPackageUpSync } from 'read-package-up';
+import path from 'node:path';
 
-const { packageJson } = readPkgUp.sync();
+const { packageJson } = readPackageUpSync();
 
-function externalsLoader() {
-  const { externalName, bundleTarget } = loaderUtils.getOptions(this);
-
-  const version = readPkgUp.sync({
+async function externalsLoader() {
+  const { externalName, bundleTarget } = this.getOptions();
+  const version = readPackageUpSync({
     cwd: path.resolve(process.cwd(), 'node_modules', externalName),
   })?.packageJson.version;
 
@@ -49,4 +47,4 @@ try {
 `;
 }
 
-module.exports = externalsLoader;
+export default externalsLoader;

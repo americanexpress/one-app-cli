@@ -12,13 +12,18 @@
  * under the License.
  */
 
-const validateOneAppCompatabilityLoader = require('../../../webpack/loaders/validate-one-app-compatibility-loader');
-
-jest.mock('loader-utils', () => ({
-  getOptions: jest.fn(() => ({ appCompatibility: '^4.41.0' })),
-}));
+import unboundValidateOneAppCompatabilityLoader
+  from '../../../webpack/loaders/validate-one-app-compatibility-loader.js';
 
 describe('validate-one-app-compatibility-loader', () => {
+  let validateOneAppCompatabilityLoader;
+
+  beforeEach(() => {
+    validateOneAppCompatabilityLoader = unboundValidateOneAppCompatabilityLoader.bind({
+      getOptions: jest.fn(() => ({ appCompatibility: '^4.41.0' })),
+    });
+  });
+
   it('should appCompatibility for server side validation', () => {
     const content = `\
 import SomeComponent from './SomeComponent';
