@@ -128,7 +128,7 @@ const generateModuleMap = (moduleMapUrl) => (moduleMapUrl ? `--module-map-url=${
 
 const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}` : '');
 
-// Node 12 does not support --dns-result-order or --no-experimental-fetch
+// NOTE: Node 12 does not support --dns-result-order or --no-experimental-fetch
 // So we have to remove those flags if the one-app version is less than 5.13.0
 // 5.13.0 is when node 16 was introduced.
 const generateNodeFlags = (appVersion) => {
