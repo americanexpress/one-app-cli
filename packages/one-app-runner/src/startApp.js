@@ -214,27 +214,21 @@ module.exports = async function startApp({
 
   const appVersion = appDockerImage.split(':')[1];
 
-  const containerShellCommand = `${
-    generateNpmConfigCommands()
-  } ${
-    generateServeModuleCommands(modulesToServe)
-  } ${
-    generateSetMiddlewareCommand(parrotMiddlewareFile)
-  } ${
-    generateSetDevEndpointsCommand(devEndpointsFile)
-  } node ${generateNodeFlags(appVersion)} ${
-    generateDebug(debugPort, useDebug)
-  } lib/server/index.js --root-module-name=${rootModuleName} ${
-    generateModuleMap(moduleMapUrl)
-  } ${
-    generateUseMocksFlag(parrotMiddlewareFile)
-  } ${
-    generateUseHostFlag()
-  } ${
-    generateLogLevel(logLevel)
-  } ${
-    generateLogFormat(logFormat)
-  }`.replace(/\s+/g, ' ').trim();
+  const containerShellCommand = [
+    generateNpmConfigCommands(),
+    generateServeModuleCommands(modulesToServe),
+    generateSetMiddlewareCommand(parrotMiddlewareFile),
+    generateSetDevEndpointsCommand(devEndpointsFile),
+    'node',
+    generateNodeFlags(appVersion),
+    generateDebug(debugPort, useDebug),
+    `lib/server/index.js --root-module-name=${rootModuleName}`,
+    generateModuleMap(moduleMapUrl),
+    generateUseMocksFlag(parrotMiddlewareFile),
+    generateUseHostFlag(),
+    generateLogLevel(logLevel),
+    generateLogFormat(logFormat),
+  ].filter(Boolean).join(' ');
 
   const logFileStream = outputFile ? fs.createWriteStream(outputFile) : null;
 
