@@ -111,4 +111,18 @@ describe('webpack/module.client', () => {
     const webpackConfig = await configGenerator();
     expect(webpackConfig.output.library).toBe(`holocronModule_${name.replace(/-/g, '_')}`);
   });
+
+  it('should use the correct fallbacks for node modules in the browser', async () => {
+    expect.assertions(1);
+    const webpackConfig = await configGenerator();
+    expect(webpackConfig.resolve.fallback).toMatchInlineSnapshot(`
+Object {
+  "fs": false,
+  "module": false,
+  "net": false,
+  "url": false,
+  "util": false,
+}
+`);
+  });
 });

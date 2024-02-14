@@ -55,6 +55,8 @@ const webpackClient = async (babelEnv) => {
           fs: false,
           module: false,
           net: false,
+          util: false,
+          url: false,
         },
       },
       performance: {
