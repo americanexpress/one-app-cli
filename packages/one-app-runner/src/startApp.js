@@ -17,6 +17,7 @@ const path = require('node:path');
 const fs = require('node:fs');
 const os = require('node:os');
 const Docker = require('dockerode');
+const semver = require('semver');
 
 async function spawnAndPipe(command, args, logStream) {
   return new Promise((resolve, reject) => {
@@ -125,21 +126,20 @@ const generateServeModuleCommands = (modules) => {
 
 const generateModuleMap = (moduleMapUrl) => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
 
+const generateLogLevel = (logLevel) => (logLevel ? `--log-level=${logLevel}` : '');
+
+const generateLogFormat = (logFormat) => (logFormat ? `--log-format=${logFormat}` : '');
+
 const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}` : '');
 
-// Node 12 does not support --dns-result-order or --no-experimental-fetch
+// NOTE: Node 12 does not support --dns-result-order or --no-experimental-fetch
 // So we have to remove those flags if the one-app version is less than 5.13.0
 // 5.13.0 is when node 16 was introduced.
 const generateNodeFlags = (appVersion) => {
-  const versionArray = appVersion.split('.');
-  if (versionArray.length > 1) {
-    const majorVersion = Number.parseInt(versionArray[0], 10);
-    const minorVersion = Number.parseInt(versionArray[1], 10);
-    if (majorVersion === 5 && minorVersion < 13) {
-      return '';
-    }
+  if (semver.intersects(appVersion, '^5.13.0', { includePrerelease: true })) {
+    return '--dns-result-order=ipv4first --no-experimental-fetch';
   }
-  return '--dns-result-order=ipv4first --no-experimental-fetch';
+  return '';
 };
 
 module.exports = async function startApp({
@@ -157,6 +157,8 @@ module.exports = async function startApp({
   offline,
   containerName,
   useDebug,
+  logLevel,
+  logFormat,
 }) {
   if (createDockerNetwork) {
     if (!dockerNetworkToJoin) {
@@ -208,23 +210,21 @@ module.exports = async function startApp({
 
   const appVersion = appDockerImage.split(':')[1];
 
-  const containerShellCommand = `${
-    generateNpmConfigCommands()
-  } ${
-    generateServeModuleCommands(modulesToServe)
-  } ${
-    generateSetMiddlewareCommand(parrotMiddlewareFile)
-  } ${
-    generateSetDevEndpointsCommand(devEndpointsFile)
-  } node ${generateNodeFlags(appVersion)} ${
-    generateDebug(debugPort, useDebug)
-  } lib/server/index.js --root-module-name=${rootModuleName} ${
-    generateModuleMap(moduleMapUrl)
-  } ${
-    generateUseMocksFlag(parrotMiddlewareFile)
-  } ${
-    generateUseHostFlag()
-  }`;
+  const containerShellCommand = [
+    generateNpmConfigCommands(),
+    generateServeModuleCommands(modulesToServe),
+    generateSetMiddlewareCommand(parrotMiddlewareFile),
+    generateSetDevEndpointsCommand(devEndpointsFile),
+    'node',
+    generateNodeFlags(appVersion),
+    generateDebug(debugPort, useDebug),
+    `lib/server/index.js --root-module-name=${rootModuleName}`,
+    generateModuleMap(moduleMapUrl),
+    generateUseMocksFlag(parrotMiddlewareFile),
+    generateUseHostFlag(),
+    generateLogLevel(logLevel),
+    generateLogFormat(logFormat),
+  ].filter(Boolean).join(' ');
 
   const logFileStream = outputFile ? fs.createWriteStream(outputFile) : null;
 
