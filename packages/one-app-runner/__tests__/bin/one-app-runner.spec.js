@@ -191,6 +191,8 @@ test('all options are used if specified', () => {
   const parrotMiddlewarePath = path.resolve('/fake/path/to/fake-module/dev.middleware.js');
   const rootModuleName = 'frank-lloyd-root';
   const dockerNetworkToJoin = 'one-test-environment-1234';
+  const logLevel = 'info';
+  const logFormat = 'machine';
 
   process.argv = [
     '',
@@ -215,6 +217,10 @@ test('all options are used if specified', () => {
     dockerNetworkToJoin,
     '--use-host',
     '--offline',
+    '--log-level',
+    logLevel,
+    '--log-format',
+    logFormat,
   ];
 
   jest.mock('../../src/startApp', () => jest.fn());
@@ -226,6 +232,34 @@ test('all options are used if specified', () => {
 
 test('command errors out if an unknown option is given', () => {
   process.argv = ['', '', '--not-a-valid-option', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
+  jest.mock('../../src/startApp', () => jest.fn());
+  require('../../bin/one-app-runner');
+  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+});
+
+test('command errors out if an invalid log level is given', () => {
+  process.argv = ['', '', '--log-level', 'debug', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
+  jest.mock('../../src/startApp', () => jest.fn());
+  require('../../bin/one-app-runner');
+  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+});
+
+test('command errors out if log level is not given a value', () => {
+  process.argv = ['', '', '--log-level', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
+  jest.mock('../../src/startApp', () => jest.fn());
+  require('../../bin/one-app-runner');
+  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+});
+
+test('command errors out if an invalid log format is given', () => {
+  process.argv = ['', '', '--log-format', 'json', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
+  jest.mock('../../src/startApp', () => jest.fn());
+  require('../../bin/one-app-runner');
+  expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+});
+
+test('command errors out if log format is not given a value', () => {
+  process.argv = ['', '', '--log-format', '--root-module-name', 'frank-lloyd-root', '--module-map-url', 'https://example.com/module-map.json', '--docker-image', 'one-app:5.0.0'];
   jest.mock('../../src/startApp', () => jest.fn());
   require('../../bin/one-app-runner');
   expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
