@@ -126,6 +126,10 @@ const generateServeModuleCommands = (modules) => {
 
 const generateModuleMap = (moduleMapUrl) => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
 
+const generateLogLevel = (logLevel) => (logLevel ? `--log-level=${logLevel}` : '');
+
+const generateLogFormat = (logFormat) => (logFormat ? `--log-format=${logFormat}` : '');
+
 const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}` : '');
 
 // NOTE: Node 12 does not support --dns-result-order or --no-experimental-fetch
@@ -153,6 +157,8 @@ module.exports = async function startApp({
   offline,
   containerName,
   useDebug,
+  logLevel,
+  logFormat,
 }) {
   if (createDockerNetwork) {
     if (!dockerNetworkToJoin) {
@@ -204,23 +210,21 @@ module.exports = async function startApp({
 
   const appVersion = appDockerImage.split(':')[1];
 
-  const containerShellCommand = `${
-    generateNpmConfigCommands()
-  } ${
-    generateServeModuleCommands(modulesToServe)
-  } ${
-    generateSetMiddlewareCommand(parrotMiddlewareFile)
-  } ${
-    generateSetDevEndpointsCommand(devEndpointsFile)
-  } node ${generateNodeFlags(appVersion)} ${
-    generateDebug(debugPort, useDebug)
-  } lib/server/index.js --root-module-name=${rootModuleName} ${
-    generateModuleMap(moduleMapUrl)
-  } ${
-    generateUseMocksFlag(parrotMiddlewareFile)
-  } ${
-    generateUseHostFlag()
-  }`;
+  const containerShellCommand = [
+    generateNpmConfigCommands(),
+    generateServeModuleCommands(modulesToServe),
+    generateSetMiddlewareCommand(parrotMiddlewareFile),
+    generateSetDevEndpointsCommand(devEndpointsFile),
+    'node',
+    generateNodeFlags(appVersion),
+    generateDebug(debugPort, useDebug),
+    `lib/server/index.js --root-module-name=${rootModuleName}`,
+    generateModuleMap(moduleMapUrl),
+    generateUseMocksFlag(parrotMiddlewareFile),
+    generateUseHostFlag(),
+    generateLogLevel(logLevel),
+    generateLogFormat(logFormat),
+  ].filter(Boolean).join(' ');
 
   const logFileStream = outputFile ? fs.createWriteStream(outputFile) : null;
 

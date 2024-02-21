@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['--modules option is required if --module-map-url option is not given 1'] = `
+exports[`--modules option is required if --module-map-url option is not given 1`] = `
 Array [
   Array [
     "Options:
@@ -10,6 +10,10 @@ Array [
   --root-module-name        name of the module to serve as an entry point to
                             your application                 [string] [required]
   --docker-image            docker image to use for One App  [string] [required]
+  --log-format              Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level               Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware       path to parrot dev middleware file for One App to
                             use for Parrot mocking                      [string]
   --modules                 path to local module to serve to One App
@@ -40,7 +44,7 @@ Array [
 ]
 `;
 
-exports['all options are used if specified 1'] = `
+exports[`all options are used if specified 1`] = `
 Array [
   Array [
     Object {
@@ -50,6 +54,8 @@ Array [
       "devEndpointsFile": "/fake/path/to/fake-module/dev.endpoints.js",
       "dockerNetworkToJoin": "one-test-environment-1234",
       "envVars": "MY_ENV_VAR=value",
+      "logFormat": "machine",
+      "logLevel": "info",
       "moduleMapUrl": "httops://example.com/module-map.json",
       "modulesToServe": Array [
         "/fake/path/to/fake-module",
@@ -65,14 +71,14 @@ Array [
 ]
 `;
 
-exports['an `envVars` arg is supported 1'] = `
+exports[`an \`envVars\` arg is supported 1`] = `
 Object {
   "HELLO": "WORLD",
   "MY_VARIABLE": "my-variable",
 }
 `;
 
-exports['command errors out if --dev-endpoints is not given a value 1'] = `
+exports[`command errors out if --dev-endpoints is not given a value 1`] = `
 Array [
   Array [
     "Options:
@@ -83,6 +89,10 @@ Array [
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]",
   ],
@@ -93,7 +103,7 @@ Array [
 ]
 `;
 
-exports['command errors out if --docker-image option is not given 1'] = `
+exports[`command errors out if --docker-image option is not given 1`] = `
 Array [
   Array [
     "Options:
@@ -104,6 +114,10 @@ Array [
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]",
   ],
@@ -114,7 +128,7 @@ Array [
 ]
 `;
 
-exports['command errors out if --docker-image option is not given a value 1'] = `
+exports[`command errors out if --docker-image option is not given a value 1`] = `
 Array [
   Array [
     "Options:
@@ -125,6 +139,10 @@ Array [
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]",
   ],
@@ -135,7 +153,7 @@ Array [
 ]
 `;
 
-exports['command errors out if --module-map-url option is not given 1'] = `
+exports[`command errors out if --module-map-url option is not given 1`] = `
 Array [
   Array [
     "Options:
@@ -145,6 +163,10 @@ Array [
   --root-module-name        name of the module to serve as an entry point to
                             your application                 [string] [required]
   --docker-image            docker image to use for One App  [string] [required]
+  --log-format              Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level               Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware       path to parrot dev middleware file for One App to
                             use for Parrot mocking                      [string]
   --modules                 path to local module to serve to One App
@@ -175,7 +197,7 @@ Array [
 ]
 `;
 
-exports['command errors out if --module-map-url option is not given a value 1'] = `
+exports[`command errors out if --module-map-url option is not given a value 1`] = `
 Array [
   Array [
     "Options:
@@ -186,6 +208,10 @@ Array [
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]",
   ],
@@ -196,7 +222,7 @@ Array [
 ]
 `;
 
-exports['command errors out if --modules option is not given any values 1'] = `
+exports[`command errors out if --modules option is not given any values 1`] = `
 Array [
   Array [
     "Options:
@@ -207,6 +233,10 @@ Array [
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]",
   ],
@@ -217,7 +247,7 @@ Array [
 ]
 `;
 
-exports['command errors out if --root-module-name option is not given 1'] = `
+exports[`command errors out if --root-module-name option is not given 1`] = `
 Array [
   Array [
     "Options:
@@ -228,6 +258,10 @@ Array [
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]",
   ],
@@ -238,7 +272,7 @@ Array [
 ]
 `;
 
-exports['command errors out if --root-module-name option is not given a value 1'] = `
+exports[`command errors out if --root-module-name option is not given a value 1`] = `
 Array [
   Array [
     "Options:
@@ -249,6 +283,10 @@ Array [
   --root-module-name   name of the module to serve as an entry point to your
                        application                           [string] [required]
   --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware  path to parrot dev middleware file for One App to use for
                        Parrot mocking                                   [string]",
   ],
@@ -259,7 +297,59 @@ Array [
 ]
 `;
 
-exports['command errors out if an unknown option is given 1'] = `
+exports[`command errors out if an invalid log format is given 1`] = `
+Array [
+  Array [
+    "Options:
+  --help               Show help                                       [boolean]
+  --version            Show version number                             [boolean]
+  --module-map-url     module map for One App to use and fetch modules from
+                                                                        [string]
+  --root-module-name   name of the module to serve as an entry point to your
+                       application                           [string] [required]
+  --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
+  --parrot-middleware  path to parrot dev middleware file for One App to use for
+                       Parrot mocking                                   [string]",
+  ],
+  Array [],
+  Array [
+    "Invalid values:
+  Argument: log-format, Given: \\"json\\", Choices: \\"friendly\\", \\"verbose\\", \\"machine\\"",
+  ],
+]
+`;
+
+exports[`command errors out if an invalid log level is given 1`] = `
+Array [
+  Array [
+    "Options:
+  --help               Show help                                       [boolean]
+  --version            Show version number                             [boolean]
+  --module-map-url     module map for One App to use and fetch modules from
+                                                                        [string]
+  --root-module-name   name of the module to serve as an entry point to your
+                       application                           [string] [required]
+  --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
+  --parrot-middleware  path to parrot dev middleware file for One App to use for
+                       Parrot mocking                                   [string]",
+  ],
+  Array [],
+  Array [
+    "Invalid values:
+  Argument: log-level, Given: \\"debug\\", Choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"",
+  ],
+]
+`;
+
+exports[`command errors out if an unknown option is given 1`] = `
 Array [
   Array [
     "Options:
@@ -269,6 +359,10 @@ Array [
   --root-module-name        name of the module to serve as an entry point to
                             your application                 [string] [required]
   --docker-image            docker image to use for One App  [string] [required]
+  --log-format              Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level               Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
   --parrot-middleware       path to parrot dev middleware file for One App to
                             use for Parrot mocking                      [string]
   --modules                 path to local module to serve to One App     [array]
@@ -294,6 +388,58 @@ Array [
   Array [],
   Array [
     "Unknown arguments: not-a-valid-option, notAValidOption",
+  ],
+]
+`;
+
+exports[`command errors out if log format is not given a value 1`] = `
+Array [
+  Array [
+    "Options:
+  --help               Show help                                       [boolean]
+  --version            Show version number                             [boolean]
+  --module-map-url     module map for One App to use and fetch modules from
+                                                                        [string]
+  --root-module-name   name of the module to serve as an entry point to your
+                       application                           [string] [required]
+  --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
+  --parrot-middleware  path to parrot dev middleware file for One App to use for
+                       Parrot mocking                                   [string]",
+  ],
+  Array [],
+  Array [
+    "Invalid values:
+  Argument: log-format, Given: \\"\\", Choices: \\"friendly\\", \\"verbose\\", \\"machine\\"",
+  ],
+]
+`;
+
+exports[`command errors out if log level is not given a value 1`] = `
+Array [
+  Array [
+    "Options:
+  --help               Show help                                       [boolean]
+  --version            Show version number                             [boolean]
+  --module-map-url     module map for One App to use and fetch modules from
+                                                                        [string]
+  --root-module-name   name of the module to serve as an entry point to your
+                       application                           [string] [required]
+  --docker-image       docker image to use for One App       [string] [required]
+  --log-format         Presentation of log entries
+                            [string] [choices: \\"friendly\\", \\"verbose\\", \\"machine\\"]
+  --log-level          Lowest level of log entries to show
+                     [string] [choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"]
+  --parrot-middleware  path to parrot dev middleware file for One App to use for
+                       Parrot mocking                                   [string]",
+  ],
+  Array [],
+  Array [
+    "Invalid values:
+  Argument: log-level, Given: \\"\\", Choices: \\"error\\", \\"warn\\", \\"log\\", \\"info\\", \\"trace\\"",
   ],
 ]
 `;
