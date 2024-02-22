@@ -84,6 +84,22 @@ describe('Common webpack loaders', () => {
       expect(result).toEqual(null);
       expect(config).toMatchSnapshot();
     });
+    it('should return null from getLocalIndent if resourcePath ends with .module.css', () => {
+      const config = cssLoader();
+      const loaderContext = {
+        resourcePath: 'node_modules/some-library/some-library.module.css',
+      };
+      const localIdentName = '[name]__[local]___[hash:base64:5]';
+      const localName = 'horizontal';
+      const options = { context: undefined, hashPrefix: '', regExp: null };
+
+      const result = config.options.modules.getLocalIdent(
+        loaderContext, localIdentName, localName, options
+      );
+
+      expect(result).toEqual(null);
+      expect(config).toMatchSnapshot();
+    });
   });
 
   describe('sass-loader', () => {

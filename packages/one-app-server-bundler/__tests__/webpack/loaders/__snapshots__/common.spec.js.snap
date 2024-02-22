@@ -22,6 +22,19 @@ Object {
 }
 `;
 
+exports[`Common webpack loaders css-loader should return null from getLocalIndent if resourcePath ends with .module.css 1`] = `
+Object {
+  "loader": "css-loader",
+  "options": Object {
+    "importLoaders": 2,
+    "modules": Object {
+      "getLocalIdent": [Function],
+      "localIdentName": "[name]__[local]___[hash:base64:5]",
+    },
+  },
+}
+`;
+
 exports[`Common webpack loaders css-loader should still return a good localIdentName when not given a chunk name 1`] = `
 Object {
   "loader": "css-loader",

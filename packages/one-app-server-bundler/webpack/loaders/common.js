@@ -27,11 +27,16 @@ const cssLoader = ({ name = '', importLoaders = 2 } = {}) => ({
       // The documentation can be found here:
       // https://github.com/webpack-contrib/css-loader#getlocalident
 
-      // The below function returns the classnames as is if the resourcePath includes node_modules
-      // if it doesn't it returns null allowing localIdentName to define the classname
-      getLocalIdent: (loaderContext, localIdentName, localName) => (
-        loaderContext.resourcePath.includes('node_modules') ? localName : null
-      ),
+      // With the exception of non-module css files in node_modules, we want to use the default
+      // localIdentName (returning null). For non-module css files in node_modules though, we will
+      // return the localName of the class as-is (non-scoped).
+      getLocalIdent: (loaderContext, localIdentName, localName) => {
+        const { resourcePath } = loaderContext;
+        if (!resourcePath.includes('node_modules') || resourcePath.endsWith('.module.css') || resourcePath.endsWith('.module.scss')) {
+          return null;
+        }
+        return localName;
+      },
     },
   },
 });
