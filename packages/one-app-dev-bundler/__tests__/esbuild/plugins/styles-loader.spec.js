@@ -260,6 +260,10 @@ export { css, digest };"
       it('should transform inputs to default outputs for purged css, browser', async () => {
         glob.sync.mockReturnValue(['Test.jsx']);
 
+        getModulesBundlerConfig.mockImplementationOnce(() => ({
+          disabled: false,
+        }));
+
         expect.assertions(3);
 
         const plugin = stylesLoader({}, {
@@ -332,6 +336,10 @@ export { css, digest };"
       it('should transform inputs to named outputs for purged css, browser', async () => {
         glob.sync.mockReturnValue(['Test.jsx']);
 
+        getModulesBundlerConfig.mockImplementationOnce(() => ({
+          disabled: false,
+        }));
+
         expect.assertions(3);
 
         const plugin = stylesLoader({}, {
@@ -401,12 +409,8 @@ export { css, digest };"
 `);
       });
 
-      it('should transform inputs to outputs for scss, with purge disabled, in the browser', async () => {
+      it('should transform inputs to outputs for scss, in the browser', async () => {
         expect.assertions(4);
-
-        getModulesBundlerConfig.mockImplementation(() => ({
-          disabled: true,
-        }));
 
         const mockFileName = 'index.scss';
         const mockFileContent = `body {
@@ -455,10 +459,6 @@ export { css, digest };"
 
       it('should transform inputs to outputs for css, in the browser', async () => {
         expect.assertions(3);
-
-        getModulesBundlerConfig.mockImplementation(() => ({
-          disabled: true,
-        }));
 
         const mockFileName = 'index.css';
         const mockFileContent = `body {
