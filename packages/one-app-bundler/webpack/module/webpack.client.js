@@ -25,7 +25,9 @@ import getConfigOptions from '../../utils/getConfigOptions.js';
 import {
   babelLoader,
 } from '../loaders/common.js';
+import createResolver from '../createResolver.js';
 
+const resolve = createResolver({ mainFields: ['browser', 'module', 'main'] });
 const packageRoot = process.cwd();
 const { packageJson } = readPackageUpSync();
 const { version, name } = packageJson;
@@ -52,9 +54,29 @@ const webpackClient = async (babelEnv) => {
         modules: [packageRoot, 'node_modules'],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         fallback: {
-          fs: false,
-          module: false,
-          net: false,
+          assert: resolve('assert'),
+          buffer: resolve('buffer'),
+          console: resolve('console-browserify'),
+          constants: resolve('constants-browserify'),
+          crypto: resolve('crypto-browserify'),
+          domain: resolve('domain-browser'),
+          events: resolve('events'),
+          http: resolve('stream-http'),
+          https: resolve('https-browserify'),
+          os: resolve('os-browserify/browser'),
+          path: resolve('path-browserify'),
+          punycode: resolve('punycode'),
+          process: resolve('process/browser'),
+          querystring: resolve('querystring-es3'),
+          stream: resolve('stream-browserify'),
+          string_decoder: resolve('string_decoder'),
+          sys: resolve('util'),
+          timers: resolve('timers-browserify'),
+          tty: resolve('tty-browserify'),
+          url: resolve('url'),
+          util: resolve('util'),
+          vm: resolve('vm-browserify'),
+          zlib: resolve('browserify-zlib'),
         },
       },
       performance: {
