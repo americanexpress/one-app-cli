@@ -279,7 +279,7 @@ You can pass only one if you wish to customize a single build target.
 
 `purgecss` is an opt-in optimization that can reduce the overall bundle size of your module by
 eliminating unused css from your module's bundle. You can enable `purgecss` by setting
-`bundler.purgecss.enabled` to `false` in the `one-amex` key in your module's `package.json`:
+`bundler.purgecss.disabled` to `false` in the `one-amex` key in your module's `package.json`:
 
 ```json
 {
