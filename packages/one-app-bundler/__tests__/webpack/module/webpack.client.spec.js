@@ -51,6 +51,12 @@ describe('webpack/module.client', () => {
     expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
   });
 
+  it('should generate full list of fall backs', async () => {
+    expect.assertions(2);
+    const webpackConfig = await configGenerator();
+    expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
+    expect(webpackConfig.resolve.fallback).toMatchSnapshot();
+  });
   it('should provide the envName to babel', async () => {
     expect.assertions(2);
     const modernWebpackConfig = await configGenerator('modern');
