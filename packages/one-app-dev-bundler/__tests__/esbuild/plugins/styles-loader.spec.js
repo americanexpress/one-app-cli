@@ -80,6 +80,158 @@ describe('Esbuild plugin stylesLoader', () => {
       describe('NON-PRODUCTION environment', () => {
         mockNodeEnv('development');
 
+        it('should transform inputs to default outputs for purged css, browser', async () => {
+          glob.sync.mockReturnValue(['Test.jsx']);
+
+          getModulesBundlerConfig.mockImplementationOnce(() => ({
+            disabled: false,
+          }));
+
+          expect.assertions(3);
+
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.BROWSER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const additionalMockedFiles = {
+            'Test.jsx': `\
+              import styles from './index.module.css';
+  
+              const Component = () => {
+                return (
+                  <div className={styles.root}>
+                    <p className={styles.second}>Testing</p>
+                  </div>
+                );
+              }
+  
+              export default Component`,
+          };
+
+          const {
+            contents, loader,
+          } = await runOnLoadHook(
+            onLoadHook,
+            {
+              mockFileNAme: 'index.module.css',
+              mockFileContent: `\
+                .root {
+                  background: white;
+                }
+  
+                .somethingElse {
+                  font-color: lime;
+                }
+  
+                .second {
+                  font-color: black;
+                }`,
+            },
+            additionalMockedFiles
+          );
+
+          expect(sassCompile).toHaveBeenCalledTimes(0);
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
+"const digest = 'be76540996d2256b09af85f09bb93016999ae115235d972319628c011a06d6cc';
+const css = \`                ._root_w8zvp_1 {
+                  background: white;
+                }
+  
+                ._second_w8zvp_9 {
+                  font-color: black;
+                }\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const root = '_root_w8zvp_1';
+export const second = '_second_w8zvp_9';
+export default { root, second };
+export { css, digest };"
+`);
+        });
+
+        it('should transform inputs to named outputs for purged css, browser', async () => {
+          glob.sync.mockReturnValue(['Test.jsx']);
+
+          getModulesBundlerConfig.mockImplementationOnce(() => ({
+            disabled: false,
+          }));
+
+          expect.assertions(3);
+
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.BROWSER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const additionalMockedFiles = {
+            'Test.jsx': `\
+              import { root, second } from './index.module.css';
+  
+              const Component = () => {
+                return (
+                  <div className={root}>
+                    <p className={second}>Testing</p>
+                  </div>
+                );
+              }
+  
+              export default Component`,
+          };
+
+          const {
+            contents, loader,
+          } = await runOnLoadHook(
+            onLoadHook,
+            {
+              mockFileNAme: 'index.module.css',
+              mockFileContent: `\
+                .root {
+                  background: white;
+                }
+  
+                .somethingElse {
+                  font-color: lime;
+                }
+  
+                .second {
+                  font-color: black;
+                }`,
+            },
+            additionalMockedFiles
+          );
+
+          expect(sassCompile).toHaveBeenCalledTimes(0);
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
+"const digest = 'be76540996d2256b09af85f09bb93016999ae115235d972319628c011a06d6cc';
+const css = \`                ._root_w8zvp_1 {
+                  background: white;
+                }
+  
+                ._second_w8zvp_9 {
+                  font-color: black;
+                }\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const root = '_root_w8zvp_1';
+export const second = '_second_w8zvp_9';
+export default { root, second };
+export { css, digest };"
+`);
+        });
+
         it('should transform inputs to outputs for scss, in the browser', async () => {
           expect.assertions(4);
 

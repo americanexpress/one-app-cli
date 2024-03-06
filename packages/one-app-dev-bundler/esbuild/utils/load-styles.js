@@ -51,7 +51,7 @@ const loadStyles = async ({
   const purgecssConfig = getModulesBundlerConfig('purgecss') || {};
   const result = await postcss([
     // purgecss will not execute unless `disabled is set to `false` (opt-in by default)
-    (process.env.NODE_ENV === 'production' && purgecssConfig.disabled === false) && purgecss(purgecssConfig),
+    purgecssConfig.disabled === false && purgecss(purgecssConfig),
     cssModules({
       localsConvention,
       generateScopedName,
