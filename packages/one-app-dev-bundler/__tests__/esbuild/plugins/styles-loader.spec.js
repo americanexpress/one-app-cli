@@ -324,34 +324,33 @@ export default {  };
 export { css, digest };"
 `);
         });
-      });
 
-      it('should transform inputs to outputs for scss, in the server', async () => {
-        expect.assertions(4);
+        it('should transform inputs to outputs for scss, in the server', async () => {
+          expect.assertions(4);
 
-        const mockFileName = 'index.scss';
-        const mockFileContent = `body {
+          const mockFileName = 'index.scss';
+          const mockFileContent = `body {
     background: white;
   }
   body > p {
     font-color: black;
   }`;
 
-        const plugin = stylesLoader({}, {
-          bundleType: BUNDLE_TYPES.SERVER,
-        });
-        const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.SERVER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-        const { contents, loader } = await runOnLoadHook(
-          onLoadHook,
-          { mockFileName, mockFileContent }
-        );
+          const { contents, loader } = await runOnLoadHook(
+            onLoadHook,
+            { mockFileName, mockFileContent }
+          );
 
-        expect(sassCompile).toHaveBeenCalledTimes(1);
-        expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+          expect(sassCompile).toHaveBeenCalledTimes(1);
+          expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
 
-        expect(loader).toEqual('js');
-        expect(contents).toMatchInlineSnapshot(`
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
   "const digest = '11e1fda0219a10c2de0ad6b28c1c6519985965cbef3f5b8f8f119d16f1bafff3';
   const css = \`body {
     background: white;
@@ -365,32 +364,32 @@ export { css, digest };"
   export default {  };
   export { css, digest };"
   `);
-      });
+        });
 
-      it('should transform inputs to outputs for css, in the server', async () => {
-        expect.assertions(3);
+        it('should transform inputs to outputs for css, in the server', async () => {
+          expect.assertions(3);
 
-        const mockFileName = 'index.css';
-        const mockFileContent = `body {
+          const mockFileName = 'index.css';
+          const mockFileContent = `body {
   background: white;
 }
 body > p {
   font-color: black;
 }`;
 
-        const plugin = stylesLoader({}, {
-          bundleType: BUNDLE_TYPES.SERVER,
-        });
-        const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.SERVER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-        const { contents, loader } = await runOnLoadHook(
-          onLoadHook,
-          { mockFileName, mockFileContent }
-        );
+          const { contents, loader } = await runOnLoadHook(
+            onLoadHook,
+            { mockFileName, mockFileContent }
+          );
 
-        expect(sassCompile).toHaveBeenCalledTimes(0);
-        expect(loader).toEqual('js');
-        expect(contents).toMatchInlineSnapshot(`
+          expect(sassCompile).toHaveBeenCalledTimes(0);
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
 "const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
@@ -403,10 +402,10 @@ body > p {
 export default {  };
 export { css, digest };"
 `);
-      });
+        });
 
-      describe('css classes', () => {
-        const mockFileContent = `
+        describe('css classes', () => {
+          const mockFileContent = `
 .test-class {
   background: white;
 }
@@ -414,25 +413,25 @@ export { css, digest };"
   font-color: black;
 }`;
 
-        it('should hash the css classes for .scss files not in node_modules', async () => {
-          expect.assertions(4);
+          it('should hash the css classes for .scss files not in node_modules', async () => {
+            expect.assertions(4);
 
-          const mockFileName = 'index.scss';
-          const plugin = stylesLoader({}, {
-            bundleType: BUNDLE_TYPES.BROWSER,
-          });
-          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+            const mockFileName = 'index.scss';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          const { contents, loader } = await runOnLoadHook(
-            onLoadHook,
-            { mockFileName, mockFileContent }
-          );
+            const { contents, loader } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
 
-          expect(sassCompile).toHaveBeenCalledTimes(1);
-          expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+            expect(sassCompile).toHaveBeenCalledTimes(1);
+            expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
 
-          expect(loader).toEqual('js');
-          expect(contents).toMatchInlineSnapshot(`
+            expect(loader).toEqual('js');
+            expect(contents).toMatchInlineSnapshot(`
 "const digest = 'e7f5b9ef03f087455b4d224d28209638e7d986130a45e94f793690dbac47dc39';
 const css = \`._test-class_1o1cd_1 {
   background: white;
@@ -454,26 +453,26 @@ export const nestedClass = '_nested-class_1o1cd_5';
 export default { testClass, nestedClass };
 export { css, digest };"
 `);
-        });
-
-        it('should hash the css classes for .css files not in node_modules', async () => {
-          expect.assertions(3);
-
-          const mockFileName = 'index.css';
-          const plugin = stylesLoader({}, {
-            bundleType: BUNDLE_TYPES.BROWSER,
           });
-          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          const { contents, loader } = await runOnLoadHook(
-            onLoadHook,
-            { mockFileName, mockFileContent }
-          );
+          it('should hash the css classes for .css files not in node_modules', async () => {
+            expect.assertions(3);
 
-          expect(sassCompile).toHaveBeenCalledTimes(0);
+            const mockFileName = 'index.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          expect(loader).toEqual('js');
-          expect(contents).toMatchInlineSnapshot(`
+            const { contents, loader } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
+
+            expect(sassCompile).toHaveBeenCalledTimes(0);
+
+            expect(loader).toEqual('js');
+            expect(contents).toMatchInlineSnapshot(`
 "const digest = 'ce462c133ed89a8b7ce350c3aef04277cf1b8b618dfad088d668c2ed0f5209a7';
 const css = \`
 ._test-class_ykkej_2 {
@@ -495,27 +494,27 @@ export const nestedClass = '_nested-class_ykkej_5';
 export default { testClass, nestedClass };
 export { css, digest };"
 `);
-        });
-
-        it('should hash the css classes for .module.scss files in node_modules', async () => {
-          expect.assertions(4);
-
-          const mockFileName = 'node_modules/index.module.scss';
-          const plugin = stylesLoader({}, {
-            bundleType: BUNDLE_TYPES.BROWSER,
           });
-          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          const { contents, loader } = await runOnLoadHook(
-            onLoadHook,
-            { mockFileName, mockFileContent }
-          );
+          it('should hash the css classes for .module.scss files in node_modules', async () => {
+            expect.assertions(4);
 
-          expect(sassCompile).toHaveBeenCalledTimes(1);
-          expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+            const mockFileName = 'node_modules/index.module.scss';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          expect(loader).toEqual('js');
-          expect(contents).toMatchInlineSnapshot(`
+            const { contents, loader } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
+
+            expect(sassCompile).toHaveBeenCalledTimes(1);
+            expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+
+            expect(loader).toEqual('js');
+            expect(contents).toMatchInlineSnapshot(`
 "const digest = 'e7f5b9ef03f087455b4d224d28209638e7d986130a45e94f793690dbac47dc39';
 const css = \`._test-class_1o1cd_1 {
   background: white;
@@ -537,26 +536,26 @@ export const nestedClass = '_nested-class_1o1cd_5';
 export default { testClass, nestedClass };
 export { css, digest };"
 `);
-        });
-
-        it('should hash the css classes for .module.css files in node_modules', async () => {
-          expect.assertions(3);
-
-          const mockFileName = 'index.css';
-          const plugin = stylesLoader({}, {
-            bundleType: BUNDLE_TYPES.BROWSER,
           });
-          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          const { contents, loader } = await runOnLoadHook(
-            onLoadHook,
-            { mockFileName, mockFileContent }
-          );
+          it('should hash the css classes for .module.css files in node_modules', async () => {
+            expect.assertions(3);
 
-          expect(sassCompile).toHaveBeenCalledTimes(0);
+            const mockFileName = 'index.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          expect(loader).toEqual('js');
-          expect(contents).toMatchInlineSnapshot(`
+            const { contents, loader } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
+
+            expect(sassCompile).toHaveBeenCalledTimes(0);
+
+            expect(loader).toEqual('js');
+            expect(contents).toMatchInlineSnapshot(`
 "const digest = 'ce462c133ed89a8b7ce350c3aef04277cf1b8b618dfad088d668c2ed0f5209a7';
 const css = \`
 ._test-class_ykkej_2 {
@@ -578,27 +577,27 @@ export const nestedClass = '_nested-class_ykkej_5';
 export default { testClass, nestedClass };
 export { css, digest };"
 `);
-        });
-
-        it('should not hash the css classes for .scss files in node_modules', async () => {
-          expect.assertions(4);
-
-          const mockFileName = 'node_modules/index.scss';
-          const plugin = stylesLoader({}, {
-            bundleType: BUNDLE_TYPES.BROWSER,
           });
-          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          const { contents, loader } = await runOnLoadHook(
-            onLoadHook,
-            { mockFileName, mockFileContent }
-          );
+          it('should not hash the css classes for .scss files in node_modules', async () => {
+            expect.assertions(4);
 
-          expect(sassCompile).toHaveBeenCalledTimes(1);
-          expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+            const mockFileName = 'node_modules/index.scss';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          expect(loader).toEqual('js');
-          expect(contents).toMatchInlineSnapshot(`
+            const { contents, loader } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
+
+            expect(sassCompile).toHaveBeenCalledTimes(1);
+            expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+
+            expect(loader).toEqual('js');
+            expect(contents).toMatchInlineSnapshot(`
 "const digest = 'ade268ae3555b997b1a7c7fd6c3c2f4b8f1b2e4f6a79011c4d01a82b1a6df8bd';
 const css = \`.test-class {
   background: white;
@@ -620,26 +619,26 @@ export const nestedClass = 'nested-class';
 export default { testClass, nestedClass };
 export { css, digest };"
 `);
-        });
-
-        it('should not hash the css classes for .css files in node_modules', async () => {
-          expect.assertions(3);
-
-          const mockFileName = 'node_modules/index.css';
-          const plugin = stylesLoader({}, {
-            bundleType: BUNDLE_TYPES.BROWSER,
           });
-          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          const { contents, loader } = await runOnLoadHook(
-            onLoadHook,
-            { mockFileName, mockFileContent }
-          );
+          it('should not hash the css classes for .css files in node_modules', async () => {
+            expect.assertions(3);
 
-          expect(sassCompile).toHaveBeenCalledTimes(0);
+            const mockFileName = 'node_modules/index.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-          expect(loader).toEqual('js');
-          expect(contents).toMatchInlineSnapshot(`
+            const { contents, loader } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
+
+            expect(sassCompile).toHaveBeenCalledTimes(0);
+
+            expect(loader).toEqual('js');
+            expect(contents).toMatchInlineSnapshot(`
 "const digest = '46b2c9f3228391651835f4f0819eebe700536d488ddb9d523e826d2368427eb0';
 const css = \`
 .test-class {
@@ -661,28 +660,28 @@ export const nestedClass = 'nested-class';
 export default { testClass, nestedClass };
 export { css, digest };"
 `);
+          });
         });
       });
-    });
 
-    describe('PRODUCTION environment', () => {
-      mockNodeEnv('production');
+      describe('PRODUCTION environment', () => {
+        mockNodeEnv('production');
 
-      it('should transform inputs to default outputs for purged css, browser', async () => {
-        glob.sync.mockReturnValue(['Test.jsx']);
+        it('should transform inputs to default outputs for purged css, browser', async () => {
+          glob.sync.mockReturnValue(['Test.jsx']);
 
-        getModulesBundlerConfig.mockImplementationOnce(() => ({
-          disabled: false,
-        }));
+          getModulesBundlerConfig.mockImplementationOnce(() => ({
+            disabled: false,
+          }));
 
-        expect.assertions(3);
+          expect.assertions(3);
 
-        const plugin = stylesLoader({}, {
-          bundleType: BUNDLE_TYPES.BROWSER,
-        });
-        const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
-        const additionalMockedFiles = {
-          'Test.jsx': `\
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.BROWSER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const additionalMockedFiles = {
+            'Test.jsx': `\
             import styles from './index.module.css';
 
             const Component = () => {
@@ -694,15 +693,15 @@ export { css, digest };"
             }
 
             export default Component`,
-        };
+          };
 
-        const {
-          contents, loader,
-        } = await runOnLoadHook(
-          onLoadHook,
-          {
-            mockFileNAme: 'index.module.css',
-            mockFileContent: `\
+          const {
+            contents, loader,
+          } = await runOnLoadHook(
+            onLoadHook,
+            {
+              mockFileNAme: 'index.module.css',
+              mockFileContent: `\
               .root {
                 background: white;
               }
@@ -714,13 +713,13 @@ export { css, digest };"
               .second {
                 font-color: black;
               }`,
-          },
-          additionalMockedFiles
-        );
+            },
+            additionalMockedFiles
+          );
 
-        expect(sassCompile).toHaveBeenCalledTimes(0);
-        expect(loader).toEqual('js');
-        expect(contents).toMatchInlineSnapshot(`
+          expect(sassCompile).toHaveBeenCalledTimes(0);
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
 "const digest = 'f85b3a3cf0c00eb3fd23e6d440b10077d7493cf7f127538acb994cade5bce451';
 const css = \`              ._root_1vf0l_1 {
                 background: white;
@@ -742,23 +741,23 @@ export const second = '_second_1vf0l_9';
 export default { root, second };
 export { css, digest };"
 `);
-      });
-
-      it('should transform inputs to named outputs for purged css, browser', async () => {
-        glob.sync.mockReturnValue(['Test.jsx']);
-
-        getModulesBundlerConfig.mockImplementationOnce(() => ({
-          disabled: false,
-        }));
-
-        expect.assertions(3);
-
-        const plugin = stylesLoader({}, {
-          bundleType: BUNDLE_TYPES.BROWSER,
         });
-        const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
-        const additionalMockedFiles = {
-          'Test.jsx': `\
+
+        it('should transform inputs to named outputs for purged css, browser', async () => {
+          glob.sync.mockReturnValue(['Test.jsx']);
+
+          getModulesBundlerConfig.mockImplementationOnce(() => ({
+            disabled: false,
+          }));
+
+          expect.assertions(3);
+
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.BROWSER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const additionalMockedFiles = {
+            'Test.jsx': `\
             import { root, second } from './index.module.css';
 
             const Component = () => {
@@ -770,15 +769,15 @@ export { css, digest };"
             }
 
             export default Component`,
-        };
+          };
 
-        const {
-          contents, loader,
-        } = await runOnLoadHook(
-          onLoadHook,
-          {
-            mockFileNAme: 'index.module.css',
-            mockFileContent: `\
+          const {
+            contents, loader,
+          } = await runOnLoadHook(
+            onLoadHook,
+            {
+              mockFileNAme: 'index.module.css',
+              mockFileContent: `\
               .root {
                 background: white;
               }
@@ -790,13 +789,13 @@ export { css, digest };"
               .second {
                 font-color: black;
               }`,
-          },
-          additionalMockedFiles
-        );
+            },
+            additionalMockedFiles
+          );
 
-        expect(sassCompile).toHaveBeenCalledTimes(0);
-        expect(loader).toEqual('js');
-        expect(contents).toMatchInlineSnapshot(`
+          expect(sassCompile).toHaveBeenCalledTimes(0);
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
 "const digest = 'f85b3a3cf0c00eb3fd23e6d440b10077d7493cf7f127538acb994cade5bce451';
 const css = \`              ._root_1vf0l_1 {
                 background: white;
@@ -818,13 +817,13 @@ export const second = '_second_1vf0l_9';
 export default { root, second };
 export { css, digest };"
 `);
-      });
+        });
 
-      it('should transform inputs to outputs for scss, in the browser', async () => {
-        expect.assertions(4);
+        it('should transform inputs to outputs for scss, in the browser', async () => {
+          expect.assertions(4);
 
-        const mockFileName = 'index.scss';
-        const mockFileContent = `body {
+          const mockFileName = 'index.scss';
+          const mockFileContent = `body {
   background: white;
 
   & > p {
@@ -832,21 +831,21 @@ export { css, digest };"
   }
 }`;
 
-        const plugin = stylesLoader({}, {
-          bundleType: BUNDLE_TYPES.BROWSER,
-        });
-        const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.BROWSER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-        const { contents, loader } = await runOnLoadHook(
-          onLoadHook,
-          { mockFileName, mockFileContent }
-        );
+          const { contents, loader } = await runOnLoadHook(
+            onLoadHook,
+            { mockFileName, mockFileContent }
+          );
 
-        expect(sassCompile).toHaveBeenCalledTimes(1);
-        expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
+          expect(sassCompile).toHaveBeenCalledTimes(1);
+          expect(sassCompile).toHaveBeenCalledWith(`mock/path/to/file/${mockFileName}`, { loadPaths: ['./node_modules'] });
 
-        expect(loader).toEqual('js');
-        expect(contents).toMatchInlineSnapshot(`
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
 "const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
@@ -866,32 +865,32 @@ body > p {
 export default {  };
 export { css, digest };"
 `);
-      });
+        });
 
-      it('should transform inputs to outputs for css, in the browser', async () => {
-        expect.assertions(3);
+        it('should transform inputs to outputs for css, in the browser', async () => {
+          expect.assertions(3);
 
-        const mockFileName = 'index.css';
-        const mockFileContent = `body {
+          const mockFileName = 'index.css';
+          const mockFileContent = `body {
   background: white;
 }
 body > p {
   font-color: black;
 }`;
 
-        const plugin = stylesLoader({}, {
-          bundleType: BUNDLE_TYPES.BROWSER,
-        });
-        const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+          const plugin = stylesLoader({}, {
+            bundleType: BUNDLE_TYPES.BROWSER,
+          });
+          const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
 
-        const { contents, loader } = await runOnLoadHook(
-          onLoadHook,
-          { mockFileName, mockFileContent }
-        );
+          const { contents, loader } = await runOnLoadHook(
+            onLoadHook,
+            { mockFileName, mockFileContent }
+          );
 
-        expect(sassCompile).toHaveBeenCalledTimes(0);
-        expect(loader).toEqual('js');
-        expect(contents).toMatchInlineSnapshot(`
+          expect(sassCompile).toHaveBeenCalledTimes(0);
+          expect(loader).toEqual('js');
+          expect(contents).toMatchInlineSnapshot(`
 "const digest = '5e9583e668d7632ccabf75f612a320b29f5f48cd7a7e86489c7b0f8f5fdcdbbe';
 const css = \`body {
   background: white;
@@ -911,6 +910,7 @@ body > p {
 export default {  };
 export { css, digest };"
 `);
+        });
       });
     });
   });
