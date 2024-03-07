@@ -9,7 +9,7 @@
   dependencies:
     lodash "^4.17.11"
 
-"@americanexpress/one-app-dev-bundler@^1.6.0":
+"@americanexpress/one-app-dev-bundler@^1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@americanexpress/one-app-dev-bundler/-/one-app-dev-bundler-1.7.0.tgz#c002be14e907783a74833d7d99070013cc38b201"
   integrity sha512-HHpbOMog/kFNG+eDlrFJJvMGhoIUh5b/lx9LIkCkShrM6dMNlDJJ0aybXfgZt7+TU4wMZdPs1WHVlab3Ukbuew==
