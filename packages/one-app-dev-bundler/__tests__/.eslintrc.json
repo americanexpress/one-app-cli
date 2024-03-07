@@ -1,8 +1,0 @@
-{
-  "extends": "amex/test",
-  "rules": {
-    "no-console": 0,
-    "import/extensions": 0, // ECMAscript modules explicitly require all extensions for relative imports
-    "jest/no-large-snapshots": 0 // The tests are not snapshotting react components
-  }
-}

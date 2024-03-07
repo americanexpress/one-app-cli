@@ -1,1 +1,0 @@
-# this directory is intentionally empty as it is used to write tmp files to during tests so DO NOT REMOVE
