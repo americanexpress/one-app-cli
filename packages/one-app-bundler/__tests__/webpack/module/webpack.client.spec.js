@@ -22,12 +22,14 @@ jest.mock('@americanexpress/one-app-dev-bundler', () => ({ BUNDLE_TYPES: { BROWS
 
 jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ purgecss: {} })));
 jest.spyOn(process, 'cwd').mockImplementation(() => __dirname.split(`${path.sep}__tests__`)[0]);
-
 jest.mock('../../../utils/getMetaUrl.mjs', () => () => 'metaUrlMock');
 
 jest.mock('node:url', () => ({
   fileURLToPath: jest.fn((url) => `/mock/path/for/url/${url}`),
 }));
+
+// Mock out create resolver to return a mock path for the webpack 4 pollyfill resolves.
+jest.mock('../../../webpack/createResolver.js', () => jest.fn(() => jest.fn((request) => `/mock/path/for/request/${request}`)));
 
 jest.mock('read-package-up', () => ({
   readPackageUpSync: jest.fn(() => ({
@@ -49,6 +51,12 @@ describe('webpack/module.client', () => {
     expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
   });
 
+  it('should generate full list of fall backs', async () => {
+    expect.assertions(2);
+    const webpackConfig = await configGenerator();
+    expect(() => validateWebpackConfig(webpackConfig)).not.toThrow();
+    expect(webpackConfig.resolve.fallback).toMatchSnapshot();
+  });
   it('should provide the envName to babel', async () => {
     expect.assertions(2);
     const modernWebpackConfig = await configGenerator('modern');

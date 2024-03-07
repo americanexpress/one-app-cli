@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`webpack/module.client should generate full list of fall backs 1`] = `
+Object {
+  "assert": "/mock/path/for/request/assert",
+  "buffer": "/mock/path/for/request/buffer",
+  "console": "/mock/path/for/request/console-browserify",
+  "constants": "/mock/path/for/request/constants-browserify",
+  "crypto": "/mock/path/for/request/crypto-browserify",
+  "domain": "/mock/path/for/request/domain-browser",
+  "events": "/mock/path/for/request/events",
+  "http": "/mock/path/for/request/stream-http",
+  "https": "/mock/path/for/request/https-browserify",
+  "os": "/mock/path/for/request/os-browserify/browser",
+  "path": "/mock/path/for/request/path-browserify",
+  "process": "/mock/path/for/request/process/browser",
+  "punycode": "/mock/path/for/request/punycode",
+  "querystring": "/mock/path/for/request/querystring-es3",
+  "stream": "/mock/path/for/request/stream-browserify",
+  "string_decoder": "/mock/path/for/request/string_decoder",
+  "sys": "/mock/path/for/request/util",
+  "timers": "/mock/path/for/request/timers-browserify",
+  "tty": "/mock/path/for/request/tty-browserify",
+  "url": "/mock/path/for/request/url",
+  "util": "/mock/path/for/request/util",
+  "vm": "/mock/path/for/request/vm-browserify",
+  "zlib": "/mock/path/for/request/browserify-zlib",
+}
+`;
