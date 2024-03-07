@@ -52,6 +52,7 @@ describe('webpack/one-amex.base', () => {
         minimize: true,
         minimizer: expect.any(Array),
       },
+      resolve: expect.any(Object),
     });
   });
 
@@ -70,6 +71,7 @@ describe('webpack/one-amex.base', () => {
         minimize: false,
         minimizer: expect.any(Array),
       },
+      resolve: expect.any(Object),
     });
   });
 

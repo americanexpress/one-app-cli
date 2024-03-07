@@ -55,6 +55,24 @@ export default {
       }),
     ],
   },
+  resolve: {
+    alias: {
+      /**
+       * Starting with webpack 5, webpack adheres to a stricter module resolution spec
+       * for packages that declare themselves as `type: "module"` in their package.json.
+       * This is a workaround for React which tells webpack where the imports are for
+       * the newer jsx transforms supported by React because the files for the transforms
+       * are not declared in the `exports` field of React's package.json. Starting in React 18,
+       * React specifies the imports for these files in the `exports` field of its package.json,
+       * which makes these aliases unnecessary. But to ensure compatibility with older versions
+       * of React for esm packages that use jsx-runtime, these aliases are required.
+       *
+       * See: https://github.com/facebook/react/issues/20235
+       */
+      'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
+      'react/jsx-runtime': 'react/jsx-runtime.js',
+    },
+  },
   mode: nodeEnvironmentIsProduction ? 'production' : 'development',
   module: {
     rules: [
