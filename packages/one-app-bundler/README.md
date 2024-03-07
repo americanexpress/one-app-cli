@@ -279,14 +279,14 @@ You can pass only one if you wish to customize a single build target.
 
 `purgecss` is an opt-in optimization that can reduce the overall bundle size of your module by
 eliminating unused css from your module's bundle. You can enable `purgecss` by setting
-`bundler.purgecss.disabled` to `false` in the `one-amex` key in your module's `package.json`:
+`bundler.purgecss.enabled` to `true` in the `one-amex` key in your module's `package.json`:
 
 ```json
 {
   "one-amex": {
     "bundler": {
       "purgecss": {
-        "disabled": false
+        "enabled": true
       }
     }
   }
@@ -303,6 +303,7 @@ under `bundler.purgecss.paths`. The example below illustrates how we would add
   "one-amex": {
     "bundler": {
       "purgecss": {
+        "enabled": true,
         "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"]
       }
     }
@@ -318,6 +319,7 @@ before enabling any of the following:
   "one-amex": {
     "bundler": {
       "purgecss": {
+        "enabled": true,
         "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"],
         "extractors": [{
           "extractor": "purgeJs",
@@ -345,6 +347,7 @@ before enabling any of the following:
   "one-amex": {
     "bundler": {
       "purgecss": {
+        "enabled": true,
         "paths": ["node_modules/some-lib/src/**/*.{js,jsx}"],
         "extractors": [{
           "extractor": "purgeJs",

@@ -84,7 +84,7 @@ describe('Esbuild plugin stylesLoader', () => {
           glob.sync.mockReturnValue(['Test.jsx']);
 
           getModulesBundlerConfig.mockImplementationOnce(() => ({
-            disabled: false,
+            enabled: true,
           }));
 
           expect.assertions(3);
@@ -113,7 +113,7 @@ describe('Esbuild plugin stylesLoader', () => {
           } = await runOnLoadHook(
             onLoadHook,
             {
-              mockFileNAme: 'index.module.css',
+              mockFileName: 'index.module.css',
               mockFileContent: `\
                 .root {
                   background: white;
@@ -160,7 +160,7 @@ export { css, digest };"
           glob.sync.mockReturnValue(['Test.jsx']);
 
           getModulesBundlerConfig.mockImplementationOnce(() => ({
-            disabled: false,
+            enabled: true,
           }));
 
           expect.assertions(3);
@@ -189,7 +189,7 @@ export { css, digest };"
           } = await runOnLoadHook(
             onLoadHook,
             {
-              mockFileNAme: 'index.module.css',
+              mockFileName: 'index.module.css',
               mockFileContent: `\
                 .root {
                   background: white;
@@ -662,6 +662,163 @@ export { css, digest };"
 `);
           });
         });
+
+        describe('purgecss', () => {
+          glob.sync.mockReturnValue(['Test.jsx']);
+          const additionalMockedFiles = {
+            'Test.jsx': `\
+            import { root, second } from './index.module.css';
+            
+            const Component = () => {
+              return (
+                <div className={root}>
+                  <p className={second}>Testing</p>
+                </div>
+              );
+            }
+
+            export default Component;`,
+          };
+          const mockFileNameAndContent = {
+            mockFileName: 'index.module.css',
+            mockFileContent: `\
+            .root {
+              background: white;
+            }
+
+            .somethingElse {
+              font-color: lime;
+            }
+
+            .second {
+              font-color: black;
+            }`,
+          };
+
+          it('should not purge css by default', async () => {
+            expect.assertions(1);
+
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              mockFileNameAndContent,
+              additionalMockedFiles
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = 'bec209059b0fca9bfe3221e70ce9deb5b73196ef71f2b1171ed73f09d53edbc8';
+const css = \`            ._root_18xtd_1 {
+              background: white;
+            }
+
+            ._somethingElse_18xtd_5 {
+              font-color: lime;
+            }
+
+            ._second_18xtd_9 {
+              font-color: black;
+            }\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const root = '_root_18xtd_1';
+export const somethingElse = '_somethingElse_18xtd_5';
+export const second = '_second_18xtd_9';
+export default { root, somethingElse, second };
+export { css, digest };"
+`);
+          });
+
+          it('should purge css if disabled === false', async () => {
+            expect.assertions(1);
+
+            getModulesBundlerConfig.mockImplementationOnce(() => ({
+              enabled: true,
+            }));
+
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              mockFileNameAndContent,
+              additionalMockedFiles
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = 'a4b4b7b1b3332cc2e20331d5b11a79c021125e809ed8187e65eeca7756852397';
+const css = \`            ._root_18xtd_1 {
+              background: white;
+            }
+
+            ._second_18xtd_9 {
+              font-color: black;
+            }\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const root = '_root_18xtd_1';
+export const second = '_second_18xtd_9';
+export default { root, second };
+export { css, digest };"
+`);
+          });
+
+          it('should purge css if enabled === true', async () => {
+            expect.assertions(1);
+
+            getModulesBundlerConfig.mockImplementationOnce(() => ({
+              disabled: false,
+            }));
+
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              mockFileNameAndContent,
+              additionalMockedFiles
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = 'a4b4b7b1b3332cc2e20331d5b11a79c021125e809ed8187e65eeca7756852397';
+const css = \`            ._root_18xtd_1 {
+              background: white;
+            }
+
+            ._second_18xtd_9 {
+              font-color: black;
+            }\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const root = '_root_18xtd_1';
+export const second = '_second_18xtd_9';
+export default { root, second };
+export { css, digest };"
+`);
+          });
+        });
       });
 
       describe('PRODUCTION environment', () => {
@@ -671,7 +828,7 @@ export { css, digest };"
           glob.sync.mockReturnValue(['Test.jsx']);
 
           getModulesBundlerConfig.mockImplementationOnce(() => ({
-            disabled: false,
+            enabled: true,
           }));
 
           expect.assertions(3);
@@ -700,7 +857,7 @@ export { css, digest };"
           } = await runOnLoadHook(
             onLoadHook,
             {
-              mockFileNAme: 'index.module.css',
+              mockFileName: 'index.module.css',
               mockFileContent: `\
               .root {
                 background: white;
@@ -747,7 +904,7 @@ export { css, digest };"
           glob.sync.mockReturnValue(['Test.jsx']);
 
           getModulesBundlerConfig.mockImplementationOnce(() => ({
-            disabled: false,
+            enabled: true,
           }));
 
           expect.assertions(3);
@@ -776,7 +933,7 @@ export { css, digest };"
           } = await runOnLoadHook(
             onLoadHook,
             {
-              mockFileNAme: 'index.module.css',
+              mockFileName: 'index.module.css',
               mockFileContent: `\
               .root {
                 background: white;

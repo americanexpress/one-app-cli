@@ -59,6 +59,7 @@ export const purgecssSchema = Joi.object({
   blocklist: Joi.array().items(Joi.string().required()),
   /* eslint-enable inclusive-language/use-inclusive-words -- disables require enables */
   disabled: Joi.boolean().strict(),
+  enabled: Joi.boolean().strict(),
 });
 
 const optionsSchema = Joi.object({
