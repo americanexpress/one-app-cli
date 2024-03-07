@@ -24,6 +24,15 @@ import getModulesBundlerConfig from './get-modules-bundler-config.js';
 import { BUNDLE_TYPES } from '../constants/enums.js';
 import { addStyle } from './server-style-aggregator.js';
 
+const getGenerateScopedNameOption = (path) => {
+  if (!path.includes('node_modules') || path.endsWith('.module.css') || path.endsWith('.module.scss')) {
+    // use the default option (scoped) for non-node_module files or css modules within node_modules
+    return undefined;
+  }
+  // for standard css files within node_modules, do not scope the class names
+  return '[local]';
+};
+
 // This function can generically take css or scss content,
 // and 'load it', turning it into js. Meaning it can be called
 // from either esbuild or webpack based bundlers.
@@ -34,7 +43,7 @@ const loadStyles = async ({
 }) => {
   const {
     localsConvention = 'camelCaseOnly',
-    generateScopedName,
+    generateScopedName = getGenerateScopedNameOption(path),
   } = cssModulesOptions;
 
   let cssContent;

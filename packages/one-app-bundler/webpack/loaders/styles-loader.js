@@ -15,10 +15,8 @@
 import { loadStyles } from '@americanexpress/one-app-dev-bundler';
 
 function stylesLoader() {
-  const options = { ...this.getOptions() };
-  // use default for directly imported, dont scope for node_module
-  options.cssModulesOptions.generateScopedName = this.resourcePath.includes('node_modules') ? '[local]' : undefined;
-  return loadStyles({ path: this.resourcePath, ...options });
+  // Use the same implementation as the dev bundler for consistency
+  return loadStyles({ path: this.resourcePath, ...this.getOptions() });
 }
 
 export default stylesLoader;
