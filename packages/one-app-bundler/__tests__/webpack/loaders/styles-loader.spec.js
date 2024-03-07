@@ -35,20 +35,9 @@ describe('styles-loader', () => {
       getOptions: mockGetOptions,
     });
   });
-  it('should call the loadStyles util with the correct params, for non-node_modules', () => {
+  it('should call the loadStyles util from the dev bundler with the correct params', () => {
     expect(stylesLoader()).toBe('let mockJsContent = "helloMockContent"');
     expect(loadStyles).toHaveBeenCalledTimes(1);
     expect(loadStyles).toHaveBeenCalledWith({ bundleType: BUNDLE_TYPES.BROWSER, cssModulesOptions: { generateScopedName: undefined }, path: 'style/path/mock.scss' });
-  });
-  it('should call the loadStyles util with the correct params, for node_modules', () => {
-    stylesLoader = unboundStylesLoader.bind({
-      resourcePath: 'node_modules/style/path/mock.scss',
-      getOptions: mockGetOptions,
-    });
-
-    expect(stylesLoader()).toBe('let mockJsContent = "helloMockContent"');
-
-    expect(loadStyles).toHaveBeenCalledTimes(1);
-    expect(loadStyles).toHaveBeenCalledWith({ bundleType: BUNDLE_TYPES.BROWSER, cssModulesOptions: { generateScopedName: '[local]' }, path: 'node_modules/style/path/mock.scss' });
   });
 });
