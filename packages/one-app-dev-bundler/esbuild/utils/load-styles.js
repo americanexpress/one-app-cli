@@ -57,9 +57,15 @@ const loadStyles = async ({
 
   // Generate the css modules information
   let cssModulesJSON = {};
+
   const purgecssConfig = getModulesBundlerConfig('purgecss') || {};
+  if (purgecssConfig.disabled !== undefined) {
+    console.warn('The `disabled` option in the `purgecss` config is deprecated. Please use `enabled: true` if you would like to use purgecss, or remove the `disabled` option.');
+  }
+  const shouldPurgeCss = purgecssConfig.enabled || purgecssConfig.disabled === false;
+
   const result = await postcss([
-    (process.env.NODE_ENV === 'production' && !purgecssConfig.disabled) && purgecss(purgecssConfig),
+    shouldPurgeCss && purgecss(purgecssConfig),
     cssModules({
       localsConvention,
       generateScopedName,
