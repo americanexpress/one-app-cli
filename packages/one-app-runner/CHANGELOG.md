@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.17.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.16.3...@americanexpress/one-app-runner@6.17.0) (2024-03-12)
+
+
+### Features
+
+* **one-app-runner:** added logging options for level & format ([#609](https://github.com/americanexpress/one-app-cli/issues/609)) ([6eda6b5](https://github.com/americanexpress/one-app-cli/commit/6eda6b592852be99d051beab791b6dffaa87b28d))
+
+
+
+
+
 ## [6.16.3](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.16.2...@americanexpress/one-app-runner@6.16.3) (2024-01-29)
 
 **Note:** Version bump only for package @americanexpress/one-app-runner
