@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@7.0.0...@americanexpress/one-app-bundler@7.0.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* **one-app-bundler:** hash css module classes from files in node_modules ([#613](https://github.com/americanexpress/one-app-cli/issues/613)) ([4c24846](https://github.com/americanexpress/one-app-cli/commit/4c24846b2b381454df10207fd5bc5ccd7fce07f4))
+* **styles-loader:** disable purgecss by default ([0955cf3](https://github.com/americanexpress/one-app-cli/commit/0955cf324c1b6e2c6d483d0ca1dc995949c170e4))
+* **webpack:** add missing webpack 4 polyfills ([1080885](https://github.com/americanexpress/one-app-cli/commit/108088563d327d254addcaac5ae6eadbc87b6969))
+* **webpack:** support jsx-runtime for react<18 with esm ([#615](https://github.com/americanexpress/one-app-cli/issues/615)) ([42c2858](https://github.com/americanexpress/one-app-cli/commit/42c2858f0e681f4e5ce01746de9db93b02ac4a8a))
+
+
+
+
+
 # [7.0.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-bundler@6.21.7...@americanexpress/one-app-bundler@7.0.0) (2024-02-09)
 
 
