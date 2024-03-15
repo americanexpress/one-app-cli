@@ -13,15 +13,15 @@
  * under the License.
  */
 
+const util = require('node:util');
 const fs = require('node:fs');
 const path = require('node:path');
-const { argv } = require('yargs');
 
 const publicPath = path.join(process.cwd(), 'static');
 const symModulesPath = path.join(publicPath, 'modules');
 const moduleMapPath = path.join(publicPath, 'module-map.json');
 
-argv._.forEach((moduleName) => {
+util.parseArgs({ allowPositionals: true }).positionals.forEach((moduleName) => {
   try {
     fs.accessSync(moduleMapPath);
   } catch (e) {
@@ -34,9 +34,5 @@ argv._.forEach((moduleName) => {
 
   const modulePath = path.join(symModulesPath, moduleName);
 
-  try {
-    fs.rmdirSync(modulePath);
-  } catch (e) {
-    // Do nothing, file does not exist, so it does not need to be deleted
-  }
+  fs.rmSync(modulePath, { recursive: true, force: true });
 });

@@ -12,20 +12,16 @@
  * under the License.
  */
 
-const webpack = require('webpack');
-const merge = require('webpack-merge');
 const path = require('node:path');
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const coreJsCompat = require('core-js-compat');
 const coreJsEntries = require('core-js-compat/entries');
 const { browserList, legacyBrowserList } = require('babel-preset-amex/browserlist');
 const createResolver = require('../createResolver');
 const { externals: moduleExternals, ...common } = require('../webpack.common');
-const {
-  babelLoader,
-  cssLoader,
-  sassLoader,
-} = require('../loaders/common');
+const { babelLoader } = require('../loaders/common');
 require('../../utils/patchedCryptoHash');
 
 const mainFields = ['browser', 'module', 'main'];
@@ -95,13 +91,6 @@ module.exports = (babelEnv) => merge(
           include: pathsToTranspile,
           exclude: new RegExp(`^${path.resolve(packageRoot, 'node_modules', 'core-js')}`),
           use: [babelLoader(babelEnv)],
-        }, {
-          test: /\.(sa|sc|c)ss$/,
-          use: [
-            { loader: 'style-loader' },
-            cssLoader({ importLoaders: 1 }),
-            sassLoader(),
-          ],
         },
         ...exposeModuleExternals,
       ],

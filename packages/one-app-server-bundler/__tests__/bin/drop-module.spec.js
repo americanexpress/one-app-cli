@@ -18,8 +18,8 @@ testing `on import` functionality needs 'require' in every tests */
 let fs = require('node:fs');
 
 jest.mock('node:fs');
-jest.mock('yargs', () => ({
-  argv: { _: ['my-module-name'] },
+jest.mock('node:util', () => ({
+  parseArgs: jest.fn(() => ({ positionals: ['my-module-name'] })),
 }));
 
 describe('drop-module', () => {
@@ -120,7 +120,7 @@ describe('drop-module', () => {
     expect(fs._.getFiles()).toHaveProperty('/mocked/static/modules/my-module-name');
     require('../../bin/drop-module');
 
-    expect(fs.rmdirSync).toHaveBeenCalledWith('/mocked/static/modules/my-module-name');
+    expect(fs.rmSync).toHaveBeenCalledWith('/mocked/static/modules/my-module-name', { recursive: true, force: true });
     expect(fs._.getFiles()).not.toHaveProperty('/mocked/static/modules/my-module-name');
   });
 

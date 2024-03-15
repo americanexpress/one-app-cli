@@ -46,7 +46,6 @@ describe('webpack/one-amex.base', () => {
       devtool: false,
       profile: true,
       externals: expect.any(Object),
-      module: expect.any(Object),
       mode: 'production',
       plugins: expect.any(Array),
       optimization: {
@@ -63,7 +62,6 @@ describe('webpack/one-amex.base', () => {
       devtool: 'source-map',
       profile: true,
       externals: expect.any(Object),
-      module: expect.any(Object),
       mode: 'development',
       plugins: expect.any(Array),
       optimization: {

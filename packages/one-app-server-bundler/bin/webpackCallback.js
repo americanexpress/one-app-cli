@@ -12,12 +12,11 @@
  * under the License.
  */
 
-const chalk = require('chalk');
 const fs = require('node:fs');
 const path = require('node:path');
-const generateIntegrityManifest = require('./generateIntegrityManifest');
+const chalk = require('chalk');
 
-module.exports = function getWebpackCallback(label, isModuleBuild) {
+module.exports = function getWebpackCallback(label) {
   if (typeof label !== 'string' || !label) {
     throw new Error('`getWebpackCallback` requires a label for its metadata files.');
   }
@@ -42,14 +41,13 @@ module.exports = function getWebpackCallback(label, isModuleBuild) {
       });
     }
 
-    fs.writeFileSync(path.join(process.cwd(), `.webpack-stats.${label}.json`), JSON.stringify(jsonStats));
+    const buildStatsPath = path.join(process.cwd(), '.build-stats');
 
-    if (isModuleBuild) {
-      generateIntegrityManifest(
-        label,
-        path.join(stats.compilation.compiler.outputPath, stats.compilation.outputOptions.filename)
-      );
+    if (!fs.existsSync(buildStatsPath)) {
+      fs.mkdirSync(buildStatsPath);
     }
+
+    fs.writeFileSync(path.join(buildStatsPath, `.webpack-stats.${label}.json`), JSON.stringify(jsonStats));
 
     if (process.argv.indexOf('--watch') !== -1) {
       return;

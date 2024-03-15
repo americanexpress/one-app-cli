@@ -48,11 +48,11 @@ const fs = {
     files[filePath] = content;
   }),
 
-  rmdirSync: jest.fn((dirPath) => {
-    if (!files[dirPath]) {
-      throw new Error(`Couldn't delete dir ${dirPath}`);
+  rmSync: jest.fn((path, opts = {}) => {
+    if (!files[path] && !opts.force) {
+      throw new Error(`Couldn't delete file/dir ${path}`);
     }
-    delete files[dirPath];
+    delete files[path];
   }),
 
   mkdirSync: jest.fn(),

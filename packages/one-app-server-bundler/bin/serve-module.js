@@ -13,20 +13,16 @@
  * under the License.
  */
 
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const { argv } = require('yargs');
-const rimraf = require('rimraf');
-
-const getConfigOptions = require('../utils/getConfigOptions');
+const fs = require('node:fs');
+const util = require('node:util');
+const path = require('node:path');
 
 const publicPath = path.join(process.cwd(), 'static');
 const symModulesPath = path.join(publicPath, 'modules');
 
-mkdirp.sync(symModulesPath);
+fs.mkdirSync(symModulesPath, { recursive: true });
 
-argv._.forEach((modulePath) => {
+util.parseArgs({ allowPositionals: true }).positionals.forEach((modulePath) => {
   const pkg = JSON.parse(fs.readFileSync(path.join(modulePath, 'package.json')));
   const absoluteModulePath = modulePath.startsWith('/')
     ? modulePath : path.join(process.cwd(), modulePath);
@@ -42,8 +38,8 @@ argv._.forEach((modulePath) => {
   }
 
   // enforce only one version of a module being served at once
-  rimraf.sync(path.join(symModulesPath, moduleName));
-  mkdirp.sync(path.join(symModulesPath, moduleName));
+  fs.rmSync(path.join(symModulesPath, moduleName), { recursive: true, force: true });
+  fs.mkdirSync(path.join(symModulesPath, moduleName), { recursive: true });
 
   const sourceBundlePath = path.join(absoluteModulePath, 'build', version);
   const symBundlePath = path.join(symModulesPath, moduleName, version);
@@ -80,12 +76,12 @@ argv._.forEach((modulePath) => {
       },
     };
 
-    const legacyConfig = getConfigOptions().disableDevelopmentLegacyBundle ? {} : {
+    const legacyConfig = legacyBrowserSri ? {
       legacyBrowser: {
         integrity: legacyBrowserSri,
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
       },
-    };
+    } : {};
 
     moduleMap.modules[moduleName] = { ...generalConfig, ...legacyConfig };
 
