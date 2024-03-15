@@ -15,21 +15,9 @@
 /* eslint-disable global-require --
 we need to require generated files to validate their content */
 
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const { validateWebpackConfig } = require('../../../test-utils');
 const configGenerator = require('../../../webpack/app/webpack.client');
-const getConfigOptions = require('../../../utils/getConfigOptions');
-
-jest.mock('../../../webpack/loaders/common', () => {
-  const originalModule = jest.requireActual('../../../webpack/loaders/common');
-
-  return {
-    ...originalModule,
-    sassLoader: jest.fn(() => 'sassLoader'),
-  };
-});
-
-jest.mock('../../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
 
 describe('webpack/app', () => {
   let originalNodeEnv;
@@ -109,21 +97,21 @@ describe('webpack/app', () => {
     process.env.NODE_ENV = 'development';
     process.env.DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION = 'true';
     const webpackConfig = require('../../../webpack/app/webpack.client')();
-    expect(webpackConfig.module.rules[3]).toMatchSnapshot();
+    expect(webpackConfig.module.rules[0]).toMatchSnapshot();
   });
 
   it('transpiles node_modules when DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION false', () => {
     process.env.NODE_ENV = 'development';
     process.env.DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION = 'false';
     const webpackConfig = require('../../../webpack/app/webpack.client')();
-    expect(webpackConfig.module.rules[3]).toMatchSnapshot();
+    expect(webpackConfig.module.rules[0]).toMatchSnapshot();
   });
 
   it('always transpiles node_modules when env is production', () => {
     process.env.DANGEROUSLY_DISABLE_DEPENDENCY_TRANSPILATION = 'true';
     process.env.NODE_ENV = 'production';
     const webpackConfig = require('../../../webpack/app/webpack.client')();
-    expect(webpackConfig.module.rules[3]).toMatchSnapshot();
+    expect(webpackConfig.module.rules[0]).toMatchSnapshot();
   });
 
   it('should define global.BROWSER to be true', () => {
@@ -139,15 +127,6 @@ describe('webpack/app', () => {
     expect(browserDefinitions).toHaveProperty('length', 1);
     // stringified, also can't use .toHaveProperty() as the key we need has a dot in it
     expect(browserDefinitions[0].definitions['global.BROWSER']).toBe('true');
-  });
-
-  it('should not generate the legacy directory if disableDevelopmentLegacyBundle is true', () => {
-    process.env.NODE_ENV = 'development';
-    getConfigOptions.mockReturnValueOnce({ disableDevelopmentLegacyBundle: true });
-    const legacyWebpackConfig = configGenerator('legacy');
-    expect(legacyWebpackConfig.output.path).not.toContainEqual(/\/build\/app\/tmp\/legacy$/);
-    const modernWebpackConfig = configGenerator('modern');
-    expect(modernWebpackConfig.output.path).toMatch(/\/build\/app\/tmp$/);
   });
 });
 

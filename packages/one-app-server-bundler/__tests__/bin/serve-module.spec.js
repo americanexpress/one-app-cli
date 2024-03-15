@@ -15,25 +15,18 @@
 /* eslint-disable global-require --
 testing `on import` functionality needs 'require' in every tests */
 
-let fs = require('fs');
+let fs = require('node:fs');
 
-let rimraf;
-
-jest.mock('fs');
-jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: false })));
+jest.mock('node:fs');
 
 const setup = (modulePath) => {
   jest.resetModules();
   jest.clearAllMocks();
-  jest.doMock('yargs', () => ({
-    argv: { _: [modulePath] },
-  }));
-  jest.doMock('rimraf', () => ({
-    sync: jest.fn(),
+  jest.doMock('node:util', () => ({
+    parseArgs: jest.fn(() => ({ positionals: [modulePath] })),
   }));
 
-  fs = require('fs');
-  rimraf = require('rimraf');
+  fs = require('node:fs');
 };
 
 describe('serve-module', () => {
@@ -78,7 +71,7 @@ describe('serve-module', () => {
       '/mocked/static/modules/my-module-name/1.0.0': {},
     });
     require('../../bin/serve-module');
-    expect(rimraf.sync).toHaveBeenCalledWith('/mocked/static/modules/my-module-name');
+    expect(fs.rmSync).toHaveBeenCalledWith('/mocked/static/modules/my-module-name', { recursive: true, force: true });
   });
 
   it('should remove an existing symlink and create a new one', () => {
@@ -159,9 +152,8 @@ describe('serve-module', () => {
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();
   });
 
-  it('adds to the existing module map without legacy when disableDevelopmentLegacyBundle is true', () => {
+  it('adds to the existing module map without legacy when legacy bundle does not exist', () => {
     process.env.NODE_ENV = 'development';
-    jest.mock('../../utils/getConfigOptions', () => jest.fn(() => ({ disableDevelopmentLegacyBundle: true })));
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),
       '/mocked/static/module-map.json': JSON.stringify({

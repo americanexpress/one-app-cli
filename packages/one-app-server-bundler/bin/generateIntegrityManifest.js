@@ -12,9 +12,9 @@
  * under the License.
  */
 
-const ssri = require('ssri');
 const fs = require('node:fs');
 const path = require('node:path');
+const ssri = require('ssri');
 
 const generateIntegrityManifest = (label, pathToBundle) => {
   const integrity = ssri.fromData(

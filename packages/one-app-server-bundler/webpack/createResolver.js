@@ -12,8 +12,8 @@
  * under the License.
  */
 
+const fs = require('node:fs');
 const {
-  NodeJsInputFileSystem,
   CachedInputFileSystem,
   ResolverFactory,
 } = require('enhanced-resolve');
@@ -25,7 +25,7 @@ const {
 
 module.exports = function createResolver({ mainFields }) {
   const enhancedResolver = ResolverFactory.createResolver({
-    fileSystem: new CachedInputFileSystem(new NodeJsInputFileSystem(), 4000),
+    fileSystem: new CachedInputFileSystem(fs, 4000),
     useSyncFileSystemCalls: true,
     extensions: ['.js', '.jsx', '.json'],
     mainFields,

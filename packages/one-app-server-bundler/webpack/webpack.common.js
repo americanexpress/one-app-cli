@@ -56,51 +56,7 @@ module.exports = {
       }),
     ],
   },
-  mode: nodeEnvironmentIsProduction ? 'production' : 'development',
-  module: {
-    rules: [
-      {
-        // eslint-disable-next-line unicorn/no-unsafe-regex -- Common regex for webpack loaders
-        test: /\.(ttf|eot|svg|png|jpg)(\?.*)?$/,
-        use: [{ loader: 'url-loader' }],
-      },
-      {
-        // eslint-disable-next-line unicorn/no-unsafe-regex -- Common regex for webpack loaders
-        test: /\.(woff|woff2)(\?.*)?$/,
-        use: [{
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff',
-          },
-        }],
-      },
-      {
-        enforce: 'pre',
-        test: /\.[jt]sx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          allowInlineConfig: false,
-          ignore: false,
-          useEslintrc: false,
-          failOnError: true,
-          plugins: ['@americanexpress/one-app'],
-          parser: '@babel/eslint-parser',
-          parserOptions: {
-            ecmaVersion: 6,
-            sourceType: 'module',
-            ecmaFeatures: { modules: true },
-          },
-          rules: {
-            'no-restricted-modules': ['error', 'create-react-class'],
-            'no-restricted-imports': ['error', 'create-react-class'],
-            '@americanexpress/one-app/no-app-config-on-client': 'error',
-          },
-        },
-      },
-    ],
-  },
+  mode: process.env.NODE_ENV,
   externals: {
     '@americanexpress/one-app-router': {
       var: 'OneAppRouter',
