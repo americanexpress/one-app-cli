@@ -33,16 +33,25 @@ function generateArgsHash({
   return hashing.digest('hex').slice(0, 7);
 }
 
-function pipeContainerLogs(containerName) {
-  return spawnAndPipe(
-    'docker',
-    [
-      'logs',
-      '--follow',
-      '--tail', '1',
-      containerName,
-    ]
-  );
+async function pipeContainerLogs(containerName, logStream) {
+  try {
+    await spawnAndPipe(
+      'docker',
+      [
+        'logs',
+        '--follow',
+        '--tail', '1',
+        containerName,
+      ],
+      logStream
+    );
+  } catch (error) {
+    if (error === 255) {
+      // docker logs exits 255 when interrupted rather than 0
+      return;
+    }
+    throw error;
+  }
 }
 
 function setupPausingOnInterrupt(hashedName) {
@@ -57,12 +66,24 @@ function setupPausingOnInterrupt(hashedName) {
   });
 }
 
+function setupStoppingOnInterrupt(name) {
+  [
+    'SIGINT',
+    'SIGTERM',
+  ].forEach((signal) => {
+    process.once(signal, () => {
+      console.log(`stopping container ${name}`);
+      docker.getContainer(name).stop();
+    });
+  });
+}
+
 async function createAndStartContainer({
   imageReference,
   containerShellCommand,
-  ports /* = [] */,
-  envVars /* = new Map() */,
-  mounts /* = new Map() */,
+  ports,
+  envVars,
+  mounts,
   name,
   network,
 }) {
@@ -88,10 +109,8 @@ async function createAndStartContainer({
     throw creationError;
   }
 
-  console.log('create results:', createResult);
   const containerId = createResult.stdout.toString('utf8').trim();
   await spawn('docker', ['start', containerId]);
-  setupPausingOnInterrupt(containerId);
   return pipeContainerLogs(containerId);
 }
 
@@ -103,9 +122,24 @@ module.exports = async function startAppContainer({
   mounts /* = new Map() */,
   name,
   network,
-  logStream, // FIXME: respect the logStream, not just to process.stdout
+  logStream,
 }) {
-  // FIXME: if `name` is specified, this may be part of a test setup and we shoud NOT try to reuse an existing container?
+  // don't mess with the name, can't store the hash of arguments
+  // so create as a new container each time
+  if (name) {
+    console.log(`Starting a new container with the name "${name}.`);
+    setupStoppingOnInterrupt(name);
+    return createAndStartContainer({
+      imageReference,
+      containerShellCommand,
+      ports,
+      envVars,
+      mounts,
+      name,
+      network,
+      logStream,
+    });
+  }
 
   // can we reuse an existing (paused) container?
   // hash the args
@@ -117,7 +151,7 @@ module.exports = async function startAppContainer({
     mounts,
     network,
   });
-  const hashedName = `${name || 'one-app'}_argset-${argsHash}`;
+  const hashedName = `${'one-app'}_argset-${argsHash}`;
   // look for a container
   const container = docker.getContainer(hashedName);
 
@@ -136,40 +170,41 @@ module.exports = async function startAppContainer({
         mounts,
         name: hashedName,
         network,
+        logStream,
       });
     }
     throw inspectionError;
   }
-  console.log(lowLevelInfo.State);
+
   const containerStatus = lowLevelInfo.State.Status;
   // check its status (is it paused?)
   if (containerStatus === 'paused') {
-    console.log(`found paused container ${hashedName}, unpausing and streaming the logs here`);
+    console.log(`found paused container ${hashedName}, unpausing and streaming the logs`);
     container.unpause();
     setupPausingOnInterrupt(hashedName);
-    return pipeContainerLogs(hashedName);
+    return pipeContainerLogs(hashedName, logStream);
   }
 
   if (containerStatus === 'created') {
-    console.log(`found created container ${hashedName}, starting and streaming the logs here`);
+    console.log(`found created container ${hashedName}, starting and streaming the logs`);
     container.start();
     setupPausingOnInterrupt(hashedName);
-    return pipeContainerLogs(hashedName);
+    return pipeContainerLogs(hashedName, logStream);
   }
 
   if (containerStatus === 'exited') {
     // FIXME: inspect lowLevelInfo.State.Error and lowLevelInfo.State.ExitCode
-    console.log(`found stopped container ${hashedName}, starting and streaming the logs here`);
+    console.log(`found stopped container ${hashedName}, starting and streaming the logs`);
     container.start();
     setupPausingOnInterrupt(hashedName);
-    return pipeContainerLogs(hashedName);
+    return pipeContainerLogs(hashedName, logStream);
   }
 
   if (containerStatus === 'running') {
-    console.log(`found running container ${hashedName}, streaming the logs here`);
+    console.log(`found running container ${hashedName}, streaming the logs`);
     setupPausingOnInterrupt(hashedName);
-    return pipeContainerLogs(hashedName);
+    return pipeContainerLogs(hashedName, logStream);
   }
 
-  throw new Error(`Unknown state for container ${hashedName}, please save any work in the container, delete it, and try again.`);
+  throw new Error(`Unknown state for container "${hashedName}", please save any work in the container, delete it, and try again.\nsaw ${JSON.stringify(lowLevelInfo.State)}`);
 };

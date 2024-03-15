@@ -71,6 +71,8 @@ function generateNodeFlags(appVersion) {
   return '';
 }
 
+function generateUseHostFlag(useHost) { return useHost ? '--use-host' : ''; }
+
 module.exports = {
   generateEnvironmentVariableArgs,
   generateSetMiddlewareCommand,
@@ -83,4 +85,5 @@ module.exports = {
   generateLogFormat,
   generateDebug,
   generateNodeFlags,
+  generateUseHostFlag,
 };

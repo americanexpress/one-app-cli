@@ -17,6 +17,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const Docker = require('dockerode');
 
+const asyncSpawn = require('./asyncSpawn');
 const spawnAndPipe = require('./spawnAndPipe');
 const startAppContainer = require('./startAppContainer');
 const {
@@ -31,6 +32,7 @@ const {
   generateLogFormat,
   generateDebug,
   generateNodeFlags,
+  generateUseHostFlag,
 } = require('./generateContainerArgs');
 
 async function dockerPull(imageReference, logStream) {
@@ -55,6 +57,15 @@ module.exports = async function startApp({
   logLevel,
   logFormat,
 }) {
+  try {
+    // need a command that both invokes the CLI but also connects to the daemon
+    await asyncSpawn('docker', ['version']);
+  } catch (error) {
+    throw new Error(
+      `Error running docker. Are you sure you have it installed?\nFor installation and setup details see https://www.docker.com/products/docker-desktop\nExit code ${error.code}, error messages ${error.stderr.toString('utf8')}`
+    );
+  }
+
   if (createDockerNetwork) {
     if (!dockerNetworkToJoin) {
       throw new Error(
@@ -70,8 +81,6 @@ module.exports = async function startApp({
       );
     }
   }
-
-  const generateUseHostFlag = () => (useHost ? '--use-host' : '');
 
   const appPort = Number.parseInt(process.env.HTTP_PORT, 10) || 3000;
   const devCDNPort = Number.parseInt(process.env.HTTP_ONE_APP_DEV_CDN_PORT, 10) || 3001;
@@ -97,7 +106,7 @@ module.exports = async function startApp({
 
   const hostNodeExtraCaCerts = envVars.NODE_EXTRA_CA_CERTS || process.env.NODE_EXTRA_CA_CERTS;
   if (hostNodeExtraCaCerts) {
-    console.log('mounting host NODE_EXTRA_CA_CERTS');
+    console.log('adding NODE_EXTRA_CA_CERTS to the volume mount list');
     const mountPath = '/opt/certs.pem';
     mounts.set(hostNodeExtraCaCerts, mountPath);
     containerEnvVars.set('NODE_EXTRA_CA_CERTS', mountPath);
@@ -116,7 +125,7 @@ module.exports = async function startApp({
     `lib/server/index.js --root-module-name=${rootModuleName}`,
     generateModuleMap(moduleMapUrl),
     generateUseMocksFlag(parrotMiddlewareFile),
-    generateUseHostFlag(),
+    generateUseHostFlag(useHost),
     generateLogLevel(logLevel),
     generateLogFormat(logFormat),
   ].filter(Boolean).join(' ');
@@ -149,10 +158,10 @@ module.exports = async function startApp({
       logStream: logFileStream,
     });
   } catch (error) {
-    throw new Error(
-      'Error running docker. Are you sure you have it installed? For installation and setup details see https://www.docker.com/products/docker-desktop',
-      { cause: error }
-    );
+    if (error.stderr) {
+      throw new Error(error.stderr.toString('utf8'));
+    }
+    throw error;
   } finally {
     if (logFileStream) {
       logFileStream.end();
