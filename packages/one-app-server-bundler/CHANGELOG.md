@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-server-bundler@1.0.1...@americanexpress/one-app-server-bundler@1.0.2) (2024-03-15)
+
+
+### Bug Fixes
+
+* **one-app-server-bundler:** remove excess ([#619](https://github.com/americanexpress/one-app-cli/issues/619)) ([fe11092](https://github.com/americanexpress/one-app-cli/commit/fe11092ce2eff84e4ad879da2676565236b505ef))
+
+
+
+
+
 ## [1.0.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-server-bundler@1.0.0...@americanexpress/one-app-server-bundler@1.0.1) (2024-03-12)
 
 
