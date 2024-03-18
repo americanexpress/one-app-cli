@@ -23,7 +23,7 @@ const setup = (modulePath) => {
   jest.resetModules();
   jest.clearAllMocks();
   jest.doMock('node:util', () => ({
-    parseArgs: jest.fn(() => ({ positionals: [modulePath] })),
+    parseArgs: jest.fn(() => ({ positionals: modulePath ? [modulePath] : [] })),
   }));
 
   fs = require('node:fs');
@@ -43,6 +43,12 @@ describe('serve-module', () => {
 
   afterAll(() => {
     setPlatform(originalPlatform);
+  });
+
+  it('should throw if no module path is provided', () => {
+    setup();
+    fs._.setFiles({});
+    expect(() => require('../../bin/serve-module')).toThrowErrorMatchingInlineSnapshot('"serve-module(s) expects paths to modules to give to one-app to serve"');
   });
 
   it('should throw if the module doesn\'t have a version', () => {
