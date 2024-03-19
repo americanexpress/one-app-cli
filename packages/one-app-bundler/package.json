@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@americanexpress/eslint-plugin-one-app": "^6.13.5",
-    "@americanexpress/one-app-dev-bundler": "^1.6.0",
+    "@americanexpress/one-app-dev-bundler": "^1.7.0",
     "@americanexpress/one-app-locale-bundler": "^6.6.0",
     "@americanexpress/purgecss-loader": "4.0.0",
     "@babel/core": "^7.17.5",
