@@ -412,12 +412,12 @@ Array [
     );
   });
 
-  it('adds node flags when one-app version is @latest', async () => {
+  it('adds node flags when one-app version is :latest', async () => {
     expect.assertions(1);
     const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementation(mockSpawn);
     await startApp({
-      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:@latest', modulesToServe: ['/path/to/module-a'],
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:latest', modulesToServe: ['/path/to/module-a'],
     });
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
       '--dns-result-order=ipv4first --no-experimental-fetch'
