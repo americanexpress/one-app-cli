@@ -25,4 +25,6 @@ export { bundleExternalFallbacks } from './utils/bundle-external-fallbacks.js';
 
 export const devBuildModule = _devBuildModule;
 
+export { validateAppConfig } from './esbuild/plugins/restrict-runtime-symbols.js';
+
 export default _devBuildModule;

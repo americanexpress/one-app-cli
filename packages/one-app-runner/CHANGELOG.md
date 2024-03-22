@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.17.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.17.0...@americanexpress/one-app-runner@6.17.1) (2024-03-20)
+
+
+### Bug Fixes
+
+* **one-app-runner:** single serve-module invocation ([#622](https://github.com/americanexpress/one-app-cli/issues/622)) ([6c208cd](https://github.com/americanexpress/one-app-cli/commit/6c208cd43dc0a2fcc03704a23f3974f9943dd4ee))
+
+
+
+
+
 # [6.17.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.16.3...@americanexpress/one-app-runner@6.17.0) (2024-03-12)
 
 

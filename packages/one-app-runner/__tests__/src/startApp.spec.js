@@ -138,7 +138,7 @@ Array [
       '-v=/path/to-module-b:/opt/module-workspace/to-module-b',
       '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
-    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot('"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' && node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json"');
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot('"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' \'/opt/module-workspace/to-module-b\' && node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json"');
   });
 
   it('mounts and serves modules in docker run if module paths are provided and moduleMapUrl is not', async () => {
@@ -153,7 +153,7 @@ Array [
       '-v=/path/to-module-b:/opt/module-workspace/to-module-b',
       '-v=/home/user/.one-app:/home/node/.one-app',
     ]);
-    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot('"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' &&npm run serve-module \'/opt/module-workspace/to-module-b\' && node lib/server/index.js --root-module-name=frank-lloyd-root"');
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot('"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' \'/opt/module-workspace/to-module-b\' && node lib/server/index.js --root-module-name=frank-lloyd-root"');
   });
 
   it('runs set middleware command and starts one app with mock flag in docker run if parrot middleware file is provided', async () => {
