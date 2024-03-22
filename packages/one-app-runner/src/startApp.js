@@ -114,14 +114,16 @@ const generateUseMocksFlag = (shouldUseMocks) => (shouldUseMocks ? '-m' : '');
 const generateNpmConfigCommands = () => 'npm config set update-notifier false &&';
 
 const generateServeModuleCommands = (modules) => {
-  let command = '';
-  if (modules && modules.length > 0) {
-    modules.forEach((modulePath) => {
-      const moduleRootDir = path.basename(modulePath);
-      command += `npm run serve-module '/opt/module-workspace/${moduleRootDir}' &&`;
-    });
+  if (!modules || modules.length === 0) {
+    return '';
   }
-  return command;
+
+  let command = 'npm run serve-module';
+  modules.forEach((modulePath) => {
+    const moduleRootDir = path.basename(modulePath);
+    command += ` '/opt/module-workspace/${moduleRootDir}'`;
+  });
+  return `${command} &&`;
 };
 
 const generateModuleMap = (moduleMapUrl) => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');

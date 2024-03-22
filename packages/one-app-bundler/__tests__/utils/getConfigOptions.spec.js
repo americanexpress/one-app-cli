@@ -18,6 +18,8 @@ testing `on import` functionality needs 'require' in every tests */
 jest.mock('read-package-up', () => ({ readPackageUpSync: jest.fn(() => ({ pkg: {} })) }));
 const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => 0);
 
+jest.mock('@americanexpress/one-app-dev-bundler', () => {});
+
 describe('getConfigOptions', () => {
   let readPkgUp;
 

@@ -18,6 +18,7 @@
 import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import validateNodeEnvironment from '../utils/validateNodeEnv.js';
+import RestrictRuntimeSymbols from './plugins/restrict-runtime-symbols.js';
 
 validateNodeEnvironment();
 
@@ -31,6 +32,7 @@ const productionPlugins = [
 ];
 
 const plugins = [
+  new RestrictRuntimeSymbols(),
   new webpack.EnvironmentPlugin([
     'NODE_ENV',
   ]),

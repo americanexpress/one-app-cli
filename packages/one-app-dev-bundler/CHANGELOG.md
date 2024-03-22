@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.7.1...@americanexpress/one-app-dev-bundler@1.7.2) (2024-03-20)
+
+
+### Bug Fixes
+
+* **appConfig:** restore check to app config ([08f62d2](https://github.com/americanexpress/one-app-cli/commit/08f62d2e8c2eadb4a9751ffd7ac5c51553972e8e))
+
+
+
+
+
 ## [1.7.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.7.0...@americanexpress/one-app-dev-bundler@1.7.1) (2024-03-12)
 
 
