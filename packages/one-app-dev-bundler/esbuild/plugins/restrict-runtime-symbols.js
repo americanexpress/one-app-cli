@@ -108,7 +108,7 @@ const isNodeForExternals = (node, ancestors) => {
   return isProvidingExternals(assignmentNode);
 };
 
-const validateAppConfig = (moduleString) => {
+export const validateAppConfig = (moduleString) => {
   const messages = [];
   const ast = acorn.parse(moduleString, { ecmaVersion: 'latest' });
 
