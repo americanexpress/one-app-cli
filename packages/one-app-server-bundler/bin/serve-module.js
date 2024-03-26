@@ -65,7 +65,7 @@ util.parseArgs({ allowPositionals: true }).positionals.forEach((modulePath) => {
     fs.writeFileSync(moduleMapPath, JSON.stringify({ key: 'not-used-in-development', modules: {} }, null, 2));
   } finally {
     const moduleMap = JSON.parse(fs.readFileSync(moduleMapPath));
-    const generalConfig = {
+    moduleMap.modules[moduleName] = {
       browser: {
         integrity: browserSri,
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.browser.js`,
@@ -74,16 +74,11 @@ util.parseArgs({ allowPositionals: true }).positionals.forEach((modulePath) => {
         integrity: nodeSri,
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.node.js`,
       },
-    };
-
-    const legacyConfig = legacyBrowserSri ? {
       legacyBrowser: {
-        integrity: legacyBrowserSri,
+        integrity: legacyBrowserSri || `[No legacy bundle generated for ${moduleName}. This will 404.]`,
         url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
       },
-    } : {};
-
-    moduleMap.modules[moduleName] = { ...generalConfig, ...legacyConfig };
+    };
 
     fs.writeFileSync(moduleMapPath, JSON.stringify(moduleMap, null, 2));
   }
