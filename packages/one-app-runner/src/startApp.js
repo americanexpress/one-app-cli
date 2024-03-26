@@ -138,7 +138,8 @@ const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}
 // So we have to remove those flags if the one-app version is less than 5.13.0
 // 5.13.0 is when node 16 was introduced.
 const generateNodeFlags = (appVersion) => {
-  if (semver.intersects(appVersion, '^5.13.0', { includePrerelease: true })) {
+  if (appVersion === 'latest' || semver.intersects(appVersion, '^5.13.0', { includePrerelease: true })
+  || semver.intersects(appVersion, '^6.6.0', { includePrerelease: true })) {
     return '--dns-result-order=ipv4first --no-experimental-fetch';
   }
   return '';
