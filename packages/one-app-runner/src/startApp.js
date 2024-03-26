@@ -138,10 +138,21 @@ const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}
 // So we have to remove those flags if the one-app version does not intersect ^5.13.0 or ^6.6.0
 // 5.13.0 is when node 16 was introduced.
 const generateNodeFlags = (appVersion) => {
-  if (appVersion === 'latest' || semver.intersects(appVersion, '^5.13.0 || ^6.6.0', { includePrerelease: true })) {
+  if (semver.intersects(appVersion, '^5.13.0 || ^6.6.0', { includePrerelease: true })) {
     return '--dns-result-order=ipv4first --no-experimental-fetch';
   }
   return '';
+};
+
+const generateEntryCommand = (appVersion, debugPort, useDebug) => {
+  const debug = generateDebug(debugPort, useDebug);
+  let entry;
+  if (appVersion === 'latest' || semver.intersects(appVersion, '>=6.11.0-0', { includePrerelease: true })) {
+    entry = ['scripts/start.sh', debug];
+  } else {
+    entry = ['node', generateNodeFlags(appVersion), debug, 'lib/server/index.js'];
+  }
+  return entry.filter(Boolean).join(' ');
 };
 
 module.exports = async function startApp({
@@ -217,10 +228,8 @@ module.exports = async function startApp({
     generateServeModuleCommands(modulesToServe),
     generateSetMiddlewareCommand(parrotMiddlewareFile),
     generateSetDevEndpointsCommand(devEndpointsFile),
-    'node',
-    generateNodeFlags(appVersion),
-    generateDebug(debugPort, useDebug),
-    `lib/server/index.js --root-module-name=${rootModuleName}`,
+    generateEntryCommand(appVersion, debugPort, useDebug),
+    `--root-module-name=${rootModuleName}`,
     generateModuleMap(moduleMapUrl),
     generateUseMocksFlag(parrotMiddlewareFile),
     generateUseHostFlag(),
