@@ -36,7 +36,7 @@ exports[`serve-module adds to the existing module map 1`] = `
 }"
 `;
 
-exports[`serve-module adds to the existing module map without legacy when legacy bundle does not exist 1`] = `
+exports[`serve-module adds to the existing module map with a warning in place of the legacy browser SRI when legacy bundle does not exist 1`] = `
 "{
   \\"key\\": \\"--- omitted for development ---\\",
   \\"modules\\": {
@@ -58,6 +58,10 @@ exports[`serve-module adds to the existing module map without legacy when legacy
       \\"node\\": {
         \\"integrity\\": \\"123\\",
         \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/1.0.0/my-module-name.node.js\\"
+      },
+      \\"legacyBrowser\\": {
+        \\"integrity\\": \\"[No legacy bundle generated for my-module-name. This will 404.]\\",
+        \\"url\\": \\"[one-app-dev-cdn-url]/static/modules/my-module-name/1.0.0/my-module-name.legacy.browser.js\\"
       }
     }
   }
