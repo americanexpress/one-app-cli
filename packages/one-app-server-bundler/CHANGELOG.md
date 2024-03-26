@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **one-app-runner:** include legacy bundle on serve-module even if it does not exist ([#629](https://github.com/americanexpress/one-app-cli/issues/629)) ([f48ef4f](https://github.com/americanexpress/one-app-cli/commit/f48ef4f3f0516e8fb3dc9e4246507b10feb47ca5))
+* **one-app-server-bundler:** include legacy bundle on serve-module even if it does not exist ([#629](https://github.com/americanexpress/one-app-cli/issues/629)) ([f48ef4f](https://github.com/americanexpress/one-app-cli/commit/f48ef4f3f0516e8fb3dc9e4246507b10feb47ca5))
 
 
 
