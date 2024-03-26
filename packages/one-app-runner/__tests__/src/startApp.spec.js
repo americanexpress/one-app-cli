@@ -435,6 +435,7 @@ Array [
       '--dns-result-order=ipv4first --no-experimental-fetch'
     );
   });
+
   it('does NOT add node flags when one-app version is less than 5.13.0', async () => {
     expect.assertions(1);
     const mockSpawn = makeMockSpawn();
@@ -443,6 +444,76 @@ Array [
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.12.0', modulesToServe: ['/path/to/module-a'],
     });
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot('"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' && node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json"');
+  });
+
+  it('does NOT add node flags when one-app version between 6.0.0 and 6.6.0 is specified', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:6.5.0', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatchInlineSnapshot('"npm config set update-notifier false && npm run serve-module \'/opt/module-workspace/module-a\' && node lib/server/index.js --root-module-name=frank-lloyd-root --module-map-url=https://example.com/module-map.json"');
+  });
+
+  it('adds node flags when one-app version 6.6.0 is specified', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:6.6.0', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      '--dns-result-order=ipv4first --no-experimental-fetch'
+    );
+  });
+
+  it('adds node flags when one-app version 6.6 is specified', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:6.6', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      '--dns-result-order=ipv4first --no-experimental-fetch'
+    );
+  });
+
+  it('adds node flags when one-app version 6.6.0 or greater is specified', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:6.7.1', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      '--dns-result-order=ipv4first --no-experimental-fetch'
+    );
+  });
+
+  it('adds node flags when one-app version 6 is specified', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:6', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      '--dns-result-order=ipv4first --no-experimental-fetch'
+    );
+  });
+
+  it('adds node flags when one-app version is specified as :latest', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:latest', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      '--dns-result-order=ipv4first --no-experimental-fetch'
+    );
   });
 
   it('ensures the user\'s One App directory exists', async () => {
