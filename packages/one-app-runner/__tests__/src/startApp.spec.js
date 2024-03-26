@@ -358,7 +358,7 @@ Array [
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:5.0.0', modulesToServe: ['/path/to/module-a'], useDebug: true,
     });
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
-      '--inspect=0.0.0.0:9229'
+      'node --inspect=0.0.0.0:9229 lib/server/index.js'
     );
   });
 
@@ -372,7 +372,7 @@ Array [
     });
     expect(mockSpawn.calls[1].args.filter((arg) => arg.startsWith('-p'))).toContain('-p=9221:9221');
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
-      '--inspect=0.0.0.0:9221'
+      'node --inspect=0.0.0.0:9221 lib/server/index.js'
     );
   });
 
@@ -492,7 +492,19 @@ Array [
     );
   });
 
-  it('adds node flags when one-app version 6 is specified', async () => {
+  it('uses start.sh when one-app version 6.11.0 or greater is specified', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:6.11.0', modulesToServe: ['/path/to/module-a'],
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      'scripts/start.sh'
+    );
+  });
+
+  it('uses start.sh when one-app version 6 is specified', async () => {
     expect.assertions(1);
     const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementation(mockSpawn);
@@ -500,11 +512,11 @@ Array [
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:6', modulesToServe: ['/path/to/module-a'],
     });
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
-      '--dns-result-order=ipv4first --no-experimental-fetch'
+      'scripts/start.sh'
     );
   });
 
-  it('adds node flags when one-app version is specified as :latest', async () => {
+  it('uses start.sh when one-app version is specified as :latest', async () => {
     expect.assertions(1);
     const mockSpawn = makeMockSpawn();
     childProcess.spawn.mockImplementation(mockSpawn);
@@ -512,7 +524,19 @@ Array [
       moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:latest', modulesToServe: ['/path/to/module-a'],
     });
     expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
-      '--dns-result-order=ipv4first --no-experimental-fetch'
+      'scripts/start.sh'
+    );
+  });
+
+  it('applies inspect mode to node process when useDebug is passed when starting with sh', async () => {
+    expect.assertions(1);
+    const mockSpawn = makeMockSpawn();
+    childProcess.spawn.mockImplementation(mockSpawn);
+    await startApp({
+      moduleMapUrl: 'https://example.com/module-map.json', rootModuleName: 'frank-lloyd-root', appDockerImage: 'one-app:latest', modulesToServe: ['/path/to/module-a'], useDebug: true,
+    });
+    expect(mockSpawn.calls[1].args[mockSpawn.calls[1].args.indexOf('-c') + 1]).toMatch(
+      'scripts/start.sh --inspect=0.0.0.0:9229'
     );
   });
 
