@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-server-bundler@1.0.2...@americanexpress/one-app-server-bundler@1.0.3) (2024-03-26)
+
+
+### Bug Fixes
+
+* **one-app-server-bundler:** include legacy bundle on serve-module even if it does not exist ([#629](https://github.com/americanexpress/one-app-cli/issues/629)) ([f48ef4f](https://github.com/americanexpress/one-app-cli/commit/f48ef4f3f0516e8fb3dc9e4246507b10feb47ca5))
+
+
+
+
+
 ## [1.0.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-server-bundler@1.0.1...@americanexpress/one-app-server-bundler@1.0.2) (2024-03-15)
 
 

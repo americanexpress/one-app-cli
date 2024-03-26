@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.17.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.17.1...@americanexpress/one-app-runner@6.17.2) (2024-03-26)
+
+### Bug Fixes
+
+* **one-app-runner:** allow :latest and versions >=6.6.0 when specifying image tag ([#628]((https://github.com/americanexpress/one-app-cli/issues/622))) ([82d33e0](https://github.com/americanexpress/one-app-cli/commit/82d33e0a6ac704a493c6005e778b4dfa0902c1ec))
+
+
+
+
+
 ## [6.17.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.17.0...@americanexpress/one-app-runner@6.17.1) (2024-03-20)
 
 
