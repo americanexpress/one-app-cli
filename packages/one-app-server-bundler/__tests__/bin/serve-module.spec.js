@@ -158,7 +158,7 @@ describe('serve-module', () => {
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();
   });
 
-  it('adds to the existing module map without legacy when legacy bundle does not exist', () => {
+  it('adds to the existing module map with a warning in place of the legacy browser SRI when legacy bundle does not exist', () => {
     process.env.NODE_ENV = 'development';
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),

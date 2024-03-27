@@ -72,7 +72,7 @@ modulePaths.forEach((modulePath) => {
     fs.symlinkSync(sourceBundlePath, symBundlePath, type);
   }
 
-  const generalConfig = {
+  moduleMap.modules[moduleName] = {
     browser: {
       integrity: browserSri,
       url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.browser.js`,
@@ -81,16 +81,11 @@ modulePaths.forEach((modulePath) => {
       integrity: nodeSri,
       url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.node.js`,
     },
-  };
-
-  const legacyConfig = legacyBrowserSri ? {
     legacyBrowser: {
-      integrity: legacyBrowserSri,
+      integrity: legacyBrowserSri || `[No legacy bundle generated for ${moduleName}. This will 404.]`,
       url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
     },
-  } : {};
-
-  moduleMap.modules[moduleName] = { ...generalConfig, ...legacyConfig };
+  };
 });
 
 fs.writeFileSync(moduleMapPath, JSON.stringify(moduleMap, null, 2));
