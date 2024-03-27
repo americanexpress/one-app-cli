@@ -25,7 +25,7 @@ fs.mkdirSync(symModulesPath, { recursive: true });
 const modulePaths = util.parseArgs({ allowPositionals: true }).positionals;
 
 if (modulePaths.length === 0) {
-  throw new Error('serve-module(s) expects paths to modules to give to one-app to serve');
+  throw new Error('serve-module(s) requires at least one module path for one-app to serve');
 }
 
 const moduleMapPath = path.join(publicPath, 'module-map.json');
