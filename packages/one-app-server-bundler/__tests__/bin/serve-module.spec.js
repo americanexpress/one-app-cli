@@ -48,7 +48,7 @@ describe('serve-module', () => {
   it('should throw if no module path is provided', () => {
     setup();
     fs._.setFiles({});
-    expect(() => require('../../bin/serve-module')).toThrowErrorMatchingInlineSnapshot('"serve-module(s) expects paths to modules to give to one-app to serve"');
+    expect(() => require('../../bin/serve-module')).toThrowErrorMatchingInlineSnapshot('"serve-module(s) requires at least one module path for one-app to serve"');
   });
 
   it('should throw if the module doesn\'t have a version', () => {
