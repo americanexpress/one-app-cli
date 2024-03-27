@@ -22,7 +22,21 @@ const symModulesPath = path.join(publicPath, 'modules');
 
 fs.mkdirSync(symModulesPath, { recursive: true });
 
-util.parseArgs({ allowPositionals: true }).positionals.forEach((modulePath) => {
+const modulePaths = util.parseArgs({ allowPositionals: true }).positionals;
+
+if (modulePaths.length === 0) {
+  throw new Error('serve-module(s) requires at least one module path for one-app to serve');
+}
+
+const moduleMapPath = path.join(publicPath, 'module-map.json');
+let moduleMap;
+try {
+  moduleMap = JSON.parse(fs.readFileSync(moduleMapPath));
+} catch (e) {
+  moduleMap = { key: 'not-used-in-development', modules: {} };
+}
+
+modulePaths.forEach((modulePath) => {
   const pkg = JSON.parse(fs.readFileSync(path.join(modulePath, 'package.json')));
   const absoluteModulePath = modulePath.startsWith('/')
     ? modulePath : path.join(process.cwd(), modulePath);
@@ -58,28 +72,20 @@ util.parseArgs({ allowPositionals: true }).positionals.forEach((modulePath) => {
     fs.symlinkSync(sourceBundlePath, symBundlePath, type);
   }
 
-  const moduleMapPath = path.join(publicPath, 'module-map.json');
-  try {
-    fs.accessSync(moduleMapPath);
-  } catch (e) {
-    fs.writeFileSync(moduleMapPath, JSON.stringify({ key: 'not-used-in-development', modules: {} }, null, 2));
-  } finally {
-    const moduleMap = JSON.parse(fs.readFileSync(moduleMapPath));
-    moduleMap.modules[moduleName] = {
-      browser: {
-        integrity: browserSri,
-        url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.browser.js`,
-      },
-      node: {
-        integrity: nodeSri,
-        url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.node.js`,
-      },
-      legacyBrowser: {
-        integrity: legacyBrowserSri || `[No legacy bundle generated for ${moduleName}. This will 404.]`,
-        url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
-      },
-    };
-
-    fs.writeFileSync(moduleMapPath, JSON.stringify(moduleMap, null, 2));
-  }
+  moduleMap.modules[moduleName] = {
+    browser: {
+      integrity: browserSri,
+      url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.browser.js`,
+    },
+    node: {
+      integrity: nodeSri,
+      url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.node.js`,
+    },
+    legacyBrowser: {
+      integrity: legacyBrowserSri || `[No legacy bundle generated for ${moduleName}. This will 404.]`,
+      url: `[one-app-dev-cdn-url]/static/modules/${moduleName}/${version}/${moduleName}.legacy.browser.js`,
+    },
+  };
 });
+
+fs.writeFileSync(moduleMapPath, JSON.stringify(moduleMap, null, 2));
