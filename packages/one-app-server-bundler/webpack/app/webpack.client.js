@@ -87,7 +87,7 @@ module.exports = (babelEnv) => merge(
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.c?jsx?$/,
           include: pathsToTranspile,
           exclude: new RegExp(`^${path.resolve(packageRoot, 'node_modules', 'core-js')}`),
           use: [babelLoader(babelEnv)],
