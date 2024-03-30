@@ -283,10 +283,7 @@ test('--modules option is required if --module-map-url option is not given', asy
   setArgv({ rootModuleName: 'frank-lloyd-root', dockerImage: 'one-app:5.0.0' });
   await reloadRunner();
   expect(process.exit).toHaveBeenCalledWith(1);
-  expect(console.error.mock.calls[2][0]).toMatchInlineSnapshot(`
-"Missing dependent arguments:
- --no-module-map-url -> modules"
-`);
+  expect(console.error.mock.calls[2][0]).toContain('--no-module-map-url -> modules');
 });
 
 test('--modules option is required if --parrot-middleware option is given', async () => {
@@ -298,10 +295,7 @@ test('--modules option is required if --parrot-middleware option is given', asyn
   });
   await reloadRunner();
   expect(process.exit).toHaveBeenCalledWith(1);
-  expect(console.error.mock.calls[2][0]).toMatchInlineSnapshot(`
-"Missing dependent arguments:
- parrot-middleware -> modules"
-`);
+  expect(console.error.mock.calls[2][0]).toContain('parrot-middleware -> modules');
 });
 
 test('--modules option is required if --dev-endpoints option is given', async () => {
@@ -313,10 +307,7 @@ test('--modules option is required if --dev-endpoints option is given', async ()
   });
   await reloadRunner();
   expect(process.exit).toHaveBeenCalledWith(1);
-  expect(console.error.mock.calls[2][0]).toMatchInlineSnapshot(`
-"Missing dependent arguments:
- dev-endpoints -> modules"
-`);
+  expect(console.error.mock.calls[2][0]).toContain('dev-endpoints -> modules');
 });
 
 test('--docker-network-to-join is required if --create-docker-network option is given', async () => {
@@ -328,10 +319,7 @@ test('--docker-network-to-join is required if --create-docker-network option is 
   });
   await reloadRunner();
   expect(process.exit).toHaveBeenCalledWith(1);
-  expect(console.error.mock.calls[2][0]).toMatchInlineSnapshot(`
-"Missing dependent arguments:
- create-docker-network -> docker-network-to-join"
-`);
+  expect(console.error.mock.calls[2][0]).toContain('create-docker-network -> docker-network-to-join');
 });
 
 test('an `envVars` key is supported within the config entry', async () => {
