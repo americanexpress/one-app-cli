@@ -17,6 +17,7 @@ Note that [Docker](https://www.docker.com/products/docker-desktop) is required a
 In any [Holocron Module](https://github.com/americanexpress/one-app/tree/main/docs/api#modules) directory:
 
 1. Install:
+
 ```bash
 npm install --save-dev @americanexpress/one-app-runner
 ```
@@ -25,6 +26,7 @@ npm install --save-dev @americanexpress/one-app-runner
 `package.json`. See below for an example:
 
 ##### package.json
+
 ```json
 "scripts": {
   "start": "one-app-runner"
@@ -42,7 +44,7 @@ npm install --save-dev @americanexpress/one-app-runner
 
 Use the runner config to tell `one-app-runner` what module map and One App version to use, what your root module is, where your module is (current directory in this case), and optionally where your [Parrot mocks](https://github.com/americanexpress/one-app/blob/main/docs/guides/Mocking-Api-Calls.md) middleware file is located.
 
-##  Command options reference
+## Command options reference
 
 **one-app-runner** can be configured via command options or a configuration object in `package.json`:
 
@@ -70,14 +72,16 @@ Or in `package.json`
 }
 ```
 
-### module-map-url
+### module-map-url [Required*]
 
-Location of module map for One App to use to fetch modules. This option is required.
+> This option is optional if modules is provided.
+
+Location of module map for One App to use to fetch modules.
 
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json
 ```
 
 Or in `package.json`
@@ -100,7 +104,7 @@ for your One App instance.
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json
 ```
 
 Or in `package.json`
@@ -115,9 +119,9 @@ Or in `package.json`
 }
 ```
 
-### modules [Optional]
+### modules [Optional*]
 
->This option is required if module-map-url is not provided.
+> This option is required if module-map-url is not provided.
 
 Path to local module(s) to serve to One App. This can be either an absolute or a relative path to a Holocron Module's
 root directory. Supports serving multiple modules at the same time as well.
@@ -125,10 +129,10 @@ root directory. Supports serving multiple modules at the same time as well.
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --modules ../frank-lloyd-root --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --modules ../frank-lloyd-root --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json
 
 # or to serve multiple modules
-npx @americanexpress/one-app-runner --modules ../frank-lloyd-root ../cultured-frankie --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --modules ../frank-lloyd-root ../cultured-frankie --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json
 ```
 
 Or in `package.json`
@@ -149,14 +153,14 @@ Or in `package.json`
 
 ### parrot-middleware [Optional]
 
-Path to parrot dev middleware file for One App to use for Parrot mocking. This option must be used in conjunction with the `--module` option.
+Path to parrot dev middleware file for One App to use for Parrot mocking. This option must be used in conjunction with the `--modules` option.
 
 For more information on setting up parrot dev middleware, check out the [One App Mocking APIs recipe](https://github.com/americanexpress/one-app/blob/main/docs/guides/Mocking-Api-Calls.md).
 
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --parrot-middleware ../frank-lloyd-root/dev.middleware.js --module ../frank-lloyd-root --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --parrot-middleware ../frank-lloyd-root/dev.middleware.js --modules ../frank-lloyd-root --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json
 ```
 
 Or in `package.json`
@@ -177,14 +181,14 @@ If middleware is defined in the `package.json`, you can use the `--no-parrot-mid
 
 ### dev-endpoints [Optional]
 
-Path to dev endpoints file for One App to use for the One App Dev Proxy set up. This option must be used in conjunction with the `--module` option.
+Path to dev endpoints file for One App to use for the One App Dev Proxy set up. This option must be used in conjunction with the `--modules` option.
 
 For more information on setting up your dev endpoints file, check out the [Configuring One App with your API URLs guide](https://github.com/americanexpress/one-app/blob/main/docs/guides/Mocking-Api-Calls.md).
 
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --dev-endpoints ../frank-lloyd-root/dev.endpoints.js --module ../frank-lloyd-root --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --dev-endpoints ../frank-lloyd-root/dev.endpoints.js --modules ../frank-lloyd-root --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json
 ```
 
 Or in `package.json`
@@ -208,7 +212,7 @@ Path to a file to which One App logs should be redirected to. Using this option 
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --output-file ../one-app.log --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root
+npx @americanexpress/one-app-runner --output-file ../one-app.log --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root
 ```
 
 Or in `package.json`
@@ -220,7 +224,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x"
+    "dockerImage": "oneamex/one-app-dev:6",
   }
 }
 ```
@@ -232,7 +236,7 @@ Connect the One App container to a network. The value gets passed to the [docker
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --docker-network-to-join my-network
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --docker-network-to-join my-network
 ```
 
 Or in `package.json`
@@ -243,23 +247,23 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x",
+    "dockerImage": "oneamex/one-app-dev:6",
     "dockerNetworkToJoin": "my-network"
   }
 }
 
 ```
+
 ### create-docker-network [Optional]
 
 >This option requires `docker-network-to-join` to be used as the network name.
 
 Creates a new [docker network](https://docs.docker.com/engine/reference/commandline/network_create/) using the network name provided.
 
-
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --create-docker-network --docker-network-to-join my-network
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --create-docker-network --docker-network-to-join my-network
 ```
 
 Or in `package.json`
@@ -270,7 +274,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x",
+    "dockerImage": "oneamex/one-app-dev:6",
     "dockerNetworkToJoin": "my-network",
     "createDockerNetwork": true
   }
@@ -286,7 +290,7 @@ Note: This flag is required when using `one-app-runner` for browser tests on a C
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --use-host
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6 --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --use-host
 ```
 
 Or in `package.json`
@@ -297,7 +301,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x",
+    "dockerImage": "oneamex/one-app-dev:6",
     "useHost": true
   }
 }
@@ -310,7 +314,7 @@ Bypass `docker pull` and run an existing image already downloaded to your machin
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --offline
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --offline
 ```
 
 Or in `package.json`
@@ -334,7 +338,7 @@ Assign a container name with the --name docker option
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.0.0 --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --container-name one-app-at-test
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.0.0 --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --container-name one-app-at-test
 ```
 
 Or in `package.json`
@@ -345,7 +349,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x",
+    "dockerImage": "oneamex/one-app-dev:6",
     "containerName": "one-app-at-test"
   }
 }
@@ -358,9 +362,9 @@ Environment variables to provide to One App instance.
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --envVars '{ "ONE_CONFIG_ENV": "production" }' --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --envVars '{ "ONE_CONFIG_ENV": "production" }' --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json
 // or
-npx @americanexpress/one-app-runner --envVars.ONE_CONFIG_ENV=production --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json
+npx @americanexpress/one-app-runner --envVars.ONE_CONFIG_ENV=production --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json
 ```
 
 Or in `package.json`
@@ -373,7 +377,7 @@ Or in `package.json`
     },
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x"
+    "dockerImage": "oneamex/one-app-dev:5.x.x"
   }
 }
 ```
@@ -391,7 +395,7 @@ Attaches the debugger on port `9229`, the standard port for [node debugging](htt
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --use-debug
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --use-debug
 ```
 
 Or in `package.json`
@@ -402,11 +406,15 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x",
+    "dockerImage": "oneamex/one-app-dev:5.x.x",
     "useDebug": true
   }
 }
 ```
+
+#### HTTP_ONE_APP_DEBUG_PORT
+
+If `HTTP_ONE_APP_DEBUG_PORT` is set, it will be used as the port for the debugger. Defaults to `9229`.
 
 ### log-format [Optional]
 
@@ -415,7 +423,7 @@ Presentation of log entries. Valid options include `friendly`, `verbose`, and `m
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --log-format machine
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --log-format machine
 ```
 
 Or in `package.json`
@@ -426,7 +434,7 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x",
+    "dockerImage": "oneamex/one-app-dev:5.x.x",
     "logFormat": "machine"
   }
 }
@@ -439,7 +447,7 @@ Lowest level of log entries to write. Valid options include `error`, `warn`, `lo
 Sample usage:
 
 ```bash
-npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --one-app-version 5.x.x --module-map-url https://example.com/cdn/module-map.json  --module ../frank-lloyd-root --log-evel info
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:5.x.x --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --log-level info
 ```
 
 Or in `package.json`
@@ -450,23 +458,42 @@ Or in `package.json`
     "modules": ["."],
     "rootModuleName": "frank-lloyd-root",
     "moduleMapUrl": "https://example.com/cdn/module-map.json",
-    "oneAppVersion": "5.x.x",
+    "dockerImage": "oneamex/one-app-dev:5.x.x",
     "logLevel": "info"
   }
 }
 ```
 
+### include-jaeger [Optional]
 
-#### HTTP_ONE_APP_DEBUG_PORT
+Start a local instance of Jaeger along side One App, and configure One App to send traces to it. The Jaeger UI will be available at `http://localhost:16686`, and links to each trace will be available in the logs.
 
-If `HTTP_ONE_APP_DEBUG_PORT` is set, it will be used as the port for the debugger. Defaults to `9229`.
+This is only compatible with One App versions `6.11.0` and above.
+
+Sample usage:
+
+```bash
+npx @americanexpress/one-app-runner --root-module-name frank-lloyd-root --docker-image oneamex/one-app-dev:6.11.0 --module-map-url https://example.com/cdn/module-map.json  --modules ../frank-lloyd-root --include-jaeger
+```
+
+Or in `package.json`
+
+```json
+"one-amex": {
+  "runner": {
+    "modules": ["."],
+    "rootModuleName": "frank-lloyd-root",
+    "moduleMapUrl": "https://example.com/cdn/module-map.json",
+    "includeJaeger": true,
+  }
+}
+```
 
 ## Proxy Support
 
 `one-app-runner` respects the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables and passes them down to the One App docker container.
 
 Make use of these environment variables if the remote module map or modules you want One App to use are inaccessible without the use of a proxy server.
-
 
 ## Test Environment
 
@@ -475,7 +502,8 @@ Make use of these environment variables if the remote module map or modules you 
 Creates a new instance of **one-app-runner** that runs in the background detached from the parent process.
 This option is useful to run a test suite against the running One App container.
 
-##### package.json
+#### package.json
+
 ```json
 "scripts": {
   "start": "one-app-runner",
@@ -491,6 +519,7 @@ This option is useful to run a test suite against the running One App container.
   }
 }
 ```
+
 ### create-runner-env
 
 This command generates random ports and values for the following environment variables:
