@@ -17,6 +17,7 @@
 const path = require('node:path');
 const pkgUp = require('pkg-up');
 const yargs = require('yargs');
+const semver = require('semver');
 const startApp = require('../src/startApp');
 
 const createYargsConfig = () => {
@@ -85,8 +86,6 @@ const createYargsConfig = () => {
     })
     .option('modules', {
       type: 'array',
-      // eslint-disable-next-line global-require -- I dont know why we are late requiring yargs into this file that already requires yargs
-      demandOption: !require('yargs').argv.moduleMapUrl,
       describe: 'path to local module to serve to One App',
       coerce: (modules) => {
         if (modules.length === 0) {
@@ -124,6 +123,11 @@ const createYargsConfig = () => {
       describe: 'File to redirect all stdout and stderr from One App Container to',
       coerce: (value) => path.resolve(process.cwd(), value),
     })
+    .option('include-jaeger', {
+      default: false,
+      type: 'boolean',
+      describe: 'Load Jaeger all-in-one container for tracing',
+    })
     .option('create-docker-network', {
       default: false,
       type: 'boolean',
@@ -153,41 +157,55 @@ const createYargsConfig = () => {
       type: 'boolean',
     })
     .implies({
+      '--no-module-map-url': 'modules',
       'parrot-middleware': 'modules',
       'dev-endpoints': 'modules',
+      'create-docker-network': 'docker-network-to-join',
     })
     .strict()
+    .check((argv) => {
+      if (argv.includeJaeger) {
+        const appVersion = argv.dockerImage.split(':')[1];
+        if (appVersion !== 'latest' && !semver.intersects(appVersion, '>=6.11.0-0', { includePrerelease: true })) {
+          throw new Error('⚠️   --include-jaeger option requires a One App version >=6.11.0. ⚠️');
+        }
+      }
+      return true;
+    })
     .help();
 
   return yargs.argv;
 };
 
-const argv = createYargsConfig();
+(async function run() {
+  const argv = createYargsConfig();
 
-if (!argv.envVars) {
-  argv.envVars = {};
-}
+  if (!argv.envVars) {
+    argv.envVars = {};
+  }
 
-try {
-  startApp({
-    moduleMapUrl: argv.moduleMapUrl,
-    rootModuleName: argv.rootModuleName,
-    modulesToServe: argv.modules,
-    parrotMiddlewareFile: argv.parrotMiddleware,
-    devEndpointsFile: argv.devEndpoints,
-    appDockerImage: argv.dockerImage,
-    envVars: argv.envVars,
-    outputFile: argv.outputFile,
-    createDockerNetwork: argv.createDockerNetwork,
-    dockerNetworkToJoin: argv.dockerNetworkToJoin,
-    useHost: argv.useHost,
-    offline: argv.offline,
-    containerName: argv.containerName,
-    useDebug: argv.useDebug,
-    logLevel: argv.logLevel,
-    logFormat: argv.logFormat,
-  });
-} catch (error) {
-  console.log();
-  console.error('⚠️   Error starting up your One App environment: \n', error.message);
-}
+  try {
+    await startApp({
+      moduleMapUrl: argv.moduleMapUrl,
+      rootModuleName: argv.rootModuleName,
+      modulesToServe: argv.modules,
+      parrotMiddlewareFile: argv.parrotMiddleware,
+      devEndpointsFile: argv.devEndpoints,
+      appDockerImage: argv.dockerImage,
+      envVars: argv.envVars,
+      outputFile: argv.outputFile,
+      createDockerNetwork: argv.createDockerNetwork,
+      dockerNetworkToJoin: argv.dockerNetworkToJoin,
+      useHost: argv.useHost,
+      offline: argv.offline,
+      containerName: argv.containerName,
+      useDebug: argv.useDebug,
+      logLevel: argv.logLevel,
+      logFormat: argv.logFormat,
+      includeJaeger: argv.includeJaeger,
+    });
+  } catch (error) {
+    console.log();
+    console.error('⚠️   Error starting up your One App environment: \n', error.message);
+  }
+}());

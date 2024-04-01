@@ -4,5 +4,16 @@
     "no-console": 0, // CLI's are allowed to use console
     "unicorn/no-process-exit": 0, // CLI's are allowed to exit
     "unicorn/prefer-spread": 0 // Spread is not always semantically identical
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**", "**/__mocks__/**", "**/__fixtures__/**", "**/*.spec.js"],
+      "extends": "amex/test",
+      "rules": {
+        "no-console": 0, // CLI's are allowed to use console
+        "unicorn/no-process-exit": 0, // CLI's are allowed to exit
+        "unicorn/prefer-spread": 0 // Spread is not always semantically identical
+      }
+    }
+  ]
 }

@@ -20,6 +20,7 @@ module.exports = {
     '!**/build/**',
     'packages/*/lib/**',
     '!packages/*/bin/**',
+    '!packages/*/__fixtures__/**',
     '!packages/*/test-utils.js',
     '!packages/*/test-results/**',
   ],

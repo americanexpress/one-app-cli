@@ -12,37 +12,21 @@
  * the License.
  */
 
-const { spawn } = require('child_process');
 const path = require('node:path');
 const fs = require('node:fs');
 const os = require('node:os');
 const Docker = require('dockerode');
 const semver = require('semver');
-
-async function spawnAndPipe(command, args, logStream) {
-  return new Promise((resolve, reject) => {
-    const spawnedProcess = spawn(command, args);
-
-    spawnedProcess.on('close', (code) => {
-      if (code !== 0) {
-        return reject(code);
-      }
-      return resolve(code);
-    });
-
-    if (logStream) {
-      spawnedProcess.stdout.pipe(logStream, { end: false });
-      spawnedProcess.stderr.pipe(logStream, { end: false });
-    } else {
-      spawnedProcess.stdout.pipe(process.stdout);
-      spawnedProcess.stderr.pipe(process.stderr);
-    }
-  });
-}
-
-async function dockerPull(imageReference, logStream) {
-  return spawnAndPipe('docker', ['pull', imageReference], logStream);
-}
+const spawnAndPipe = require('../utils/spawnAndPipe');
+const {
+  dockerPull,
+  portsToDockerArgs,
+  envVarsToDockerArgs,
+  mountsToDockerArgs,
+} = require('../utils/docker');
+const objectToFlags = require('../utils/objectToFlags');
+const pick = require('../utils/pick');
+const { startJaeger, getJaegerEnvVarsForOneApp } = require('./startJaeger');
 
 async function startAppContainer({
   imageReference,
@@ -59,38 +43,39 @@ async function startAppContainer({
     [
       'run',
       '-t',
-      ...ports.map((port) => `-p=${port}:${port}`),
-      ...[...envVars.entries()].map(([envVarName, envVarValue]) => `-e=${envVarName}=${envVarValue}`),
-      ...[...mounts.entries()].map(([hostPath, containerPath]) => `-v=${hostPath}:${containerPath}`),
-      name ? `--name=${name}` : null,
-      network ? `--network=${network}` : null,
+      portsToDockerArgs(ports),
+      envVarsToDockerArgs(envVars),
+      mountsToDockerArgs(mounts),
+      objectToFlags({
+        name,
+        network,
+      }),
       imageReference,
       '/bin/sh',
       '-c',
       containerShellCommand,
-    ].filter(Boolean),
+    ].flat(),
     logStream
   );
 }
 
-function generateEnvironmentVariableArgs(envVars) {
+function generateEnvironmentVariableArgs({
+  envVars,
+  includeJaeger,
+  rootModuleName,
+  dockerNetworkToJoin,
+}) {
+  const envVarsFromProcess = pick(['HTTP_PROXY', 'HTTPS_PROXY', 'NO_PROXY', 'HTTP_PORT', 'HTTP_ONE_APP_DEV_CDN_PORT', 'HTTP_ONE_APP_DEV_PROXY_SERVER_PORT', 'HTTP_METRICS_PORT'], process.env);
   return new Map([
-    ['NODE_ENV', 'development'],
-    ...Object.entries(envVars),
-    process.env.HTTP_PROXY ? ['HTTP_PROXY', process.env.HTTP_PROXY] : null,
-    process.env.HTTPS_PROXY ? ['HTTPS_PROXY', process.env.HTTPS_PROXY] : null,
-    process.env.NO_PROXY ? ['NO_PROXY', process.env.NO_PROXY] : null,
-    process.env.HTTP_PORT ? ['HTTP_PORT', process.env.HTTP_PORT] : null,
-    process.env.HTTP_ONE_APP_DEV_CDN_PORT
-      ? ['HTTP_ONE_APP_DEV_CDN_PORT', process.env.HTTP_ONE_APP_DEV_CDN_PORT]
-      : null,
-    process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT
-      ? ['HTTP_ONE_APP_DEV_PROXY_SERVER_PORT', process.env.HTTP_ONE_APP_DEV_PROXY_SERVER_PORT]
-      : null,
-    process.env.HTTP_METRICS_PORT
-      ? ['HTTP_METRICS_PORT', process.env.HTTP_METRICS_PORT]
-      : null,
-  ].filter(Boolean));
+    [['NODE_ENV', 'development']],
+    Object.entries(envVars),
+    Object.entries(getJaegerEnvVarsForOneApp({
+      includeJaeger,
+      useDockerNetwork: !!dockerNetworkToJoin,
+      rootModuleName,
+    })),
+    Object.entries(envVarsFromProcess),
+  ].flat(1));
 }
 
 const generateSetMiddlewareCommand = (pathToMiddlewareFile) => {
@@ -109,8 +94,6 @@ const generateSetDevEndpointsCommand = (pathToDevEndpointsFile) => {
   return '';
 };
 
-const generateUseMocksFlag = (shouldUseMocks) => (shouldUseMocks ? '-m' : '');
-
 const generateNpmConfigCommands = () => 'npm config set update-notifier false &&';
 
 const generateServeModuleCommands = (modules) => {
@@ -126,12 +109,6 @@ const generateServeModuleCommands = (modules) => {
   return `${command} &&`;
 };
 
-const generateModuleMap = (moduleMapUrl) => (moduleMapUrl ? `--module-map-url=${moduleMapUrl}` : '');
-
-const generateLogLevel = (logLevel) => (logLevel ? `--log-level=${logLevel}` : '');
-
-const generateLogFormat = (logFormat) => (logFormat ? `--log-format=${logFormat}` : '');
-
 const generateDebug = (port, useDebug) => (useDebug ? `--inspect=0.0.0.0:${port}` : '');
 
 // NOTE: Node 12 does not support --dns-result-order or --no-experimental-fetch
@@ -146,19 +123,16 @@ const generateNodeFlags = (appVersion) => {
 
 const generateEntryCommand = (appVersion, debugPort, useDebug) => {
   const debug = generateDebug(debugPort, useDebug);
-  let entry;
   if (appVersion === 'latest' || semver.intersects(appVersion, '>=6.11.0-0', { includePrerelease: true })) {
-    entry = ['scripts/start.sh', debug];
-  } else {
-    entry = ['node', generateNodeFlags(appVersion), debug, 'lib/server/index.js'];
+    return ['scripts/start.sh', debug];
   }
-  return entry.filter(Boolean).join(' ');
+  return ['node', generateNodeFlags(appVersion), debug, 'lib/server/index.js'];
 };
 
 module.exports = async function startApp({
   moduleMapUrl,
   rootModuleName,
-  modulesToServe,
+  modulesToServe = [],
   appDockerImage,
   envVars = {},
   outputFile,
@@ -166,6 +140,7 @@ module.exports = async function startApp({
   devEndpointsFile,
   createDockerNetwork,
   dockerNetworkToJoin,
+  includeJaeger,
   useHost,
   offline,
   containerName,
@@ -174,11 +149,6 @@ module.exports = async function startApp({
   logFormat,
 }) {
   if (createDockerNetwork) {
-    if (!dockerNetworkToJoin) {
-      throw new Error(
-        'createDockerNetwork is true but dockerNetworkToJoin is undefined, please pass a valid network name'
-      );
-    }
     try {
       const docker = new Docker();
       await docker.createNetwork({ name: dockerNetworkToJoin });
@@ -188,8 +158,6 @@ module.exports = async function startApp({
       );
     }
   }
-
-  const generateUseHostFlag = () => (useHost ? '--use-host' : '');
 
   const appPort = Number.parseInt(process.env.HTTP_PORT, 10) || 3000;
   const devCDNPort = Number.parseInt(process.env.HTTP_ONE_APP_DEV_CDN_PORT, 10) || 3001;
@@ -207,11 +175,14 @@ module.exports = async function startApp({
     debugPort,
   ];
 
-  const containerEnvVars = generateEnvironmentVariableArgs(envVars);
+  const containerEnvVars = generateEnvironmentVariableArgs({
+    envVars,
+    includeJaeger,
+    rootModuleName,
+    dockerNetworkToJoin,
+  });
 
-  const mounts = new Map([
-    ...(modulesToServe || []).map((moduleToServe) => [moduleToServe, `/opt/module-workspace/${path.basename(moduleToServe)}`]),
-  ]);
+  const mounts = new Map(modulesToServe.map((moduleToServe) => [moduleToServe, `/opt/module-workspace/${path.basename(moduleToServe)}`]));
 
   const hostNodeExtraCaCerts = envVars.NODE_EXTRA_CA_CERTS || process.env.NODE_EXTRA_CA_CERTS;
   if (hostNodeExtraCaCerts) {
@@ -229,15 +200,17 @@ module.exports = async function startApp({
     generateSetMiddlewareCommand(parrotMiddlewareFile),
     generateSetDevEndpointsCommand(devEndpointsFile),
     generateEntryCommand(appVersion, debugPort, useDebug),
-    `--root-module-name=${rootModuleName}`,
-    generateModuleMap(moduleMapUrl),
-    generateUseMocksFlag(parrotMiddlewareFile),
-    generateUseHostFlag(),
-    generateLogLevel(logLevel),
-    generateLogFormat(logFormat),
-  ].filter(Boolean).join(' ');
+    objectToFlags({
+      rootModuleName,
+      moduleMapUrl,
+      m: parrotMiddlewareFile && true,
+      useHost,
+      logLevel,
+      logFormat,
+    }),
+  ].flat().filter(Boolean).join(' ');
 
-  const logFileStream = outputFile ? fs.createWriteStream(outputFile) : null;
+  const logStream = outputFile ? fs.createWriteStream(outputFile) : process.stdout;
 
   const hostOneAppDirectoryPath = path.resolve(os.homedir(), '.one-app');
   mounts.set(hostOneAppDirectoryPath, '/home/node/.one-app');
@@ -250,9 +223,18 @@ module.exports = async function startApp({
     }
   }
 
+  let jaegerProcess;
+
   try {
     if (!offline) {
-      await dockerPull(appDockerImage, logFileStream);
+      await dockerPull(appDockerImage, logStream);
+    }
+    if (includeJaeger) {
+      jaegerProcess = await startJaeger({
+        network: dockerNetworkToJoin,
+        logStream,
+        offline,
+      });
     }
     await startAppContainer({
       imageReference: appDockerImage,
@@ -262,7 +244,7 @@ module.exports = async function startApp({
       containerShellCommand,
       name: containerName,
       network: dockerNetworkToJoin,
-      logStream: logFileStream,
+      logStream,
     });
   } catch (error) {
     throw new Error(
@@ -270,9 +252,10 @@ module.exports = async function startApp({
       { cause: error }
     );
   } finally {
-    if (logFileStream) {
-      logFileStream.end();
+    if (outputFile) {
+      logStream.end();
     }
+    jaegerProcess?.kill();
   }
 
   [
@@ -281,6 +264,9 @@ module.exports = async function startApp({
   ].forEach((signal) => {
     // process is a global referring to current running process https://nodejs.org/api/globals.html#globals_process
     /* istanbul ignore next */
-    process.on(signal, () => 'noop - just need to pass signal to one app process so it can handle it');
+    process.on(signal, () => {
+      // need to pass signal to one app process so it can handle it
+      jaegerProcess?.kill();
+    });
   });
 };
