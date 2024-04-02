@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-server-bundler@1.0.3...@americanexpress/one-app-server-bundler@1.1.0) (2024-04-02)
+
+
+### Bug Fixes
+
+* transpile cjs files ([#633](https://github.com/americanexpress/one-app-cli/issues/633)) ([c5e3968](https://github.com/americanexpress/one-app-cli/commit/c5e3968221aba52d95e94a0da273ef6fb4d0ec36))
+
+
+### Features
+
+* **one-app-runner:** add option to load jaeger all-in-one ([c412970](https://github.com/americanexpress/one-app-cli/commit/c412970c0e8c4d5f309290c8fa68c4d2b90d2f09))
+
+
+### Performance Improvements
+
+* **one-app-server-bundler:** serve-module read and write the module map once ([#623](https://github.com/americanexpress/one-app-cli/issues/623)) ([391a390](https://github.com/americanexpress/one-app-cli/commit/391a390d2c27d4343763d9a5e109b9056302ce3d))
+
+
+
+
+
 ## [1.0.4](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-server-bundler@1.0.3...@americanexpress/one-app-server-bundler@1.0.4) (2024-03-29)
 
 
