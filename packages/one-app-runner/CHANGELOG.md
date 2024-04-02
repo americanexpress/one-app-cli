@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.19.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.18.0...@americanexpress/one-app-runner@6.19.0) (2024-04-02)
+
+
+### Features
+
+* **one-app-runner:** add option to load jaeger all-in-one ([c412970](https://github.com/americanexpress/one-app-cli/commit/c412970c0e8c4d5f309290c8fa68c4d2b90d2f09))
+
+
+
+
+
 # [6.18.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.17.2...@americanexpress/one-app-runner@6.18.0) (2024-03-26)
 
 
