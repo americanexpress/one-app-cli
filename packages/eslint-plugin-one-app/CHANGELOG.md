@@ -6,10 +6,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [6.14.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/eslint-plugin-one-app@6.13.5...@americanexpress/eslint-plugin-one-app@6.14.0) (2024-04-02)
 
 
-### Features
-
-* **one-app-runner:** add option to load jaeger all-in-one ([c412970](https://github.com/americanexpress/one-app-cli/commit/c412970c0e8c4d5f309290c8fa68c4d2b90d2f09))
-
+**Note:** Version bump only for package @americanexpress/eslint-plugin-one-app
 
 
 
