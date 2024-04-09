@@ -15,11 +15,9 @@
 import path from 'node:path';
 import fs from 'node:fs';
 
+import { bundleExternalFallbacks } from './bundle-external-fallbacks.js';
+
 const bundleModule = async () => {
-  const {
-    devBuildModule,
-    bundleExternalFallbacks,
-  } = await import('@americanexpress/one-app-dev-bundler');
 
   fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 
@@ -27,6 +25,10 @@ const bundleModule = async () => {
 
   if (process.env.NODE_ENV !== 'production' && process.argv.includes('--dev')) {
     console.info('Running dev bundler');
+
+    const {
+      devBuildModule,
+    } = await import('@americanexpress/one-app-dev-bundler');
 
     if (devBuildModule) {
       devBuildModule().catch((error) => {

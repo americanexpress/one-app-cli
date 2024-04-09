@@ -15,9 +15,11 @@
 import chalk from 'chalk';
 import fs from 'node:fs';
 import path from 'node:path';
+import snakeCase from 'lodash.snakecase';
+
 import generateIntegrityManifest from './generateIntegrityManifest.js';
 
-export default function getWebpackCallback(label, isModuleBuild) {
+export default function getWebpackCallback(label, isModuleBuild = false, cb = () => {}) {
   if (typeof label !== 'string' || !label) {
     throw new Error('`getWebpackCallback` requires a label for its metadata files.');
   }
@@ -47,7 +49,7 @@ export default function getWebpackCallback(label, isModuleBuild) {
       fs.mkdirSync(buildStatsPath);
     }
 
-    fs.writeFileSync(path.join(buildStatsPath, `.webpack-stats.${label}.json`), JSON.stringify(jsonStats));
+    fs.writeFileSync(path.join(buildStatsPath, `.webpack-stats.${snakeCase(label)}.json`), JSON.stringify(jsonStats));
 
     if (isModuleBuild) {
       generateIntegrityManifest(
@@ -55,6 +57,8 @@ export default function getWebpackCallback(label, isModuleBuild) {
         path.join(stats.compilation.compiler.outputPath, stats.compilation.outputOptions.filename)
       );
     }
+
+    cb(stats);
 
     if (process.argv.indexOf('--watch') !== -1) {
       return;
