@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.19.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.18.0...@americanexpress/one-app-runner@6.19.0) (2024-04-02)
+
+
+### Features
+
+* **one-app-runner:** add option to load jaeger all-in-one ([c412970](https://github.com/americanexpress/one-app-cli/commit/c412970c0e8c4d5f309290c8fa68c4d2b90d2f09))
+
+
+
+
+
+# [6.18.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.17.2...@americanexpress/one-app-runner@6.18.0) (2024-03-26)
+
+
+### Features
+
+* **one-app-runner:** use new entry command in 6.11.0 ([#631](https://github.com/americanexpress/one-app-cli/issues/631)) ([3aba75e](https://github.com/americanexpress/one-app-cli/commit/3aba75ed562b5514931cd7c18174e740db0ec894))
+
+
+
+
+
+## [6.17.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.17.1...@americanexpress/one-app-runner@6.17.2) (2024-03-26)
+
+### Bug Fixes
+
+* **one-app-runner:** allow :latest and versions >=6.6.0 when specifying image tag ([#628]((https://github.com/americanexpress/one-app-cli/issues/622))) ([82d33e0](https://github.com/americanexpress/one-app-cli/commit/82d33e0a6ac704a493c6005e778b4dfa0902c1ec))
+
+
+
+
+
+## [6.17.1](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.17.0...@americanexpress/one-app-runner@6.17.1) (2024-03-20)
+
+
+### Bug Fixes
+
+* **one-app-runner:** single serve-module invocation ([#622](https://github.com/americanexpress/one-app-cli/issues/622)) ([6c208cd](https://github.com/americanexpress/one-app-cli/commit/6c208cd43dc0a2fcc03704a23f3974f9943dd4ee))
+
+
+
+
+
 # [6.17.0](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-runner@6.16.3...@americanexpress/one-app-runner@6.17.0) (2024-03-12)
 
 

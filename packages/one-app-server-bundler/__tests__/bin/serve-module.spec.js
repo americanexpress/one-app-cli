@@ -23,7 +23,7 @@ const setup = (modulePath) => {
   jest.resetModules();
   jest.clearAllMocks();
   jest.doMock('node:util', () => ({
-    parseArgs: jest.fn(() => ({ positionals: [modulePath] })),
+    parseArgs: jest.fn(() => ({ positionals: modulePath ? [modulePath] : [] })),
   }));
 
   fs = require('node:fs');
@@ -43,6 +43,12 @@ describe('serve-module', () => {
 
   afterAll(() => {
     setPlatform(originalPlatform);
+  });
+
+  it('should throw if no module path is provided', () => {
+    setup();
+    fs._.setFiles({});
+    expect(() => require('../../bin/serve-module')).toThrowErrorMatchingInlineSnapshot('"serve-module(s) requires at least one module path for one-app to serve"');
   });
 
   it('should throw if the module doesn\'t have a version', () => {
@@ -152,7 +158,7 @@ describe('serve-module', () => {
     expect(fs._.getFiles()['/mocked/static/module-map.json']).toMatchSnapshot();
   });
 
-  it('adds to the existing module map without legacy when legacy bundle does not exist', () => {
+  it('adds to the existing module map with a warning in place of the legacy browser SRI when legacy bundle does not exist', () => {
     process.env.NODE_ENV = 'development';
     fs._.setFiles({
       '../my-module-name/package.json': JSON.stringify({ name: 'my-module-name', version: '1.0.0' }),

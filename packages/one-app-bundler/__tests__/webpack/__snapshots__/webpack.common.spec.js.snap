@@ -2,6 +2,7 @@
 
 exports[`webpack/one-amex.base should add loader options plugin in production 1`] = `
 Array [
+  RestrictRuntimeSymbols {},
   EnvironmentPlugin {
     "defaultValues": Object {},
     "keys": Array [
@@ -22,6 +23,7 @@ Array [
 
 exports[`webpack/one-amex.base should only include the EnvironmentPlugin in development 1`] = `
 Array [
+  RestrictRuntimeSymbols {},
   EnvironmentPlugin {
     "defaultValues": Object {},
     "keys": Array [

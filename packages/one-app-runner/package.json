@@ -1,6 +1,6 @@
 {
   "name": "@americanexpress/one-app-runner",
-  "version": "6.17.0",
+  "version": "6.19.0",
   "description": "CLI for running One App locally",
   "license": "Apache-2.0",
   "contributors": [
@@ -38,13 +38,15 @@
     "fs-extra": "^10.0.0",
     "get-port": "^5.1.1",
     "node-fetch": "^2.6.1",
+    "pino-pretty": "^11.0.0",
     "pkg-up": "^3.1.0",
     "semver": "^7.6.0",
     "uuid": "^8.3.2",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "mock-spawn": "^0.2.6"
+    "mock-spawn": "^0.2.6",
+    "uuid": "^9.0.1"
   },
   "publishConfig": {
     "access": "public"
