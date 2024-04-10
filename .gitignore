@@ -12,6 +12,7 @@ lerna-debug.log
 test-results
 .jest-cache
 bundle.integrity.manifest.json
+packages/**/__tests__/**/build
 
 # intelliJ
 .idea/

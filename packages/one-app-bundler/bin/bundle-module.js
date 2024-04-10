@@ -18,7 +18,6 @@ import fs from 'node:fs';
 import { bundleExternalFallbacks } from './bundle-external-fallbacks.js';
 
 const bundleModule = async () => {
-
   fs.writeFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), JSON.stringify({}));
 
   await bundleExternalFallbacks();

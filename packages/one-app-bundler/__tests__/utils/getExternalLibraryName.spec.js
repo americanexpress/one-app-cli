@@ -12,16 +12,10 @@
  * under the License.
  */
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { readPackageUpSync } from 'read-package-up';
+import { getExternalLibraryName } from '../../utils/getExternalLibraryName';
 
-export function writeToModuleConfig(newData) {
-  const { packageJson } = readPackageUpSync();
-  const configPath = path.resolve(process.cwd(), 'build', packageJson.version, 'module-config.json');
-  const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath, 'utf8')) : {};
-  fs.writeFileSync(configPath, JSON.stringify({
-    ...config,
-    ...newData,
-  }, null, 2));
-}
+describe('getExternalLibraryName', () => {
+  it('creates a library name using an external name and version', () => {
+    expect(getExternalLibraryName('@amex/test-lib', '1.2.3')).toBe('__holocron_external__amex_test_lib__1_2_3');
+  });
+});

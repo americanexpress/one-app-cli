@@ -25,6 +25,7 @@ module.exports = {
   collectCoverageFrom: [
     'packages/**/*.{mjs,js,jsx}',
     '!**/__test_fixtures__/**',
+    '!**/__fixtures__/**',
     '!**/node_modules/**',
     '!**/build/**',
     '!packages/*/bin/**',

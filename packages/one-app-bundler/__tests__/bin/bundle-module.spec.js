@@ -15,13 +15,25 @@
 /* eslint-disable global-require --
 testing `on import` functionality needs 'require' in every tests */
 
+jest.mock('read-package-up', () => ({
+  readPackageUpSync: () => ({
+    packageJson: {
+      name: 'my-module-name',
+      version: '1.2.3',
+    },
+  }),
+}));
+
 jest.mock('@americanexpress/one-app-dev-bundler', () => ({
   devBuildModule: async () => undefined,
-  bundleExternalFallbacks: async () => undefined,
 }));
 
 jest.mock('../../bin/webpack-bundle-module', () => ({
   webpackBundleModule: jest.fn(),
+}));
+
+jest.mock('../../bin/bundle-external-fallbacks', () => ({
+  bundleExternalFallbacks: jest.fn(),
 }));
 
 jest.spyOn(console, 'info');
