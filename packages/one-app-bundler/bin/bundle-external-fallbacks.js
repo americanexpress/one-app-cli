@@ -48,7 +48,7 @@ export const bundleExternalFallbacks = async () => {
       })?.packageJson.version;
       const semanticRange = packageJson.dependencies[externalName];
       return {
-        ...obj,
+        ...acc,
         [externalName]: {
           name: externalName,
           version,
