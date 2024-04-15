@@ -14,7 +14,7 @@
 
 import ModuleFilenameHelpers from 'webpack/lib/ModuleFilenameHelpers.js';
 
-import { getExternalLibraryName } from '../../utils/getExternalLibraryName';
+import { getExternalLibraryName } from '../../utils/getExternalLibraryName.js';
 
 export function ExternalRegisterPlugin(externalName, version) {
   this.externalName = externalName;

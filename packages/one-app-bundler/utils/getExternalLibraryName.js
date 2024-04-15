@@ -22,4 +22,4 @@ export const getExternalLibraryName = (name, version) => [
   version
     .replace(/[^\d.]+/g, '')
     .replace(/\.+/g, '_'),
-].filter(Boolean).join('__');
+].join('__');

@@ -23,7 +23,6 @@ module.exports = {
     '!packages/*/__fixtures__/**',
     '!packages/*/test-utils.js',
     '!packages/*/test-results/**',
-    '!**/__fixtures__/**',
   ],
   coverageThreshold: {
     global: {

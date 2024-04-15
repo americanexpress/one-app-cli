@@ -103,7 +103,7 @@ const webpackClient = async (babelEnv) => {
             use: [babelLoader(babelEnv)],
           },
           {
-            test: /\.(sa|sc|c)ss$/,
+            test: /\.(sc|c)ss$/,
             use: [
               {
                 loader: '@americanexpress/one-app-bundler/webpack/loaders/styles-loader',

@@ -12,8 +12,8 @@
  * under the License.
  */
 
-import webpack from 'webpack';
 import path from 'node:path';
+import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import { readPackageUpSync } from 'read-package-up';
 import { SubresourceIntegrityPlugin as SriPlugin } from 'webpack-subresource-integrity';
@@ -86,7 +86,7 @@ const webpackClient = async (externalName, externalVersion) => {
             use: [babelLoader('modern')],
           },
           {
-            test: /\.(sa|sc|c)ss$/,
+            test: /\.(sc|c)ss$/,
             use: [
               {
                 loader: '@americanexpress/one-app-bundler/webpack/loaders/styles-loader',

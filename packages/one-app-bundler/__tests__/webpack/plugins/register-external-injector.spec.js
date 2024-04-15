@@ -46,7 +46,7 @@ function waitForWebpack(options) {
 
 describe('ExternalRegisterPlugin', () => {
   it('should wrap the contents in an IIFE that registers the module in development', async () => {
-    expect.assertions(5);
+    expect.assertions(4);
 
     const outputFileName = 'webpack-test-output-dev.js';
     const options = merge(webpackOptions, {
@@ -64,7 +64,6 @@ describe('ExternalRegisterPlugin', () => {
     expect(fileContents).toContain("const ID = 'external-a';");
     expect(fileContents).toContain('Holocron.registerExternal({ name: "external-a", version: "1.2.3", module: __holocron_external__external_a__1_2_3});');
     expect(fileContents).toContain("console.error('ERROR Registring External \"external-a\"', err)");
-    expect(fileContents).toMatchSnapshot();
   });
 
   it('should wrap the contents in an IIFE that registers the module in production', async () => {

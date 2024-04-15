@@ -43,17 +43,17 @@ const webpackServer = (externalName) => {
       resolve: {
         mainFields: ['module', 'main'],
         modules: [packageRoot, 'node_modules'],
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs'],
       },
       module: {
         rules: [
           {
-            test: /\.[jt]sx?$/,
+            test: /\.c?[jt]sx?$/,
             include: [path.join(packageRoot, 'src'), path.join(packageRoot, 'node_modules')],
             use: [babelLoader()],
           },
           {
-            test: /\.(sa|sc|c)ss$/,
+            test: /\.(sc|c)ss$/,
             use: [
               {
                 loader: '@americanexpress/one-app-bundler/webpack/loaders/styles-loader',
