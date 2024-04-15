@@ -42,7 +42,7 @@ export const bundleExternalFallbacks = async () => {
     }
 
     const integrityManifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'bundle.integrity.manifest.json'), 'utf-8'));
-    const requiredExternalsData = requiredExternals.reduce((obj, externalName) => {
+    const requiredExternalsData = requiredExternals.reduce((acc, externalName) => {
       const version = readPackageUpSync({
         cwd: path.resolve(process.cwd(), 'node_modules', externalName),
       })?.packageJson.version;
