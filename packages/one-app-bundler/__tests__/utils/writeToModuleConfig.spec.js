@@ -46,7 +46,7 @@ describe('write-to-module-config', () => {
 
     it('successfully writes to module config', () => {
       writeToModuleConfig({ my: 'module-config' });
-      expect(fs.writeFileSync).toHaveBeenCalledWith('/mock-path/build/1.2.3/module-config.json', '{\n  "my": "module-config"\n}');
+      expect(fs.writeFileSync).toHaveBeenCalledWith('/mock-path/build/1.2.3/module-config.json', '{"my":"module-config"}');
     });
   });
 
@@ -62,7 +62,7 @@ describe('write-to-module-config', () => {
       writeToModuleConfig({ my: 'module-config' });
       expect(fs.writeFileSync).toHaveBeenCalledWith(
         '/mock-path/build/1.2.3/module-config.json',
-        '{\n  "hello": "im here",\n  "my": "module-config"\n}'
+        '{"hello":"im here","my":"module-config"}'
       );
     });
   });
