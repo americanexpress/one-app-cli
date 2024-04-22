@@ -24,6 +24,9 @@ import getModulesBundlerConfig from './get-modules-bundler-config.js';
 import { BUNDLE_TYPES } from '../constants/enums.js';
 import { addStyle } from './server-style-aggregator.js';
 
+// eslint-disable-next-line unicorn/better-regex -- kept for readability
+const VALID_JS_VARIABLE_REGEX = /^[a-zA-Z_$][0-9a-zA-Z_$]*$/;
+
 const getGenerateScopedNameOption = (path) => {
   if (!path.includes('node_modules') || path.endsWith('.module.css') || path.endsWith('.module.scss')) {
     // use the default option (scoped) for non-node_module files or css modules within node_modules
@@ -31,6 +34,64 @@ const getGenerateScopedNameOption = (path) => {
   }
   // for standard css files within node_modules, do not scope the class names
   return '[local]';
+};
+
+/**
+ * Assumes that the class names should be exported 'as-is'. If characters are included
+ * in the class name that cannot be used in a variable name, they will not be added
+ * to the list of named exports.
+ */
+const generateCssModuleExports = (cssModulesJSON) => {
+  const entries = Object.entries(cssModulesJSON);
+  const unsupportedCharacterEntries = entries.filter(
+    ([exportName]) => VALID_JS_VARIABLE_REGEX.test(exportName) === false
+  );
+  const otherEntries = entries.filter(
+    ([exportName]) => !unsupportedCharacterEntries.reduce(
+      (acc, [unsupportedExportName]) => [...acc, unsupportedExportName],
+      []
+    )
+      .includes(exportName)
+  );
+
+  const namedExportsString = otherEntries.map(([exportName, className]) => `export const ${exportName} = '${className}';`).join('\n');
+  const defaultExportString = `export default { \
+${otherEntries.map(([exportName]) => exportName).join(', ')}\
+${otherEntries.length > 0 && unsupportedCharacterEntries.length > 0 ? ', ' : ''}\
+${unsupportedCharacterEntries.map(([exportName, className]) => `'${exportName}': '${className}'`).join(', ')} \
+};`;
+  return `${namedExportsString}\n${defaultExportString}`;
+};
+
+const generateJsContent = ({
+  css, cssModulesJSON, digest, bundleType, path,
+}) => {
+  let injectedCode = '';
+  if (bundleType === BUNDLE_TYPES.BROWSER) {
+    // For browsers generate code to inject this style into the head at runtime
+    injectedCode = `\
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();`;
+  } else {
+    // For SSR, aggregate all styles, then inject them once at the end
+    const isDependencyFile = path.indexOf('/node_modules/') >= 0;
+    addStyle(digest, css, isDependencyFile);
+  }
+
+  // provide useful values to the importer of this file, most importantly, the classnames
+  const jsContent = `\
+const digest = '${digest}';
+const css = \`${css}\`;
+${injectedCode}
+${generateCssModuleExports(cssModulesJSON)}
+export { css, digest };`;
+  return jsContent;
 };
 
 // This function can generically take css or scss content,
@@ -42,7 +103,7 @@ const loadStyles = async ({
   bundleType,
 }) => {
   const {
-    localsConvention = 'camelCaseOnly',
+    localsConvention = null, // null for `localsConvention` defaults to mapping class names 'as-is'
     generateScopedName = getGenerateScopedNameOption(path),
   } = cssModulesOptions;
 
@@ -88,36 +149,9 @@ const loadStyles = async ({
   const digest = hash.copy()
     .digest('hex');
 
-  let injectedCode = '';
-  if (bundleType === BUNDLE_TYPES.BROWSER) {
-    // For browsers generate code to inject this style into the head at runtime
-    injectedCode = `\
-(function() {
-  if ( global.BROWSER && !document.getElementById(digest)) {
-    var el = document.createElement('style');
-    el.id = digest;
-    el.textContent = css;
-    document.head.appendChild(el);
-  }
-})();`;
-  } else {
-    // For SSR, aggregate all styles, then inject them once at the end
-    const isDependencyFile = path.indexOf('/node_modules/') >= 0;
-    addStyle(digest, result.css, isDependencyFile);
-  }
-
-  // provide useful values to the importer of this file, most importantly, the classnames
-  const jsContent = `\
-const digest = '${digest}';
-const css = \`${result.css}\`;
-${injectedCode}
-${Object.entries(cssModulesJSON)
-    .map(([exportName, className]) => `export const ${exportName} = '${className}';`)
-    .join('\n')}
-export default { ${Object.keys(cssModulesJSON)
-    .join(', ')} };
-export { css, digest };`;
-  return jsContent;
+  return generateJsContent({
+    css: result.css, cssModulesJSON, digest, bundleType, path,
+  });
 };
 
 export default loadStyles;

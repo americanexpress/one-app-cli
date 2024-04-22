@@ -448,11 +448,11 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_1o1cd_1';
-export const nestedClass = '_nested-class_1o1cd_5';
-export default { testClass, nestedClass };
+
+export default { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
 export { css, digest };"
-`);
+`
+            );
           });
 
           it('should hash the css classes for .css files not in node_modules', async () => {
@@ -489,11 +489,11 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_ykkej_2';
-export const nestedClass = '_nested-class_ykkej_5';
-export default { testClass, nestedClass };
+
+export default { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
 export { css, digest };"
-`);
+`
+            );
           });
 
           it('should hash the css classes for .module.scss files in node_modules', async () => {
@@ -531,11 +531,11 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_1o1cd_1';
-export const nestedClass = '_nested-class_1o1cd_5';
-export default { testClass, nestedClass };
+
+export default { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
 export { css, digest };"
-`);
+`
+            );
           });
 
           it('should hash the css classes for .module.css files in node_modules', async () => {
@@ -572,11 +572,11 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_ykkej_2';
-export const nestedClass = '_nested-class_ykkej_5';
-export default { testClass, nestedClass };
+
+export default { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
 export { css, digest };"
-`);
+`
+            );
           });
 
           it('should not hash the css classes for .scss files in node_modules', async () => {
@@ -614,11 +614,11 @@ const css = \`.test-class {
     document.head.appendChild(el);
   }
 })();
-export const testClass = 'test-class';
-export const nestedClass = 'nested-class';
-export default { testClass, nestedClass };
+
+export default { 'test-class': 'test-class', 'nested-class': 'nested-class' };
 export { css, digest };"
-`);
+`
+            );
           });
 
           it('should not hash the css classes for .css files in node_modules', async () => {
@@ -655,9 +655,176 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = 'test-class';
-export const nestedClass = 'nested-class';
-export default { testClass, nestedClass };
+
+export default { 'test-class': 'test-class', 'nested-class': 'nested-class' };
+export { css, digest };"
+`
+            );
+          });
+        });
+
+        describe('css module class name mapping', () => {
+          it('should map camelCase class names to camelCase export', async () => {
+            expect.assertions(1);
+            const mockFileContentCamelCase = `
+.testClass {
+  background: white;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent: mockFileContentCamelCase }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = '226b4f2da43972a4fc06e45959f141575ff54d5112c560f4e9317565d5f7f7e3';
+const css = \`
+._testClass_nd9j1_2 {
+  background: white;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const testClass = '_testClass_nd9j1_2';
+export default { testClass };
+export { css, digest };"
+`);
+          });
+
+          it('should map kebab-case class names to kebab-case export', async () => {
+            expect.assertions(1);
+            const mockFileContentKebabCase = `
+.test-class {
+  background: white;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent: mockFileContentKebabCase }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = '4e6b6b5fb2aba1e71d4f619563aa5dd3196dc39177fec2591ba5985b7fce1c2a';
+const css = \`
+._test-class_jogu8_2 {
+  background: white;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+
+export default { 'test-class': '_test-class_jogu8_2' };
+export { css, digest };"
+`);
+          });
+
+          it('should map PascalCase class names to PascalCase export', async () => {
+            expect.assertions(1);
+            const mockFileContentPascalCase = `
+.TestClass {
+  background: white;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent: mockFileContentPascalCase }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = '86d0ab75f61f32582cec3b0195d0ecfbde103f660afbc7426663ada518f1f0a5';
+const css = \`
+._TestClass_ndabk_2 {
+  background: white;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const TestClass = '_TestClass_ndabk_2';
+export default { TestClass };
+export { css, digest };"
+`);
+          });
+
+          it('should map a combination of class names to the correct export', async () => {
+            expect.assertions(1);
+            const mockFileContent = `
+.testClass {
+  background: white;
+}
+.test-class {
+  font-color: black;
+}
+.TestClass {
+  font-size: 16px;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = 'ed48420423f1f7e20e2928760486f1e4601840fc4eede99b965397aa5f739bb8';
+const css = \`
+._testClass_1mj1y_2 {
+  background: white;
+}
+._test-class_1mj1y_5 {
+  font-color: black;
+}
+._TestClass_1mj1y_8 {
+  font-size: 16px;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+export const testClass = '_testClass_1mj1y_2';
+export const TestClass = '_TestClass_1mj1y_8';
+export default { testClass, TestClass, 'test-class': '_test-class_1mj1y_5' };
 export { css, digest };"
 `);
           });
