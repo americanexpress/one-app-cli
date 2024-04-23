@@ -24,9 +24,6 @@ import getModulesBundlerConfig from './get-modules-bundler-config.js';
 import { BUNDLE_TYPES } from '../constants/enums.js';
 import { addStyle } from './server-style-aggregator.js';
 
-// eslint-disable-next-line unicorn/better-regex -- kept for readability
-const VALID_JS_VARIABLE_REGEX = /^[a-zA-Z_$][0-9a-zA-Z_$]*$/;
-
 const getGenerateScopedNameOption = (path) => {
   if (!path.includes('node_modules') || path.endsWith('.module.css') || path.endsWith('.module.scss')) {
     // use the default option (scoped) for non-node_module files or css modules within node_modules
@@ -36,31 +33,10 @@ const getGenerateScopedNameOption = (path) => {
   return '[local]';
 };
 
-/**
- * Assumes that the class names should be exported 'as-is'. If characters are included
- * in the class name that cannot be used in a variable name, they will not be added
- * to the list of named exports.
- */
 const generateCssModuleExports = (cssModulesJSON) => {
   const entries = Object.entries(cssModulesJSON);
-  const unsupportedCharacterEntries = entries.filter(
-    ([exportName]) => VALID_JS_VARIABLE_REGEX.test(exportName) === false
-  );
-  const otherEntries = entries.filter(
-    ([exportName]) => !unsupportedCharacterEntries.reduce(
-      (acc, [unsupportedExportName]) => [...acc, unsupportedExportName],
-      []
-    )
-      .includes(exportName)
-  );
 
-  const namedExportsString = otherEntries.map(([exportName, className]) => `export const ${exportName} = '${className}';`).join('\n');
-  const defaultExportString = `export default { \
-${otherEntries.map(([exportName]) => exportName).join(', ')}\
-${otherEntries.length > 0 && unsupportedCharacterEntries.length > 0 ? ', ' : ''}\
-${unsupportedCharacterEntries.map(([exportName, className]) => `'${exportName}': '${className}'`).join(', ')} \
-};`;
-  return `${namedExportsString}\n${defaultExportString}`;
+  return `module.exports = { ${entries.map(([exportName, className]) => `'${exportName}': '${className}'`).join(', ')} }`;
 };
 
 const generateJsContent = ({
@@ -90,7 +66,8 @@ const digest = '${digest}';
 const css = \`${css}\`;
 ${injectedCode}
 ${generateCssModuleExports(cssModulesJSON)}
-export { css, digest };`;
+module['css'] = css;
+module['digest'] = digest;`;
   return jsContent;
 };
 

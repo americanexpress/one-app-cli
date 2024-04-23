@@ -149,11 +149,11 @@ const css = \`                ._root_w8zvp_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_w8zvp_1';
-export const second = '_second_w8zvp_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to named outputs for purged css, browser', async () => {
@@ -225,11 +225,11 @@ const css = \`                ._root_w8zvp_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_w8zvp_1';
-export const second = '_second_w8zvp_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to outputs for scss, in the browser', async () => {
@@ -274,9 +274,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  }
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -319,9 +319,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  }
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -351,19 +351,19 @@ export { css, digest };"
 
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
-  "const digest = '11e1fda0219a10c2de0ad6b28c1c6519985965cbef3f5b8f8f119d16f1bafff3';
-  const css = \`body {
-    background: white;
-  }
-  
-  body > p {
-    font-color: black;
-  }\`;
-  
-  
-  export default {  };
-  export { css, digest };"
-  `);
+"const digest = '11e1fda0219a10c2de0ad6b28c1c6519985965cbef3f5b8f8f119d16f1bafff3';
+const css = \`body {
+  background: white;
+}
+
+body > p {
+  font-color: black;
+}\`;
+
+module.exports = {  }
+module['css'] = css;
+module['digest'] = digest;"
+`);
         });
 
         it('should transform inputs to outputs for css, in the server', async () => {
@@ -398,9 +398,9 @@ body > p {
   font-color: black;
 }\`;
 
-
-export default {  };
-export { css, digest };"
+module.exports = {  }
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -448,9 +448,9 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-
-export default { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
-export { css, digest };"
+module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' }
+module['css'] = css;
+module['digest'] = digest;"
 `
             );
           });
@@ -489,9 +489,9 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-
-export default { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
-export { css, digest };"
+module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' }
+module['css'] = css;
+module['digest'] = digest;"
 `
             );
           });
@@ -531,9 +531,9 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-
-export default { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
-export { css, digest };"
+module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' }
+module['css'] = css;
+module['digest'] = digest;"
 `
             );
           });
@@ -572,9 +572,9 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-
-export default { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
-export { css, digest };"
+module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' }
+module['css'] = css;
+module['digest'] = digest;"
 `
             );
           });
@@ -614,9 +614,9 @@ const css = \`.test-class {
     document.head.appendChild(el);
   }
 })();
-
-export default { 'test-class': 'test-class', 'nested-class': 'nested-class' };
-export { css, digest };"
+module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' }
+module['css'] = css;
+module['digest'] = digest;"
 `
             );
           });
@@ -655,9 +655,9 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-
-export default { 'test-class': 'test-class', 'nested-class': 'nested-class' };
-export { css, digest };"
+module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' }
+module['css'] = css;
+module['digest'] = digest;"
 `
             );
           });
@@ -696,9 +696,9 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_testClass_nd9j1_2';
-export default { testClass };
-export { css, digest };"
+module.exports = { 'testClass': '_testClass_nd9j1_2' }
+module['css'] = css;
+module['digest'] = digest;"
 `);
           });
 
@@ -734,9 +734,9 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-
-export default { 'test-class': '_test-class_jogu8_2' };
-export { css, digest };"
+module.exports = { 'test-class': '_test-class_jogu8_2' }
+module['css'] = css;
+module['digest'] = digest;"
 `);
           });
 
@@ -772,9 +772,9 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const TestClass = '_TestClass_ndabk_2';
-export default { TestClass };
-export { css, digest };"
+module.exports = { 'TestClass': '_TestClass_ndabk_2' }
+module['css'] = css;
+module['digest'] = digest;"
 `);
           });
 
@@ -822,11 +822,11 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_testClass_1mj1y_2';
-export const TestClass = '_TestClass_1mj1y_8';
-export default { testClass, TestClass, 'test-class': '_test-class_1mj1y_5' };
-export { css, digest };"
-`);
+module.exports = { 'testClass': '_testClass_1mj1y_2', 'test-class': '_test-class_1mj1y_5', 'TestClass': '_TestClass_1mj1y_8' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
         });
 
@@ -896,12 +896,11 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_18xtd_1';
-export const somethingElse = '_somethingElse_18xtd_5';
-export const second = '_second_18xtd_9';
-export default { root, somethingElse, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_18xtd_1', 'somethingElse': '_somethingElse_18xtd_5', 'second': '_second_18xtd_9' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should purge css if disabled === false', async () => {
@@ -938,11 +937,11 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_18xtd_1';
-export const second = '_second_18xtd_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should purge css if enabled === true', async () => {
@@ -979,11 +978,11 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_18xtd_1';
-export const second = '_second_18xtd_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
         });
       });
@@ -1060,11 +1059,11 @@ const css = \`              ._root_1vf0l_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_1vf0l_1';
-export const second = '_second_1vf0l_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to named outputs for purged css, browser', async () => {
@@ -1136,11 +1135,11 @@ const css = \`              ._root_1vf0l_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_1vf0l_1';
-export const second = '_second_1vf0l_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' }
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to outputs for scss, in the browser', async () => {
@@ -1185,9 +1184,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  }
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -1230,9 +1229,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  }
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
       });
