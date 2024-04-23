@@ -36,7 +36,7 @@ const getGenerateScopedNameOption = (path) => {
 const generateCssModuleExports = (cssModulesJSON) => {
   const entries = Object.entries(cssModulesJSON);
 
-  return `module.exports = { ${entries.map(([exportName, className]) => `'${exportName}': '${className}'`).join(', ')} }`;
+  return `module.exports = { ${entries.map(([exportName, className]) => `'${exportName}': '${className}'`).join(', ')} };`;
 };
 
 const generateJsContent = ({

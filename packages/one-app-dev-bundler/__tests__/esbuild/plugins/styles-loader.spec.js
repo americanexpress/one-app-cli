@@ -149,7 +149,7 @@ const css = \`                ._root_w8zvp_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' }
+module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -225,7 +225,7 @@ const css = \`                ._root_w8zvp_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' }
+module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -274,7 +274,7 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-module.exports = {  }
+module.exports = {  };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -319,7 +319,7 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-module.exports = {  }
+module.exports = {  };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -360,7 +360,7 @@ body > p {
   font-color: black;
 }\`;
 
-module.exports = {  }
+module.exports = {  };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -398,7 +398,7 @@ body > p {
   font-color: black;
 }\`;
 
-module.exports = {  }
+module.exports = {  };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -448,7 +448,7 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' }
+module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -489,7 +489,7 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' }
+module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -531,7 +531,7 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' }
+module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -572,7 +572,7 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' }
+module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -614,7 +614,7 @@ const css = \`.test-class {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' }
+module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -655,7 +655,7 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' }
+module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -696,7 +696,7 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'testClass': '_testClass_nd9j1_2' }
+module.exports = { 'testClass': '_testClass_nd9j1_2' };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -734,7 +734,7 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'test-class': '_test-class_jogu8_2' }
+module.exports = { 'test-class': '_test-class_jogu8_2' };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -772,7 +772,7 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'TestClass': '_TestClass_ndabk_2' }
+module.exports = { 'TestClass': '_TestClass_ndabk_2' };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -822,7 +822,7 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'testClass': '_testClass_1mj1y_2', 'test-class': '_test-class_1mj1y_5', 'TestClass': '_TestClass_1mj1y_8' }
+module.exports = { 'testClass': '_testClass_1mj1y_2', 'test-class': '_test-class_1mj1y_5', 'TestClass': '_TestClass_1mj1y_8' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -896,7 +896,7 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'root': '_root_18xtd_1', 'somethingElse': '_somethingElse_18xtd_5', 'second': '_second_18xtd_9' }
+module.exports = { 'root': '_root_18xtd_1', 'somethingElse': '_somethingElse_18xtd_5', 'second': '_second_18xtd_9' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -937,7 +937,7 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' }
+module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -978,7 +978,7 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' }
+module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -1059,7 +1059,7 @@ const css = \`              ._root_1vf0l_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' }
+module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -1135,7 +1135,7 @@ const css = \`              ._root_1vf0l_1 {
     document.head.appendChild(el);
   }
 })();
-module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' }
+module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' };
 module['css'] = css;
 module['digest'] = digest;"
 `
@@ -1184,7 +1184,7 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-module.exports = {  }
+module.exports = {  };
 module['css'] = css;
 module['digest'] = digest;"
 `);
@@ -1229,7 +1229,7 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-module.exports = {  }
+module.exports = {  };
 module['css'] = css;
 module['digest'] = digest;"
 `);
