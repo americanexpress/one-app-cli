@@ -149,11 +149,11 @@ const css = \`                ._root_w8zvp_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_w8zvp_1';
-export const second = '_second_w8zvp_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to named outputs for purged css, browser', async () => {
@@ -225,11 +225,11 @@ const css = \`                ._root_w8zvp_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_w8zvp_1';
-export const second = '_second_w8zvp_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_w8zvp_1', 'second': '_second_w8zvp_9' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to outputs for scss, in the browser', async () => {
@@ -274,9 +274,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  };
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -319,9 +319,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  };
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -351,19 +351,19 @@ export { css, digest };"
 
           expect(loader).toEqual('js');
           expect(contents).toMatchInlineSnapshot(`
-  "const digest = '11e1fda0219a10c2de0ad6b28c1c6519985965cbef3f5b8f8f119d16f1bafff3';
-  const css = \`body {
-    background: white;
-  }
-  
-  body > p {
-    font-color: black;
-  }\`;
-  
-  
-  export default {  };
-  export { css, digest };"
-  `);
+"const digest = '11e1fda0219a10c2de0ad6b28c1c6519985965cbef3f5b8f8f119d16f1bafff3';
+const css = \`body {
+  background: white;
+}
+
+body > p {
+  font-color: black;
+}\`;
+
+module.exports = {  };
+module['css'] = css;
+module['digest'] = digest;"
+`);
         });
 
         it('should transform inputs to outputs for css, in the server', async () => {
@@ -398,9 +398,9 @@ body > p {
   font-color: black;
 }\`;
 
-
-export default {  };
-export { css, digest };"
+module.exports = {  };
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -448,11 +448,11 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_1o1cd_1';
-export const nestedClass = '_nested-class_1o1cd_5';
-export default { testClass, nestedClass };
-export { css, digest };"
-`);
+module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should hash the css classes for .css files not in node_modules', async () => {
@@ -489,11 +489,11 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_ykkej_2';
-export const nestedClass = '_nested-class_ykkej_5';
-export default { testClass, nestedClass };
-export { css, digest };"
-`);
+module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should hash the css classes for .module.scss files in node_modules', async () => {
@@ -531,11 +531,11 @@ const css = \`._test-class_1o1cd_1 {
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_1o1cd_1';
-export const nestedClass = '_nested-class_1o1cd_5';
-export default { testClass, nestedClass };
-export { css, digest };"
-`);
+module.exports = { 'test-class': '_test-class_1o1cd_1', 'nested-class': '_nested-class_1o1cd_5' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should hash the css classes for .module.css files in node_modules', async () => {
@@ -572,11 +572,11 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = '_test-class_ykkej_2';
-export const nestedClass = '_nested-class_ykkej_5';
-export default { testClass, nestedClass };
-export { css, digest };"
-`);
+module.exports = { 'test-class': '_test-class_ykkej_2', 'nested-class': '_nested-class_ykkej_5' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should not hash the css classes for .scss files in node_modules', async () => {
@@ -614,11 +614,11 @@ const css = \`.test-class {
     document.head.appendChild(el);
   }
 })();
-export const testClass = 'test-class';
-export const nestedClass = 'nested-class';
-export default { testClass, nestedClass };
-export { css, digest };"
-`);
+module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should not hash the css classes for .css files in node_modules', async () => {
@@ -655,11 +655,178 @@ const css = \`
     document.head.appendChild(el);
   }
 })();
-export const testClass = 'test-class';
-export const nestedClass = 'nested-class';
-export default { testClass, nestedClass };
-export { css, digest };"
+module.exports = { 'test-class': 'test-class', 'nested-class': 'nested-class' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
+          });
+        });
+
+        describe('css module class name mapping', () => {
+          it('should map camelCase class names to camelCase export', async () => {
+            expect.assertions(1);
+            const mockFileContentCamelCase = `
+.testClass {
+  background: white;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent: mockFileContentCamelCase }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = '226b4f2da43972a4fc06e45959f141575ff54d5112c560f4e9317565d5f7f7e3';
+const css = \`
+._testClass_nd9j1_2 {
+  background: white;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+module.exports = { 'testClass': '_testClass_nd9j1_2' };
+module['css'] = css;
+module['digest'] = digest;"
 `);
+          });
+
+          it('should map kebab-case class names to kebab-case export', async () => {
+            expect.assertions(1);
+            const mockFileContentKebabCase = `
+.test-class {
+  background: white;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent: mockFileContentKebabCase }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = '4e6b6b5fb2aba1e71d4f619563aa5dd3196dc39177fec2591ba5985b7fce1c2a';
+const css = \`
+._test-class_jogu8_2 {
+  background: white;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+module.exports = { 'test-class': '_test-class_jogu8_2' };
+module['css'] = css;
+module['digest'] = digest;"
+`);
+          });
+
+          it('should map PascalCase class names to PascalCase export', async () => {
+            expect.assertions(1);
+            const mockFileContentPascalCase = `
+.TestClass {
+  background: white;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent: mockFileContentPascalCase }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = '86d0ab75f61f32582cec3b0195d0ecfbde103f660afbc7426663ada518f1f0a5';
+const css = \`
+._TestClass_ndabk_2 {
+  background: white;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+module.exports = { 'TestClass': '_TestClass_ndabk_2' };
+module['css'] = css;
+module['digest'] = digest;"
+`);
+          });
+
+          it('should map a combination of class names to the correct export', async () => {
+            expect.assertions(1);
+            const mockFileContent = `
+.testClass {
+  background: white;
+}
+.test-class {
+  font-color: black;
+}
+.TestClass {
+  font-size: 16px;
+}`;
+
+            const mockFileName = 'index.module.css';
+            const plugin = stylesLoader({}, {
+              bundleType: BUNDLE_TYPES.BROWSER,
+            });
+            const onLoadHook = runSetupAndGetLifeHooks(plugin).onLoad[0].hookFunction;
+
+            const { contents } = await runOnLoadHook(
+              onLoadHook,
+              { mockFileName, mockFileContent }
+            );
+
+            expect(contents).toMatchInlineSnapshot(`
+"const digest = 'ed48420423f1f7e20e2928760486f1e4601840fc4eede99b965397aa5f739bb8';
+const css = \`
+._testClass_1mj1y_2 {
+  background: white;
+}
+._test-class_1mj1y_5 {
+  font-color: black;
+}
+._TestClass_1mj1y_8 {
+  font-size: 16px;
+}\`;
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();
+module.exports = { 'testClass': '_testClass_1mj1y_2', 'test-class': '_test-class_1mj1y_5', 'TestClass': '_TestClass_1mj1y_8' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
         });
 
@@ -729,12 +896,11 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_18xtd_1';
-export const somethingElse = '_somethingElse_18xtd_5';
-export const second = '_second_18xtd_9';
-export default { root, somethingElse, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_18xtd_1', 'somethingElse': '_somethingElse_18xtd_5', 'second': '_second_18xtd_9' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should purge css if disabled === false', async () => {
@@ -771,11 +937,11 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_18xtd_1';
-export const second = '_second_18xtd_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
 
           it('should purge css if enabled === true', async () => {
@@ -812,11 +978,11 @@ const css = \`            ._root_18xtd_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_18xtd_1';
-export const second = '_second_18xtd_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_18xtd_1', 'second': '_second_18xtd_9' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+            );
           });
         });
       });
@@ -893,11 +1059,11 @@ const css = \`              ._root_1vf0l_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_1vf0l_1';
-export const second = '_second_1vf0l_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to named outputs for purged css, browser', async () => {
@@ -969,11 +1135,11 @@ const css = \`              ._root_1vf0l_1 {
     document.head.appendChild(el);
   }
 })();
-export const root = '_root_1vf0l_1';
-export const second = '_second_1vf0l_9';
-export default { root, second };
-export { css, digest };"
-`);
+module.exports = { 'root': '_root_1vf0l_1', 'second': '_second_1vf0l_9' };
+module['css'] = css;
+module['digest'] = digest;"
+`
+          );
         });
 
         it('should transform inputs to outputs for scss, in the browser', async () => {
@@ -1018,9 +1184,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  };
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
 
@@ -1063,9 +1229,9 @@ body > p {
     document.head.appendChild(el);
   }
 })();
-
-export default {  };
-export { css, digest };"
+module.exports = {  };
+module['css'] = css;
+module['digest'] = digest;"
 `);
         });
       });

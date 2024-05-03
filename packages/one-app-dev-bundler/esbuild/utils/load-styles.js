@@ -33,6 +33,44 @@ const getGenerateScopedNameOption = (path) => {
   return '[local]';
 };
 
+const generateCssModuleExports = (cssModulesJSON) => {
+  const entries = Object.entries(cssModulesJSON);
+
+  return `module.exports = { ${entries.map(([exportName, className]) => `'${exportName}': '${className}'`).join(', ')} };`;
+};
+
+const generateJsContent = ({
+  css, cssModulesJSON, digest, bundleType, path,
+}) => {
+  let injectedCode = '';
+  if (bundleType === BUNDLE_TYPES.BROWSER) {
+    // For browsers generate code to inject this style into the head at runtime
+    injectedCode = `\
+(function() {
+  if ( global.BROWSER && !document.getElementById(digest)) {
+    var el = document.createElement('style');
+    el.id = digest;
+    el.textContent = css;
+    document.head.appendChild(el);
+  }
+})();`;
+  } else {
+    // For SSR, aggregate all styles, then inject them once at the end
+    const isDependencyFile = path.indexOf('/node_modules/') >= 0;
+    addStyle(digest, css, isDependencyFile);
+  }
+
+  // provide useful values to the importer of this file, most importantly, the classnames
+  const jsContent = `\
+const digest = '${digest}';
+const css = \`${css}\`;
+${injectedCode}
+${generateCssModuleExports(cssModulesJSON)}
+module['css'] = css;
+module['digest'] = digest;`;
+  return jsContent;
+};
+
 // This function can generically take css or scss content,
 // and 'load it', turning it into js. Meaning it can be called
 // from either esbuild or webpack based bundlers.
@@ -42,7 +80,7 @@ const loadStyles = async ({
   bundleType,
 }) => {
   const {
-    localsConvention = 'camelCaseOnly',
+    localsConvention = null, // null for `localsConvention` defaults to mapping class names 'as-is'
     generateScopedName = getGenerateScopedNameOption(path),
   } = cssModulesOptions;
 
@@ -88,36 +126,9 @@ const loadStyles = async ({
   const digest = hash.copy()
     .digest('hex');
 
-  let injectedCode = '';
-  if (bundleType === BUNDLE_TYPES.BROWSER) {
-    // For browsers generate code to inject this style into the head at runtime
-    injectedCode = `\
-(function() {
-  if ( global.BROWSER && !document.getElementById(digest)) {
-    var el = document.createElement('style');
-    el.id = digest;
-    el.textContent = css;
-    document.head.appendChild(el);
-  }
-})();`;
-  } else {
-    // For SSR, aggregate all styles, then inject them once at the end
-    const isDependencyFile = path.indexOf('/node_modules/') >= 0;
-    addStyle(digest, result.css, isDependencyFile);
-  }
-
-  // provide useful values to the importer of this file, most importantly, the classnames
-  const jsContent = `\
-const digest = '${digest}';
-const css = \`${result.css}\`;
-${injectedCode}
-${Object.entries(cssModulesJSON)
-    .map(([exportName, className]) => `export const ${exportName} = '${className}';`)
-    .join('\n')}
-export default { ${Object.keys(cssModulesJSON)
-    .join(', ')} };
-export { css, digest };`;
-  return jsContent;
+  return generateJsContent({
+    css: result.css, cssModulesJSON, digest, bundleType, path,
+  });
 };
 
 export default loadStyles;
