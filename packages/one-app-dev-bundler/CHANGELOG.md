@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.3](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.7.2...@americanexpress/one-app-dev-bundler@1.7.3) (2024-05-07)
+
+
+### Bug Fixes
+
+* **load-styles:** export css module classes as-is ([#638](https://github.com/americanexpress/one-app-cli/issues/638)) ([c71d825](https://github.com/americanexpress/one-app-cli/commit/c71d825a80827d2a055b3b7d4078542c3a5800e2))
+
+
+
+
+
 ## [1.7.2](https://github.com/americanexpress/one-app-cli/compare/@americanexpress/one-app-dev-bundler@1.7.1...@americanexpress/one-app-dev-bundler@1.7.2) (2024-03-20)
 
 
