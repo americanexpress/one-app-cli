@@ -1,16 +1,15 @@
 <h1 align="center">
+
+  [One App is now InnerSource](https://github.com/americanexpress/one-app/issues/1393)
+
+  <hr/>
+
   <img src='https://github.com/americanexpress/one-app-cli/raw/main/one-app-cli.png' alt="One App CLI - One Amex" width='50%'/>
 </h1>
 
-![Tests](https://github.com/americanexpress/one-app-cli/workflows/Tests/badge.svg)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
 > A set of command line interface (CLI) tools for bundling **[One App](https://github.com/americanexpress/one-app)**, its modules, and property files(locale and environment specific files).
-
-## 👩‍💻 Hiring 👨‍💻
-
-Want to get paid for your contributions to `one-app-cli`?
-> Send your resume to oneamex.careers@aexp.com
 
 ## 📖 Table of Contents
 
